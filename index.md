@@ -6,8 +6,8 @@ layout: default
 
 ## Who, What, When, Where
 
-Hello, my name is Jordan Hardee. I am 23 years old and I am running for City Council in Mason, Ohio for the 2019y general election. I am running on a Green platform
-with the endorsement of the [Ohio Green Party](https://ohiogp.org).
+Hello, my name is Jordan Hardee. I am 23 years old and I am running for City Council in Mason, Ohio for the 2019 general election. I am running on a Green platform
+with the endorsement of the [Ohio Green Party](https://ohiogreens.org).
 
 ## Why
 Mason City Council is extremely conservative, and I think there are enough progressives in Mason to entail us to at least one seat on city council. But of course the answer to the question of why I'm running is much deeper than that.
