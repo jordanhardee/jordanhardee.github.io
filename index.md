@@ -13,6 +13,9 @@ with the endorsement of the [Ohio Green Party](https://ohiogreens.org) and I ful
 
 Images here and explanation.
 
+![Branching](https://github.com/jordanhardee/jordanhardee.github.io/blob/master/Platform4Pillars.jpg)
+![Branching](https://github.com/jordanhardee/jordanhardee.github.io/blob/master/10keyvalues.jpg)
+
 ## Why
 Mason City Council is extremely conservative, and I think there are enough progressives in Mason to entail us to at least one seat on city council.
 
