@@ -2,8 +2,8 @@
 layout: default
 ---
 
-## Welcome to another page
+## Résumé
 
-_yay_
+### Etc.
 
 [back](./)
