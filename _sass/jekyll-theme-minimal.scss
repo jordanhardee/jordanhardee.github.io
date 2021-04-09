@@ -1,6 +1,9 @@
 @import "fonts";
 @import "rouge-github";
-
+@font-face {
+	font-family: "Mario";
+    src: URL(".../Mario.ttf") format("TrueType");
+}
 body {
   background-color: #cccccc;
   padding:50px;
@@ -24,8 +27,8 @@ h1, h2, h3 {
 
 h1 {
   font-size:28px;
-font-family: "MarioAndLuigi-0v99";
-	src: url("../assets/fonts/MarioAndLuigi-0v99.ttf");
+font-family: "Mario";
+
 }
 
 h2 {
