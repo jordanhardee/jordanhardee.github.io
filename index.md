@@ -17,10 +17,6 @@ Astronomy, Biology, Chemistry, Chess, Classical Music, Classical Literature, Cla
 
 I'm a bit of a polymath and tend to get obsessed with certain topics. I'm probably going to start a podcast soon.
 
-## Support The Free Software Foundation!
-
-## Telescope
-
 ## Upcoming Book
 
 I am currently doing research for my upcoming book on the history of cold-war Albania with a focus on human rights and religious freedom. I gave a talk on this subject in 2018 at the University of Cincinnati's Mediated Minds conference. My book tries to finish what Chris Moorey started in his impressive documentation of the religious persecution Orthodox Christian Albanians faced in his book _God_ _Among_ _The_ _Bunkers_ but with a focus on broader Albanian society and not merely on the experiences of Orthodox Christians. 
@@ -36,6 +32,10 @@ Will fix img links todo and add content
 ![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/gp.png)
 ![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Hawkins_Walker_Logo.png)
 ![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/TPS-logo.png)
+
+## Support The Free Software Foundation!
+
+## Telescope
 
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
