@@ -25,7 +25,7 @@ I am currently doing research for my upcoming book on the history of cold-war Al
 This book aims to place this period of Albanian history within the greater context of cold war politics and Albanian history, and in so doing acts as a political treatise that attempts to explain the 20th century phenomenon of Marxism-Leninism by going back to the roots of contemporary enlightenment political philosophy. It aims to adequately cover the broad social, economic and political background of Albania's distinct brand of Marxism-Leninism, how the official ideology functioned in practice, and the experienced reality of Hoxha's rule on the ground by ordinary people. I plan on traveling to Albania in the Summer of 2023 or 2024 to actually finish writing the book.
 
 ## Support your local Green Party!
-
+Will fix img links todo
 ![Branching](/assets/10keyvalues.jpg)
 ![Branching](/assets/Esperanto-USA_logo.png)
 ![Branching](/assets/gp.png)
