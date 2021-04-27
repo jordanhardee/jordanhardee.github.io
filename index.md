@@ -26,12 +26,12 @@ This book aims to place this period of Albanian history within the greater conte
 
 ## Support your local Green Party!
 
-![Branching](assets/10keyvalues.jpg)
-![Branching](assets/Esperanto-USA_logo.png)
-![Branching](assets/gp.png)
-![Branching](assets/Hawkins_Walker_Logo.png)
-![Branching](assets/logo-fsf.org.png)
-![Branching](assets/TPS-logo.png)
+![Branching](/assets/10keyvalues.jpg)
+![Branching](/assets/Esperanto-USA_logo.png)
+![Branching](/assets/gp.png)
+![Branching](/assets/Hawkins_Walker_Logo.png)
+![Branching](/assets/logo-fsf.org.png)
+![Branching](/assets/TPS-logo.png)
 
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
