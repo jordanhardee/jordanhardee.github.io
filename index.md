@@ -26,12 +26,12 @@ This book aims to place this period of Albanian history within the greater conte
 
 ## Support your local Green Party!
 Will fix img links todo
-![Branching](/blob/master/assets/10keyvalues.jpg)
-![Branching](/blob/master(/assets/Esperanto-USA_logo.png)
-![Branching](/blob/master/assets/gp.png)
-![Branching](/blob/master/assets/Hawkins_Walker_Logo.png)
-![Branching](/blob/master/assets/logo-fsf.org.png)
-![Branching](/blob/master/assets/img/TPS-logo.png)
+![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/10keyvalues.jpg)
+![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Esperanto-USA_logo.png)
+![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/gp.png)
+![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Hawkins_Walker_Logo.png)
+![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/logo-fsf.org.png)
+![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/TPS-logo.png)
 
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
