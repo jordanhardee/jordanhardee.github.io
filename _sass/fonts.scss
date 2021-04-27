@@ -53,3 +53,8 @@
        url('../fonts/Noto-Sans-700italic/Noto-Sans-700italic.ttf') format('truetype'),
        url('../fonts/Noto-Sans-700italic/Noto-Sans-700italic.svg#NotoSans') format('svg');
 }
+
+@font-face {
+    font-family: "Mario";
+    src: URL(".../Mario.ttf") format("TrueType");
+}
