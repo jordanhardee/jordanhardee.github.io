@@ -2,7 +2,7 @@
 @import "rouge-github";
 @font-face {
 	font-family: "Mario";
-    src: URL(".../Mario.ttf") format("TrueType");
+    src: URL("Mario.ttf") format("TrueType");
 }
 body {
   background-color: #e4edff;
@@ -10,6 +10,7 @@ body {
   font: 14px/1.5 "Noto Sans", "Mario", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#3d3d3d;
   font-weight:400;
+  cursor: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/9632/happy.png"), auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
