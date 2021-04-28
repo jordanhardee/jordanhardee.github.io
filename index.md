@@ -26,11 +26,11 @@ This book aims to place this period of Albanian history within the greater conte
 ## Support your local Green Party!
 Will fix img links todo and add content
 
-![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/logo-fsf.org.png)
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/logo-fsf.org.png)
 ![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/10keyvalues.jpg)
-![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Esperanto-USA_logo.png)
-![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/gp.png)
-![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Hawkins_Walker_Logo.png)
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Esperanto-USA_logo.png)
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/gp.png)
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Hawkins_Walker_Logo.png)
 ![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/TPS-logo.png)
 
 ## Support The Free Software Foundation!
