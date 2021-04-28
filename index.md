@@ -1,6 +1,9 @@
 ---
 layout: default
 ---
+## Website under construction
+
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/construction-gif.gif)
 
 Saluton! Bonvenon al mia persona retejo! Welcome to my personal website!
 ## A Little Bit About Me
