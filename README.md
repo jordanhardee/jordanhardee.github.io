@@ -1,4 +1,6 @@
-# The Minimal theme
+# Custom fork of "The Minimal theme" by Jordan Hardee
+
+Basically I tweaked the heck out of this theme to make it my own.
 
 [![Build Status](https://travis-ci.org/pages-themes/minimal.svg?branch=master)](https://travis-ci.org/pages-themes/minimal) [![Gem Version](https://badge.fury.io/rb/jekyll-theme-minimal.svg)](https://badge.fury.io/rb/jekyll-theme-minimal)
 
