@@ -1,6 +1,6 @@
-# Custom fork of "The Minimal theme" by Jordan Hardee
+# The JordanHardee Theme
 
-Basically I tweaked the heck out of this theme to make it my own.
+Basically I tweaked the heck out of "The Minimal theme" to make it my own. This is my custom Jekyll theme for my personal website hosted on GitHub pages. GPL license because "free software is software that respects the users freedom" -RMS. Default documentation for "The Minimal theme" included below.
 
 [![Build Status](https://travis-ci.org/pages-themes/minimal.svg?branch=master)](https://travis-ci.org/pages-themes/minimal) [![Gem Version](https://badge.fury.io/rb/jekyll-theme-minimal.svg)](https://badge.fury.io/rb/jekyll-theme-minimal)
 
