@@ -24,9 +24,9 @@ layout: default
 
 * **Operating Systems:** Advanced knowledge in GNU/Linux, Qubes OS, macOS, Windows, Android, iOS, some experience with DOS, BSD-like, and other Unix-like operating systems.
 
-* **Programming Languages:** Java, C#, HTML/CSS, JavaScript/ JQuery, Bash
+* **Programming Languages:** Java, C#, SQL, HTML/CSS, JavaScript/ JQuery, Bash
 
-* **Software:** Microsoft Office/ LibreOffice, MySQL Database Management, Adobe Photoship/ GIMP, GPG/PGP, KVM/Virtualbox/ Xen, Metasploit, lots of other nix utilities
+* **Software:** Microsoft Office/ LibreOffice, MySQL Database Management, Adobe Photoship/ GIMP, GPG/PGP, KVM/Virtualbox/ Xen, Metasploit, lots of other nix utilities and commonly used programs
 
 * **Foreign Languages:** Esperanto, Spanish - Intermediate
 
