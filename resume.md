@@ -50,6 +50,7 @@ layout: default
 <ins>CERTIFICATIONS</ins>
 
 **Cybersecurity Virtual Apprenticeship**
+
 iQ4 - Internships / Apprenticeships
 
 Issued Apr 2021
