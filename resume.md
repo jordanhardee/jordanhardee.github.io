@@ -28,7 +28,7 @@ layout: default
 
 * **Software:** Microsoft Office/ LibreOffice, MySQL Database Management, Adobe Photoship/ GIMP, GPG/PGP, KVM/Virtualbox/ Xen, Metasploit, lots of other nix utilities
 
-* **Spoken Languages:** English - Fluent | Esperanto, Spanish - Intermediate
+* **Foreign Languages:** Esperanto, Spanish - Intermediate
 
 <ins>EMPLOYMENT HISTORY:</ins>
 
