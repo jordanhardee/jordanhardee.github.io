@@ -4,8 +4,8 @@ layout: default
 
 ## Résumé
 ### Jordan Hardee
-### +1(513)633-2250 | jordanhardee@mailbox.org
-need to add professional headshot
+##### +1(513)633-2250 | jordanhardee@mailbox.org
+
 <ins>EDUCATION</ins>
 
 **Associate of Applied Business in Information Technology (December 2020)**
@@ -27,11 +27,11 @@ need to add professional headshot
 
 <ins>EMPLOYMENT HISTORY:</ins>
 
-**Website Volunteer, Stallman.org, 2021 - Present**
-* Work with other volunteers and RMS to help Richard Stallman (founder of the GNU Project, Free Software Foundation, Internet Hall-of-famer) install daily political notes on his personal website
-
 **IT Student Help Desk, UC Blue Ash, 2020 - Present**
 * Work with students, professors, and staff to troubleshoot and quickly solve IT related issues, inspect and test on-campus hardware, take calls, oversee student computer labs, etc.
+
+**Website Volunteer, Stallman.org, 2021 - Present**
+* Work with other volunteers and RMS to help Richard Stallman (founder of the GNU Project, Free Software Foundation, Internet Hall-of-famer) install daily political notes on his personal website
 
 **Press Secretary, Ohio Green Party, 2020 - Present**
 * Responsible for writing, publishing, and releasing all official statements, articles, and announcements to the press and general public from the Ohio Green Party
