@@ -55,6 +55,6 @@ Speaker, Mediated Minds 2018, University of Cincinnati
 Writer, 2600
 * Wrote articles for _2600: The Hacker Quarterly_ under pseudonym
 
-**_Interpersonal:_** Extremely kind, generally calm, good at working with others under deadlines and difusing difficult situations and people. Experienced with customer service, working in and leading teams. A bit of a polymath, very interested in constantly learning about a wide range of topics and fields.
+**_Interpersonal:_** Extremely kind, generally calm, good at working with others under deadlines and difusing difficult situations and people. Experienced with customer service, working in and leading teams. A bit of a polymath, very interested in constantly learning about a wide range of topics and fields. Very passionate about IT.
 
 [back to main page](./)
