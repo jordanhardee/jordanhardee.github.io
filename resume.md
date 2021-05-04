@@ -3,17 +3,22 @@ layout: default
 ---
 
 ## Résumé
-### Jordan Hardee
 ##### +1(513)633-2250 | jordanhardee@mailbox.org
 
 <ins>EDUCATION</ins>
 
 **Associate of Applied Business in Information Technology (December 2020)**
+
 * _University of Cincinnati Blue Ash, Blue Ash, Ohio_
+
 **Bachelor of Science in Software Application Development (April 2023)**
+
 * _University of Cincinnati, Cincinnati, Ohio_
+
 **Bachelor of Science in Cybersecurity (April 2023)**
+
 * _University of Cincinnati, Cincinnati, Ohio_
+
 
 <ins>IT RELATED SKILLS:</ins>
 
