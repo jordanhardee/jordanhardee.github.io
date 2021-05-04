@@ -47,6 +47,16 @@ layout: default
 **Cashier, McAlister's Deli, West Chester, 2014 - 2020**
 * Responsible for taking and delivering orders, cleaning and general maintenance, dealing with complaints, creating a welcoming environment for guests, and teaching new employees
 
+<ins>CERTIFICATIONS</ins>
+
+**Cybersecurity Virtual Apprenticeship**
+iQ4 - Internships / Apprenticeships
+
+Issued Apr 2021
+
+Credential ID [iQ41020421](https://www.iq4.com/members/?user_id=6076)
+
+
 <ins>ACTIVITIES</ins>
 
 Speaker, Mediated Minds 2018, University of Cincinnati
