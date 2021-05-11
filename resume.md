@@ -39,10 +39,8 @@ layout: default
 * Work with other volunteers and RMS to help Richard Stallman (founder of the GNU Project, Free Software Foundation, Internet Hall-of-famer) install daily political notes on his personal website
 
 **Press Secretary, Ohio Green Party, 2020 - Present**
-* Responsible for writing, publishing, and releasing all official statements, articles, and announcements to the press and general public from the Ohio Green Party
+* Responsible for writing, publishing, and releasing all official statements, articles, and announcements to the press and general public from the Ohio Green Party. I am also General Secretary (in charge) of the Warren County, Ohio Green Party.
 
-**General Secretary, Warren County Green Party, 2020 - Present**
-* Oversee and lead the Warren County, Ohio chapter of the US Green Party
 
 **Cashier, McAlister's Deli, West Chester, 2014 - 2020**
 * Responsible for taking and delivering orders, cleaning and general maintenance, dealing with complaints, creating a welcoming environment for guests, and teaching new employees
@@ -64,8 +62,8 @@ Speaker, Mediated Minds 2018, University of Cincinnati
 * Gave lecture on research for my upcoming book exploring a little-known dimension of Albanian history in the 20th century
 
 Writer, 2600
-* Wrote articles for _2600: The Hacker Quarterly_ under pseudonym
+* Wrote for _2600: The Hacker Quarterly_ under pseudonym
 
-**_Interpersonal:_** Extremely kind, generally calm, good at working with others under deadlines and diffusing difficult situations and people. Experienced with customer service, working in and leading teams. A bit of a polymath, very interested in constantly learning about a wide range of topics and fields. Very passionate about IT.
+**_Interpersonal:_** Extremely kind, generally calm, good at working with others under deadlines and diffusing difficult situations and people. Experienced with customer service, working in and leading teams. A bit of a polymath, very interested in constantly learning about a wide range of topics and fields. Very passionate about IT. I’ve volunteered for a number of open source projects, I also like to go to hacker conventions whenever I can.
 
 [back to main page](./)
