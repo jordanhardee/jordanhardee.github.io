@@ -18,11 +18,23 @@ I am currently doing research for my upcoming book on the history of cold-war Al
 
 This book aims to place this period of Albanian history within the greater context of cold war politics and Albanian history, and in so doing acts as a political treatise that attempts to explain the 20th century phenomenon of Marxism-Leninism by going back to the roots of contemporary enlightenment political philosophy. It aims to adequately cover the broad social, economic and political background of Albania's distinct brand of Marxism-Leninism, how the official ideology functioned in practice, and the experienced reality of Hoxha's rule on the ground by ordinary people. I plan on traveling to Albania in the Summer of 2023 or 2024 to actually finish writing the book.
 
-## Support your local Green Party!
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/me-with-albanian-books.jpg)
+Here is a photo of me from 2018 with some of the books I own related to Albanian history. I'm probably one of the only Americans to own every book ever written by the Albanian dictator Enver Hoxha. They are quite rare and hard to come by.
+
+## Green Party
+
+![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/10keyvalues.jpg)
+
+I'm quite proud to have been elected the Press Secretary of the Ohio Green Party. The US Green Party has consistantly been decades ahead of its time and on the right side of history since it's inception. In addition to our ten key values, we fight for the abolition of the two-party system and the establishment of a genuine multi-party political system in the United States.
+
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/me-with-Howie.png)
+Here is a photo of me with Howie Hawkins in Columbus, the US Green Party's 2020 POTUS Candidate and original author of the Green New Deal.
+
+
 Will fix img links todo and add content
 
 ![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/logo-fsf.org.png)
-![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/10keyvalues.jpg)
+
 ![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Esperanto-USA_logo.png)
 ![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/gp.png)
 ![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Hawkins_Walker_Logo.png)
