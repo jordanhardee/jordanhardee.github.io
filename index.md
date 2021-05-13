@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## A Little Bit About Me
+## Welcome to Jordan's Personal Website
 
 Saluton! Bonvenon al mia persona retejo! Welcome to my personal website!
 
