@@ -35,7 +35,9 @@ Regardless of its broad goals and utopian ambissions, the language itself is bot
 
 Anyone with an internet connection can sign up to learn Esperanto today with Lernu! and Duolingo. I highly recommend trying it.
 
-## Free Software
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Esperanto-USA_logo.png)
+
+## The Free Software Movement
 
 A program is free software if the program's users have the four essential freedoms: 
 
@@ -44,16 +46,17 @@ A program is free software if the program's users have the four essential freedo
 1.  The freedom to redistribute copies so you can help others (freedom 2).
 1.  The freedom to distribute copies of your modified versions to others (freedom 3). By doing this you can give the whole community a chance to benefit from your changes. Access to the source code is a precondition for this.
 
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/logo-fsf.org.png)
+
 The Free Software movement, and later Free Software Foundation, was originally founded by Richard Stallman. One of it's guiding beliefs is that in an ideal world proprietary software would not exist and would not be used. I believe the proprietary software model to be principally incompatible with the values of an open, free, and democratic society. Free software on the other hand, is fully in-line with these values and safe-guards them against many of the numerous threats against them in the internet age. Please consider switching to a fully free operating system, joining the Free Software Foundation, and supporting the movement!
 
-## 
 
 <!--
 Will fix img links todo and add content
 
-![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/logo-fsf.org.png)
 
-![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Esperanto-USA_logo.png)
+
+
 ![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/gp.png)
 ![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/Hawkins_Walker_Logo.png)
 ![Branching](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/TPS-logo.png)
