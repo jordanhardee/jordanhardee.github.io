@@ -6,6 +6,8 @@ layout: default
 
 Saluton! Bonvenon al mia persona retejo! Welcome to my personal website!
 
+[View my art.](./art.html).
+
 Hello my name is Jordan Hardee. I am a 24 year old IT student who goes to the University of Cincinnati and is currently looking for an IT-related co-op. I'm interested in a lot of different things.
 
 I am the Press Secretary of the Ohio Green Party and the General Secretary of the Warren County Green Party. I am an associate member of the Free Software Foundation, a member of Esperanto-USA, and The Planetary Society. I am very passionate about these things. I have written previously for _2600: The Hacker Quarterly_ under various pseudonyms and have anonymously contributed to a number of free software and peer-to-peer projects. I am currently doing research for a book I am writing on Albanian history in the 20th century. In my free time I also help install political notes on Richard Stallman's personal website.

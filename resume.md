@@ -3,7 +3,7 @@ layout: default
 ---
 
 ## Résumé
-##### +1(513)633-2250 | jordanhardee@mailbox.org
+##### jordanhardee@mailbox.org
 
 <ins>EDUCATION</ins>
 
