@@ -12,8 +12,6 @@ I am the Press Secretary of the Ohio Green Party and the General Secretary of th
 
 Right now I'm trying to read all the major religious texts of the world and to get an understanding for the teachings and practices of all the major world religions (and some lesser known ones). I am planning on doing future programming related to brain-computer interfaces once I can afford the hardware as I believe writing such code as free (as in freedom) software is vitally important to the future. I am cautiously optimistic as to what the future holds. I try to be a good person as best as I can. I'm a bit of a polymath and tend to get obsessed with certain topics.
 
-[I also have art.](./art.html)
-
 ## Upcoming Book
 
 I am currently doing research for my upcoming book on the history of cold-war Albania with a focus on human rights and religious freedom. I gave a talk on this subject in 2018 at the University of Cincinnati's Mediated Minds conference. My book tries to finish what Chris Moorey started in his impressive documentation of the religious persecution Orthodox Christian Albanians faced in his book _God_ _Among_ _The_ _Bunkers_ but with a focus on broader Albanian society and not merely on the experiences of Orthodox Christians. 
