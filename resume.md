@@ -6,6 +6,7 @@ layout: default
 ##### jordanhardee@mailbox.org
 
 [View my GitHub](https://github.com/jordanhardee)
+
 [View my LinkedIn](https://github.com/jordanhardee)
 
 <ins>EDUCATION</ins>
