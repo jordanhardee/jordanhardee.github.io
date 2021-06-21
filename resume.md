@@ -3,7 +3,7 @@ layout: default
 ---
 
 ## Résumé
-##### +1(513)633-2250 | [contact address removed]
+##### [contact address removed]
 
 <ins>EDUCATION</ins>
 
