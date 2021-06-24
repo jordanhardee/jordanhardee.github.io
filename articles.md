@@ -24,7 +24,10 @@ In generations to come surely those involved with this campaign campaign will be
 
 We hope to see, in the not-too-distant future, that we will have turned the White House into the Green House. And beyond this indeed we will go further in saying that through our efforts the day will come in the not too distant future when humankind will hurl off the shackles of war, poverty, tyranny, oppression and exploitation it has known since time immemorial, and, proclaiming the universal brotherhood of all humankind, will at last establish for itself a world truly worthy of humankind. What a marvelous day that will be indeed. You have planted anew seeds of the tree of liberty and one day they will sprout, may they grow to bear much fruit!
 
-<p>_On behalf of the Ohio Green Party, Thank You._
-<p>_Jordan Hardee_
-<p>_Press Secretary, The Ohio Green Party_
-<p>_Letter approved by vote of the Central Committee of The Ohio Green Party._
+_On behalf of the Ohio Green Party, Thank You._
+
+_Jordan Hardee_
+
+_Press Secretary, The Ohio Green Party_
+
+_Letter approved by vote of the Central Committee of The Ohio Green Party._
