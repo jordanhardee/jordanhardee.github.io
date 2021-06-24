@@ -4,8 +4,6 @@
 
 View this article on the [US Green Party website](https://www.gp.org/thanks_from_the_ohio_green_party)
 
-Published early 2021
-
 <bold>To Howie Hawkins, Angela Walker, and the H’20 Team:</bold>
 
 On behalf of the Ohio Green Party we wanted to thank you for running for President on the Green Party ticket in 2020. Though very few understand it today, what you did was extremely important.
@@ -26,7 +24,7 @@ In generations to come surely those involved with this campaign campaign will be
 
 We hope to see, in the not-too-distant future, that we will have turned the White House into the Green House. And beyond this indeed we will go further in saying that through our efforts the day will come in the not too distant future when humankind will hurl off the shackles of war, poverty, tyranny, oppression and exploitation it has known since time immemorial, and, proclaiming the universal brotherhood of all humankind, will at last establish for itself a world truly worthy of humankind. What a marvelous day that will be indeed. You have planted anew seeds of the tree of liberty and one day they will sprout, may they grow to bear much fruit!
 
-<italic>On behalf of the Ohio Green Party, Thank You.
-Jordan Hardee
-Press Secretary, The Ohio Green Party
-Letter approved by vote of the Central Committee of The Ohio Green Party.</italic>
+<italic><p>On behalf of the Ohio Green Party, Thank You.
+<p>Jordan Hardee
+<p>Press Secretary, The Ohio Green Party
+<p>Letter approved by vote of the Central Committee of The Ohio Green Party.</italic>
