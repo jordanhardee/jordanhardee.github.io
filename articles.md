@@ -1,6 +1,6 @@
-## Political Articles
+# Political Articles
 
-#### A message of thanks from the Ohio Green Party (to the H'20 Campaign)
+## A message of thanks from the Ohio Green Party (to the H'20 Campaign)
 
 View this article on the [US Green Party website](https://www.gp.org/thanks_from_the_ohio_green_party)
 
