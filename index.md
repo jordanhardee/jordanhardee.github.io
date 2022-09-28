@@ -6,7 +6,7 @@ layout: default
 
 Saluton! Bonvenon al mia persona retejo! Welcome to my personal website!
 
-This website is under construction! Hello my name is Jordan Hardee. I am a 24 year old IT student who goes to the University of Cincinnati. I'm interested in a lot of different things.
+Hello my name is Jordan Hardee. I am a 24 year old IT student who goes to the University of Cincinnati. I'm interested in a lot of different things.
 
 I have written previously for _2600: The Hacker Quarterly_ under various pseudonyms and have anonymously contributed to a number of free software and peer-to-peer projects. I am currently doing research for a book I am writing on Albanian history in the 20th century. In my free time I also occasionally help install political notes on Richard Stallman's personal website. I am also run and am the founder of the Mason Church Club (MCC). I am much more moderate in my political views now, but I used to be the Press Secretary of the Ohio Green Party and the General Secretary of the Warren County Green Party. I am an associate member of the Free Software Foundation, a member of Esperanto-USA, and The Planetary Society.
 
@@ -21,6 +21,8 @@ This book aims to place this period of Albanian history within the greater conte
 ## Mason Church Club
 
 I also run the Mason Church Club (MCC); an ecumenical, informal "church hopping" club I founded that aims to "Take Back Sundays" by helping people find a church to join. We visit a random local church in or around Mason, OH every other Sunday! You can learn more on its Facebook page: fb.me/MasonChurchClub
+
+![Octocat](https://raw.githubusercontent.com/jordanhardee/jordanhardee.github.io/master/assets/img/MCC-logo-lowres.jpg)
 
 ## Esperanto
 
