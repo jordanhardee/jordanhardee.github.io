@@ -59,6 +59,119 @@ span{
 /*RAINBOW TEST*/
 
 
+.rainbow-textRed {
+-webkit-animation:colorchangeRed 12s
+infinite alternate;
+}
+@-webkit-keyframes colorchangeRed {
+      
+      25% {
+        
+        color: red;
+      }
+      
+      50% {
+        
+        color: yellow;
+      }
+      
+      75% {
+        
+        color: blue;
+      }
+      
+      100% {
+        
+        color: green;
+      }
+    }
+
+
+
+
+
+.rainbow-textBlue {
+-webkit-animation:colorchangeBlue 12s
+infinite alternate;
+}
+@-webkit-keyframes colorchangeBlue {
+      
+      25% {
+        
+        color: blue;
+      }
+      
+      50% {
+        
+        color: green;
+      }
+      
+      75% {
+        
+        color: red;
+      }
+      
+      100% {
+        
+        color: yellow;
+      }
+    }
+
+.rainbow-textYellow {
+-webkit-animation:colorchangeYellow 12s
+infinite alternate;
+}
+@-webkit-keyframes colorchangeYellow {
+      
+      25% {
+        
+        color: yellow;
+      }
+      
+      50% {
+        
+        color: blue;
+      }
+      
+      75% {
+        
+        color: green;
+      }
+      
+      100% {
+        
+        color: red;
+      }
+    }
+
+
+.rainbow-textGreen {
+-webkit-animation:colorchangeGreen 12s
+infinite alternate;
+}
+@-webkit-keyframes colorchangeGreen {
+      
+      25% {
+        
+        color: green;
+      }
+      
+      50% {
+        
+        color: red;
+      }
+      
+      75% {
+        
+        color: yellow;
+      }
+      
+      100% {
+        
+        color: blue;
+      }
+    }
+
 /*END OF RAINBOW TEST*/
 h2 {
   color: rgb(248, 231, 205);
