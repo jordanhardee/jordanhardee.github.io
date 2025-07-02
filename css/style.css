@@ -62,7 +62,9 @@ span{
 .rainbow-textRed {
 -webkit-animation:colorchangeRed 12s
 infinite alternate;
+color: red;
 }
+
 @-webkit-keyframes colorchangeRed {
       
       25% {
@@ -93,6 +95,8 @@ infinite alternate;
 .rainbow-textBlue {
 -webkit-animation:colorchangeBlue 12s
 infinite alternate;
+color: blue;
+
 }
 @-webkit-keyframes colorchangeBlue {
       
@@ -120,6 +124,8 @@ infinite alternate;
 .rainbow-textYellow {
 -webkit-animation:colorchangeYellow 12s
 infinite alternate;
+color: yellow;
+
 }
 @-webkit-keyframes colorchangeYellow {
       
@@ -148,6 +154,8 @@ infinite alternate;
 .rainbow-textGreen {
 -webkit-animation:colorchangeGreen 12s
 infinite alternate;
+color: green;
+
 }
 @-webkit-keyframes colorchangeGreen {
       
