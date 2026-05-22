@@ -10,13 +10,28 @@ body {
   background-image: url("bg.jpg");
   background-repeat: repeat;
   background-attachment: fixed;
-  padding:50px;
-  max-width: 500px;
-  margin: auto;
+  margin: 0;
+  padding: 0;
   font: 14px/1.5 "Noto Sans", "Mario", "Helvetica Neue", Helvetica, Arial, sans-serif;
   /*color:#3d3d3d;*/
   color: rgb(248, 231, 205);
   font-weight:400;
+}
+
+.page-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 500px 1fr;
+  min-height: 100vh;
+  align-items: start;
+}
+
+.sidebar-left,
+.sidebar-right {
+  /* left and right panels — add content here */
+}
+
+.content {
+  padding: 50px;
 }
 section {
   background-color: #00006a;
