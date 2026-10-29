@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-xp-start-contact">
+    <link rel="stylesheet" href="css/style.css?v=20261029-contact-canvas">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -150,22 +150,13 @@
           <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Contact to taskbar" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Contact" title="Maximize Contact">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Contact" title="Close Contact">×</button></span>
         </div>
         <div class="xp-app-body contact-body">
-          <div class="contact-intro"><h3>Jordan Hardee</h3><p>My email address is hidden in the image below. Enter its verification code to reveal the public PGP key.</p></div>
-          <form id="contact-challenge" class="contact-challenge" autocomplete="off">
-            <canvas id="contact-captcha" width="430" height="160" role="img" aria-label="An image containing an obfuscated contact hint and a five-character verification code"></canvas>
-            <div class="contact-captcha-controls"><button type="button" id="contact-captcha-new">New challenge</button><button type="button" id="contact-captcha-speak">Hear challenge</button></div>
-            <label for="contact-captcha-answer">Enter the five characters shown</label>
-            <div class="contact-answer-row"><input id="contact-captcha-answer" type="text" maxlength="5" autocapitalize="characters" autocorrect="off" spellcheck="false" required><button type="submit">Verify</button></div>
-            <p class="contact-feedback" id="contact-feedback" role="status"></p>
-          </form>
-          <div class="contact-revealed" id="contact-revealed" hidden>
-            <h3>Contact details</h3>
-            <p>Use the address described in the image, or <button type="button" id="contact-email-copy">copy my email address</button>.</p>
-            <h3>Public PGP key</h3>
-            <pre id="contact-key" tabindex="0">Loading public key...</pre>
-            <a id="contact-key-download" download="jordanhardee-public.asc">Download public key</a>
+          <div class="contact-image-wrap"><canvas id="contact-captcha" width="640" height="250" role="img" aria-label="A visually distorted image containing a clue to the contact address"></canvas></div>
+          <div class="contact-actions">
+            <button type="button" id="contact-captcha-new">Redraw image</button>
+            <a href="assets/jordanhardee-public.asc" download="jordanhardee-public.asc">Download public PGP key (.asc)</a>
+            <button type="button" id="contact-key-copy">Copy public PGP key</button>
           </div>
-          <p class="contact-note">This client-side challenge deters simple automated harvesting but cannot prevent determined scraping.</p>
+          <p id="contact-copy-feedback" role="status" aria-live="polite"></p>
         </div>
       </section>
     </div>
@@ -195,8 +186,7 @@
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-bcp2019-local-office"></script>
     <script src="js/module-fullscreen.js?v=20261029-xp-apps"></script>
-    <script src="js/window-manager.js?v=20261029-xp-apps"></script>
-    <script src="js/start-menu.js?v=20261029-xp-apps"></script>
-    <script src="js/contact.js?v=20261029-xp-apps"></script>
+    <script src="js/window-manager.js?v=20261029-contact-compact"></script>
+    <script src="js/start-menu.js?v=20261029-contact-lazy"></script>
   </body>
 </html>

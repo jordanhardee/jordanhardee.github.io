@@ -5,6 +5,19 @@
   const chefFrame = document.getElementById('cyberchef-frame');
   const chefLoading = document.getElementById('cyberchef-loading');
   if (!start || !menu) return;
+  let contactScriptRequested = false;
+
+  function loadContactOnDemand() {
+    if (contactScriptRequested) return;
+    contactScriptRequested = true;
+    const script = document.createElement('script');
+    script.src = 'js/contact.js?v=20261029-contact-canvas';
+    script.onerror = () => {
+      contactScriptRequested = false;
+      document.getElementById('contact-copy-feedback').textContent = 'Contact image could not load. Please reopen Contact.exe.';
+    };
+    document.body.appendChild(script);
+  }
 
   function showMenu(open) {
     menu.hidden = !open;
@@ -18,6 +31,7 @@
       document.dispatchEvent(new CustomEvent('xp:open-window', {
         detail: { window: button.dataset.openWindow }
       }));
+      if (button.dataset.openWindow === 'contact') loadContactOnDemand();
     });
   });
   document.addEventListener('pointerdown', event => {

@@ -1,153 +1,147 @@
-// Best-effort contact obfuscation for a static GitHub Pages site.
-// This is a client-side visual challenge, NOT server-verified protection:
-// a determined bot can execute or inspect JavaScript and access public files.
+// Draw a visual-only contact clue when Contact.exe is launched.
+// This is obfuscation, not a guarantee against image recognition or scraping.
 (function () {
-  const form = document.getElementById('contact-challenge');
   const canvas = document.getElementById('contact-captcha');
-  const answer = document.getElementById('contact-captcha-answer');
-  const feedback = document.getElementById('contact-feedback');
-  const revealed = document.getElementById('contact-revealed');
-  const key = document.getElementById('contact-key');
-  const download = document.getElementById('contact-key-download');
-  const refresh = document.getElementById('contact-captcha-new');
-  const speak = document.getElementById('contact-captcha-speak');
-  const copyEmail = document.getElementById('contact-email-copy');
-  if (!form || !canvas || !answer || !feedback || !revealed || !key || !download) return;
+  const redraw = document.getElementById('contact-captcha-new');
+  const copy = document.getElementById('contact-key-copy');
+  const status = document.getElementById('contact-copy-feedback');
+  if (!canvas || !redraw || !copy || !status) return;
 
-  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const width = 640;
+  const height = 250;
   const keyPath = 'assets/jordanhardee-public.asc';
-  let solution = '';
-  let attempts = 0;
+  let generation = 0;
+  let publicKey = null;
 
-  function randomInt(max) {
+  copy.disabled = true;
+  fetch(keyPath).then(async response => {
+    if (!response.ok) throw new Error('Key unavailable');
+    const armored = await response.text();
+    if (!armored.includes('-----BEGIN PGP PUBLIC KEY BLOCK-----')) throw new Error('Invalid key');
+    publicKey = armored;
+    copy.disabled = false;
+  }).catch(() => {
+    status.textContent = 'The key could not be loaded for copying. Use the download link.';
+  });
+
+  function random(max) {
     const bytes = new Uint32Array(1);
-    window.crypto.getRandomValues(bytes);
+    crypto.getRandomValues(bytes);
     return bytes[0] % max;
   }
 
-  function newChallenge() {
-    solution = Array.from({ length: 5 }, () => alphabet[randomInt(alphabet.length)]).join('');
-    attempts = 0;
-    answer.value = '';
-    feedback.textContent = '';
-    const ctx = canvas.getContext('2d');
-    const width = 430, height = 160;
-    canvas.width = width * 2;
-    canvas.height = height * 2;
-    ctx.setTransform(2, 0, 0, 2, 0, 0);
+  function paint() {
+    generation += 1;
+    const display = canvas.getContext('2d');
+    if (!display) return;
+    const source = document.createElement('canvas');
+    source.width = width;
+    source.height = height;
+    const ctx = source.getContext('2d');
 
     const background = ctx.createLinearGradient(0, 0, width, height);
-    background.addColorStop(0, '#e1f0ff');
-    background.addColorStop(0.55, '#f5f7ec');
-    background.addColorStop(1, '#c1ddf1');
+    background.addColorStop(0, '#d6ecf4');
+    background.addColorStop(0.47, '#f1f0df');
+    background.addColorStop(1, '#bed5e9');
     ctx.fillStyle = background;
     ctx.fillRect(0, 0, width, height);
 
-    for (let i = 0; i < 58; i++) {
-      ctx.strokeStyle = `rgba(${35 + randomInt(65)},${65 + randomInt(60)},${135 + randomInt(60)},.18)`;
+    // Confusing shapes beneath the lettering are much harder to OCR than a
+    // plain block of text, while leaving a careful human a readable clue.
+    for (let i = 0; i < 90; i += 1) {
+      const x = random(width), y = random(height);
+      ctx.strokeStyle = i % 3 ? 'rgba(23,82,127,.19)' : 'rgba(125,48,100,.14)';
+      ctx.lineWidth = 0.5 + random(3) / 4;
       ctx.beginPath();
-      ctx.moveTo(randomInt(width), randomInt(height));
-      ctx.lineTo(randomInt(width), randomInt(height));
+      ctx.moveTo(x, y);
+      ctx.bezierCurveTo(x + random(95) - 47, y - 20,
+        x + random(120) - 60, y + 25,
+        x + random(135) - 67, y + random(33) - 16);
       ctx.stroke();
     }
 
     const lines = [
       'my email is:',
       'the domain name minus the .com',
-      '@mailbox.org',
+      '@mailbox.org'
     ];
-    ctx.textBaseline = 'middle';
-    ctx.shadowColor = 'rgba(26,68,114,.20)';
-    ctx.shadowBlur = 1;
-    ctx.fillStyle = '#193e71';
-    lines.forEach((line, index) => {
-      ctx.font = `${index === 1 ? 'bold 19px' : 'bold 21px'} Georgia, serif`;
-      ctx.fillText(line, 22, 22 + index * 29, width - 40);
+    lines.forEach((line, row) => {
+      let x = 33 + (row === 1 ? 8 : 0);
+      const baseline = [64, 127, 189][row];
+      for (const letter of line) {
+        const size = (row === 1 ? 27 : 31) + random(5) - 2;
+        ctx.font = 'bold italic ' + size + 'px Georgia, serif';
+        const advance = ctx.measureText(letter).width;
+        ctx.save();
+        ctx.translate(x, baseline + random(9) - 4);
+        ctx.rotate((random(15) - 7) * Math.PI / 180);
+        ctx.fillStyle = random(4) === 0 ? '#5b3f77' : '#1e476e';
+        ctx.shadowColor = 'rgba(26,51,86,.21)';
+        ctx.shadowBlur = 2;
+        ctx.fillText(letter, 0, 0);
+        ctx.restore();
+        x += advance + (letter === ' ' ? 4 : random(3) - 1);
+      }
     });
 
-    ctx.fillStyle = '#394661';
-    ctx.font = 'bold 13px Tahoma, sans-serif';
-    ctx.fillText('ENTER CODE:', 22, 126);
-    ctx.font = 'bold 27px Georgia, serif';
-    [...solution].forEach((character, index) => {
-      const x = 152 + index * 46;
-      const y = 128 + (randomInt(7) - 3);
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate((randomInt(15) - 7) * Math.PI / 180);
-      ctx.fillStyle = index % 2 ? '#145780' : '#8a3455';
-      ctx.fillText(character, 0, 0);
-      ctx.restore();
-    });
-  }
-
-  function announce() {
-    if (!('speechSynthesis' in window)) {
-      feedback.textContent = 'Speech output is not supported by this browser.';
-      return;
+    // Displace thin horizontal image strips to give the clue a gentle wave.
+    canvas.width = width * 2;
+    canvas.height = height * 2;
+    display.setTransform(2, 0, 0, 2, 0, 0);
+    display.fillStyle = '#d7e9f1';
+    display.fillRect(0, 0, width, height);
+    const phase = generation * 0.49 + random(30);
+    for (let y = 0; y < height; y += 2) {
+      const shift = Math.round(5 * Math.sin(y / 12 + phase) +
+        3 * Math.sin(y / 5.1 - phase));
+      display.drawImage(source, 0, y, width, 2, shift, y, width, 2);
     }
-    window.speechSynthesis.cancel();
-    const words = 'My email is: the domain name minus the dot com, at mailbox dot org. Verification code: ' + [...solution].join(', ');
-    const utterance = new SpeechSynthesisUtterance(words);
-    utterance.rate = 0.8;
-    window.speechSynthesis.speak(utterance);
-  }
 
-  async function reveal() {
-    form.hidden = true;
-    revealed.hidden = false;
-    download.href = keyPath;
-    try {
-      const response = await fetch(keyPath, { cache: 'force-cache' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const publicKey = await response.text();
-      if (!publicKey.includes('-----BEGIN PGP PUBLIC KEY BLOCK-----')) throw new Error('Invalid public key');
-      key.textContent = publicKey;
-    } catch (error) {
-      key.textContent = 'Unable to display the public key. Use the download link below.';
-      console.info('Public key could not be loaded:', error.message);
+    for (let i = 0; i < 28; i += 1) {
+      display.strokeStyle = i % 2 ? 'rgba(48,87,128,.23)' : 'rgba(133,53,108,.17)';
+      display.lineWidth = 0.6 + random(3) / 3;
+      display.beginPath();
+      const y = 27 + random(181);
+      display.moveTo(5 + random(60), y);
+      display.quadraticCurveTo(width / 2, y + random(30) - 15,
+        width - 10 - random(45), y + random(42) - 21);
+      display.stroke();
+    }
+    for (let i = 0; i < 230; i += 1) {
+      display.fillStyle = i % 2 ? 'rgba(40,72,111,.13)' : 'rgba(132,51,106,.12)';
+      display.fillRect(random(width), random(height), 1 + random(2), 1 + random(2));
     }
   }
 
-  function reset() {
-    form.hidden = false;
-    revealed.hidden = true;
-    key.textContent = 'Loading public key...';
-    download.removeAttribute('href');
-    newChallenge();
-  }
-
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const supplied = answer.value.trim().toUpperCase().replace(/\s/g, '');
-    if (supplied === solution) {
-      feedback.textContent = '';
-      reveal();
-    } else {
-      feedback.textContent = 'That code does not match. Please try again.';
-      answer.select();
-      if (++attempts >= 3) newChallenge();
-    }
+  redraw.addEventListener('click', () => {
+    status.textContent = '';
+    paint();
   });
-  refresh?.addEventListener('click', newChallenge);
-  speak?.addEventListener('click', announce);
 
-  copyEmail?.addEventListener('click', async () => {
-    // Assemble only when requested. The actual address is not printed in HTML.
-    const address = ['jordan', 'hardee'].join('') + '@' + 'mailbox.org';
+  copy.addEventListener('click', async () => {
+    if (!publicKey) return;
     try {
-      await navigator.clipboard.writeText(address);
-      copyEmail.textContent = 'Copied to clipboard';
+      await navigator.clipboard.writeText(publicKey);
+      status.textContent = 'Public PGP key copied.';
     } catch {
-      copyEmail.textContent = address;
+      const helper = document.createElement('textarea');
+      helper.value = publicKey;
+      helper.setAttribute('readonly', '');
+      helper.style.cssText = 'position:fixed;left:-9999px;top:0';
+      document.body.appendChild(helper);
+      helper.select();
+      const copied = document.execCommand('copy');
+      helper.remove();
+      status.textContent = copied ? 'Public PGP key copied.' : 'Could not copy; please use the .asc download link.';
     }
   });
 
   document.addEventListener('xp:open-window', event => {
     if (event.detail?.window === 'contact') {
-      copyEmail.textContent = 'copy my email address';
-      reset();
+      status.textContent = '';
+      paint();
     }
   });
-  reset();
+
+  paint();
 })();
