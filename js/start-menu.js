@@ -11,10 +11,10 @@
     if (contactScriptRequested) return;
     contactScriptRequested = true;
     const script = document.createElement('script');
-    script.src = 'js/contact.js?v=20261029-contact-canvas';
+    script.src = 'js/contact.js?v=20261029-no-public-key';
     script.onerror = () => {
       contactScriptRequested = false;
-      document.getElementById('contact-copy-feedback').textContent = 'Contact image could not load. Please reopen Contact.exe.';
+      console.error('Contact image could not load. Please reopen Contact.exe.');
     };
     document.body.appendChild(script);
   }

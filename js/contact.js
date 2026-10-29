@@ -3,26 +3,11 @@
 (function () {
   const canvas = document.getElementById('contact-captcha');
   const redraw = document.getElementById('contact-captcha-new');
-  const copy = document.getElementById('contact-key-copy');
-  const status = document.getElementById('contact-copy-feedback');
-  if (!canvas || !redraw || !copy || !status) return;
+  if (!canvas || !redraw) return;
 
   const width = 640;
   const height = 250;
-  const keyPath = 'assets/jordanhardee-public.asc';
   let generation = 0;
-  let publicKey = null;
-
-  copy.disabled = true;
-  fetch(keyPath).then(async response => {
-    if (!response.ok) throw new Error('Key unavailable');
-    const armored = await response.text();
-    if (!armored.includes('-----BEGIN PGP PUBLIC KEY BLOCK-----')) throw new Error('Invalid key');
-    publicKey = armored;
-    copy.disabled = false;
-  }).catch(() => {
-    status.textContent = 'The key could not be loaded for copying. Use the download link.';
-  });
 
   function random(max) {
     const bytes = new Uint32Array(1);
@@ -113,32 +98,10 @@
     }
   }
 
-  redraw.addEventListener('click', () => {
-    status.textContent = '';
-    paint();
-  });
-
-  copy.addEventListener('click', async () => {
-    if (!publicKey) return;
-    try {
-      await navigator.clipboard.writeText(publicKey);
-      status.textContent = 'Public PGP key copied.';
-    } catch {
-      const helper = document.createElement('textarea');
-      helper.value = publicKey;
-      helper.setAttribute('readonly', '');
-      helper.style.cssText = 'position:fixed;left:-9999px;top:0';
-      document.body.appendChild(helper);
-      helper.select();
-      const copied = document.execCommand('copy');
-      helper.remove();
-      status.textContent = copied ? 'Public PGP key copied.' : 'Could not copy; please use the .asc download link.';
-    }
-  });
+  redraw.addEventListener('click', paint);
 
   document.addEventListener('xp:open-window', event => {
     if (event.detail?.window === 'contact') {
-      status.textContent = '';
       paint();
     }
   });
