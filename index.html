@@ -21,17 +21,33 @@
         </div>
         <section class="intel-panel" aria-labelledby="intel-heading">
           <div class="intel-header">
-            <h2 id="intel-heading"><span class="intel-beacon" aria-hidden="true"></span> THREAT INTEL</h2>
-            <span class="intel-status" id="intel-status">CONNECTING</span>
+            <h2 id="intel-heading"><span class="intel-beacon" aria-hidden="true"></span> CYBER THREAT WIRE</h2>
+            <span class="intel-status" id="intel-status">SYNCING</span>
           </div>
-          <div class="intel-subheading">IPsum / community IP intelligence</div>
-          <div class="intel-columns" aria-hidden="true"><span>IP ADDRESS</span><span>LIST HITS</span></div>
-          <ol class="intel-list" id="intel-list" aria-label="IP addresses reported by multiple threat intelligence lists">
-            <li class="intel-message">Retrieving current feed...</li>
-          </ol>
+          <div class="intel-tabs" role="tablist" aria-label="Cybersecurity feed category">
+            <button class="intel-tab is-active" id="intel-news-tab" type="button" role="tab" aria-selected="true" aria-controls="intel-items" data-view="news">NEWS</button>
+            <button class="intel-tab" id="intel-kev-tab" type="button" role="tab" aria-selected="false" aria-controls="intel-items" data-view="kev">EXPLOITED CVEs</button>
+          </div>
+          <div class="intel-items" id="intel-items" role="tabpanel" aria-labelledby="intel-news-tab">
+            <p class="intel-message">Retrieving security reports...</p>
+          </div>
           <div class="intel-footer">
-            <span id="intel-updated">Updated daily upstream</span>
-            <a href="https://github.com/stamparm/ipsum" target="_blank" rel="noopener noreferrer">SOURCE</a>
+            <span id="intel-updated">Fetching latest headlines</span>
+            <a id="intel-source" href="https://github.com/found-cake/cyber-news-feed" target="_blank" rel="noopener noreferrer">FEED SOURCE</a>
+          </div>
+        </section>
+        <section class="hn-panel" aria-labelledby="hn-heading">
+          <div class="hn-header">
+            <h2 id="hn-heading"><span class="hn-beacon" aria-hidden="true"></span> HACKER NEWS</h2>
+            <span class="hn-status" id="hn-status">SYNCING</span>
+          </div>
+          <div class="hn-subheading">FRONT PAGE / TOP STORIES</div>
+          <ol class="hn-list" id="hn-list" tabindex="0" aria-label="Current Hacker News front-page stories">
+            <li class="hn-message">Loading current rankings...</li>
+          </ol>
+          <div class="hn-footer">
+            <span id="hn-updated">Checking Hacker News</span>
+            <a href="https://news.ycombinator.com/" target="_blank" rel="noopener noreferrer">FRONT PAGE</a>
           </div>
         </section>
       </aside>
@@ -141,6 +157,7 @@ OM5Ys4bYVDXU++WkQLFpsg==
     </div><!-- /.page-wrapper -->
     <script src="js/aquarium-fallback.js?v=20261029-full-images"></script>
     <script src="js/threat-intel.js"></script>
+    <script src="js/hacker-news.js"></script>
     <script type="module">
       // Mobile Safari uses the separate animated 2D scene; desktop can add WebGL.
       if (window.matchMedia('(min-width: 1051px)').matches) {
