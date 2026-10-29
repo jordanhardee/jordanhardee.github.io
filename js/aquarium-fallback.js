@@ -219,8 +219,9 @@
       }
       f.speed = Math.max(-.16, Math.min(.16, f.speed));
       f.x += f.speed * dt;
-      if (f.x < .08 || f.x > .92) f.speed = -f.speed;
-      f.x = Math.max(.08, Math.min(.92, f.x));
+      // Leave room for the whole fish sprite, including its nose and tail.
+      if (f.x < .16 || f.x > .84) f.speed = -f.speed;
+      f.x = Math.max(.16, Math.min(.84, f.x));
       f.y = Math.max(.14, Math.min(.84, f.y));
     });
     draw();

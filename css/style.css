@@ -2,6 +2,7 @@
   font-family: "Mario";
     src: URL("Mario.ttf") format("TrueType");
 }
+:root { --xp-taskbar-height: 38px; }
 html{
   cursor: url("dani071.cur"), auto;
 }
@@ -13,7 +14,7 @@ body {
   background-repeat: repeat;
   background-attachment: fixed;
   margin: 0;
-  padding: 0;
+  padding: 0 0 var(--xp-taskbar-height);
   font: 14px/1.5 "Noto Sans", "Mario", "Helvetica Neue", Helvetica, Arial, sans-serif;
   /*color:#3d3d3d;*/
   color: rgb(248, 231, 205);
@@ -32,7 +33,7 @@ body {
   flex-direction: column;
   align-items: stretch;
   gap: 10px;
-  height: 100dvh;
+  height: calc(100dvh - var(--xp-taskbar-height));
   min-height: 580px;
   padding: 16px 14px 16px 20px;
   box-sizing: border-box;
@@ -258,17 +259,27 @@ blockquote {
 
 .aquarium-display {
   position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   flex: 1 1 0;
   min-height: 0;
   min-width: 0;
+  overflow: hidden;
+  background: #ece9d8;
+  border: 2px solid #1255c3;
+  border-radius: 8px 8px 3px 3px;
+  box-shadow: inset 0 0 0 1px #fff, 3px 5px 0 rgba(0, 0, 32, .28), 0 8px 18px rgba(0, 0, 0, .28);
 }
 
 .aquarium-water {
   position: relative;
   overflow: hidden;
+  flex: 1 1 0;
+  min-height: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
   background: radial-gradient(ellipse at 55% 4%, rgba(58, 190, 237, .48) 0%, rgba(21, 126, 193, .34) 43%, rgba(9, 84, 156, .22) 80%, rgba(10, 61, 123, .13) 100%);
   box-shadow: inset 0 0 22px rgba(174, 246, 255, .08);
   isolation: isolate;
@@ -296,26 +307,27 @@ blockquote {
   box-shadow: inset 1px 0 rgba(216, 255, 255, .12), inset -1px 0 rgba(216, 255, 255, .08);
 }
 
-.aquarium-fullscreen-button {
-  position: absolute;
-  z-index: 5;
-  top: 8px;
-  right: 8px;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 27px;
-  padding: 0;
-  border: 1px solid rgba(225, 248, 255, .75);
-  border-radius: 4px;
-  background: linear-gradient(#328fff, #0953c2);
-  box-shadow: inset 1px 1px rgba(255,255,255,.4), 1px 2px 4px rgba(0,0,0,.45);
-  color: #fff;
-  font: bold 19px/1 Tahoma, sans-serif;
-  cursor: pointer;
+.aquarium-app-icon {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  flex: none;
+  border: 1px solid #d9faff;
+  border-radius: 2px;
+  background: linear-gradient(145deg, #8fefff, #126fbd 78%);
+  box-shadow: 1px 1px #00358a;
 }
-.aquarium-fullscreen-button:hover { background: linear-gradient(#6bb1ff, #1768db); }
-.aquarium-fullscreen-button:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+.aquarium-app-icon::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 5px;
+  top: 4px;
+  left: 3px;
+  border-radius: 50%;
+  background: #ffba56;
+  box-shadow: -2px 1px 0 -1px #fff;
+}
 
 .intel-panel {
   box-sizing: border-box;
@@ -342,9 +354,13 @@ blockquote {
   gap: 5px;
 }
 
-.intel-header, .hn-header {
+.intel-header, .hn-header, .aquarium-header {
   box-sizing: border-box;
   flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
   min-height: 29px;
   padding: 3px 5px 3px 6px;
   background: linear-gradient(180deg, #2789ff 0%, #0a67e5 16%, #0554ce 65%, #003c9d 100%);
@@ -353,7 +369,7 @@ blockquote {
   text-shadow: 1px 1px 1px #003985;
 }
 
-.intel-header h2, .hn-header h2 {
+.intel-header h2, .hn-header h2, .aquarium-header h2 {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -613,6 +629,84 @@ blockquote {
 .hn-footer a { color: #194d9d; text-decoration: underline; text-underline-offset: 2px; }
 .hn-footer a:hover, .hn-footer a:focus { color: #c13400; }
 
+.xp-taskbar {
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 5px;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--xp-taskbar-height);
+  border-top: 1px solid #80beff;
+  background: linear-gradient(#428ef4 0%, #185ecb 16%, #1d65d7 55%, #06409f 100%);
+  box-shadow: 0 -2px 4px rgba(0, 0, 39, .35);
+  color: #fff;
+  font: 12px Tahoma, Verdana, sans-serif;
+}
+.xp-start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex: none;
+  box-sizing: border-box;
+  width: 98px;
+  margin: 1px 0 0 -3px;
+  border: 1px solid #79ce6d;
+  border-right: 2px solid #246a21;
+  border-radius: 0 14px 15px 0;
+  background: linear-gradient(#79c66c 0%, #48a443 25%, #2d922b 70%, #1d6927 100%);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,.4), 2px 0 3px rgba(0,0,0,.3);
+  color: white;
+  font: bold italic 17px/1 Tahoma, Verdana, sans-serif;
+  text-shadow: 1px 1px 2px #215b24;
+  user-select: none;
+}
+.xp-start-mark { color: #ffedbf; font: bold normal 22px/1 Tahoma, sans-serif; text-shadow: 1px 1px #1b5f30; }
+.xp-task-list { display: flex; flex: 1; gap: 4px; min-width: 0; padding: 5px 0; }
+.xp-task-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 1 205px;
+  min-width: 0;
+  padding: 0 8px;
+  border: 1px solid #0a3d9d;
+  border-radius: 3px;
+  background: linear-gradient(#5ba1f5, #2e77d9 45%, #1859c1);
+  box-shadow: inset 1px 1px rgba(212,237,255,.52);
+  color: #fff;
+  font: bold 11px/1.2 Tahoma, Verdana, sans-serif;
+  text-align: left;
+  text-shadow: 1px 1px #12488a;
+  cursor: pointer;
+}
+.xp-task-button.is-open { background: linear-gradient(#174a9a, #1c59b8 65%, #246acc); box-shadow: inset 1px 1px 3px #073571; }
+.xp-task-button:hover { background: linear-gradient(#84b9fa, #3d86e6 60%, #2566cf); }
+.xp-task-button:focus-visible { outline: 2px solid #ffed94; outline-offset: -3px; }
+.xp-task-label { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.xp-task-icon { display: grid; place-items: center; flex: none; width: 15px; height: 15px; border: 1px solid #eee; border-radius: 2px; font: bold 11px Arial, sans-serif; }
+.xp-hn-icon { background: #ff6600; }
+.xp-threat-icon { background: linear-gradient(135deg, #7dff9a, #1c6da8); }
+.xp-fish-icon { position: relative; background: linear-gradient(135deg, #9ceeff, #0e66b0); }
+.xp-fish-icon::after { content: ''; width: 8px; height: 5px; border-radius: 50%; background: #ffbe59; }
+.xp-tray { display: flex; align-items: center; justify-content: center; gap: 8px; flex: none; min-width: 82px; padding: 0 10px; border-left: 1px solid #80d5f7; background: linear-gradient(#54c4f2, #168dd6 25%, #096fbe); box-shadow: inset 1px 0 rgba(255,255,255,.48); white-space: nowrap; }
+.xp-tray-led { width: 7px; height: 7px; border-radius: 50%; background: #86f8a3; box-shadow: 0 0 4px #e6ffb9; }
+.module-minimized { display: none !important; }
+
+@media (max-width: 480px) {
+  .xp-start { width: 75px; font-size: 14px; }
+  .xp-start-mark { font-size: 16px; }
+  .xp-task-button { flex: 1 1 0; justify-content: center; padding: 0 2px; }
+  .xp-task-label { display: none; }
+  .xp-tray { min-width: 58px; padding: 0 5px; font-size: 10px; }
+  .xp-tray-led { display: none; }
+}
+
 /* Native Fullscreen API on desktop; fixed overlay fallback for iPhone Safari. */
 :is(.aquarium-display, .intel-panel, .hn-panel):is(:fullscreen, .module-is-expanded) {
   position: fixed;
@@ -630,10 +724,9 @@ blockquote {
   box-shadow: none;
 }
 .aquarium-display:is(:fullscreen, .module-is-expanded) { background: #001d50; }
-.aquarium-display:is(:fullscreen, .module-is-expanded) .aquarium-water { width: 100%; height: 100%; aspect-ratio: auto; }
-.aquarium-display:is(:fullscreen, .module-is-expanded) .aquarium-fullscreen-button { top: 16px; right: 16px; width: 38px; height: 38px; font-size: 27px; }
-:is(.intel-panel, .hn-panel):is(:fullscreen, .module-is-expanded) :is(.intel-header, .hn-header) { min-height: 38px; }
-:is(.intel-panel, .hn-panel):is(:fullscreen, .module-is-expanded) :is(.intel-header h2, .hn-header h2) { font-size: 15px; }
+.aquarium-display:is(:fullscreen, .module-is-expanded) .aquarium-water { width: 100%; height: auto; aspect-ratio: auto; }
+:is(.intel-panel, .hn-panel, .aquarium-display):is(:fullscreen, .module-is-expanded) :is(.intel-header, .hn-header, .aquarium-header) { min-height: 38px; }
+:is(.intel-panel, .hn-panel, .aquarium-display):is(:fullscreen, .module-is-expanded) :is(.intel-header h2, .hn-header h2, .aquarium-header h2) { font-size: 15px; }
 :is(.intel-panel, .hn-panel):is(:fullscreen, .module-is-expanded) :is(.intel-entry-link, .hn-title) { font-size: 14px; }
 :is(.intel-panel, .hn-panel):is(:fullscreen, .module-is-expanded) :is(.intel-entry-summary, .hn-meta) { font-size: 12px; }
 body.module-overlay-open { overflow: hidden; }
@@ -650,7 +743,7 @@ body.module-overlay-open { overflow: hidden; }
   .sidebar-left { order: 1; justify-content: center; align-items: center; height: auto; min-height: 0; padding: 20px 20px 40px; }
   .sidebar-right { order: 2; display: none; }
   .aquarium-display, .intel-panel, .hn-panel { width: min(500px, 100%); flex: none; aspect-ratio: 1.42; }
-  .aquarium-water { aspect-ratio: 1.42; height: 100%; }
+  .aquarium-water { aspect-ratio: auto; height: auto; }
   .container span { font-size: clamp(22px, 6.1vw, 34px); }
 }
 

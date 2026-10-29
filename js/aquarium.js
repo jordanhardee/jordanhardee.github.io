@@ -317,8 +317,13 @@ function startAquarium(canvas, water) {
       f.vy = THREE.MathUtils.clamp(f.vy, -0.9, 0.9);
       f.x += f.vx * dt;
       f.y += f.vy * dt;
-      if (f.x < -3.9 || f.x > 3.9) {
-        f.x = THREE.MathUtils.clamp(f.x, -3.9, 3.9);
+      // Keep the entire fish, not merely its origin, inside the camera view.
+      // The horizontal field of view changes as the aquarium/window resizes.
+      const halfView = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))
+        * (camera.position.z - f.z) * camera.aspect;
+      const swimLimit = Math.max(0.7, Math.min(3.45, halfView - f.size * 1.15 - 0.18));
+      if (f.x < -swimLimit || f.x > swimLimit) {
+        f.x = THREE.MathUtils.clamp(f.x, -swimLimit, swimLimit);
         f.vx = -f.vx;
       }
       if (f.y < -1.67 || f.y > 1.75) {

@@ -6,17 +6,17 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-full-panels">
+    <link rel="stylesheet" href="css/style.css?v=20261029-xp-taskbar">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
     <div class="page-wrapper">
       <aside class="sidebar-left">
-        <section class="hn-panel" aria-labelledby="hn-heading">
+        <section class="hn-panel" data-window="hacker-news" aria-labelledby="hn-heading">
           <div class="hn-header">
             <h2 id="hn-heading"><span class="hn-beacon" aria-hidden="true"></span> HACKER NEWS</h2>
             <span class="hn-status" id="hn-status">SYNCING</span>
-            <span class="xp-window-controls"><i class="xp-minimize" aria-hidden="true">_</i><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open Hacker News fullscreen" title="Fullscreen Hacker News">□</button><i class="xp-close" aria-hidden="true">×</i></span>
+            <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Hacker News to taskbar" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open Hacker News fullscreen" title="Fullscreen Hacker News">□</button><i class="xp-close" aria-hidden="true">×</i></span>
           </div>
           <div class="hn-subheading">FRONT PAGE / TOP STORIES</div>
           <ol class="hn-list" id="hn-list" tabindex="0" aria-label="Current Hacker News front-page stories">
@@ -27,19 +27,22 @@
             <a href="https://news.ycombinator.com/" target="_blank" rel="noopener noreferrer">FRONT PAGE</a>
           </div>
         </section>
-        <div class="aquarium-display" aria-label="Interactive miniature aquarium">
-          <button class="aquarium-fullscreen-button module-fullscreen-button" type="button" aria-label="Open aquarium fullscreen" title="Fullscreen aquarium">⛶</button>
+        <div class="aquarium-display" data-window="aquarium" aria-label="Interactive miniature aquarium">
+          <div class="aquarium-header">
+            <h2><span class="aquarium-app-icon" aria-hidden="true"></span> aquarium.exe</h2>
+            <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize aquarium to taskbar" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open aquarium fullscreen" title="Fullscreen aquarium">□</button><i class="xp-close" aria-hidden="true">×</i></span>
+          </div>
           <div class="aquarium-water">
             <canvas id="aquarium-fallback-canvas" aria-hidden="true"></canvas>
             <canvas id="aquarium-canvas" role="img" aria-label="A miniature 3D aquarium with colorful fish that respond to your pointer"></canvas>
             <div class="aquarium-glass" aria-hidden="true"></div>
           </div>
         </div>
-        <section class="intel-panel" aria-labelledby="intel-heading">
+        <section class="intel-panel" data-window="threat-intel" aria-labelledby="intel-heading">
           <div class="intel-header">
             <h2 id="intel-heading"><span class="intel-beacon" aria-hidden="true"></span> CYBER THREAT WIRE</h2>
             <span class="intel-status" id="intel-status">SYNCING</span>
-            <span class="xp-window-controls"><i class="xp-minimize" aria-hidden="true">_</i><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open Cyber Threat Wire fullscreen" title="Fullscreen threat intelligence">□</button><i class="xp-close" aria-hidden="true">×</i></span>
+            <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Cyber Threat Wire to taskbar" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open Cyber Threat Wire fullscreen" title="Fullscreen threat intelligence">□</button><i class="xp-close" aria-hidden="true">×</i></span>
           </div>
           <div class="intel-tabs" role="tablist" aria-label="Cybersecurity feed category">
             <button class="intel-tab is-active" id="intel-news-tab" type="button" role="tab" aria-selected="true" aria-controls="intel-items" data-view="news">NEWS</button>
@@ -158,14 +161,23 @@ OM5Ys4bYVDXU++WkQLFpsg==
       </div><!-- /.content -->
       <aside class="sidebar-right"></aside>
     </div><!-- /.page-wrapper -->
-    <script src="js/aquarium-fallback.js?v=20261029-full-images"></script>
+    <footer class="xp-taskbar" aria-label="Windows XP taskbar">
+      <div class="xp-start" aria-hidden="true"><span class="xp-start-mark">▦</span> start</div>
+      <div class="xp-task-list" role="group" aria-label="Application windows">
+        <button class="xp-task-button is-open" type="button" data-window="hacker-news" aria-label="Minimize Hacker News" aria-pressed="true"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-task-label">Hacker News</span></button>
+        <button class="xp-task-button is-open" type="button" data-window="aquarium" aria-label="Minimize aquarium.exe" aria-pressed="true"><span class="xp-task-icon xp-fish-icon" aria-hidden="true"></span><span class="xp-task-label">aquarium.exe</span></button>
+        <button class="xp-task-button is-open" type="button" data-window="threat-intel" aria-label="Minimize Cyber Threat Wire" aria-pressed="true"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span class="xp-task-label">Cyber Threat Wire</span></button>
+      </div>
+      <div class="xp-tray"><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
+    </footer>
+    <script src="js/aquarium-fallback.js?v=20261029-clipfix"></script>
     <script src="js/threat-intel.js?v=20261029-security-news"></script>
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
-    <script src="js/module-fullscreen.js?v=20261029-full-panels"></script>
+    <script src="js/module-fullscreen.js?v=20261029-xp-taskbar"></script>
     <script type="module">
       // Mobile Safari uses the separate animated 2D scene; desktop can add WebGL.
       if (window.matchMedia('(min-width: 1051px)').matches) {
-        import('./js/aquarium.js').catch(error => console.info('3D layer unavailable:', error));
+        import('./js/aquarium.js?v=20261029-clipfix').catch(error => console.info('3D layer unavailable:', error));
       }
     </script>
   </body>
