@@ -125,6 +125,11 @@ OM5Ys4bYVDXU++WkQLFpsg==
       <aside class="sidebar-right"></aside>
     </div><!-- /.page-wrapper -->
     <script src="js/aquarium-fallback.js"></script>
-    <script type="module" src="js/aquarium.js"></script>
+    <script type="module">
+      // Mobile Safari uses the separate animated 2D scene; desktop can add WebGL.
+      if (window.matchMedia('(min-width: 1051px)').matches) {
+        import('./js/aquarium.js').catch(error => console.info('3D layer unavailable:', error));
+      }
+    </script>
   </body>
 </html>
