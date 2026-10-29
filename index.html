@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-aquarium-sky-2">
+    <link rel="stylesheet" href="css/style.css?v=20261029-xp-drag-windows">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -30,17 +30,6 @@
             <a href="https://news.ycombinator.com/" target="_blank" rel="noopener noreferrer">FRONT PAGE</a>
           </div>
         </section>
-        <div class="aquarium-display" data-window="aquarium" aria-label="Interactive miniature aquarium">
-          <div class="aquarium-header">
-            <h2><span class="aquarium-app-icon" aria-hidden="true"></span> aquarium.exe</h2>
-            <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize aquarium to taskbar" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open aquarium fullscreen" title="Fullscreen aquarium">□</button><i class="xp-close" aria-hidden="true">×</i></span>
-          </div>
-          <div class="aquarium-water">
-            <canvas id="aquarium-fallback-canvas" aria-hidden="true"></canvas>
-            <canvas id="aquarium-canvas" role="img" aria-label="A miniature 3D aquarium with colorful fish that respond to your pointer"></canvas>
-            <div class="aquarium-glass" aria-hidden="true"></div>
-          </div>
-        </div>
         <section class="intel-panel" data-window="threat-intel" aria-labelledby="intel-heading">
           <div class="intel-header">
             <h2 id="intel-heading"><span class="intel-beacon" aria-hidden="true"></span> CYBER THREAT WIRE</h2>
@@ -200,25 +189,18 @@ OM5Ys4bYVDXU++WkQLFpsg==
       <div class="xp-start" aria-hidden="true"><span class="xp-start-mark"><i></i><i></i><i></i><i></i><i></i></span> start</div>
       <div class="xp-task-list" role="group" aria-label="Application windows">
         <button class="xp-task-button is-open" type="button" data-window="hacker-news" aria-label="Minimize Hacker News" aria-pressed="true"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-task-label">Hacker News</span></button>
-        <button class="xp-task-button is-open" type="button" data-window="aquarium" aria-label="Minimize aquarium.exe" aria-pressed="true"><span class="xp-task-icon xp-fish-icon" aria-hidden="true"></span><span class="xp-task-label">aquarium.exe</span></button>
         <button class="xp-task-button is-open" type="button" data-window="threat-intel" aria-label="Minimize Cyber Threat Wire" aria-pressed="true"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span class="xp-task-label">Cyber Threat Wire</span></button>
         <button class="xp-task-button is-open" type="button" data-window="nasa-apod" aria-label="Minimize NASA APOD" aria-pressed="true"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-task-label">NASA APOD</span></button>
         <button class="xp-task-button is-open" type="button" data-window="daily-office" aria-label="Minimize Daily Office" aria-pressed="true"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-task-label">Daily Office</span></button>
       </div>
       <div class="xp-tray"><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
     </footer>
-    <script src="js/aquarium-fallback.js?v=20261029-clean-fish"></script>
     <script src="js/aquarium-background.js?v=20261029-aquarium-sky"></script>
     <script src="js/threat-intel.js?v=20261029-security-news"></script>
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-nasa-wordpress"></script>
     <script src="js/daily-office.js?v=20261029-local-office"></script>
-    <script src="js/module-fullscreen.js?v=20261029-right-widgets"></script>
-    <script type="module">
-      // Mobile Safari uses the separate animated 2D scene; desktop can add WebGL.
-      if (window.matchMedia('(min-width: 1051px)').matches) {
-        import('./js/aquarium.js?v=20261029-clipfix').catch(error => console.info('3D layer unavailable:', error));
-      }
-    </script>
+    <script src="js/module-fullscreen.js?v=20261029-xp-drag-windows"></script>
+    <script src="js/window-manager.js?v=20261029-xp-drag-windows"></script>
   </body>
 </html>

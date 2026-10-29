@@ -839,6 +839,46 @@ blockquote {
 .xp-tray-led { width: 7px; height: 7px; border-radius: 50%; background: #86f8a3; box-shadow: 0 0 4px #e6ffb9; }
 .module-minimized { display: none !important; }
 
+/* Four real, movable desktop windows. Phone layouts remain in normal flow. */
+.xp-floating-window {
+  position: fixed !important;
+  flex: none !important;
+  margin: 0;
+  aspect-ratio: auto;
+  max-width: none;
+  max-height: none;
+}
+.xp-floating-window :is(.hn-header, .intel-header, .apod-header, .office-header) {
+  cursor: move;
+  touch-action: none;
+  user-select: none;
+}
+.xp-floating-window.xp-is-dragging { box-shadow: 0 12px 28px rgba(0,0,0,.45), inset 0 0 0 1px white; }
+.xp-resize-grip {
+  display: none;
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  z-index: 4;
+  width: 19px;
+  height: 19px;
+  box-sizing: border-box;
+  cursor: nwse-resize;
+  touch-action: none;
+  background: repeating-linear-gradient(135deg, transparent 0 4px, #7f93a7 4px 6px, transparent 6px 9px);
+  border-radius: 0 0 2px 0;
+  opacity: .8;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+.xp-floating-window .xp-resize-grip { display: block; }
+.xp-resize-grip:focus-visible { outline: 2px solid #f7b600; outline-offset: -2px; opacity: 1; }
+.xp-floating-window:is(:fullscreen, .module-is-expanded) {
+  left: 0 !important;
+  top: 0 !important;
+  z-index: 99999 !important;
+}
+.xp-floating-window:is(:fullscreen, .module-is-expanded) .xp-resize-grip { display: none; }
+
 @media (max-width: 480px) {
   .xp-start { width: 75px; font-size: 14px; }
   .xp-start-mark { grid-template-columns: repeat(3, 4px); grid-template-rows: repeat(3, 4px); gap: 2px; }

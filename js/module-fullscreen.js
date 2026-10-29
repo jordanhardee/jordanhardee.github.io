@@ -2,14 +2,13 @@
 // iPhone Safari may reject arbitrary-element fullscreen, so provide a
 // viewport-filling overlay with the same visible exit control instead.
 (function () {
-  const modules = [...document.querySelectorAll('[data-window].aquarium-display, [data-window].intel-panel, [data-window].hn-panel, [data-window].apod-panel, [data-window].office-panel')];
+  const modules = [...document.querySelectorAll('[data-window].intel-panel, [data-window].hn-panel, [data-window].apod-panel, [data-window].office-panel')];
   const taskButtons = new Map([...document.querySelectorAll('.xp-task-button')].map(button => [button.dataset.window, button]));
   const clock = document.getElementById('xp-clock');
   let overlay = null;
 
   function moduleName(module) {
     const names = {
-      'aquarium': 'aquarium.exe',
       'threat-intel': 'Cyber Threat Wire',
       'hacker-news': 'Hacker News',
       'nasa-apod': 'NASA APOD',
