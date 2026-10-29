@@ -15,6 +15,8 @@
       'daily-office': 'Daily Office',
       'cyberchef': 'CyberChef.exe',
       'contact': 'Contact.exe',
+      'blackjack': 'Blackjack.exe',
+      'solitaire': 'Solitaire.exe',
       'patrick-stewart': 'Patrick Stewart Memorial'
     };
     return names[module.dataset.window] || 'Window';

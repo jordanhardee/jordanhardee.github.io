@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-memorial-contact2">
+    <link rel="stylesheet" href="css/style.css?v=20261029-card-games">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -169,6 +169,36 @@
           </div>
         </div>
       </section>
+      <section class="xp-app-window blackjack-panel module-closed" data-window="blackjack" aria-labelledby="blackjack-heading">
+        <div class="xp-app-header">
+          <h2 id="blackjack-heading"><span class="xp-app-icon xp-blackjack-icon" aria-hidden="true">♠</span> Blackjack.exe</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Blackjack text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Blackjack text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Blackjack" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Blackjack" title="Maximize Blackjack">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Blackjack" title="Close Blackjack">×</button></span>
+        </div>
+        <div class="xp-app-body blackjack-body">
+          <div class="blackjack-topline"><strong>BLACKJACK</strong><span>Dealer stands on all 17s · No betting</span></div>
+          <div class="blackjack-hand"><h3>Dealer <span id="blackjack-dealer-score"></span></h3><div class="card-row" id="blackjack-dealer-hand" aria-label="Dealer hand"></div></div>
+          <p class="blackjack-message" id="blackjack-message" role="status" aria-live="polite"></p>
+          <div class="blackjack-hand"><h3>Your hand <span id="blackjack-player-score"></span></h3><div class="card-row" id="blackjack-player-hand" aria-label="Your hand"></div></div>
+          <div class="blackjack-actions"><button type="button" id="blackjack-hit">Hit</button><button type="button" id="blackjack-stand">Stand</button><button type="button" id="blackjack-deal">New hand</button></div>
+          <p class="blackjack-scoreboard" id="blackjack-record">Wins 0 · Losses 0 · Pushes 0</p>
+        </div>
+        <div class="xp-app-footer"><span>CLASSIC BLACKJACK · COMPUTER DEALER</span><span>FOR FUN ONLY · NO MONEY</span></div>
+      </section>
+      <section class="xp-app-window solitaire-panel module-closed" data-window="solitaire" aria-labelledby="solitaire-heading">
+        <div class="xp-app-header">
+          <h2 id="solitaire-heading"><span class="xp-app-icon xp-solitaire-icon" aria-hidden="true">♥</span> Solitaire.exe</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Solitaire text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Solitaire text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Solitaire" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Solitaire" title="Maximize Solitaire">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Solitaire" title="Close Solitaire">×</button></span>
+        </div>
+        <div class="xp-app-body solitaire-body">
+          <div class="solitaire-toolbar"><span>KLONDIKE · DRAW ONE</span><button type="button" id="solitaire-new">New deal</button><button type="button" id="solitaire-undo" disabled>Undo</button><span id="solitaire-status" role="status" aria-live="polite">Shuffling…</span></div>
+          <div class="solitaire-board" id="solitaire-board">
+            <div class="solitaire-top-row"><div class="solitaire-stock" id="solitaire-stock" aria-label="Draw pile"></div><div class="solitaire-waste" id="solitaire-waste" aria-label="Waste pile"></div><div class="solitaire-foundations" id="solitaire-foundations" aria-label="Foundation piles"></div></div>
+            <div class="solitaire-tableau" id="solitaire-tableau" aria-label="Seven tableau columns"></div>
+          </div>
+          <p class="solitaire-help">Build A–K by suit in the four foundations. Arrange alternating colors in descending order. Click a card, then its destination—or drag cards with a mouse. Double-click a top card to move it home.</p>
+        </div>
+        <div class="xp-app-footer"><span>SOLITAIRE · SINGLE PLAYER</span><span>SHUFFLED &amp; DEALT BY YOUR COMPUTER</span></div>
+      </section>
       <section class="xp-app-window memorial-panel module-closed" data-window="patrick-stewart" aria-labelledby="memorial-heading">
         <div class="xp-app-header">
           <h2 id="memorial-heading"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span> Patrick Stewart — In Memoriam</h2>
@@ -198,6 +228,8 @@
         <button class="xp-menu-item" type="button" data-open-window="daily-office"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span><strong>Daily Office</strong><small>2019 Book of Common Prayer</small></span></button>
         <button class="xp-menu-item" type="button" data-open-window="cyberchef"><span class="xp-app-icon xp-chef-icon" aria-hidden="true">⚗</span><span><strong>CyberChef.exe</strong><small>Cyber Swiss Army Knife</small></span></button>
         <button class="xp-menu-item" type="button" data-open-window="contact"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span><span><strong>Contact.exe</strong><small>Visual contact clue</small></span></button>
+        <button class="xp-menu-item" type="button" data-open-window="blackjack"><span class="xp-app-icon xp-blackjack-icon" aria-hidden="true">♠</span><span><strong>Blackjack.exe</strong><small>Play against the dealer</small></span></button>
+        <button class="xp-menu-item" type="button" data-open-window="solitaire"><span class="xp-app-icon xp-solitaire-icon" aria-hidden="true">♥</span><span><strong>Solitaire.exe</strong><small>Classic Klondike</small></span></button>
         <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
       </div>
       <div class="xp-menu-bottom">JordanHardee.com</div>
@@ -211,6 +243,8 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="daily-office" aria-label="Restore Daily Office" aria-pressed="false"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-task-label">Daily Office</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="cyberchef" aria-label="Restore CyberChef" aria-pressed="false"><span class="xp-task-icon xp-chef-icon" aria-hidden="true">⚗</span><span class="xp-task-label">CyberChef.exe</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="contact" aria-label="Restore Contact" aria-pressed="false"><span class="xp-task-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-task-label">Contact.exe</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="blackjack" aria-label="Restore Blackjack" aria-pressed="false"><span class="xp-task-icon xp-blackjack-icon" aria-hidden="true">♠</span><span class="xp-task-label">Blackjack.exe</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="solitaire" aria-label="Restore Solitaire" aria-pressed="false"><span class="xp-task-icon xp-solitaire-icon" aria-hidden="true">♥</span><span class="xp-task-label">Solitaire.exe</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="patrick-stewart" aria-label="Restore Patrick Stewart Memorial" aria-pressed="false"><span class="xp-task-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-task-label">Patrick Stewart</span></button>
       </div>
       <div class="xp-tray"><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
@@ -220,9 +254,9 @@
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
-    <script src="js/module-fullscreen.js?v=20261029-xp-start-closed"></script>
+    <script src="js/module-fullscreen.js?v=20261029-card-games"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
-    <script src="js/window-manager.js?v=20261029-contact-tall"></script>
-    <script src="js/start-menu.js?v=20261029-memorial-key-gate2"></script>
+    <script src="js/window-manager.js?v=20261029-card-games"></script>
+    <script src="js/start-menu.js?v=20261029-card-games"></script>
   </body>
 </html>

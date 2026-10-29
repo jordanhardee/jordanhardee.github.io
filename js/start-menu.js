@@ -6,6 +6,11 @@
   const chefLoading = document.getElementById('cyberchef-loading');
   if (!start || !menu) return;
   let contactScriptRequested = false;
+  const cardGames = {
+    blackjack: new URL('./blackjack.mjs?v=20261029-1', document.currentScript.src).href,
+    solitaire: new URL('./solitaire.mjs?v=20261029-1', document.currentScript.src).href,
+  };
+  const loadedGames = new Set();
 
   function loadContactOnDemand() {
     if (contactScriptRequested) return;
@@ -32,6 +37,14 @@
         detail: { window: button.dataset.openWindow }
       }));
       if (button.dataset.openWindow === 'contact') loadContactOnDemand();
+      const game = button.dataset.openWindow;
+      if (cardGames[game] && !loadedGames.has(game)) {
+        loadedGames.add(game);
+        import(cardGames[game]).catch(error => {
+          loadedGames.delete(game);
+          console.error(`${game} could not start:`, error);
+        });
+      }
     });
   });
   document.addEventListener('pointerdown', event => {
