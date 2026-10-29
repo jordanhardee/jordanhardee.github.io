@@ -6,13 +6,29 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-xp-windows">
+    <link rel="stylesheet" href="css/style.css?v=20261029-full-panels">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
     <div class="page-wrapper">
       <aside class="sidebar-left">
+        <section class="hn-panel" aria-labelledby="hn-heading">
+          <div class="hn-header">
+            <h2 id="hn-heading"><span class="hn-beacon" aria-hidden="true"></span> HACKER NEWS</h2>
+            <span class="hn-status" id="hn-status">SYNCING</span>
+            <span class="xp-window-controls"><i class="xp-minimize" aria-hidden="true">_</i><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open Hacker News fullscreen" title="Fullscreen Hacker News">□</button><i class="xp-close" aria-hidden="true">×</i></span>
+          </div>
+          <div class="hn-subheading">FRONT PAGE / TOP STORIES</div>
+          <ol class="hn-list" id="hn-list" tabindex="0" aria-label="Current Hacker News front-page stories">
+            <li class="hn-message">Loading current rankings...</li>
+          </ol>
+          <div class="hn-footer">
+            <span id="hn-updated">Checking Hacker News</span>
+            <a href="https://news.ycombinator.com/" target="_blank" rel="noopener noreferrer">FRONT PAGE</a>
+          </div>
+        </section>
         <div class="aquarium-display" aria-label="Interactive miniature aquarium">
+          <button class="aquarium-fullscreen-button module-fullscreen-button" type="button" aria-label="Open aquarium fullscreen" title="Fullscreen aquarium">⛶</button>
           <div class="aquarium-water">
             <canvas id="aquarium-fallback-canvas" aria-hidden="true"></canvas>
             <canvas id="aquarium-canvas" role="img" aria-label="A miniature 3D aquarium with colorful fish that respond to your pointer"></canvas>
@@ -23,7 +39,7 @@
           <div class="intel-header">
             <h2 id="intel-heading"><span class="intel-beacon" aria-hidden="true"></span> CYBER THREAT WIRE</h2>
             <span class="intel-status" id="intel-status">SYNCING</span>
-            <span class="xp-window-controls" aria-hidden="true"><i class="xp-minimize">_</i><i class="xp-maximize">□</i><i class="xp-close">×</i></span>
+            <span class="xp-window-controls"><i class="xp-minimize" aria-hidden="true">_</i><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open Cyber Threat Wire fullscreen" title="Fullscreen threat intelligence">□</button><i class="xp-close" aria-hidden="true">×</i></span>
           </div>
           <div class="intel-tabs" role="tablist" aria-label="Cybersecurity feed category">
             <button class="intel-tab is-active" id="intel-news-tab" type="button" role="tab" aria-selected="true" aria-controls="intel-items" data-view="news">NEWS</button>
@@ -35,21 +51,6 @@
           <div class="intel-footer">
             <span id="intel-updated">Fetching latest headlines</span>
             <a id="intel-source" href="https://github.com/found-cake/cyber-news-feed" target="_blank" rel="noopener noreferrer">FEED SOURCE</a>
-          </div>
-        </section>
-        <section class="hn-panel" aria-labelledby="hn-heading">
-          <div class="hn-header">
-            <h2 id="hn-heading"><span class="hn-beacon" aria-hidden="true"></span> HACKER NEWS</h2>
-            <span class="hn-status" id="hn-status">SYNCING</span>
-            <span class="xp-window-controls" aria-hidden="true"><i class="xp-minimize">_</i><i class="xp-maximize">□</i><i class="xp-close">×</i></span>
-          </div>
-          <div class="hn-subheading">FRONT PAGE / TOP STORIES</div>
-          <ol class="hn-list" id="hn-list" tabindex="0" aria-label="Current Hacker News front-page stories">
-            <li class="hn-message">Loading current rankings...</li>
-          </ol>
-          <div class="hn-footer">
-            <span id="hn-updated">Checking Hacker News</span>
-            <a href="https://news.ycombinator.com/" target="_blank" rel="noopener noreferrer">FRONT PAGE</a>
           </div>
         </section>
       </aside>
@@ -160,6 +161,7 @@ OM5Ys4bYVDXU++WkQLFpsg==
     <script src="js/aquarium-fallback.js?v=20261029-full-images"></script>
     <script src="js/threat-intel.js?v=20261029-security-news"></script>
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
+    <script src="js/module-fullscreen.js?v=20261029-full-panels"></script>
     <script type="module">
       // Mobile Safari uses the separate animated 2D scene; desktop can add WebGL.
       if (window.matchMedia('(min-width: 1051px)').matches) {
