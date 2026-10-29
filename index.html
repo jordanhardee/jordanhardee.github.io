@@ -19,6 +19,21 @@
             <div class="aquarium-glass" aria-hidden="true"></div>
           </div>
         </div>
+        <section class="intel-panel" aria-labelledby="intel-heading">
+          <div class="intel-header">
+            <h2 id="intel-heading"><span class="intel-beacon" aria-hidden="true"></span> THREAT INTEL</h2>
+            <span class="intel-status" id="intel-status">CONNECTING</span>
+          </div>
+          <div class="intel-subheading">IPsum / community IP intelligence</div>
+          <div class="intel-columns" aria-hidden="true"><span>IP ADDRESS</span><span>LIST HITS</span></div>
+          <ol class="intel-list" id="intel-list" aria-label="IP addresses reported by multiple threat intelligence lists">
+            <li class="intel-message">Retrieving current feed...</li>
+          </ol>
+          <div class="intel-footer">
+            <span id="intel-updated">Updated daily upstream</span>
+            <a href="https://github.com/stamparm/ipsum" target="_blank" rel="noopener noreferrer">SOURCE</a>
+          </div>
+        </section>
       </aside>
       <div class="content">
       <header>
@@ -125,6 +140,7 @@ OM5Ys4bYVDXU++WkQLFpsg==
       <aside class="sidebar-right"></aside>
     </div><!-- /.page-wrapper -->
     <script src="js/aquarium-fallback.js?v=20261029-full-images"></script>
+    <script src="js/threat-intel.js"></script>
     <script type="module">
       // Mobile Safari uses the separate animated 2D scene; desktop can add WebGL.
       if (window.matchMedia('(min-width: 1051px)').matches) {
