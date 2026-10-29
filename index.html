@@ -11,7 +11,18 @@
   </head>
   <body>
     <div class="page-wrapper">
-      <aside class="sidebar-left"></aside>
+      <aside class="sidebar-left">
+        <div class="aquarium-display" aria-label="Interactive miniature aquarium">
+          <div class="aquarium-frame">
+            <div class="aquarium-water">
+              <canvas id="aquarium-canvas" role="img" aria-label="A miniature 3D aquarium with colorful fish that respond to your pointer"></canvas>
+              <div class="aquarium-glass" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="aquarium-shelf" aria-hidden="true"></div>
+          <div class="aquarium-brackets" aria-hidden="true"><i></i><i></i></div>
+        </div>
+      </aside>
       <div class="content">
       <header>
 <h1 class="container">
@@ -48,7 +59,7 @@
         -->
 <center><p>Welcome to Jordan's personal website.</p></center>
 
-        <img src="floppa.jpeg">
+        <img src="floppa.jpeg" alt="Floppa, the beloved caracal">
 <center><audio controls autoplay>
   <source src="https://dn721800.ca.archive.org/0/items/Classical-Bach-1/Bach%2010%20-%20Brandenburg%20Concerto%20No.%202%20in%20F%20major%20BWV%201047%20-%201.%20Allegro%20-%202.%20Andante.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
@@ -115,5 +126,7 @@ OM5Ys4bYVDXU++WkQLFpsg==
       </footer>
       </div><!-- /.content -->
       <aside class="sidebar-right"></aside>
+    </div><!-- /.page-wrapper -->
+    <script type="module" src="js/aquarium.js"></script>
   </body>
 </html>
