@@ -39,7 +39,6 @@ body {
 
 .page-wrapper {
   position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 500px) minmax(0, 1fr);
   min-height: 100vh;
