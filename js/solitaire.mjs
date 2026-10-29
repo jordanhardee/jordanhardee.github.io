@@ -104,8 +104,9 @@ if (stockView && wasteView && foundationView && tableauView && newButton && undo
     });
   }
 
-  function placeholder(label) {
-    const el = document.createElement('div');
+  function placeholder(label, interactive = false) {
+    const el = document.createElement(interactive ? 'button' : 'div');
+    if (interactive) el.type = 'button';
     el.className = 'solitaire-empty-card';
     el.textContent = label;
     return el;
@@ -134,7 +135,7 @@ if (stockView && wasteView && foundationView && tableauView && newButton && undo
     foundationView.replaceChildren();
     tableauView.replaceChildren();
 
-    const stockCard = stock.length ? makeCardElement(null, { faceDown: true, interactive: true }) : placeholder(waste.length ? '↻' : '');
+    const stockCard = stock.length ? makeCardElement(null, { faceDown: true, interactive: true }) : placeholder(waste.length ? '↻' : '', Boolean(waste.length));
     stockCard.classList.add('solitaire-stock-card');
     if (stock.length || waste.length) {
       stockCard.setAttribute('aria-label', stock.length ? `Draw a card (${stock.length} remain)` : 'Recycle waste pile');

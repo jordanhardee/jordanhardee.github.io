@@ -8,7 +8,7 @@
   let contactScriptRequested = false;
   const cardGames = {
     blackjack: new URL('./blackjack.mjs?v=20261029-1', document.currentScript.src).href,
-    solitaire: new URL('./solitaire.mjs?v=20261029-1', document.currentScript.src).href,
+    solitaire: new URL('./solitaire.mjs?v=20261029-2', document.currentScript.src).href,
   };
   const loadedGames = new Set();
 
