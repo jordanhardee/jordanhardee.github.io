@@ -18,6 +18,15 @@
     [.59, .32, -.03, '#8ce3b0', '#337c73', .65],
   ].map(([x, y, speed, body, fins, size], i) => ({ x, y, speed, body, fins, size, phase: i * 1.7 }));
 
+  // These original photographic cutouts give the tank a naturalistic look.
+  // The previous painted scene remains as a fallback while images load.
+  const aquascapeArt = new Image();
+  const fishAtlas = new Image();
+  aquascapeArt.src = 'assets/aquascape.png';
+  fishAtlas.src = 'assets/fish-atlas.png';
+  aquascapeArt.onload = () => draw();
+  fishAtlas.onload = () => draw();
+
   let width = 1;
   let height = 1;
   let phase = 0;
@@ -38,6 +47,10 @@
   }
 
   function draw() {
+    if (aquascapeArt.naturalWidth && fishAtlas.naturalWidth) {
+      drawPhotographicScene();
+      return;
+    }
     ctx.clearRect(0, 0, width, height);
 
     // A warm gravel bed and an original, rough driftwood silhouette.
@@ -148,6 +161,42 @@
       ctx.beginPath(); ctx.arc(11, -4, 3.5, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#09243b';
       ctx.beginPath(); ctx.arc(12, -4, 2.1, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  function drawPhotographicScene() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.drawImage(aquascapeArt, 0, 0, width, height);
+
+    // Fine bubbles add movement without hiding the stars through the water.
+    for (let i = 0; i < 17; i++) {
+      const x = (.09 + ((i * 31) % 83) / 100) * width + Math.sin(phase * 1.1 + i) * 2;
+      const y = ((i * .139 - phase * (.04 + (i % 3) * .008)) % 1 + 1) % 1 * height;
+      ctx.strokeStyle = 'rgba(210,255,255,.38)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(x, y, 1.3 + i % 3, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // Each cell in the 3x3 atlas is a different, original fish cutout.
+    const cellWidth = fishAtlas.naturalWidth / 3;
+    const cellHeight = fishAtlas.naturalHeight / 3;
+    fish.forEach((f, i) => {
+      const destinationWidth = width * (0.19 + f.size * .028);
+      const destinationHeight = destinationWidth * cellHeight / cellWidth;
+      const col = i % 3;
+      const row = Math.floor(i / 3);
+      ctx.save();
+      ctx.translate(f.x * width, f.y * height + Math.sin(phase * 1.7 + f.phase) * 2);
+      if (f.speed < 0) ctx.scale(-1, 1);
+      ctx.scale(1 + Math.sin(phase * 8 + f.phase) * .018, 1);
+      ctx.drawImage(
+        fishAtlas, col * cellWidth, row * cellHeight, cellWidth, cellHeight,
+        -destinationWidth / 2, -destinationHeight / 2,
+        destinationWidth, destinationHeight
+      );
       ctx.restore();
     });
   }
