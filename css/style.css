@@ -254,39 +254,14 @@ blockquote {
   position: relative;
   width: min(355px, 100%);
   min-width: 0;
-  padding-bottom: 20px;
-  filter: drop-shadow(0 12px 12px rgba(0, 0, 0, .4));
-}
-
-.aquarium-frame {
-  position: relative;
-  padding: 10px;
-  border: 3px solid #56423a;
-  border-radius: 8px 8px 4px 4px;
-  background: linear-gradient(125deg, #e8bd77, #8e5738 45%, #422d2b 90%);
-  box-shadow: inset 0 2px 0 #ffdf98, inset 0 -2px 0 #301c1b, 3px 4px 0 #110e23;
-}
-
-.aquarium-frame::before {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  top: 4px;
-  left: 12%;
-  width: 64%;
-  height: 3px;
-  background: rgba(255, 233, 174, .5);
-  border-radius: 50%;
-  pointer-events: none;
 }
 
 .aquarium-water {
   position: relative;
   overflow: hidden;
   aspect-ratio: 1.42;
-  background: radial-gradient(ellipse at 55% 4%, #53c4ee 0%, #188bbf 43%, #0b5b92 80%, #104773 100%);
-  border: 2px solid #15334c;
-  box-shadow: inset 0 0 25px 8px rgba(2, 16, 37, .66);
+  background: radial-gradient(ellipse at 55% 4%, rgba(58, 190, 237, .48) 0%, rgba(21, 126, 193, .34) 43%, rgba(9, 84, 156, .22) 80%, rgba(10, 61, 123, .13) 100%);
+  box-shadow: inset 0 0 22px rgba(174, 246, 255, .08);
   isolation: isolate;
 }
 
@@ -308,34 +283,8 @@ blockquote {
   z-index: 3;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(115deg, rgba(255, 255, 255, .18) 0%, rgba(255, 255, 255, .045) 7%, transparent 20%, transparent 78%, rgba(255,255,255,.08) 100%);
-  box-shadow: inset 0 0 15px 4px rgba(2, 15, 27, .45);
-}
-
-.aquarium-shelf {
-  position: relative;
-  z-index: 3;
-  height: 17px;
-  margin: -1px -18px 0;
-  border: 2px solid #493027;
-  border-radius: 3px;
-  background: linear-gradient(#f4ce89 0%, #ab693e 43%, #6d3e31 100%);
-  box-shadow: inset 0 2px 0 #ffebb2, 0 7px 0 #422933, 0 9px 0 #1a1427;
-}
-
-.aquarium-brackets {
-  display: flex;
-  justify-content: space-around;
-  height: 20px;
-}
-
-.aquarium-brackets i {
-  display: block;
-  width: 14px;
-  height: 18px;
-  border: 2px solid #452d2b;
-  background: linear-gradient(90deg, #583a30, #bd7a47 55%, #583a30);
-  transform: perspective(40px) rotateX(15deg);
+  background: linear-gradient(115deg, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, .025) 7%, transparent 20%, transparent 78%, rgba(255,255,255,.06) 100%);
+  box-shadow: inset 1px 0 rgba(216, 255, 255, .12), inset -1px 0 rgba(216, 255, 255, .08);
 }
 
 @media (max-width: 1050px) {
