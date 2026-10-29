@@ -31,7 +31,7 @@
     if (module.classList.contains('xp-app-window')) {
       const largeWindow = ['cyberchef', 'patrick-stewart'].includes(module.dataset.window);
       const width = Math.min(largeWindow ? 900 : 540, window.innerWidth - 30);
-      const height = Math.min(largeWindow ? 660 : 385, window.innerHeight - taskbarHeight - 30);
+      const height = Math.min(largeWindow ? 660 : module.dataset.window === 'contact' ? 630 : 385, window.innerHeight - taskbarHeight - 30);
       return {
         left: Math.max(0, Math.round((window.innerWidth - width) / 2)),
         top: Math.max(8, Math.round((window.innerHeight - taskbarHeight - height) / 2)),

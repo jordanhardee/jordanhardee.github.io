@@ -172,6 +172,7 @@
       keyText.value = armored;
       revealed.hidden = false;
       message.textContent = 'Unlocked. You can copy the entire public key below.';
+      revealed.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     } catch (error) {
       message.textContent = 'The public key could not be loaded. Please try again.';
       console.error('PGP public key unavailable:', error);
