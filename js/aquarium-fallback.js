@@ -24,7 +24,9 @@
   const fishAtlas = new Image();
   // WebP keeps the full-resolution artwork small enough to ship intact.
   aquascapeArt.src = 'assets/aquascape.webp';
-  fishAtlas.src = 'assets/fish-atlas.webp';
+  // Transparent cutouts: the source atlas' colored cell backgrounds caused
+  // stray rectangles and bits of adjacent fish to move with the sprites.
+  fishAtlas.src = 'assets/fish-atlas-clean.webp';
   aquascapeArt.onload = () => draw();
   fishAtlas.onload = () => draw();
 
@@ -181,20 +183,26 @@
       ctx.stroke();
     }
 
-    // Each cell in the 3x3 atlas is a different, original fish cutout.
-    const cellWidth = fishAtlas.naturalWidth / 3;
-    const cellHeight = fishAtlas.naturalHeight / 3;
+    // Fish are not precisely aligned to a 3x3 grid: noses, fins and tails
+    // extend across grid lines. Crop each transparent sprite by its actual
+    // bounds instead of clipping its nose or pulling a neighbor's fin along.
+    const sourceRegions = [
+      [45, 55, 500, 294], [555, 55, 485, 292], [1050, 55, 470, 290],
+      [12, 360, 551, 278], [565, 345, 470, 295], [1045, 360, 482, 290],
+      [35, 645, 520, 340], [563, 645, 481, 295], [1045, 665, 480, 283],
+    ];
+    const sourceScaleX = fishAtlas.naturalWidth / 1536;
+    const sourceScaleY = fishAtlas.naturalHeight / 1024;
     fish.forEach((f, i) => {
       const destinationWidth = width * (0.19 + f.size * .028);
-      const destinationHeight = destinationWidth * cellHeight / cellWidth;
-      const col = i % 3;
-      const row = Math.floor(i / 3);
+      const [sx, sy, sw, sh] = sourceRegions[i];
+      const destinationHeight = destinationWidth * sh / sw;
       ctx.save();
       ctx.translate(f.x * width, f.y * height + Math.sin(phase * 1.7 + f.phase) * 2);
       if (f.speed < 0) ctx.scale(-1, 1);
       ctx.scale(1 + Math.sin(phase * 8 + f.phase) * .018, 1);
       ctx.drawImage(
-        fishAtlas, col * cellWidth, row * cellHeight, cellWidth, cellHeight,
+        fishAtlas, sx * sourceScaleX, sy * sourceScaleY, sw * sourceScaleX, sh * sourceScaleY,
         -destinationWidth / 2, -destinationHeight / 2,
         destinationWidth, destinationHeight
       );
