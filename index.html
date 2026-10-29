@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-xp-taskbar">
+    <link rel="stylesheet" href="css/style.css?v=20261029-right-widgets">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -159,21 +159,57 @@ OM5Ys4bYVDXU++WkQLFpsg==
 
       </footer>
       </div><!-- /.content -->
-      <aside class="sidebar-right"></aside>
+      <aside class="sidebar-right" aria-label="Astronomy and Daily Office">
+        <section class="apod-panel" data-window="nasa-apod" aria-labelledby="apod-heading">
+          <div class="apod-header">
+            <h2 id="apod-heading"><span class="apod-app-icon" aria-hidden="true">✦</span> NASA APOD</h2>
+            <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize NASA Astronomy Picture of the Day" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open NASA Astronomy Picture of the Day fullscreen" title="Fullscreen NASA APOD">□</button><i class="xp-close" aria-hidden="true">×</i></span>
+          </div>
+          <div class="apod-visual" id="apod-visual">
+            <p class="apod-placeholder" id="apod-message" role="status">Connecting to NASA's image archive...</p>
+            <a id="apod-image-link" href="https://science.nasa.gov/apod/" target="_blank" rel="noopener noreferrer" aria-label="View today's astronomy picture at NASA">
+              <img class="apod-image" id="apod-image" alt="" loading="lazy" hidden>
+            </a>
+          </div>
+          <div class="apod-info">
+            <strong id="apod-title">Astronomy Picture of the Day</strong>
+            <span id="apod-date"></span>
+            <p id="apod-credit"></p>
+          </div>
+          <div class="apod-footer"><span id="apod-status">NASA / UPDATING</span><a id="apod-source" href="https://science.nasa.gov/apod/" target="_blank" rel="noopener noreferrer">VIEW AT NASA</a></div>
+        </section>
+        <section class="office-panel" data-window="daily-office" aria-labelledby="office-heading">
+          <div class="office-header">
+            <h2 id="office-heading"><span class="office-app-icon" aria-hidden="true">✝</span> DAILY OFFICE · 1979 BCP</h2>
+            <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize 1979 Daily Office" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open 1979 Daily Office fullscreen" title="Fullscreen Daily Office">□</button><i class="xp-close" aria-hidden="true">×</i></span>
+          </div>
+          <div class="office-toolbar"><span id="office-date">TODAY</span><span id="office-period">LOCAL TIME</span></div>
+          <div class="office-scroll" tabindex="0" aria-label="Current Daily Office prayer">
+            <h3 id="office-name">Daily Office</h3>
+            <p class="office-label" id="office-collect-title">1979 Book of Common Prayer · Rite Two</p>
+            <p class="office-prayer" id="office-prayer">Finding the prayer for the current hour...</p>
+          </div>
+          <div class="office-footer"><span>1979 BCP · RITE II</span><a id="office-full-link" href="https://usedailyoffice.com/1979/" target="_blank" rel="noopener noreferrer">FULL OFFICE + READINGS</a></div>
+        </section>
+      </aside>
     </div><!-- /.page-wrapper -->
     <footer class="xp-taskbar" aria-label="Windows XP taskbar">
-      <div class="xp-start" aria-hidden="true"><span class="xp-start-mark">▦</span> start</div>
+      <div class="xp-start" aria-hidden="true"><span class="xp-start-mark"><i></i><i></i><i></i><i></i><i></i></span> start</div>
       <div class="xp-task-list" role="group" aria-label="Application windows">
         <button class="xp-task-button is-open" type="button" data-window="hacker-news" aria-label="Minimize Hacker News" aria-pressed="true"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-task-label">Hacker News</span></button>
         <button class="xp-task-button is-open" type="button" data-window="aquarium" aria-label="Minimize aquarium.exe" aria-pressed="true"><span class="xp-task-icon xp-fish-icon" aria-hidden="true"></span><span class="xp-task-label">aquarium.exe</span></button>
         <button class="xp-task-button is-open" type="button" data-window="threat-intel" aria-label="Minimize Cyber Threat Wire" aria-pressed="true"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span class="xp-task-label">Cyber Threat Wire</span></button>
+        <button class="xp-task-button is-open" type="button" data-window="nasa-apod" aria-label="Minimize NASA APOD" aria-pressed="true"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-task-label">NASA APOD</span></button>
+        <button class="xp-task-button is-open" type="button" data-window="daily-office" aria-label="Minimize Daily Office" aria-pressed="true"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-task-label">Daily Office</span></button>
       </div>
       <div class="xp-tray"><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
     </footer>
     <script src="js/aquarium-fallback.js?v=20261029-clipfix"></script>
     <script src="js/threat-intel.js?v=20261029-security-news"></script>
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
-    <script src="js/module-fullscreen.js?v=20261029-xp-taskbar"></script>
+    <script src="js/apod.js?v=20261029-nasa-wordpress"></script>
+    <script src="js/daily-office.js?v=20261029-local-office"></script>
+    <script src="js/module-fullscreen.js?v=20261029-right-widgets"></script>
     <script type="module">
       // Mobile Safari uses the separate animated 2D scene; desktop can add WebGL.
       if (window.matchMedia('(min-width: 1051px)').matches) {
