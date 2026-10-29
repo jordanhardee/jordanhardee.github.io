@@ -9,9 +9,9 @@ if (canvas && water) {
   try {
     startAquarium(canvas, water);
   } catch (error) {
-    // The 2D fallback still swims and responds to the pointer when WebGL is off.
-    console.info('Using the canvas aquarium fallback:', error.message);
-    startCanvasAquarium(canvas, water);
+    // The independent 2D canvas is still visible, even if WebGL had acquired
+    // its own canvas context before an error occurred.
+    console.info('3D layer unavailable; keeping the animated 2D aquarium:', error.message);
   }
 }
 
