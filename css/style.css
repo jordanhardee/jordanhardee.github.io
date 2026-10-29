@@ -21,7 +21,25 @@ body {
   font-weight:400;
 }
 
+/* A separate full-viewport tank sits above the starfield but below the site.
+   Its water and source art are translucent, so the stars remain visible. */
+.site-aquarium-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 58%, rgba(18, 152, 189, .15), rgba(0, 54, 133, .08) 70%, rgba(5, 32, 110, .04));
+}
+#site-aquarium-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .page-wrapper {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 500px) minmax(0, 1fr);
   min-height: 100vh;
@@ -52,6 +70,7 @@ body {
 
 .content {
   padding: 50px;
+  text-shadow: 0 1px 5px rgba(0, 0, 28, .95);
 }
 section {
   background-color: #00006a;
