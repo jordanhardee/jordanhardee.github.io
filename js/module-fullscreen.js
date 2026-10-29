@@ -37,10 +37,10 @@
         const minimized = module.classList.contains('module-minimized');
         const closed = module.classList.contains('module-closed');
         task.classList.toggle('module-task-hidden', closed);
-        task.classList.toggle('is-open', !minimized);
-        task.setAttribute('aria-pressed', String(!minimized));
-        task.setAttribute('aria-label', `${minimized ? 'Restore' : 'Minimize'} ${name}`);
-        task.title = `${minimized ? 'Restore' : 'Minimize'} ${name}`;
+        task.classList.toggle('is-open', !minimized && !closed);
+        task.setAttribute('aria-pressed', String(!minimized && !closed));
+        task.setAttribute('aria-label', `${minimized || closed ? 'Restore' : 'Minimize'} ${name}`);
+        task.title = `${minimized || closed ? 'Restore' : 'Minimize'} ${name}`;
       }
     });
   }
@@ -111,6 +111,7 @@
     const iframe = module.querySelector('iframe[data-src]');
     if (iframe && !iframe.getAttribute('src')) iframe.src = iframe.dataset.src;
     updateButtons();
+    document.dispatchEvent(new CustomEvent('xp:window-opened', { detail: { window: module.dataset.window } }));
     document.dispatchEvent(new CustomEvent('xp:bring-to-front', { detail: { window: module.dataset.window } }));
   }
 
@@ -123,6 +124,7 @@
     module.classList.add('module-closed');
     const iframe = module.querySelector('iframe[data-src]');
     if (iframe) iframe.removeAttribute('src');
+    if (module.dataset.window === 'daily-office') module.querySelector('iframe')?.removeAttribute('src');
     document.dispatchEvent(new CustomEvent('xp:closed', { detail: { window: module.dataset.window } }));
     updateButtons();
   }

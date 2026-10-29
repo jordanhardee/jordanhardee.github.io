@@ -30,12 +30,15 @@
     // Use the visitor's *local* calendar date, not UTC, so midnight and people
     // in other time zones select the correct day's appointed readings.
     const url = `https://www.dailyoffice2019.com/${office.path}/${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`;
-    if (frame.getAttribute('src') !== url) frame.setAttribute('src', url);
+    if (!frame.closest('.module-closed') && frame.getAttribute('src') !== url) frame.setAttribute('src', url);
     link.href = url;
     link.setAttribute('aria-label', `Pray today's ${office.name} and appointed readings from the 2019 Book of Common Prayer`);
   }
 
   update();
+  document.addEventListener('xp:window-opened', event => {
+    if (event.detail?.window === 'daily-office') update();
+  });
   window.setInterval(update, 60 * 1000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) update(); });
 })();
