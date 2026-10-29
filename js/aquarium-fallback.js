@@ -22,8 +22,9 @@
   // The previous painted scene remains as a fallback while images load.
   const aquascapeArt = new Image();
   const fishAtlas = new Image();
-  aquascapeArt.src = 'assets/aquascape.png';
-  fishAtlas.src = 'assets/fish-atlas.png';
+  // WebP keeps the full-resolution artwork small enough to ship intact.
+  aquascapeArt.src = 'assets/aquascape.webp';
+  fishAtlas.src = 'assets/fish-atlas.webp';
   aquascapeArt.onload = () => draw();
   fishAtlas.onload = () => draw();
 
