@@ -2,7 +2,7 @@
 // iPhone Safari may reject arbitrary-element fullscreen, so provide a
 // viewport-filling overlay with the same visible exit control instead.
 (function () {
-  const modules = [...document.querySelectorAll('[data-window].intel-panel, [data-window].hn-panel, [data-window].apod-panel, [data-window].office-panel')];
+  const modules = [...document.querySelectorAll('[data-window].intel-panel, [data-window].hn-panel, [data-window].apod-panel, [data-window].office-panel, [data-window].xp-app-window')];
   const taskButtons = new Map([...document.querySelectorAll('.xp-task-button')].map(button => [button.dataset.window, button]));
   const clock = document.getElementById('xp-clock');
   let overlay = null;
@@ -12,7 +12,9 @@
       'threat-intel': 'Cyber Threat Wire',
       'hacker-news': 'Hacker News',
       'nasa-apod': 'NASA APOD',
-      'daily-office': 'Daily Office'
+      'daily-office': 'Daily Office',
+      'cyberchef': 'CyberChef.exe',
+      'contact': 'Contact.exe'
     };
     return names[module.dataset.window] || 'Window';
   }
@@ -33,6 +35,8 @@
       const task = taskButtons.get(module.dataset.window);
       if (task) {
         const minimized = module.classList.contains('module-minimized');
+        const closed = module.classList.contains('module-closed');
+        task.classList.toggle('module-task-hidden', closed);
         task.classList.toggle('is-open', !minimized);
         task.setAttribute('aria-pressed', String(!minimized));
         task.setAttribute('aria-label', `${minimized ? 'Restore' : 'Minimize'} ${name}`);
@@ -96,9 +100,31 @@
   function restore(module) {
     module.classList.remove('module-minimized');
     updateButtons();
+    document.dispatchEvent(new CustomEvent('xp:bring-to-front', { detail: { window: module.dataset.window } }));
     if (window.matchMedia('(max-width: 1050px)').matches) {
       module.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
+  }
+
+  function openApp(module) {
+    module.classList.remove('module-closed', 'module-minimized');
+    const iframe = module.querySelector('iframe[data-src]');
+    if (iframe && !iframe.getAttribute('src')) iframe.src = iframe.dataset.src;
+    updateButtons();
+    document.dispatchEvent(new CustomEvent('xp:bring-to-front', { detail: { window: module.dataset.window } }));
+  }
+
+  async function closeApp(module) {
+    if (overlay === module) closeOverlay();
+    if (document.fullscreenElement === module && document.exitFullscreen) {
+      try { await document.exitFullscreen(); } catch { /* Continue closing. */ }
+    }
+    module.classList.remove('module-minimized');
+    module.classList.add('module-closed');
+    const iframe = module.querySelector('iframe[data-src]');
+    if (iframe) iframe.removeAttribute('src');
+    document.dispatchEvent(new CustomEvent('xp:closed', { detail: { window: module.dataset.window } }));
+    updateButtons();
   }
 
   function refreshClock() {
@@ -111,10 +137,16 @@
   modules.forEach(module => {
     module.querySelector('.module-fullscreen-button')?.addEventListener('click', () => toggle(module));
     module.querySelector('.module-minimize-button')?.addEventListener('click', () => minimize(module));
+    module.querySelector('.module-close-button')?.addEventListener('click', () => closeApp(module));
     taskButtons.get(module.dataset.window)?.addEventListener('click', () => {
-      if (module.classList.contains('module-minimized')) restore(module);
+      if (module.classList.contains('module-closed')) openApp(module);
+      else if (module.classList.contains('module-minimized')) restore(module);
       else minimize(module);
     });
+  });
+  document.addEventListener('xp:open-window', event => {
+    const module = modules.find(item => item.dataset.window === event.detail?.window);
+    if (module) openApp(module);
   });
   document.addEventListener('fullscreenchange', updateButtons);
   document.addEventListener('keydown', event => {

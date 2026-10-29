@@ -1,12 +1,12 @@
 // Desktop XP window manager: draggable title bars, eight-way edge resizing, stacking,
 // and locally saved positions. Narrow screens keep the original stacked layout.
 (function () {
-  const windows = [...document.querySelectorAll('.hn-panel, .intel-panel, .apod-panel, .office-panel')];
+  const windows = [...document.querySelectorAll('.hn-panel, .intel-panel, .apod-panel, .office-panel, .xp-app-window')];
   if (!windows.length) return;
 
   const desktop = window.matchMedia('(min-width: 1051px)');
   const storageKey = 'jordanhardee-xp-windows-v1';
-  const headerSelector = '.hn-header, .intel-header, .apod-header, .office-header';
+  const headerSelector = '.hn-header, .intel-header, .apod-header, .office-header, .xp-app-header';
   const minWidth = 245;
   const minHeight = 185;
   const taskbarHeight = 38;
@@ -28,6 +28,16 @@
   }
 
   function defaultRect(module) {
+    if (module.classList.contains('xp-app-window')) {
+      const cyberchef = module.dataset.window === 'cyberchef';
+      const width = Math.min(cyberchef ? 1000 : 530, window.innerWidth - 30);
+      const height = Math.min(cyberchef ? 660 : 590, window.innerHeight - taskbarHeight - 30);
+      return {
+        left: Math.max(0, Math.round((window.innerWidth - width) / 2)),
+        top: Math.max(8, Math.round((window.innerHeight - taskbarHeight - height) / 2)),
+        width, height,
+      };
+    }
     const sidebar = module.parentElement;
     const bounds = sidebar.getBoundingClientRect();
     const styles = window.getComputedStyle(sidebar);
@@ -118,7 +128,7 @@
       return;
     }
     for (const module of windows) {
-      if (document.fullscreenElement === module || module.classList.contains('module-is-expanded')) continue;
+      if (document.fullscreenElement === module || module.classList.contains('module-is-expanded') || module.classList.contains('module-closed') || module.classList.contains('module-minimized')) continue;
       // Undragged windows stay in their sidebar columns as the viewport changes;
       // user-positioned windows retain their coordinates, constrained onscreen.
       setRect(module, saved[module.dataset.window] ? currentRect(module) : defaultRect(module));
@@ -180,6 +190,8 @@
     'threat-intel': 'Cyber Threat Wire',
     'nasa-apod': 'NASA APOD',
     'daily-office': 'Daily Office',
+    'cyberchef': 'CyberChef.exe',
+    'contact': 'Contact.exe',
   };
   windows.forEach(module => {
     const header = module.querySelector(headerSelector);
@@ -220,5 +232,9 @@
   window.addEventListener('pointerup', finish);
   window.addEventListener('pointercancel', finish);
   window.addEventListener('resize', fitViewport);
+  document.addEventListener('xp:bring-to-front', event => {
+    const module = windows.find(item => item.dataset.window === event.detail?.window);
+    if (module) front(module);
+  });
   fitViewport();
 })();

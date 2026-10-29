@@ -1,32 +1,18 @@
-// Select the current office using the visitor's local time.
-// The 2019 BCP publisher requires permission before including its liturgical
-// text in an app, so the complete service is linked rather than copied here.
+// Open the full appointed 2019 Daily Office for the reader's local date/time.
+// We embed the source site's service rather than reproducing its liturgy.
 (function () {
   const offices = {
-    morning: {
-      name: 'Morning Prayer',
-      description: 'Begin the day with the appointed psalms, Scripture readings, and prayers.'
-    },
-    noonday: {
-      name: 'Midday Prayer',
-      description: 'Pause at midday for the short office of prayer.'
-    },
-    evening: {
-      name: 'Evening Prayer',
-      description: 'Close the day with the appointed psalms, Scripture readings, and prayers.'
-    },
-    compline: {
-      name: 'Compline',
-      description: 'The office of prayer before sleep.'
-    }
+    morning: { name: 'Morning Prayer', path: 'morning_prayer' },
+    noonday: { name: 'Midday Prayer', path: 'midday_prayer' },
+    evening: { name: 'Evening Prayer', path: 'evening_prayer' },
+    compline: { name: 'Compline', path: 'compline' }
   };
   const date = document.getElementById('office-date');
   const period = document.getElementById('office-period');
   const name = document.getElementById('office-name');
-  const collect = document.getElementById('office-collect-title');
-  const prayer = document.getElementById('office-prayer');
   const link = document.getElementById('office-full-link');
-  if (!date || !period || !name || !collect || !prayer || !link) return;
+  const frame = document.getElementById('office-service-frame');
+  if (!date || !period || !name || !link || !frame) return;
 
   function currentOffice(hour) {
     if (hour >= 5 && hour < 11) return offices.morning;
@@ -41,11 +27,11 @@
     date.textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
     period.textContent = 'LOCAL ' + now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     name.textContent = office.name;
-    collect.textContent = '2019 Book of Common Prayer · Current Office';
-    prayer.textContent = `${office.description} Open the full 2019 BCP office below to pray today's text and readings.`;
-    // The Daily Office site automatically chooses today's service and offers
-    // switching between Morning, Midday, Evening, and Compline.
-    link.href = 'https://www.dailyoffice2019.com/';
+    // Use the visitor's *local* calendar date, not UTC, so midnight and people
+    // in other time zones select the correct day's appointed readings.
+    const url = `https://www.dailyoffice2019.com/${office.path}/${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`;
+    if (frame.getAttribute('src') !== url) frame.setAttribute('src', url);
+    link.href = url;
     link.setAttribute('aria-label', `Pray today's ${office.name} and appointed readings from the 2019 Book of Common Prayer`);
   }
 
