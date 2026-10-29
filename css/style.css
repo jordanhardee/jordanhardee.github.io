@@ -690,25 +690,36 @@ blockquote {
   font: 13px/1 Georgia, serif;
 }
 .office-app-icon { background: linear-gradient(145deg, #f4efcc, #b39b62); color: #34457c; }
+.apod-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  margin: 7px 7px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #7f9db9;
+  background: #fffef7;
+  scrollbar-color: #b8cbe4 #e8edf6;
+  scrollbar-width: auto;
+  overscroll-behavior: contain;
+}
 .apod-visual {
   position: relative;
   display: grid;
   place-items: center;
-  flex: 1 1 0;
-  min-height: 0;
-  margin: 7px 7px 0;
-  overflow: hidden;
-  border: 1px solid #7f9db9;
+  min-height: 170px;
+  margin: 0;
   background: radial-gradient(ellipse at center, #16315c, #030914 75%);
 }
-.apod-visual > a { display: grid; place-items: center; width: 100%; height: 100%; min-height: 0; }
-.apod-image { display: block; width: 100%; height: 100%; object-fit: contain; margin: 0; }
+.apod-visual.has-image { display: block; min-height: 0; }
+.apod-visual > a { display: block; width: 100%; }
+.apod-image { display: block; width: 100%; height: auto; object-fit: contain; margin: 0; }
 .apod-image[hidden], .apod-placeholder[hidden] { display: none; }
 .apod-placeholder { position: absolute; inset: auto 14px; color: #c6ddff; font: 11px/1.5 Tahoma, sans-serif; text-align: center; }
-.apod-info { flex: none; padding: 5px 9px 3px; min-height: 0; max-height: 86px; overflow-y: auto; }
+.apod-info { padding: 10px 12px 15px; min-height: 0; }
 .apod-info strong { display: block; color: #143e85; font-size: 12px; line-height: 1.25; }
 .apod-info span { color: #66738a; font-size: 10px; }
 .apod-info p { margin: 2px 0 0; color: #67718a; font: 10px/1.25 Tahoma, sans-serif; }
+.apod-info .apod-explanation { margin-top: 10px; color: #27334a; font: 12px/1.55 Georgia, 'Times New Roman', serif; white-space: pre-line; }
 .apod-footer, .office-footer {
   display: flex;
   justify-content: space-between;
@@ -854,30 +865,38 @@ blockquote {
   user-select: none;
 }
 .xp-floating-window.xp-is-dragging { box-shadow: 0 12px 28px rgba(0,0,0,.45), inset 0 0 0 1px white; }
-.xp-resize-grip {
+.xp-resize-handle {
   display: none;
   position: absolute;
-  right: 1px;
-  bottom: 1px;
-  z-index: 4;
-  width: 19px;
-  height: 19px;
-  box-sizing: border-box;
-  cursor: nwse-resize;
+  z-index: 5;
   touch-action: none;
+}
+.xp-floating-window .xp-resize-handle { display: block; }
+.xp-resize-handle[data-direction="n"] { top: 0; left: 13px; right: 13px; height: 7px; cursor: n-resize; }
+.xp-resize-handle[data-direction="s"] { bottom: 0; left: 13px; right: 13px; height: 7px; cursor: s-resize; }
+.xp-resize-handle[data-direction="w"] { top: 13px; bottom: 13px; left: 0; width: 7px; cursor: w-resize; }
+.xp-resize-handle[data-direction="e"] { top: 13px; bottom: 13px; right: 0; width: 7px; cursor: e-resize; }
+.xp-resize-handle[data-direction="nw"], .xp-resize-handle[data-direction="ne"],
+.xp-resize-handle[data-direction="sw"], .xp-resize-handle[data-direction="se"] { width: 14px; height: 14px; z-index: 6; }
+.xp-resize-handle[data-direction="nw"] { top: 0; left: 0; cursor: nwse-resize; }
+.xp-resize-handle[data-direction="ne"] { top: 0; right: 0; cursor: nesw-resize; }
+.xp-resize-handle[data-direction="sw"] { bottom: 0; left: 0; cursor: nesw-resize; }
+.xp-resize-handle[data-direction="se"] {
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
   background: repeating-linear-gradient(135deg, transparent 0 4px, #7f93a7 4px 6px, transparent 6px 9px);
   border-radius: 0 0 2px 0;
   opacity: .8;
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
-.xp-floating-window .xp-resize-grip { display: block; }
-.xp-resize-grip:focus-visible { outline: 2px solid #f7b600; outline-offset: -2px; opacity: 1; }
+.xp-resize-handle:focus-visible { outline: 2px solid #f7b600; outline-offset: -2px; opacity: 1; }
 .xp-floating-window:is(:fullscreen, .module-is-expanded) {
   left: 0 !important;
   top: 0 !important;
   z-index: 99999 !important;
 }
-.xp-floating-window:is(:fullscreen, .module-is-expanded) .xp-resize-grip { display: none; }
+.xp-floating-window:is(:fullscreen, .module-is-expanded) .xp-resize-handle { display: none; }
 
 @media (max-width: 480px) {
   .xp-start { width: 75px; font-size: 14px; }
@@ -912,7 +931,7 @@ blockquote {
 :is(.intel-panel, .hn-panel):is(:fullscreen, .module-is-expanded) :is(.intel-entry-link, .hn-title) { font-size: 14px; }
 :is(.intel-panel, .hn-panel):is(:fullscreen, .module-is-expanded) :is(.intel-entry-summary, .hn-meta) { font-size: 12px; }
 body.module-overlay-open { overflow: hidden; }
-.apod-panel:is(:fullscreen, .module-is-expanded) .apod-info { max-height: 150px; }
+.apod-panel:is(:fullscreen, .module-is-expanded) .apod-info { padding: 18px clamp(16px, 5vw, 65px) 35px; }
 .office-panel:is(:fullscreen, .module-is-expanded) .office-scroll { padding: clamp(20px, 7vw, 65px); }
 .office-panel:is(:fullscreen, .module-is-expanded) .office-prayer { font-size: clamp(19px, 3vw, 29px); max-width: 800px; }
 

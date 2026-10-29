@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-xp-drag-windows">
+    <link rel="stylesheet" href="css/style.css?v=20261029-eight-way-apod">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -157,31 +157,34 @@ OM5Ys4bYVDXU++WkQLFpsg==
             <h2 id="apod-heading"><span class="apod-app-icon" aria-hidden="true">✦</span> NASA APOD</h2>
             <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize NASA Astronomy Picture of the Day" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open NASA Astronomy Picture of the Day fullscreen" title="Fullscreen NASA APOD">□</button><i class="xp-close" aria-hidden="true">×</i></span>
           </div>
-          <div class="apod-visual" id="apod-visual">
-            <p class="apod-placeholder" id="apod-message" role="status">Connecting to NASA's image archive...</p>
-            <a id="apod-image-link" href="https://science.nasa.gov/apod/" target="_blank" rel="noopener noreferrer" aria-label="View today's astronomy picture at NASA">
-              <img class="apod-image" id="apod-image" alt="" loading="lazy" hidden>
-            </a>
-          </div>
-          <div class="apod-info">
-            <strong id="apod-title">Astronomy Picture of the Day</strong>
-            <span id="apod-date"></span>
-            <p id="apod-credit"></p>
+          <div class="apod-scroll" tabindex="0" aria-label="Scroll the entire astronomy picture and its explanation">
+            <div class="apod-visual" id="apod-visual">
+              <p class="apod-placeholder" id="apod-message" role="status">Connecting to NASA's image archive...</p>
+              <a id="apod-image-link" href="https://science.nasa.gov/apod/" target="_blank" rel="noopener noreferrer" aria-label="View today's astronomy picture at NASA">
+                <img class="apod-image" id="apod-image" alt="" loading="lazy" hidden>
+              </a>
+            </div>
+            <div class="apod-info">
+              <strong id="apod-title">Astronomy Picture of the Day</strong>
+              <span id="apod-date"></span>
+              <p id="apod-credit"></p>
+              <p id="apod-explanation" class="apod-explanation"></p>
+            </div>
           </div>
           <div class="apod-footer"><span id="apod-status">NASA / UPDATING</span><a id="apod-source" href="https://science.nasa.gov/apod/" target="_blank" rel="noopener noreferrer">VIEW AT NASA</a></div>
         </section>
         <section class="office-panel" data-window="daily-office" aria-labelledby="office-heading">
           <div class="office-header">
-            <h2 id="office-heading"><span class="office-app-icon" aria-hidden="true">✝</span> DAILY OFFICE · 1979 BCP</h2>
-            <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize 1979 Daily Office" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open 1979 Daily Office fullscreen" title="Fullscreen Daily Office">□</button><i class="xp-close" aria-hidden="true">×</i></span>
+            <h2 id="office-heading"><span class="office-app-icon" aria-hidden="true">✝</span> DAILY OFFICE · 2019 BCP</h2>
+            <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize 2019 Daily Office" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Open 2019 Daily Office fullscreen" title="Fullscreen Daily Office">□</button><i class="xp-close" aria-hidden="true">×</i></span>
           </div>
           <div class="office-toolbar"><span id="office-date">TODAY</span><span id="office-period">LOCAL TIME</span></div>
           <div class="office-scroll" tabindex="0" aria-label="Current Daily Office prayer">
             <h3 id="office-name">Daily Office</h3>
-            <p class="office-label" id="office-collect-title">1979 Book of Common Prayer · Rite Two</p>
-            <p class="office-prayer" id="office-prayer">Finding the prayer for the current hour...</p>
+            <p class="office-label" id="office-collect-title">2019 Book of Common Prayer · ACNA</p>
+            <p class="office-prayer" id="office-prayer">Finding the Daily Office for the current hour...</p>
           </div>
-          <div class="office-footer"><span>1979 BCP · RITE II</span><a id="office-full-link" href="https://usedailyoffice.com/1979/" target="_blank" rel="noopener noreferrer">FULL OFFICE + READINGS</a></div>
+          <div class="office-footer"><span>2019 BCP · ACNA</span><a id="office-full-link" href="https://www.dailyoffice2019.com/" target="_blank" rel="noopener noreferrer">PRAY TODAY'S OFFICE</a></div>
         </section>
       </aside>
     </div><!-- /.page-wrapper -->
@@ -198,9 +201,9 @@ OM5Ys4bYVDXU++WkQLFpsg==
     <script src="js/aquarium-background.js?v=20261029-aquarium-sky"></script>
     <script src="js/threat-intel.js?v=20261029-security-news"></script>
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
-    <script src="js/apod.js?v=20261029-nasa-wordpress"></script>
-    <script src="js/daily-office.js?v=20261029-local-office"></script>
+    <script src="js/apod.js?v=20261029-apod-scroll"></script>
+    <script src="js/daily-office.js?v=20261029-bcp2019"></script>
     <script src="js/module-fullscreen.js?v=20261029-xp-drag-windows"></script>
-    <script src="js/window-manager.js?v=20261029-xp-drag-windows"></script>
+    <script src="js/window-manager.js?v=20261029-eight-way-resize"></script>
   </body>
 </html>

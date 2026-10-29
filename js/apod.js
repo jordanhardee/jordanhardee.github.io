@@ -8,9 +8,11 @@
   const title = document.getElementById('apod-title');
   const date = document.getElementById('apod-date');
   const credit = document.getElementById('apod-credit');
+  const explanation = document.getElementById('apod-explanation');
+  const visual = document.getElementById('apod-visual');
   const status = document.getElementById('apod-status');
   const source = document.getElementById('apod-source');
-  if (!message || !image || !imageLink || !title || !date || !credit || !status || !source) return;
+  if (!message || !image || !imageLink || !title || !date || !credit || !explanation || !visual || !status || !source) return;
 
   function nasaLink(value, fallback) {
     try {
@@ -43,20 +45,24 @@
       date.textContent = typeof entry.date === 'string' ? entry.date : '';
       const photographer = plainText(entry.credit || entry.copyright);
       credit.textContent = photographer ? `Image: ${photographer}` : 'Source: NASA Astronomy Picture of the Day';
+      explanation.textContent = plainText(entry.explanation);
       status.textContent = 'NASA / DAILY';
 
       const picture = nasaLink(entry.hdurl, '');
       if (entry.media_type === 'image' && picture) {
+        visual.classList.add('has-image');
         image.alt = typeof entry.alt === 'string' && entry.alt !== 'See Explanation.' ? entry.alt : entry.title;
         image.hidden = false;
         image.src = picture;
         message.hidden = true;
         image.onerror = () => {
+          visual.classList.remove('has-image');
           image.hidden = true;
           message.textContent = 'Image unavailable. Open today’s picture at NASA.';
           message.hidden = false;
         };
       } else {
+        visual.classList.remove('has-image');
         image.hidden = true;
         image.removeAttribute('src');
         message.textContent = entry.media_type === 'video'

@@ -1,31 +1,23 @@
-// A time-appropriate collect from the 1979 Book of Common Prayer, Rite II.
-// These are representative prayers from each office, not the day's complete
-// rotating lectionary. The linked service supplies today's full texts/readings.
+// Select the current office using the visitor's local time.
+// The 2019 BCP publisher requires permission before including its liturgical
+// text in an app, so the complete service is linked rather than copied here.
 (function () {
   const offices = {
     morning: {
       name: 'Morning Prayer',
-      collect: 'A Collect for Guidance',
-      prayer: 'Heavenly Father, in you we live and move and have our being: We humbly pray you so to guide and govern us by your Holy Spirit, that in all the cares and occupations of our life we may not forget you, but may remember that we are ever walking in your sight; through Jesus Christ our Lord. Amen.',
-      path: 'morning-prayer/'
+      description: 'Begin the day with the appointed psalms, Scripture readings, and prayers.'
     },
     noonday: {
-      name: 'Noonday Prayer',
-      collect: 'A Collect for Guidance',
-      prayer: 'Heavenly Father, send your Holy Spirit into our hearts, to direct and rule us according to your will, to comfort us in all our afflictions, to defend us from all error, and to lead us into all truth; through Jesus Christ our Lord. Amen.',
-      path: 'noonday-prayer/'
+      name: 'Midday Prayer',
+      description: 'Pause at midday for the short office of prayer.'
     },
     evening: {
       name: 'Evening Prayer',
-      collect: 'A Collect for the Presence of Christ',
-      prayer: 'Lord Jesus, stay with us, for evening is at hand and the day is past; be our companion in the way, kindle our hearts, and awaken hope, that we may know you as you are revealed in Scripture and the breaking of bread. Grant this for the sake of your love. Amen.',
-      path: 'evening-prayer/'
+      description: 'Close the day with the appointed psalms, Scripture readings, and prayers.'
     },
     compline: {
       name: 'Compline',
-      collect: 'A Collect for the Night',
-      prayer: 'Be our light in the darkness, O Lord, and in your great mercy defend us from all perils and dangers of this night; for the love of your only Son, our Savior Jesus Christ. Amen.',
-      path: 'compline/'
+      description: 'The office of prayer before sleep.'
     }
   };
   const date = document.getElementById('office-date');
@@ -49,10 +41,12 @@
     date.textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
     period.textContent = 'LOCAL ' + now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     name.textContent = office.name;
-    collect.textContent = office.collect + ' · 1979 BCP, Rite II';
-    prayer.textContent = office.prayer;
-    link.href = `https://usedailyoffice.com/1979/${office.path}`;
-    link.setAttribute('aria-label', `Read today's full ${office.name} and appointed readings (1979 BCP)`);
+    collect.textContent = '2019 Book of Common Prayer · Current Office';
+    prayer.textContent = `${office.description} Open the full 2019 BCP office below to pray today's text and readings.`;
+    // The Daily Office site automatically chooses today's service and offers
+    // switching between Morning, Midday, Evening, and Compline.
+    link.href = 'https://www.dailyoffice2019.com/';
+    link.setAttribute('aria-label', `Pray today's ${office.name} and appointed readings from the 2019 Book of Common Prayer`);
   }
 
   update();

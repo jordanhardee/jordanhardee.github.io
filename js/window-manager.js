@@ -1,4 +1,4 @@
-// Desktop XP window manager: draggable title bars, resizable corners, stacking,
+// Desktop XP window manager: draggable title bars, eight-way edge resizing, stacking,
 // and locally saved positions. Narrow screens keep the original stacked layout.
 (function () {
   const windows = [...document.querySelectorAll('.hn-panel, .intel-panel, .apod-panel, .office-panel')];
@@ -125,13 +125,13 @@
     }
   }
 
-  function begin(event, module, kind, handle) {
+  function begin(event, module, kind, handle, direction = '') {
     if (!desktop.matches || event.button !== 0 || document.fullscreenElement === module || module.classList.contains('module-is-expanded')) return;
     if (kind === 'move' && event.target.closest('button, a, .xp-window-controls')) return;
     event.preventDefault();
     front(module);
     active = {
-      module, kind, handle, pointerId: event.pointerId,
+      module, kind, handle, direction, pointerId: event.pointerId,
       x: event.clientX, y: event.clientY,
       rect: currentRect(module),
     };
@@ -148,8 +148,19 @@
       rect.left += dx;
       rect.top += dy;
     } else {
-      rect.width += dx;
-      rect.height += dy;
+      // Resize from any of the eight XP window handles while anchoring
+      // the opposite side in place (including north and west edges).
+      const right = active.rect.left + active.rect.width;
+      const bottom = active.rect.top + active.rect.height;
+      const maxBottom = Math.max(minHeight, window.innerHeight - taskbarHeight - 5);
+      let nextRight = right;
+      let nextBottom = bottom;
+      if (active.direction.includes('w')) rect.left = clamp(active.rect.left + dx, 0, right - minWidth);
+      if (active.direction.includes('e')) nextRight = clamp(right + dx, rect.left + minWidth, window.innerWidth);
+      if (active.direction.includes('n')) rect.top = clamp(active.rect.top + dy, 0, bottom - minHeight);
+      if (active.direction.includes('s')) nextBottom = clamp(bottom + dy, rect.top + minHeight, maxBottom);
+      rect.width = nextRight - rect.left;
+      rect.height = nextBottom - rect.top;
     }
     setRect(active.module, rect);
   }
@@ -172,17 +183,24 @@
   };
   windows.forEach(module => {
     const header = module.querySelector(headerSelector);
-    const grip = document.createElement('span');
-    grip.className = 'xp-resize-grip';
-    grip.setAttribute('role', 'button');
-    grip.setAttribute('tabindex', '0');
-    grip.setAttribute('aria-label', `Resize ${names[module.dataset.window]} using arrow keys`);
-    grip.title = 'Drag to resize, or use arrow keys';
-    module.appendChild(grip);
-
     header?.addEventListener('pointerdown', event => begin(event, module, 'move', header));
-    grip.addEventListener('pointerdown', event => begin(event, module, 'resize', grip));
-    grip.addEventListener('keydown', event => {
+    for (const direction of ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw']) {
+      const handle = document.createElement('span');
+      handle.className = 'xp-resize-handle';
+      handle.dataset.direction = direction;
+      handle.title = `Resize from ${direction.toUpperCase()}`;
+      if (direction === 'se') {
+        handle.setAttribute('role', 'button');
+        handle.setAttribute('tabindex', '0');
+        handle.setAttribute('aria-label', `Resize ${names[module.dataset.window]} using arrow keys`);
+        handle.title = 'Drag to resize, or use arrow keys';
+      } else {
+        handle.setAttribute('aria-hidden', 'true');
+      }
+      handle.addEventListener('pointerdown', event => begin(event, module, 'resize', handle, direction));
+      module.appendChild(handle);
+    }
+    module.querySelector('.xp-resize-handle[data-direction="se"]').addEventListener('keydown', event => {
       if (!desktop.matches || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
       event.preventDefault();
       front(module);
