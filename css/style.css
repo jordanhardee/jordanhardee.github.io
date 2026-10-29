@@ -841,6 +841,7 @@ blockquote {
 .xp-app-icon { display: grid; place-items: center; flex: none; width: 23px; height: 23px; border: 1px solid #dde9f7; border-radius: 4px; background: linear-gradient(135deg,#91c6f7,#2460b3); color: #fff; font: bold 17px Georgia,serif; text-shadow: 1px 1px #173c76; }
 .xp-chef-icon { background: linear-gradient(135deg,#244773,#62bbd5); color: #fff6a4; }
 .xp-contact-icon { background: linear-gradient(135deg,#f8efb0,#b68d48); color: #194e8b; text-shadow: none; }
+.xp-memorial-icon { background: linear-gradient(140deg,#1e2c5f,#667aa1); color: #f0dcaa; text-shadow: 0 0 3px #d4c189; }
 .xp-app-window {
   position: fixed;
   z-index: 60;
@@ -881,6 +882,32 @@ blockquote {
 .contact-actions button:hover, .contact-actions a:hover { background:linear-gradient(#fff,#bad4f1); }
 .contact-actions button:disabled { opacity:.55; cursor:wait; }
 #contact-copy-feedback { min-height:16px; margin:9px 0 0; color:#4a5b79; font:11px Tahoma,sans-serif; }
+.contact-key-gate { margin-top: 20px; padding-top: 12px; border-top: 1px solid #aeb8c6; }
+.contact-key-gate h3 { margin: 0; font: bold 14px Tahoma, sans-serif; }
+.contact-key-gate p { font: 11px/1.5 Tahoma, sans-serif; }
+#contact-key-challenge { display:block; width: min(100%,340px); height: auto; border: 1px solid #7791b7; background: #e7eff7; }
+.contact-key-label { display: flex; flex-direction: column; gap: 3px; color: inherit; font: bold 10px Tahoma, sans-serif; }
+#contact-key-answer { box-sizing: border-box; width: 145px; padding: 7px; border: 1px solid #7a8ca8; background: white; color: #102b55; font: 15px monospace; letter-spacing: 2px; text-transform: uppercase; }
+#contact-key-feedback { min-height: 17px; margin: 8px 0; }
+#contact-key-text { box-sizing: border-box; width: 100%; height: 170px; padding: 7px; border: 1px solid #748aa9; color: #112347; background: #fff; font: 10px/1.45 monospace; resize: vertical; }
+.contact-key-gate [hidden] { display: none !important; }
+.memorial-panel { width: min(900px,calc(100vw - 30px)); height: min(660px,calc(100dvh - 65px)); }
+.memorial-body { overflow: auto; padding: clamp(16px,2.5vw,30px); background: #f6f4ec; color:#202a3d; scrollbar-color: #9eacc5 #f1eee5; font: calc(14px * var(--xp-text-scale, 1))/1.65 Georgia,serif; }
+.memorial-intro { border-bottom: 1px solid #c9c3b1; margin-bottom: 16px; padding-bottom: 14px; }
+.memorial-kicker { color: #6b687e; font: bold calc(11px * var(--xp-text-scale, 1)) Tahoma,sans-serif; letter-spacing:.2em; }
+.memorial-intro h3 { margin: 7px 0; color: #202f56; font: 500 calc(34px * var(--xp-text-scale, 1))/1.13 Georgia,serif; }
+.memorial-lede { max-width: 700px; color: #3d4b65; font-size: calc(18px * var(--xp-text-scale, 1)); }
+.memorial-body > p:not(.memorial-farewell) { max-width: 760px; }
+.memorial-photos { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin: 22px 0; }
+.memorial-photos figure { margin:0; padding: 6px 6px 9px; background: #fff; border:1px solid #cbc7b9; box-shadow: 1px 2px 5px #20203025; }
+.memorial-photos figure > a { display:block; background: #16243d; }
+.memorial-photos img { display: block; width: 100%; height: clamp(140px,19vw,225px); object-fit: cover; object-position: center 27%; }
+.memorial-photos figcaption { display: flex; flex-direction: column; gap: 3px; padding: 7px 3px 0; font: calc(10px * var(--xp-text-scale, 1))/1.4 Tahoma,sans-serif; }
+.memorial-photos figcaption span { color: #65677a; }
+.memorial-body a { color: #1d4b92; }
+.memorial-links { display: flex; flex-wrap: wrap; gap: 6px 18px; padding-top: 7px; font: bold calc(11px * var(--xp-text-scale, 1))/1.4 Tahoma,sans-serif; }
+.memorial-farewell { margin: 22px 0 0; padding: 18px 0 6px; border-top:1px solid #d6d0c4; color:#324364; font-style: italic; text-align:center; }
+@media (max-width: 560px) { .memorial-photos { grid-template-columns: repeat(2,minmax(0,1fr)); } .memorial-photos figure:last-child { grid-column:1/-1; width: min(65%,250px); justify-self:center; } }
 .xp-start-mark {
   display: grid;
   grid-template-columns: repeat(3, 5px);
@@ -1134,6 +1161,17 @@ body.module-overlay-open { overflow: hidden; }
   font-size: calc(11px * var(--xp-text-scale, 1));
 }
 .contact-panel .contact-image-wrap { zoom: var(--xp-text-scale, 1); }
+
+@media (prefers-color-scheme: dark) {
+  .memorial-body { background: #1c2635; color: #e4ebf4; }
+  .memorial-intro { border-bottom-color: #48526b; }
+  .memorial-kicker, .memorial-lede, .memorial-photos figcaption span, .memorial-farewell { color: #bfccde; }
+  .memorial-intro h3 { color: #e6edfa; }
+  .memorial-photos figure { background: #2a3548; border-color: #58657c; }
+  .memorial-body a { color: #a4c7fb; }
+  .memorial-farewell { border-top-color: #556079; }
+  .contact-key-gate { border-top-color: #62718a; }
+}
 
 
 

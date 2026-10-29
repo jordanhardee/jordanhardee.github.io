@@ -1,8 +1,16 @@
-// Draw a visual-only contact clue when Contact.exe is launched.
-// This is obfuscation, not a guarantee against image recognition or scraping.
+// Draw visual contact clues, and make a human solve a local challenge before
+// loading the public key. Client-side CAPTCHAs only deter casual scrapers.
 (function () {
   const canvas = document.getElementById('contact-captcha');
   const redraw = document.getElementById('contact-captcha-new');
+  const challengeCanvas = document.getElementById('contact-key-challenge');
+  const answerInput = document.getElementById('contact-key-answer');
+  const checkButton = document.getElementById('contact-key-check');
+  const refreshButton = document.getElementById('contact-key-refresh');
+  const message = document.getElementById('contact-key-feedback');
+  const revealed = document.getElementById('contact-key-revealed');
+  const keyText = document.getElementById('contact-key-text');
+  const copyButton = document.getElementById('contact-key-copy');
   if (!canvas || !redraw) return;
 
   const width = 640;
@@ -100,11 +108,109 @@
 
   redraw.addEventListener('click', paint);
 
+  const alphabet = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let challengeAnswer = '';
+
+  function newChallenge() {
+    if (!challengeCanvas) return;
+    const ctx = challengeCanvas.getContext('2d');
+    if (!ctx) return;
+    const width = challengeCanvas.width;
+    const height = challengeCanvas.height;
+    challengeAnswer = Array.from({ length: 5 }, () => alphabet[random(alphabet.length)]).join('');
+    if (answerInput) answerInput.value = '';
+    if (message) message.textContent = '';
+    if (revealed) revealed.hidden = true;
+    if (keyText) keyText.value = '';
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = '#e6eef6';
+    ctx.fillRect(0, 0, width, height);
+    for (let i = 0; i < 70; i += 1) {
+      ctx.strokeStyle = i % 2 ? '#93b5cb66' : '#7f87b344';
+      ctx.lineWidth = 1 + random(2);
+      ctx.beginPath();
+      const x = random(width), y = random(height);
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + random(65) - 32, y + random(65) - 32);
+      ctx.stroke();
+    }
+    for (let i = 0; i < challengeAnswer.length; i += 1) {
+      ctx.save();
+      ctx.translate(36 + i * 60 + random(11) - 5, 70 + random(17) - 8);
+      ctx.rotate((random(29) - 14) * Math.PI / 180);
+      ctx.font = `bold ${45 + random(10)}px Georgia,serif`;
+      ctx.fillStyle = ['#234477','#5b417d','#275b64'][random(3)];
+      ctx.fillText(challengeAnswer[i], 0, 0);
+      ctx.restore();
+    }
+    for (let i = 0; i < 3; i += 1) {
+      ctx.beginPath();
+      ctx.strokeStyle = '#58729265';
+      ctx.lineWidth = 1.5;
+      ctx.moveTo(0, random(height));
+      ctx.bezierCurveTo(80, random(height), 240, random(height), width, random(height));
+      ctx.stroke();
+    }
+  }
+
+  async function unlockKey() {
+    if (!answerInput || !message || !checkButton || !revealed || !keyText) return;
+    if (answerInput.value.trim().toUpperCase() !== challengeAnswer) {
+      message.textContent = 'That does not match. Try again or redraw.';
+      newChallenge();
+      message.textContent = 'Incorrect answer; a new image is ready.';
+      return;
+    }
+    checkButton.disabled = true;
+    message.textContent = 'Unlocking public key…';
+    try {
+      // Deliberately load the armored key only after a successful answer.
+      const { copyablePublicKey } = await import('./pgp-payload.mjs?v=20261029-1');
+      const armored = copyablePublicKey();
+      if (!armored.startsWith('-----BEGIN PGP PUBLIC KEY BLOCK-----') ||
+          !armored.includes('-----END PGP PUBLIC KEY BLOCK-----')) throw new Error('Invalid public key data');
+      keyText.value = armored;
+      revealed.hidden = false;
+      message.textContent = 'Unlocked. You can copy the entire public key below.';
+    } catch (error) {
+      message.textContent = 'The public key could not be loaded. Please try again.';
+      console.error('PGP public key unavailable:', error);
+    } finally {
+      checkButton.disabled = false;
+    }
+  }
+
+  async function copyKey() {
+    if (!keyText?.value || !message) return;
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+      await navigator.clipboard.writeText(keyText.value);
+      message.textContent = 'PGP public key copied to clipboard.';
+    } catch {
+      keyText.focus();
+      keyText.select();
+      message.textContent = document.execCommand('copy')
+        ? 'PGP public key copied to clipboard.'
+        : 'Select the key text and copy it manually.';
+    }
+  }
+
+  refreshButton?.addEventListener('click', newChallenge);
+  checkButton?.addEventListener('click', unlockKey);
+  copyButton?.addEventListener('click', copyKey);
+  answerInput?.addEventListener('keydown', event => { if (event.key === 'Enter') unlockKey(); });
+
+  document.addEventListener('xp:closed', event => {
+    if (event.detail?.window === 'contact') newChallenge();
+  });
+
   document.addEventListener('xp:open-window', event => {
     if (event.detail?.window === 'contact') {
       paint();
+      newChallenge();
     }
   });
 
   paint();
+  newChallenge();
 })();

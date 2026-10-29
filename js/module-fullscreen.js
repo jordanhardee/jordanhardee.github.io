@@ -14,7 +14,8 @@
       'nasa-apod': 'NASA APOD',
       'daily-office': 'Daily Office',
       'cyberchef': 'CyberChef.exe',
-      'contact': 'Contact.exe'
+      'contact': 'Contact.exe',
+      'patrick-stewart': 'Patrick Stewart Memorial'
     };
     return names[module.dataset.window] || 'Window';
   }

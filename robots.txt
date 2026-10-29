@@ -1,0 +1,18 @@
+# Polite crawlers: please do not collect the contact CAPTCHA or PGP key payload.
+# robots.txt is advisory and does not provide access control.
+User-agent: *
+Disallow: /js/contact.js
+Disallow: /js/pgp-payload.mjs
+Disallow: /assets/jordanhardee-public.asc
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /

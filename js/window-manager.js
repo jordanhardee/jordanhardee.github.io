@@ -29,9 +29,9 @@
 
   function defaultRect(module) {
     if (module.classList.contains('xp-app-window')) {
-      const cyberchef = module.dataset.window === 'cyberchef';
-      const width = Math.min(cyberchef ? 1000 : 540, window.innerWidth - 30);
-      const height = Math.min(cyberchef ? 660 : 385, window.innerHeight - taskbarHeight - 30);
+      const largeWindow = ['cyberchef', 'patrick-stewart'].includes(module.dataset.window);
+      const width = Math.min(largeWindow ? 900 : 540, window.innerWidth - 30);
+      const height = Math.min(largeWindow ? 660 : 385, window.innerHeight - taskbarHeight - 30);
       return {
         left: Math.max(0, Math.round((window.innerWidth - width) / 2)),
         top: Math.max(8, Math.round((window.innerHeight - taskbarHeight - height) / 2)),
@@ -192,6 +192,7 @@
     'daily-office': 'Daily Office',
     'cyberchef': 'CyberChef.exe',
     'contact': 'Contact.exe',
+    'patrick-stewart': 'Patrick Stewart Memorial',
   };
   windows.forEach(module => {
     const header = module.querySelector(headerSelector);

@@ -150,7 +150,43 @@
           <div class="contact-actions">
             <button type="button" id="contact-captcha-new">Redraw image</button>
           </div>
+          <div class="contact-key-gate">
+            <h3>PGP public key</h3>
+            <p>Type the characters in the image to unlock the public key.</p>
+            <canvas id="contact-key-challenge" width="340" height="104" role="img" aria-label="Visual CAPTCHA with five letters and digits"></canvas>
+            <div class="contact-actions">
+              <label class="contact-key-label" for="contact-key-answer">CAPTCHA answer
+                <input id="contact-key-answer" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="5" inputmode="text" aria-describedby="contact-key-feedback">
+              </label>
+              <button type="button" id="contact-key-check">Unlock key</button>
+              <button type="button" id="contact-key-refresh" aria-label="New CAPTCHA challenge" title="New challenge">↻</button>
+            </div>
+            <p id="contact-key-feedback" role="status" aria-live="polite"></p>
+            <div id="contact-key-revealed" hidden>
+              <div class="contact-actions"><button type="button" id="contact-key-copy">Copy PGP public key</button></div>
+              <textarea id="contact-key-text" readonly spellcheck="false" aria-label="PGP public key"></textarea>
+            </div>
+          </div>
         </div>
+      </section>
+      <section class="xp-app-window memorial-panel module-closed" data-window="patrick-stewart" aria-labelledby="memorial-heading">
+        <div class="xp-app-header">
+          <h2 id="memorial-heading"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span> Patrick Stewart — In Memoriam</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease memorial text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase memorial text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize memorial" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize memorial" title="Maximize memorial">□</button><button class="xp-close module-close-button" type="button" aria-label="Close memorial" title="Close memorial">×</button></span>
+        </div>
+        <div class="xp-app-body memorial-body" tabindex="0">
+          <div class="memorial-intro"><p class="memorial-kicker">IN MEMORY · 1940–2026</p><h3>Sir Patrick Stewart</h3><p class="memorial-lede">An extraordinary actor, and the man who made Captain Jean-Luc Picard a lasting example of courage, curiosity, and decency.</p></div>
+          <p>From Shakespeare to the bridge of the <em>Enterprise-D</em>, Patrick Stewart brought intelligence and humanity to every role. For generations of viewers, <em>Star Trek: The Next Generation</em> showed that a hero could lead by listening, reasoning, and standing up for what was right.</p>
+          <p>He returned to that role decades later in <em>Star Trek: Picard</em>, giving us one more voyage with a character who meant so much to so many.</p>
+          <div class="memorial-photos" aria-label="Patrick Stewart photo gallery">
+            <figure><a href="https://commons.wikimedia.org/wiki/File:Alan_Light_with_Patrick_Stewart_(Stewart_crop).jpg" target="_blank" rel="noopener noreferrer"><img src="assets/stewart-1990.jpg" alt="Patrick Stewart in formal dress during the era of Star Trek: The Next Generation, 1990" loading="lazy"></a><figcaption><strong>The Next Generation era · 1990</strong><span>Photo: Alan Light · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a></span></figcaption></figure>
+            <figure><a href="https://commons.wikimedia.org/wiki/File:Patrick_Stewart,_2011_ST_Con.jpg" target="_blank" rel="noopener noreferrer"><img src="assets/stewart-2011.jpg" alt="Patrick Stewart at the Las Vegas Star Trek convention in 2011" loading="lazy"></a><figcaption><strong>Star Trek convention · 2011</strong><span>Photo: Beth Madison · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a></span></figcaption></figure>
+            <figure><a href="https://commons.wikimedia.org/wiki/File:Patrick_Stewart_(48445279067).jpg" target="_blank" rel="noopener noreferrer"><img src="assets/stewart-2019.jpg" alt="Patrick Stewart speaking about Star Trek: Picard at San Diego Comic-Con in 2019" loading="lazy"></a><figcaption><strong>Star Trek: Picard · 2019</strong><span>Photo: Gage Skidmore · <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 2.0</a></span></figcaption></figure>
+          </div>
+          <div class="memorial-links"><a href="https://www.startrek.com/galleries" target="_blank" rel="noopener noreferrer">Official Star Trek photo galleries</a><a href="https://www.startrek.com/gallery/star-trek-picard-final-season-red-carpet-premiere" target="_blank" rel="noopener noreferrer">Picard final-season premiere photos</a></div>
+          <p class="memorial-farewell">Thank you for the stories, the kindness, and the stars you helped us reach.<br><strong>Rest in peace, Captain.</strong></p>
+        </div>
+        <div class="xp-app-footer"><span>REMEMBERING SIR PATRICK STEWART · 1940–2026</span><span>FAN TRIBUTE · NOT AFFILIATED WITH PARAMOUNT</span></div>
       </section>
     </div>
     <nav class="xp-start-menu" id="xp-start-menu" aria-label="Windows XP Start menu" hidden>
@@ -162,6 +198,7 @@
         <button class="xp-menu-item" type="button" data-open-window="daily-office"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span><strong>Daily Office</strong><small>2019 Book of Common Prayer</small></span></button>
         <button class="xp-menu-item" type="button" data-open-window="cyberchef"><span class="xp-app-icon xp-chef-icon" aria-hidden="true">⚗</span><span><strong>CyberChef.exe</strong><small>Cyber Swiss Army Knife</small></span></button>
         <button class="xp-menu-item" type="button" data-open-window="contact"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span><span><strong>Contact.exe</strong><small>Visual contact clue</small></span></button>
+        <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
       </div>
       <div class="xp-menu-bottom">JordanHardee.com</div>
     </nav>
@@ -174,6 +211,7 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="daily-office" aria-label="Restore Daily Office" aria-pressed="false"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-task-label">Daily Office</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="cyberchef" aria-label="Restore CyberChef" aria-pressed="false"><span class="xp-task-icon xp-chef-icon" aria-hidden="true">⚗</span><span class="xp-task-label">CyberChef.exe</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="contact" aria-label="Restore Contact" aria-pressed="false"><span class="xp-task-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-task-label">Contact.exe</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="patrick-stewart" aria-label="Restore Patrick Stewart Memorial" aria-pressed="false"><span class="xp-task-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-task-label">Patrick Stewart</span></button>
       </div>
       <div class="xp-tray"><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
     </footer>
@@ -185,6 +223,6 @@
     <script src="js/module-fullscreen.js?v=20261029-xp-start-closed"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
     <script src="js/window-manager.js?v=20261029-contact-compact"></script>
-    <script src="js/start-menu.js?v=20261029-contact-key-removed"></script>
+    <script src="js/start-menu.js?v=20261029-memorial-key-gate"></script>
   </body>
 </html>
