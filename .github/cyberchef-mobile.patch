@@ -861,10 +861,40 @@ index 39075bd..06ba9dc
                  const _this = this;
                  $(this).popover("show");
 diff --git a/src/web/waiters/RecipeWaiter.mjs b/src/web/waiters/RecipeWaiter.mjs
-index d2e4af9..217788a 100755
+index d2e4af9..c38e2e6 100755
 --- a/src/web/waiters/RecipeWaiter.mjs
 +++ b/src/web/waiters/RecipeWaiter.mjs
-@@ -322,6 +322,7 @@ class RecipeWaiter {
+@@ -30,4 +30,13 @@ class RecipeWaiter {
+         // list. Both Sortable instances must maintain it: several drop targets rely on it to tell an
+         // operation drag apart from a file or text drag.
+         this.dragInProgress = false;
++
++        // The desktop drag gesture steals vertical swipes on touch screens.
++        // Mobile uses tap-to-add and explicit recipe reorder buttons instead.
++        this.mobileDragQuery = window.matchMedia("(max-width: 1023px)");
++        this.mobileDragQuery.addEventListener("change", () => {
++            document.querySelectorAll("#operations .op-list, #rec-list").forEach(list => {
++                Sortable.get(list)?.option("disabled", this.mobileDragQuery.matches);
++            });
++        });
+     }
+@@ -43,6 +52,7 @@ class RecipeWaiter {
+         Sortable.create(recList, {
+             group: "recipe",
+             sort: true,
++            disabled: this.mobileDragQuery.matches,
+             animation: 0,
+             delay: 0,
+             filter: ".arg",
+@@ -104,6 +114,7 @@ class RecipeWaiter {
+                 put: false,
+             },
+             sort: false,
++            disabled: this.mobileDragQuery.matches,
+             setData: function(dataTransfer, dragEl) {
+                 dataTransfer.setData("Text", dragEl.textContent);
+             },
+@@ -322,6 +333,7 @@ class RecipeWaiter {
       * @param {event} e
       */
      operationDblclick(e) {
@@ -872,7 +902,7 @@ index d2e4af9..217788a 100755
          e.target.remove();
          this.opRemove(e);
      }
-@@ -335,6 +336,7 @@ class RecipeWaiter {
+@@ -335,6 +347,7 @@ class RecipeWaiter {
       * @param {event} e
       */
      operationChildDblclick(e) {
@@ -882,10 +912,10 @@ index d2e4af9..217788a 100755
      }
 diff --git a/tests/browser/mobile-smoke.cjs b/tests/browser/mobile-smoke.cjs
 new file mode 100644
-index 0000000..efac4a7
+index 0000000..6a9fd60
 --- /dev/null
 +++ b/tests/browser/mobile-smoke.cjs
-@@ -0,0 +1,195 @@
+@@ -0,0 +1,243 @@
 +/**
 + * Production-browser smoke test for the responsive CyberChef UI.
 + *
@@ -949,6 +979,45 @@ index 0000000..efac4a7
 +}
 +
 +/**
++ * Swipe upward starting on a real operation row, recording if SortableJS
++ * mistakenly starts the desktop drag gesture instead of allowing scrolling.
++ * @param {WebDriver} driver - The active Chrome driver.
++ * @returns {Promise<boolean>} Whether a drag state appeared during the swipe.
++ */
++async function swipeOperationUp(driver) {
++    const start = await driver.executeScript(() => {
++        const items = document.querySelectorAll("#operations .op-list li.operation");
++        const item = [...items].find(el => {
++            const rect = el.getBoundingClientRect();
++            return rect.top > 170 && rect.bottom < innerHeight - 140 && rect.height >= 30;
++        });
++        if (!item) throw new Error("No visible operation to swipe");
++        const rect = item.getBoundingClientRect();
++        return {x: rect.left + rect.width / 2, y: rect.top + rect.height / 2};
++    });
++
++    const dragActive = () => driver.executeScript(() =>
++        Boolean(document.querySelector(".sortable-chosen, .sortable-ghost, .sortable-drag")));
++    let dragged = false;
++    await driver.sendDevToolsCommand("Input.dispatchTouchEvent", {
++        type: "touchStart",
++        touchPoints: [start]
++    });
++    for (let step = 1; step <= 12; step++) {
++        await driver.sendDevToolsCommand("Input.dispatchTouchEvent", {
++            type: "touchMove",
++            touchPoints: [{x: start.x, y: start.y - step * 15}]
++        });
++        dragged ||= await dragActive();
++    }
++    await driver.sendDevToolsCommand("Input.dispatchTouchEvent", {
++        type: "touchEnd",
++        touchPoints: []
++    });
++    return dragged;
++}
++
++/**
 + * Assert a pane is visible and the other work areas do not overlap it.
 + * @param {WebDriver} driver - The active Chrome driver.
 + * @param {string} panel - The selected panel.
@@ -972,8 +1041,8 @@ index 0000000..efac4a7
 + * @param {Function} fn - A serializable browser-side predicate.
 + * @param {number} timeout - Maximum wait in milliseconds.
 + */
-+async function waitFor(driver, fn, timeout = 10000) {
-+    await driver.wait(() => driver.executeScript(fn), timeout);
++async function waitFor(driver, fn, timeout = 10000, ...args) {
++    await driver.wait(() => driver.executeScript(fn, ...args), timeout);
 +}
 +
 +/**
@@ -1008,8 +1077,16 @@ index 0000000..efac4a7
 +
 +        await driver.findElement(By.css('[data-mobile-panel="operations"]')).click();
 +        await checkPanel(driver, "operations");
++        const initialScroll = await driver.executeScript(() => document.getElementById("operations").scrollTop);
++        const draggedOnSwipe = await swipeOperationUp(driver);
++        await waitFor(driver, before => document.getElementById("operations").scrollTop > before + 30, 5000, initialScroll);
++        assert.equal(draggedOnSwipe, false, "A swipe must scroll rather than drag an operation");
++        assert.equal((await driver.findElements(By.css("#rec-list > li.operation"))).length, 0,
++            "Scrolling must not add an operation to the recipe");
++        console.log("PASS: finger scrolling on operation rows without dragging");
 +        await driver.findElement(By.id("search")).sendKeys("To Base64");
 +        await driver.wait(until.elementLocated(By.css("#search-results li.operation")), 10000);
++        await driver.executeScript(() => document.querySelector("#search-results li.operation").scrollIntoView({block: "center"}));
 +        await capture(driver, "390-operations");
 +        await tap(driver, "#search-results li.operation");
 +        await checkPanel(driver, "recipe");
@@ -1036,6 +1113,7 @@ index 0000000..efac4a7
 +        await driver.findElement(By.id("search")).clear();
 +        await driver.findElement(By.id("search")).sendKeys("From Base64");
 +        await driver.wait(until.elementLocated(By.css("#search-results li.operation")), 10000);
++        await driver.executeScript(() => document.querySelector("#search-results li.operation").scrollIntoView({block: "center"}));
 +        await tap(driver, "#search-results li.operation");
 +        assert.equal((await driver.findElements(By.css("#rec-list > li.operation"))).length, 2);
 +        await tap(driver, "#rec-list > li:last-child .mobile-move-up");
