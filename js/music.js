@@ -14,7 +14,7 @@
 
   const preference = 'jordanhardee-background-music-v1';
   let enabled = true;
-  let happyPlaying = false;
+  const activeVideos = new Set();
   let failure = '';
   try { enabled = localStorage.getItem(preference) !== 'off'; }
   catch { /* Site still works in private browsing. */ }
@@ -27,13 +27,13 @@
     creditsButton.textContent = enabled ? 'Mute music' : 'Play music';
     creditsButton.setAttribute('aria-pressed', String(enabled));
     if (status) {
-      status.textContent = !enabled ? 'Music is off.' : happyPlaying ? 'Paused while happy.exe plays.' : failure ||
+      status.textContent = !enabled ? 'Music is off.' : activeVideos.size ? 'Paused while a video plays.' : failure ||
         (audio.paused ? 'Music will start after a tap if autoplay is blocked.' : 'Playing on repeat.');
     }
   }
 
   function tryPlay() {
-    if (!enabled || happyPlaying || !audio.paused) return;
+    if (!enabled || activeVideos.size || !audio.paused) return;
     if (!audio.src) audio.src = track;
     failure = '';
     const playback = audio.play();
@@ -42,7 +42,7 @@
         failure = '';
         refresh();
       }).catch(error => {
-        if (!enabled || happyPlaying) return;
+        if (!enabled || activeVideos.size) return;
         failure = error.name === 'NotAllowedError'
           ? 'Tap anywhere on the page to start the music.'
           : 'The Archive.org music stream is unavailable right now.';
@@ -62,24 +62,25 @@
   }
 
   function retryAfterInteraction(event) {
-    if (!enabled || happyPlaying || !audio.paused) return;
-    if (event.target instanceof Element && event.target.closest('#xp-music-toggle, #credits-music-toggle')) return;
+    if (!enabled || activeVideos.size || !audio.paused) return;
+    if (event.target instanceof Element && event.target.closest('#xp-music-toggle, #credits-music-toggle, #xp-hack-planet')) return;
     tryPlay();
   }
 
   trayButton.addEventListener('click', toggleMusic);
   creditsButton.addEventListener('click', toggleMusic);
-  document.addEventListener('xp:happy-playback-start', () => {
-    happyPlaying = true;
-    audio.pause();
-    refresh();
-  });
-  document.addEventListener('xp:happy-playback-stop', () => {
-    if (!happyPlaying) return;
-    happyPlaying = false;
-    if (enabled) tryPlay();
-    refresh();
-  });
+  for (const kind of ['happy', 'hack']) {
+    document.addEventListener(`xp:${kind}-playback-start`, () => {
+      activeVideos.add(kind);
+      audio.pause();
+      refresh();
+    });
+    document.addEventListener(`xp:${kind}-playback-stop`, () => {
+      if (!activeVideos.delete(kind)) return;
+      if (enabled) tryPlay();
+      refresh();
+    });
+  }
   document.addEventListener('click', retryAfterInteraction, { capture: true });
   document.addEventListener('keydown', retryAfterInteraction, { capture: true });
   audio.addEventListener('error', () => {

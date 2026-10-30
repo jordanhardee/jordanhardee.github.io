@@ -153,8 +153,11 @@ test('background music pauses for happy.exe and resumes only when enabled', () =
   assert.equal(audio.playCount, 1);
   handlers.get('xp:happy-playback-start')();
   assert.equal(audio.paused, true);
-  assert.match(elements['credits-music-status'].textContent, /happy.exe/);
+  assert.match(elements['credits-music-status'].textContent, /Paused while a video plays/);
+  handlers.get('xp:hack-playback-start')();
   handlers.get('xp:happy-playback-stop')();
+  assert.equal(audio.paused, true, 'hack clip should keep music paused after happy.exe stops');
+  handlers.get('xp:hack-playback-stop')();
   assert.equal(audio.playCount, 2);
   assert.equal(audio.paused, false);
 });

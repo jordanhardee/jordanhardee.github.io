@@ -8,8 +8,9 @@
   const skyFrame = document.getElementById('stellarium-frame');
   const skyLoading = document.getElementById('stellarium-loading');
   const hackButton = document.getElementById('xp-hack-planet');
-  const hackFlash = document.getElementById('xp-hack-flash');
-  const hackGif = document.getElementById('xp-hack-gif');
+  const hackOverlay = document.getElementById('xp-hack-video-overlay');
+  const hackVideo = document.getElementById('xp-hack-video');
+  const hackClose = document.getElementById('xp-hack-video-close');
   if (!start || !menu) return;
   let contactScriptRequested = false;
   const onDemandApps = {
@@ -114,41 +115,63 @@
   menu.querySelectorAll('a.xp-external-link').forEach(link => {
     link.addEventListener('click', () => showMenu(false));
   });
-  // A short fullscreen Easter egg. The fixed overlay still works on iOS,
-  // where the Fullscreen API for arbitrary elements may be unavailable.
-  let flashTimer;
-  let flashEndTimer;
-  const hackGifUrl = 'https://media.tenor.com/K8R7LThju04AAAAC/hack-the-planet.gif';
-  function closeHackFlash() {
-    window.clearTimeout(flashTimer);
-    window.clearTimeout(flashEndTimer);
-    if (hackFlash) hackFlash.hidden = true;
-    if (document.fullscreenElement === hackFlash) document.exitFullscreen?.().catch(() => {});
+  // Start audio on the actual button click, which grants playback on iOS too.
+  // The fixed overlay fills the viewport if a browser doesn't support the
+  // Fullscreen API for arbitrary elements (notably some Safari versions).
+  const hackVideoUrl = new URL('../assets/hack-the-planet.mp4?v=20261030', document.currentScript.src).href;
+  let hackOpen = false;
+  let enteredFullscreen = false;
+  function closeHackVideo() {
+    if (!hackOpen || !hackOverlay || !hackVideo) return;
+    hackOpen = false;
+    hackVideo.pause();
+    hackVideo.removeAttribute('src');
+    hackVideo.load();
+    hackVideo.controls = false;
+    hackOverlay.hidden = true;
+    if (document.fullscreenElement === hackOverlay) document.exitFullscreen?.().catch(() => {});
+    enteredFullscreen = false;
+    document.dispatchEvent(new CustomEvent('xp:hack-playback-stop'));
   }
   hackButton?.addEventListener('click', () => {
     showMenu(false);
-    if (!hackFlash || !hackGif) return;
-    closeHackFlash();
-    hackFlash.hidden = false;
-    hackGif.onload = null;
-    hackGif.onerror = null;
-    hackGif.removeAttribute('src');
-    hackFlash.requestFullscreen?.().catch(() => {});
-    // A GIF may take a moment to arrive on slow mobile connections. Once
-    // loaded, show approximately one second of animation before restoring.
-    const endSoon = () => {
-      window.clearTimeout(flashEndTimer);
-      flashEndTimer = window.setTimeout(closeHackFlash, 1250);
-    };
-    hackGif.onload = endSoon;
-    hackGif.onerror = closeHackFlash;
-    hackGif.src = hackGifUrl;
-    if (hackGif.complete && hackGif.naturalWidth) endSoon();
-    flashTimer = window.setTimeout(closeHackFlash, 6000);
+    if (!hackOverlay || !hackVideo) return;
+    closeHackVideo();
+    hackOverlay.hidden = false;
+    hackOpen = true;
+    hackVideo.src = hackVideoUrl;
+    hackVideo.muted = false;
+    hackVideo.volume = 1;
+    document.dispatchEvent(new CustomEvent('xp:hack-playback-start'));
+    // Do not await either promise: both must be initiated within the gesture.
+    const playback = hackVideo.play();
+    playback?.catch(error => {
+      console.warn('Hack the Planet autoplay needs a tap:', error);
+      if (hackOpen) hackVideo.controls = true;
+    });
+    if (typeof hackOverlay.requestFullscreen === 'function') {
+      const request = hackOverlay.requestFullscreen();
+      request?.then(() => {
+        enteredFullscreen = true;
+      }).catch(() => {});
+    } else if (typeof hackVideo.webkitEnterFullscreen === 'function') {
+      // iPhone Safari can fullscreen the video even when it cannot fullscreen
+      // the surrounding overlay. The overlay remains a fullscreen fallback.
+      try { hackVideo.webkitEnterFullscreen(); } catch { /* Use viewport overlay. */ }
+    }
   });
-  hackFlash?.addEventListener('click', closeHackFlash);
+  hackVideo?.addEventListener('ended', closeHackVideo);
+  hackVideo?.addEventListener('error', closeHackVideo);
+  hackVideo?.addEventListener('webkitendfullscreen', closeHackVideo);
+  hackClose?.addEventListener('click', closeHackVideo);
+  hackOverlay?.addEventListener('click', event => {
+    if (event.target === hackOverlay) closeHackVideo();
+  });
+  document.addEventListener('fullscreenchange', () => {
+    if (hackOpen && enteredFullscreen && document.fullscreenElement !== hackOverlay) closeHackVideo();
+  });
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && hackFlash && !hackFlash.hidden) closeHackFlash();
+    if (event.key === 'Escape' && hackOpen) closeHackVideo();
   });
   document.addEventListener('pointerdown', event => {
     if (!menu.hidden && !menu.contains(event.target) && !start.contains(event.target)) showMenu(false);
