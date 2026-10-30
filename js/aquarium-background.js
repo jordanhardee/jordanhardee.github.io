@@ -1,4 +1,4 @@
-// A viewport-sized, transparent companion to aquarium.exe. The original star
+// A viewport-sized, transparent aquarium background. The original star
 // wallpaper shows through the alpha of the fish and aquascape artwork.
 (function () {
   const canvas = document.getElementById('site-aquarium-canvas');

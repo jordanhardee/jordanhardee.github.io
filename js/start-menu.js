@@ -70,7 +70,7 @@
     script.src = 'js/contact.js?v=20261029-pgp-challenge2';
     script.onerror = () => {
       contactScriptRequested = false;
-      console.error('Contact image could not load. Please reopen Contact.exe.');
+      console.error('Contact image could not load. Please reopen Contact.');
     };
     document.body.appendChild(script);
   }

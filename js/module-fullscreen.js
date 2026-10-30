@@ -13,13 +13,13 @@
       'hacker-news': 'Hacker News',
       'nasa-apod': 'NASA APOD',
       'daily-office': 'Daily Office',
-      'cyberchef': 'CyberChef.exe',
-      'contact': 'Contact.exe',
-      'blackjack': 'Blackjack.exe',
-      'solitaire': 'Solitaire.exe',
-      'chess': 'Chess.exe',
-      'unit-converter': 'UnitConvert.exe',
-      'graph-calculator': 'GraphCalc.exe',
+      'cyberchef': 'CyberChef',
+      'contact': 'Contact',
+      'blackjack': 'Blackjack',
+      'solitaire': 'Solitaire',
+      'chess': 'Chess',
+      'unit-converter': 'Unit Converter',
+      'graph-calculator': 'Graphing Calculator',
       'patrick-stewart': 'Patrick Stewart Memorial'
     };
     return names[module.dataset.window] || 'Window';
