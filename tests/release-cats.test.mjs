@@ -12,6 +12,13 @@ const fullscreenScript = readFileSync(new URL('../js/module-fullscreen.js', impo
 
 function makePage(width = 1200) {
   const events = new Map();
+  const sounds = [];
+  class Audio {
+    constructor() { this.listeners = {}; this.playCount = 0; this.pauseCount = 0; sounds.push(this); }
+    addEventListener(name, listener) { this.listeners[name] = listener; }
+    play() { this.playCount++; return Promise.resolve(); }
+    pause() { this.pauseCount++; }
+  }
   const element = () => ({
     hidden: true, children: [], listeners: {},
     classList: {
@@ -70,9 +77,9 @@ function makePage(width = 1200) {
       for (const listener of events.get(event.type) || []) listener(event);
     },
   };
-  vm.runInNewContext(script, { document, window: { innerWidth: width }, CustomEvent });
+  vm.runInNewContext(script, { document, window: { innerWidth: width }, CustomEvent, Audio });
   const dispatch = (name, app = 'release-cats') => document.dispatchEvent(new CustomEvent(name, { detail: { window: app } }));
-  return { swarm, runway, status, release, recall, panel, happyPanel, video, hint, dispatch };
+  return { swarm, runway, status, release, recall, panel, happyPanel, video, hint, sounds, dispatch };
 }
 
 test('happy.exe is a separate XP window with a looping, sound-capable, lazy video', () => {
@@ -99,32 +106,39 @@ test('happy.exe fills a proportional 512:910 video window as it changes size', (
   assert.equal(page.happyPanel.style.values['--happy-video-ratio'], '512 / 910');
 });
 
-test('only four distinct large cats, with repeated taskbar jumpers; KITTY JAIL clears everything', () => {
+test('five distinct large cats, repeated taskbar jumpers, and one huh sound per release', () => {
   const page = makePage();
   assert.equal(page.swarm.children.length, 0);
   assert.equal(page.video.getAttribute('src'), null);
   page.dispatch('xp:window-opened');
-  assert.equal(page.swarm.children.length, 4);
+  assert.equal(page.swarm.children.length, 5);
   assert.equal(page.runway.children.length, 6);
   assert.equal(page.swarm.hidden, false);
   assert.equal(page.video.playCount, 1);
   assert.equal(page.video.src, 'assets/cats/happy.mp4');
   assert.equal(page.happyPanel.classList.contains('module-closed'), false);
   const sources = page.swarm.children.map(child => child.children[0].src);
-  assert.equal(new Set(sources).size, 4);
+  assert.equal(new Set(sources).size, 5);
+  assert.ok(sources.includes('assets/cats/huh-cutout.webp'));
+  assert.equal(page.sounds.length, 1);
+  assert.equal(page.sounds[0].src, 'assets/cats/huh.mp3');
+  assert.equal(page.sounds[0].playCount, 1);
   page.release.listeners.click();
-  assert.equal(page.swarm.children.length, 4);
+  assert.equal(page.swarm.children.length, 5);
   assert.equal(page.runway.children.length, 6);
   assert.equal(page.video.playCount, 2);
+  assert.equal(page.sounds[0].playCount, 1, 'huh does not repeat until KITTY JAIL');
   page.recall.listeners.click();
   assert.equal(page.swarm.children.length, 0);
   assert.equal(page.runway.children.length, 0);
   assert.equal(page.swarm.hidden, true);
   assert.equal(page.video.getAttribute('src'), null);
   assert.equal(page.happyPanel.classList.contains('module-closed'), true);
+  assert.ok(page.sounds[0].pauseCount >= 1);
   assert.match(page.status.textContent, /KITTY JAIL/);
   page.dispatch('xp:window-opened');
-  assert.equal(page.swarm.children.length, 4);
+  assert.equal(page.swarm.children.length, 5);
+  assert.equal(page.sounds[0].playCount, 2);
 });
 
 test('cat cutouts are all transparent animated WebP; taskbar adds no vertical bounce', () => {
@@ -137,6 +151,11 @@ test('cat cutouts are all transparent animated WebP; taskbar adds no vertical bo
     assert.ok(bytes[20] & 0x10, `${name} has alpha transparency`);
     assert.ok(bytes.includes(Buffer.from('ANIM')), `${name} retains its animated frames`);
   }
+  const huh = readFileSync(new URL('../assets/cats/huh-cutout.webp', import.meta.url));
+  assert.equal(huh.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(huh.toString('ascii', 12, 16), 'VP8X');
+  assert.ok(huh[20] & 0x10, 'huh cat is a transparent cutout');
+  assert.ok(existsSync(new URL('../assets/cats/huh.mp3', import.meta.url)));
   assert.doesNotMatch(css, /xp-cat-hop/, 'no extra CSS hop on top of the original animation');
   assert.match(css, /\.xp-cat-runner\s*\{[^}]*animation:xp-cat-walk/, 'runners still cross the taskbar');
   assert.match(css, /\.xp-cat-runner\s*\{[^}]*width:136px; height:156px/, 'desktop taskbar cats are larger');
@@ -148,7 +167,7 @@ test('closing happy.exe stops its video without recalling the cats; closing cats
   page.dispatch('xp:window-opened');
   page.dispatch('xp:closed', 'happy-exe');
   assert.equal(page.video.getAttribute('src'), null);
-  assert.equal(page.swarm.children.length, 4);
+  assert.equal(page.swarm.children.length, 5);
   page.dispatch('xp:closed');
   assert.equal(page.swarm.children.length, 0);
   assert.equal(page.video.getAttribute('src'), null);
@@ -157,7 +176,7 @@ test('closing happy.exe stops its video without recalling the cats; closing cats
 test('mobile still shows each main cat once and uses four taskbar jumpers', () => {
   const page = makePage(390);
   page.dispatch('xp:window-opened');
-  assert.equal(page.swarm.children.length, 4);
+  assert.equal(page.swarm.children.length, 5);
   assert.equal(page.runway.children.length, 4);
 });
 

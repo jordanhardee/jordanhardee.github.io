@@ -17,15 +17,18 @@
     'assets/cats/feeding-transparent.webp',
     'assets/cats/hilarious-transparent.webp',
     'assets/cats/giphy-transparent.webp',
+    'assets/cats/huh-cutout.webp',
   ];
   const spots = [
     [17, 23, 195, -7], [81, 22, 175, 8],
     [22, 78, 185, 6], [79, 75, 180, -8],
+    [49, 47, 195, 3],
   ];
 
   if (!panel || !happyPanel || !video || !swarm || !runway || !releaseButton || !recallButton) return;
   let released = false;
   let playToken = 0;
+  let huhAudio = null;
 
   function emit(name, app) {
     document.dispatchEvent(new CustomEvent(name, { detail: { window: app } }));
@@ -64,6 +67,30 @@
     }
   }
 
+  function playHuh() {
+    if (!huhAudio) {
+      huhAudio = new Audio();
+      huhAudio.preload = 'none';
+      huhAudio.src = 'assets/cats/huh.mp3';
+      huhAudio.volume = 0.85;
+      huhAudio.addEventListener('ended', () => emit('xp:huh-playback-stop', 'release-cats'));
+      huhAudio.addEventListener('error', () => emit('xp:huh-playback-stop', 'release-cats'));
+    }
+    huhAudio.currentTime = 0;
+    emit('xp:huh-playback-start', 'release-cats');
+    const attempt = huhAudio.play();
+    if (attempt && typeof attempt.catch === 'function') {
+      attempt.catch(() => emit('xp:huh-playback-stop', 'release-cats'));
+    }
+  }
+
+  function stopHuh() {
+    if (!huhAudio) return;
+    huhAudio.pause();
+    huhAudio.currentTime = 0;
+    emit('xp:huh-playback-stop', 'release-cats');
+  }
+
   function stopHappy() {
     ++playToken;
     video.pause();
@@ -100,6 +127,7 @@
   }
 
   function release() {
+    const firstRelease = !released;
     if (!released) {
       released = true;
       swarm.hidden = false;
@@ -108,7 +136,8 @@
       addJumpers();
     }
     openHappy();
-    if (status) status.textContent = '4 cats loose! KITTY JAIL puts them back.';
+    if (firstRelease) playHuh();
+    if (status) status.textContent = '5 cats loose! KITTY JAIL puts them back.';
   }
 
   function recall() {
@@ -117,6 +146,7 @@
     runway.hidden = true;
     swarm.replaceChildren();
     runway.replaceChildren();
+    stopHuh();
     stopHappy();
     if (!happyPanel.classList.contains('module-closed')) emit('xp:close-window', 'happy-exe');
     if (status) status.textContent = 'All cats are safely in KITTY JAIL.';
