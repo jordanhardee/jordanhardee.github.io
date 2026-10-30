@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261030-news-contrast">
+    <link rel="stylesheet" href="css/style.css?v=20261030-credits">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -275,6 +275,22 @@
         </div>
         <div class="xp-app-footer"><span id="news-updated">LIVE RSS HEADLINES</span><span>FULL ARTICLES OPEN AT THEIR SOURCE</span></div>
       </section>
+      <section class="xp-app-window credits-panel module-closed" data-window="credits" aria-labelledby="credits-heading">
+        <div class="xp-app-header">
+          <h2 id="credits-heading"><span class="xp-app-icon xp-credits-icon" aria-hidden="true">♫</span> Credits</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Credits text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Credits text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Credits" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Credits" title="Maximize Credits">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Credits" title="Close Credits">×</button></span>
+        </div>
+        <div class="xp-app-body credits-body" tabindex="0">
+          <h3>Music</h3>
+          <p><strong>File Select</strong> · <em>Super Mario 64</em> (1996)</p>
+          <p>Composed by Koji Kondo · Nintendo</p>
+          <p>Streaming from <a href="https://archive.org/details/super-mario-64-soundtrack" target="_blank" rel="noopener noreferrer">Internet Archive</a>.</p>
+          <p>Music belongs to its respective rights holders. Attribution does not grant a license.</p>
+          <button class="credits-music-toggle" id="credits-music-toggle" type="button" aria-pressed="false">Play music</button>
+          <p class="credits-music-status" id="credits-music-status" role="status" aria-live="polite">Music is off.</p>
+        </div>
+        <div class="xp-app-footer"><span>CREDITS</span><a href="https://archive.org/details/super-mario-64-soundtrack" target="_blank" rel="noopener noreferrer">SOURCE</a></div>
+      </section>
       <section class="xp-app-window memorial-panel module-closed" data-window="patrick-stewart" aria-labelledby="memorial-heading">
         <div class="xp-app-header">
           <h2 id="memorial-heading"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span> Patrick Stewart — In Memoriam</h2>
@@ -344,6 +360,7 @@
           <div class="xp-folder-contents" id="xp-folder-misc" hidden>
             <button class="xp-menu-item" type="button" data-open-window="wikipedia-featured"><span class="xp-app-icon xp-wikipedia-icon" aria-hidden="true">W</span><span class="xp-menu-label"><strong>Wikipedia Article of the Day</strong></span></button>
             <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="credits"><span class="xp-app-icon xp-credits-icon" aria-hidden="true">♫</span><span class="xp-menu-label"><strong>Credits</strong></span></button>
           </div>
         </div>
       </div>
@@ -368,9 +385,10 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="about" aria-label="Restore About Me" aria-pressed="false"><span class="xp-task-icon xp-about-icon" aria-hidden="true">?</span><span class="xp-task-label">About Me</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="wikipedia-featured" aria-label="Restore Wikipedia Article of the Day" aria-pressed="false"><span class="xp-task-icon xp-wikipedia-icon" aria-hidden="true">W</span><span class="xp-task-label">Wikipedia</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="news" aria-label="Restore News" aria-pressed="false"><span class="xp-task-icon xp-news-icon" aria-hidden="true">N</span><span class="xp-task-label">News</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="credits" aria-label="Restore Credits" aria-pressed="false"><span class="xp-task-icon xp-credits-icon" aria-hidden="true">♫</span><span class="xp-task-label">Credits</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="patrick-stewart" aria-label="Restore Patrick Stewart Memorial" aria-pressed="false"><span class="xp-task-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-task-label">Patrick Stewart</span></button>
       </div>
-      <div class="xp-tray"><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
+      <div class="xp-tray"><button class="xp-tray-music" id="xp-music-toggle" type="button" aria-label="Mute background music" aria-pressed="true" title="Mute music">♫</button><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
     </footer>
     <script src="js/matrix-rain.js?v=20261029-japanese-rain"></script>
     <script src="js/aquarium-background.js?v=20261029-aquarium-background-name"></script>
@@ -378,9 +396,10 @@
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
-    <script src="js/module-fullscreen.js?v=20261030-news"></script>
+    <script src="js/module-fullscreen.js?v=20261030-credits"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
-    <script src="js/window-manager.js?v=20261030-news"></script>
+    <script src="js/window-manager.js?v=20261030-credits"></script>
     <script src="js/start-menu.js?v=20261030-news"></script>
+    <script src="js/music.js?v=20261030-credits"></script>
   </body>
 </html>

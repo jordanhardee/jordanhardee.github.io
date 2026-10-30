@@ -25,6 +25,7 @@
       'wikipedia-featured': 'Wikipedia Article of the Day',
       'news': 'News',
       'about': 'About Me',
+      'credits': 'Credits',
       'patrick-stewart': 'Patrick Stewart Memorial'
     };
     return names[module.dataset.window] || 'Window';

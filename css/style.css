@@ -1421,3 +1421,15 @@ button.playing-card { padding:0; cursor:pointer; }
 
 
 
+.xp-credits-icon { background:linear-gradient(145deg,#eaf5e8,#63a079); color:#1b5438; text-shadow:none; font:bold 17px Georgia,serif; }
+.credits-panel { width:min(540px,calc(100vw - 30px)); height:min(420px,calc(100dvh - 65px)); }
+.xp-app-window .credits-body { overflow:auto; padding:clamp(15px,3vw,25px); background:#fff; color:#1b2b43; color-scheme:light; font:calc(13px * var(--xp-text-scale,1))/1.5 Tahoma,Arial,sans-serif; }
+.credits-body h3 { color:#204d83; margin:0 0 14px; font:bold calc(21px * var(--xp-text-scale,1))/1.2 Tahoma,Arial,sans-serif; }
+.credits-body p { margin:0 0 12px; font:inherit; }
+.credits-body a { color:#1555ab; }
+.credits-music-toggle { padding:7px 13px; margin-top:6px; border:1px solid #5a80b9; border-radius:4px; background:linear-gradient(#fafdff,#d5e9ff); color:#143f78; cursor:pointer; font:bold calc(12px * var(--xp-text-scale,1)) Tahoma,Arial,sans-serif; }
+.credits-music-toggle:hover { background:linear-gradient(#fff,#bbdcff); }
+.credits-body .credits-music-status { margin-top:10px; font-size:calc(11px * var(--xp-text-scale,1)); color:#57687f; }
+.xp-tray-music { display:grid; place-items:center; width:25px; height:26px; padding:0; flex:none; border:1px solid transparent; border-radius:3px; color:#fff; background:transparent; text-shadow:0 1px 2px #065b99; font:bold 18px/1 Georgia,serif; cursor:pointer; }
+.xp-tray-music:hover,.xp-tray-music:focus-visible { border-color:#90daff; background:#0062ab; outline:none; }
+.xp-tray-music[aria-pressed="false"] { color:#bed2dd; }

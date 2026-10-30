@@ -41,6 +41,7 @@
         stellarium: [1050, 740],
         about: [590, 550],
         contact: [540, 630],
+        credits: [540, 420],
       };
       const [preferredWidth, preferredHeight] = sizes[module.dataset.window] || [540, 385];
       const width = Math.min(preferredWidth, window.innerWidth - 30);
@@ -215,6 +216,7 @@
     'wikipedia-featured': 'Wikipedia Article of the Day',
     'news': 'News',
     'about': 'About Me',
+    'credits': 'Credits',
     'patrick-stewart': 'Patrick Stewart Memorial',
   };
   windows.forEach(module => {
