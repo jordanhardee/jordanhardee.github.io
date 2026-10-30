@@ -42,6 +42,7 @@
         about: [590, 550],
         contact: [540, 630],
         credits: [540, 420],
+        'release-cats': [360, 255],
       };
       const [preferredWidth, preferredHeight] = sizes[module.dataset.window] || [540, 385];
       const width = Math.min(preferredWidth, window.innerWidth - 30);
@@ -218,6 +219,7 @@
     'about': 'About Me',
     'credits': 'Credits',
     'patrick-stewart': 'Patrick Stewart Memorial',
+    'release-cats': 'Release the Cats',
   };
   windows.forEach(module => {
     const header = module.querySelector(headerSelector);

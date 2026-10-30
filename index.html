@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261030-fractal-variety">
+    <link rel="stylesheet" href="css/style.css?v=20261030-release-cats">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -306,6 +306,20 @@
         </div>
         <div class="xp-app-footer"><span>REMEMBERING SIR PATRICK STEWART · 1940–2026</span><span>FAN TRIBUTE · NOT AFFILIATED WITH PARAMOUNT</span></div>
       </section>
+      <section class="xp-app-window cats-panel module-closed" data-window="release-cats" aria-labelledby="cats-heading">
+        <div class="xp-app-header">
+          <h2 id="cats-heading"><span class="xp-app-icon xp-cats-icon" aria-hidden="true">🐈</span> RELEASE THE CATS</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Release the Cats text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Release the Cats text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Release the Cats" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Release the Cats" title="Maximize Release the Cats">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Release the Cats" title="Close Release the Cats">×</button></span>
+        </div>
+        <div class="xp-app-body cats-body">
+          <div class="cats-controller-art" aria-hidden="true">🐾</div>
+          <div class="cats-controller-actions">
+            <button id="cats-release" type="button">RELEASE THE CATS!</button>
+            <button id="cats-recall" type="button">Call them back</button>
+          </div>
+          <p id="cats-status" role="status" aria-live="polite">The cats have escaped.</p>
+        </div>
+      </section>
     </div>
     <nav class="xp-start-menu" id="xp-start-menu" aria-label="Windows XP Start menu" hidden>
       <div class="xp-menu-user">
@@ -365,6 +379,7 @@
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-misc"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Miscellaneous</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-misc" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="release-cats"><span class="xp-app-icon xp-cats-icon" aria-hidden="true">🐈</span><span class="xp-menu-label"><strong>RELEASE THE CATS</strong></span></button>
             <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="credits"><span class="xp-app-icon xp-credits-icon" aria-hidden="true">♫</span><span class="xp-menu-label"><strong>Credits</strong></span></button>
           </div>
@@ -375,6 +390,8 @@
     <div class="xp-hack-flash" id="xp-hack-flash" role="img" aria-label="Hack the Planet animation" hidden>
       <img id="xp-hack-gif" alt="Hack the Planet!" decoding="async">
     </div>
+    <div class="xp-cat-swarm" id="xp-cat-swarm" aria-hidden="true" hidden></div>
+    <div class="xp-cat-runway" id="xp-cat-runway" aria-hidden="true" hidden></div>
     <footer class="xp-taskbar" aria-label="Windows XP taskbar">
       <button class="xp-start" type="button" id="xp-start-button" aria-controls="xp-start-menu" aria-expanded="false"><span class="xp-start-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span> <span id="xp-start-label">start</span></button>
       <div class="xp-task-list" role="group" aria-label="Application windows">
@@ -396,6 +413,7 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="news" aria-label="Restore News" aria-pressed="false"><span class="xp-task-icon xp-news-icon" aria-hidden="true">N</span><span class="xp-task-label">News</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="credits" aria-label="Restore Credits" aria-pressed="false"><span class="xp-task-icon xp-credits-icon" aria-hidden="true">♫</span><span class="xp-task-label">Credits</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="patrick-stewart" aria-label="Restore Patrick Stewart Memorial" aria-pressed="false"><span class="xp-task-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-task-label">Patrick Stewart</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="release-cats" aria-label="Restore Release the Cats" aria-pressed="false"><span class="xp-task-icon xp-cats-icon" aria-hidden="true">🐈</span><span class="xp-task-label">RELEASE THE CATS</span></button>
       </div>
       <div class="xp-tray"><button class="xp-tray-music" id="xp-music-toggle" type="button" aria-label="Mute background music" aria-pressed="true" title="Mute music">♫</button><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
     </footer>
@@ -408,7 +426,7 @@
     <script src="js/module-fullscreen.js?v=20261030-credits"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
     <script src="js/window-manager.js?v=20261030-credits"></script>
-    <script src="js/start-menu.js?v=20261030-hack-flash3"></script>
+    <script src="js/start-menu.js?v=20261030-release-cats"></script>
     <script src="js/music.js?v=20261030-credits"></script>
   </body>
 </html>

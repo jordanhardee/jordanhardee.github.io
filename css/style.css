@@ -1438,3 +1438,38 @@ button.playing-card { padding:0; cursor:pointer; }
 .xp-tray-music { display:grid; place-items:center; width:25px; height:26px; padding:0; flex:none; border:1px solid transparent; border-radius:3px; color:#fff; background:transparent; text-shadow:0 1px 2px #065b99; font:bold 18px/1 Georgia,serif; cursor:pointer; }
 .xp-tray-music:hover,.xp-tray-music:focus-visible { border-color:#90daff; background:#0062ab; outline:none; }
 .xp-tray-music[aria-pressed="false"] { color:#bed2dd; }
+
+/* RELEASE THE CATS: a low-profile XP control window and a completely
+   click-through desktop swarm. No cat media downloads before app launch. */
+.xp-cats-icon { background:linear-gradient(145deg,#ffead0,#dfa97f); color:#523c42; text-shadow:none; font:17px/1 system-ui,sans-serif; }
+.cats-panel { width:min(385px,calc(100vw - 22px)); height:min(265px,calc(100dvh - 65px)); }
+.xp-app-window .cats-body { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; overflow:auto; padding:15px; background:linear-gradient(145deg,#e1f3f8,#fff0d5); color:#344253; color-scheme:light; text-align:center; }
+.cats-controller-art { font-size:42px; filter:drop-shadow(0 2px 2px #8f877777); }
+.cats-controller-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:9px; }
+.xp-app-window .cats-controller-actions button { padding:9px 13px; border:1px solid #7c9bbe; border-radius:3px; background:linear-gradient(#fff,#d8e9f8); color:#174878; cursor:pointer; font:bold calc(12px * var(--xp-text-scale,1)) Tahoma,sans-serif; }
+.xp-app-window .cats-controller-actions button:first-child { background:linear-gradient(#fff9de,#ffcd8e); border-color:#ce925d; color:#72401d; }
+.xp-app-window .cats-controller-actions button:hover { filter:brightness(1.045); }
+.cats-body #cats-status { margin:4px 0 0; font:calc(11px * var(--xp-text-scale,1))/1.4 Tahoma,sans-serif; }
+.xp-cat-swarm { position:fixed; z-index:10004; inset:0 0 var(--xp-taskbar-height); overflow:hidden; pointer-events:none; }
+.xp-cat-swarm[hidden],.xp-cat-runway[hidden] { display:none!important; }
+.xp-cat-floater { position:absolute; left:var(--cat-x); top:var(--cat-y); width:min(var(--cat-width),33vw); display:block; transform-origin:center; animation:xp-cat-bob 4.6s ease-in-out infinite; animation-delay:var(--cat-delay); will-change:transform; filter:drop-shadow(0 3px 8px rgba(16,24,48,.25)); }
+.xp-cat-floater img { display:block; max-width:100%; max-height:min(33dvh,260px); width:100%; height:auto; object-fit:contain; }
+.xp-cat-runway { position:fixed; z-index:10010; bottom:calc(var(--xp-taskbar-height) - 4px); left:0; right:0; height:115px; overflow:hidden; pointer-events:none; }
+.xp-cat-runner { position:absolute; bottom:0; left:-92px; width:88px; height:100px; display:block; animation:xp-cat-walk 14.4s linear infinite; animation-delay:var(--cat-delay); will-change:transform; }
+.xp-cat-runner img { display:block; width:100%; height:100%; object-fit:contain; transform-origin:center bottom; animation:xp-cat-hop 2.2s ease-in-out infinite; filter:drop-shadow(0 3px 4px #0a1a4280); }
+@keyframes xp-cat-walk { from { transform:translateX(0); } to { transform:translateX(calc(100vw + 125px)); } }
+/* The source sticker lasts 2.2 seconds. Match the hop to its cycle so the
+   movement lands cleanly and repeats without a jarring vertical reset. */
+@keyframes xp-cat-hop { 0%,100% { transform:translateY(0) scale(1); } 48% { transform:translateY(-28px) scale(1.03); } 62% { transform:translateY(-20px) scale(1); } }
+@keyframes xp-cat-bob { 0%,100% { transform:translate(-50%,-50%) rotate(var(--cat-tilt)); } 50% { transform:translate(-50%,calc(-50% - 20px)) rotate(var(--cat-tilt-reverse)); } }
+@media(max-width:650px) {
+  .xp-cat-floater { width:min(var(--cat-width),38vw); }
+  .xp-cat-runway { height:96px; }
+  .xp-cat-runner { width:72px; height:83px; left:-75px; }
+  .xp-app-window.cats-panel { position:fixed!important; inset:auto 7px calc(var(--xp-taskbar-height) + 9px) 7px!important; width:auto!important; height:200px!important; z-index:10003!important; }
+  .xp-app-window.cats-panel:is(:fullscreen,.module-is-expanded) { inset:0!important; width:100vw!important; height:100dvh!important; z-index:99999!important; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .xp-cat-floater,.xp-cat-runner,.xp-cat-runner img { animation:none; }
+  .xp-cat-runner { left:15vw; }
+}

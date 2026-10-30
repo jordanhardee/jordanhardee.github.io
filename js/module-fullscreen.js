@@ -26,7 +26,8 @@
       'news': 'News',
       'about': 'About Me',
       'credits': 'Credits',
-      'patrick-stewart': 'Patrick Stewart Memorial'
+      'patrick-stewart': 'Patrick Stewart Memorial',
+      'release-cats': 'Release the Cats'
     };
     return names[module.dataset.window] || 'Window';
   }
