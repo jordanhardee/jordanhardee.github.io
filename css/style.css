@@ -1439,10 +1439,15 @@ button.playing-card { padding:0; cursor:pointer; }
 .xp-tray-music:hover,.xp-tray-music:focus-visible { border-color:#90daff; background:#0062ab; outline:none; }
 .xp-tray-music[aria-pressed="false"] { color:#bed2dd; }
 
-/* RELEASE THE CATS: a low-profile XP control window and a completely
-   click-through desktop swarm. No cat media downloads before app launch. */
+/* RELEASE THE CATS: local animations load only on release. The floating cats
+   remain click-through, including over XP video and taskbar controls. */
 .xp-cats-icon { background:linear-gradient(145deg,#ffead0,#dfa97f); color:#523c42; text-shadow:none; font:17px/1 system-ui,sans-serif; }
 .cats-panel { width:min(385px,calc(100vw - 22px)); height:min(265px,calc(100dvh - 65px)); }
+.happy-panel { width:min(340px,calc(100vw - 22px)); height:min(500px,calc(100dvh - 65px)); }
+.xp-app-window .happy-body { display:flex; align-items:center; justify-content:center; margin:5px; overflow:hidden; background:#0b0b0d; }
+.happy-body video { display:block; width:100%; height:100%; object-fit:contain; background:#0b0b0d; }
+.happy-body #happy-playback-hint { position:absolute; left:10px; right:10px; bottom:26px; margin:0; padding:6px 8px; background:#fffbe9; color:#273b5a; font:12px/1.35 Tahoma,sans-serif; text-align:center; }
+.happy-body #happy-playback-hint[hidden] { display:none!important; }
 .xp-app-window .cats-body { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; overflow:auto; padding:15px; background:linear-gradient(145deg,#e1f3f8,#fff0d5); color:#344253; color-scheme:light; text-align:center; }
 .cats-controller-art { font-size:42px; filter:drop-shadow(0 2px 2px #8f877777); }
 .cats-controller-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:9px; }
@@ -1462,12 +1467,15 @@ button.playing-card { padding:0; cursor:pointer; }
    movement lands cleanly and repeats without a jarring vertical reset. */
 @keyframes xp-cat-hop { 0%,100% { transform:translateY(0) scale(1); } 48% { transform:translateY(-28px) scale(1.03); } 62% { transform:translateY(-20px) scale(1); } }
 @keyframes xp-cat-bob { 0%,100% { transform:translate(-50%,-50%) rotate(var(--cat-tilt)); } 50% { transform:translate(-50%,calc(-50% - 20px)) rotate(var(--cat-tilt-reverse)); } }
+@media(max-width:1050px) {
+  .xp-app-window.happy-panel { position:fixed!important; inset:10px 9px auto 9px!important; width:auto!important; height:min(43dvh,calc(100dvh - 270px))!important; z-index:10001!important; }
+  .xp-app-window.cats-panel { position:fixed!important; inset:auto 9px calc(var(--xp-taskbar-height) + 9px) 9px!important; width:auto!important; height:200px!important; z-index:10003!important; }
+  .xp-app-window:is(.happy-panel,.cats-panel):is(:fullscreen,.module-is-expanded) { inset:0!important; width:100vw!important; height:100dvh!important; z-index:99999!important; }
+}
 @media(max-width:650px) {
   .xp-cat-floater { width:min(var(--cat-width),38vw); }
   .xp-cat-runway { height:96px; }
   .xp-cat-runner { width:72px; height:83px; left:-75px; }
-  .xp-app-window.cats-panel { position:fixed!important; inset:auto 7px calc(var(--xp-taskbar-height) + 9px) 7px!important; width:auto!important; height:200px!important; z-index:10003!important; }
-  .xp-app-window.cats-panel:is(:fullscreen,.module-is-expanded) { inset:0!important; width:100vw!important; height:100dvh!important; z-index:99999!important; }
 }
 @media(prefers-reduced-motion:reduce) {
   .xp-cat-floater,.xp-cat-runner,.xp-cat-runner img { animation:none; }

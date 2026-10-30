@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261030-release-cats">
+    <link rel="stylesheet" href="css/style.css?v=20261030-happy-cats">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -315,9 +315,19 @@
           <div class="cats-controller-art" aria-hidden="true">🐾</div>
           <div class="cats-controller-actions">
             <button id="cats-release" type="button">RELEASE THE CATS!</button>
-            <button id="cats-recall" type="button">Call them back</button>
+            <button id="cats-recall" type="button">KITTY JAIL</button>
           </div>
           <p id="cats-status" role="status" aria-live="polite">The cats have escaped.</p>
+        </div>
+      </section>
+      <section class="xp-app-window happy-panel module-closed" data-window="happy-exe" aria-labelledby="happy-heading">
+        <div class="xp-app-header">
+          <h2 id="happy-heading"><span class="xp-app-icon xp-cats-icon" aria-hidden="true">▶</span> happy.exe</h2>
+          <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize happy.exe" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize happy.exe" title="Maximize happy.exe">□</button><button class="xp-close module-close-button" type="button" aria-label="Close happy.exe" title="Close happy.exe">×</button></span>
+        </div>
+        <div class="xp-app-body happy-body">
+          <video id="happy-video" controls loop playsinline preload="none" aria-label="happy.exe cat video"></video>
+          <p id="happy-playback-hint" hidden>Tap play to start happy.exe with sound.</p>
         </div>
       </section>
     </div>
@@ -414,6 +424,7 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="credits" aria-label="Restore Credits" aria-pressed="false"><span class="xp-task-icon xp-credits-icon" aria-hidden="true">♫</span><span class="xp-task-label">Credits</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="patrick-stewart" aria-label="Restore Patrick Stewart Memorial" aria-pressed="false"><span class="xp-task-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-task-label">Patrick Stewart</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="release-cats" aria-label="Restore Release the Cats" aria-pressed="false"><span class="xp-task-icon xp-cats-icon" aria-hidden="true">🐈</span><span class="xp-task-label">RELEASE THE CATS</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="happy-exe" aria-label="Restore happy.exe" aria-pressed="false"><span class="xp-task-icon xp-cats-icon" aria-hidden="true">▶</span><span class="xp-task-label">happy.exe</span></button>
       </div>
       <div class="xp-tray"><button class="xp-tray-music" id="xp-music-toggle" type="button" aria-label="Mute background music" aria-pressed="true" title="Mute music">♫</button><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
     </footer>
@@ -423,10 +434,11 @@
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
-    <script src="js/module-fullscreen.js?v=20261030-release-cats"></script>
+    <script src="js/module-fullscreen.js?v=20261030-happy-cats"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
-    <script src="js/window-manager.js?v=20261030-release-cats"></script>
-    <script src="js/start-menu.js?v=20261030-release-cats"></script>
-    <script src="js/music.js?v=20261030-credits"></script>
+    <script src="js/window-manager.js?v=20261030-happy-cats"></script>
+    <script src="js/release-cats.js?v=20261030-happy-cats"></script>
+    <script src="js/start-menu.js?v=20261030-happy-cats"></script>
+    <script src="js/music.js?v=20261030-happy-cats"></script>
   </body>
 </html>

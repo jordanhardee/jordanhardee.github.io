@@ -27,7 +27,8 @@
       'about': 'About Me',
       'credits': 'Credits',
       'patrick-stewart': 'Patrick Stewart Memorial',
-      'release-cats': 'Release the Cats'
+      'release-cats': 'Release the Cats',
+      'happy-exe': 'happy.exe'
     };
     return names[module.dataset.window] || 'Window';
   }
@@ -162,6 +163,10 @@
   document.addEventListener('xp:open-window', event => {
     const module = modules.find(item => item.dataset.window === event.detail?.window);
     if (module) openApp(module);
+  });
+  document.addEventListener('xp:close-window', event => {
+    const module = modules.find(item => item.dataset.window === event.detail?.window);
+    if (module && !module.classList.contains('module-closed')) closeApp(module);
   });
   document.addEventListener('fullscreenchange', updateButtons);
   document.addEventListener('keydown', event => {

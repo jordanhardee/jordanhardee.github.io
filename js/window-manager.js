@@ -43,12 +43,15 @@
         contact: [540, 630],
         credits: [540, 420],
         'release-cats': [360, 255],
+        'happy-exe': [338, 500],
       };
       const [preferredWidth, preferredHeight] = sizes[module.dataset.window] || [540, 385];
       const width = Math.min(preferredWidth, window.innerWidth - 30);
       const height = Math.min(preferredHeight, window.innerHeight - taskbarHeight - 30);
       return {
-        left: Math.max(0, Math.round((window.innerWidth - width) / 2)),
+        left: module.dataset.window === 'happy-exe'
+          ? Math.max(10, Math.round(window.innerWidth * 0.045))
+          : Math.max(0, Math.round((window.innerWidth - width) / 2)),
         top: Math.max(8, Math.round((window.innerHeight - taskbarHeight - height) / 2)),
         width, height,
       };
@@ -220,6 +223,7 @@
     'credits': 'Credits',
     'patrick-stewart': 'Patrick Stewart Memorial',
     'release-cats': 'Release the Cats',
+    'happy-exe': 'happy.exe',
   };
   windows.forEach(module => {
     const header = module.querySelector(headerSelector);
