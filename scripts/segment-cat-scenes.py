@@ -4,6 +4,11 @@ Requires Pillow, NumPy, and rembg with its small ``u2netp`` model:
   python3 -m pip install 'rembg[cpu]' pillow numpy
   python3 scripts/segment-cat-scenes.py
 
+The original huh.gif can be downloaded from:
+  https://media1.tenor.com/m/1MfIiC1yllEAAAAC/cat-huh-cat-huh-etr.gif
+Keep it in assets/cats/huh.gif and run with the scene argument ``huh``.
+The optimized animation is assets/cats/huh-animated.webp.
+
 The resulting animated WebP files keep each GIF frame's duration and looping.
 The input GIFs remain unchanged for archival/reprocessing purposes.
 """
@@ -17,7 +22,7 @@ from rembg import new_session, remove
 
 
 ASSETS = Path(__file__).resolve().parents[1] / "assets" / "cats"
-CAT_SCENES = ("hands", "hilarious", "giphy")
+CAT_SCENES = ("hands", "hilarious", "giphy", "huh")
 MAX_EDGE = 380  # Website displays the floating cats at 175–195 CSS pixels.
 
 
@@ -35,6 +40,13 @@ def process(name, session):
 
         # Suppress low-confidence isolated haze from the room background.
         alpha = pixels[:, :, 3]
+        if name == "huh":
+            # During the meme's rapid close-up, segmentation confidence drops
+            # across the face. Restore a solid cat while retaining soft edges.
+            alpha = np.clip((alpha.astype(np.float32) - 12) * 4, 0, 255).astype(np.uint8)
+            # Segmentation output can darken uncertain pixels. Keep the GIF's
+            # original colours and use the network only for its alpha mask.
+            pixels[:, :, :3] = np.array(rgba)[:, :, :3]
         alpha[alpha < 18] = 0
         if name == "hilarious":
             # The unrelated upright object behind the pair occasionally
@@ -49,7 +61,8 @@ def process(name, session):
         if (index + 1) % 20 == 0:
             print(f"{name}: segmented {index + 1}/{source.n_frames}", flush=True)
 
-    output = ASSETS / f"{name}-transparent.webp"
+    output_name = "huh-animated.webp" if name == "huh" else f"{name}-transparent.webp"
+    output = ASSETS / output_name
     frames[0].save(
         output,
         save_all=True,

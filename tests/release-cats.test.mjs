@@ -10,17 +10,33 @@ const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const windowManager = readFileSync(new URL('../js/window-manager.js', import.meta.url), 'utf8');
 const fullscreenScript = readFileSync(new URL('../js/module-fullscreen.js', import.meta.url), 'utf8');
 
-function makePage(width = 1200) {
+function makePage(width = 1200, webAudio = false) {
   const events = new Map();
   const sounds = [];
+  const sources = [];
   class Audio {
     constructor() { this.listeners = {}; this.playCount = 0; this.pauseCount = 0; sounds.push(this); }
     addEventListener(name, listener) { this.listeners[name] = listener; }
     play() { this.playCount++; return Promise.resolve(); }
     pause() { this.pauseCount++; }
   }
+  class AudioContext {
+    constructor() { this.destination = {}; this.resumeCount = 0; }
+    resume() { this.resumeCount++; return Promise.resolve(); }
+    decodeAudioData() { return Promise.resolve({ duration: 1.07 }); }
+    createBufferSource() {
+      const source = {
+        started: false, stopped: false,
+        connect() {}, disconnect() {},
+        start() { this.started = true; },
+        stop() { this.stopped = true; },
+      };
+      sources.push(source);
+      return source;
+    }
+  }
   const element = () => ({
-    hidden: true, children: [], listeners: {},
+    hidden: true, children: [], listeners: {}, dataset: {},
     classList: {
       values: new Set(),
       contains(name) { return this.values.has(name); },
@@ -38,6 +54,7 @@ function makePage(width = 1200) {
   panel.classList.add('module-closed');
   happyPanel.classList.add('module-closed');
   const video = element();
+  video.volume = 1;
   video.attributes = {};
   video.playCount = 0;
   video.pauseCount = 0;
@@ -77,9 +94,12 @@ function makePage(width = 1200) {
       for (const listener of events.get(event.type) || []) listener(event);
     },
   };
-  vm.runInNewContext(script, { document, window: { innerWidth: width }, CustomEvent, Audio });
+  const window = { innerWidth: width };
+  if (webAudio) window.AudioContext = AudioContext;
+  const fetch = async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(4) });
+  vm.runInNewContext(script, { document, window, CustomEvent, Audio, fetch });
   const dispatch = (name, app = 'release-cats') => document.dispatchEvent(new CustomEvent(name, { detail: { window: app } }));
-  return { swarm, runway, status, release, recall, panel, happyPanel, video, hint, sounds, dispatch };
+  return { swarm, runway, status, release, recall, panel, happyPanel, video, hint, sounds, sources, dispatch };
 }
 
 test('happy.exe is a separate XP window with a looping, sound-capable, lazy video', () => {
@@ -119,16 +139,18 @@ test('five distinct large cats, repeated taskbar jumpers, and one huh sound per 
   assert.equal(page.happyPanel.classList.contains('module-closed'), false);
   const sources = page.swarm.children.map(child => child.children[0].src);
   assert.equal(new Set(sources).size, 5);
-  assert.ok(sources.includes('assets/cats/huh-cutout.webp'));
+  assert.ok(sources.includes('assets/cats/huh-animated.webp'));
   assert.equal(page.sounds.length, 1);
   assert.equal(page.sounds[0].src, 'assets/cats/huh.mp3');
   assert.equal(page.sounds[0].playCount, 1);
+  assert.equal(page.video.volume, 0.18, 'the huh sound temporarily ducks the video');
   page.release.listeners.click();
   assert.equal(page.swarm.children.length, 5);
   assert.equal(page.runway.children.length, 6);
   assert.equal(page.video.playCount, 2);
   assert.equal(page.sounds[0].playCount, 1, 'huh does not repeat until KITTY JAIL');
   page.recall.listeners.click();
+  assert.equal(page.video.volume, 1, 'KITTY JAIL restores video volume');
   assert.equal(page.swarm.children.length, 0);
   assert.equal(page.runway.children.length, 0);
   assert.equal(page.swarm.hidden, true);
@@ -141,6 +163,27 @@ test('five distinct large cats, repeated taskbar jumpers, and one huh sound per 
   assert.equal(page.sounds[0].playCount, 2);
 });
 
+test('Web Audio starts the huh clip and stops it immediately for KITTY JAIL', async () => {
+  const page = makePage(1200, true);
+  page.dispatch('xp:window-opened');
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(page.sources.length, 1);
+  assert.equal(page.sources[0].started, true);
+  assert.equal(page.panel.dataset.huhAudio, 'playing');
+  assert.equal(page.video.volume, 0.18);
+  page.recall.listeners.click();
+  assert.equal(page.sources[0].stopped, true);
+  assert.equal(page.panel.dataset.huhAudio, 'stopped');
+  assert.equal(page.video.volume, 1);
+  page.dispatch('xp:window-opened');
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(page.sources.length, 2, 'a new sound plays after the cats are released again');
+  assert.equal(page.sources[1].started, true);
+  page.sources[1].onended();
+  assert.equal(page.panel.dataset.huhAudio, 'ended');
+  assert.equal(page.video.volume, 1);
+});
+
 test('cat cutouts are all transparent animated WebP; taskbar adds no vertical bounce', () => {
   for (const name of ['hands', 'feeding', 'hilarious', 'giphy', 'jump']) {
     const path = `assets/cats/${name}-transparent.webp`;
@@ -151,11 +194,13 @@ test('cat cutouts are all transparent animated WebP; taskbar adds no vertical bo
     assert.ok(bytes[20] & 0x10, `${name} has alpha transparency`);
     assert.ok(bytes.includes(Buffer.from('ANIM')), `${name} retains its animated frames`);
   }
-  const huh = readFileSync(new URL('../assets/cats/huh-cutout.webp', import.meta.url));
+  const huh = readFileSync(new URL('../assets/cats/huh-animated.webp', import.meta.url));
   assert.equal(huh.toString('ascii', 0, 4), 'RIFF');
   assert.equal(huh.toString('ascii', 12, 16), 'VP8X');
-  assert.ok(huh[20] & 0x10, 'huh cat is a transparent cutout');
+  assert.ok(huh[20] & 0x10, 'huh cat keeps transparent background');
+  assert.ok(huh.includes(Buffer.from('ANIM')), 'huh cat actually animates');
   assert.ok(existsSync(new URL('../assets/cats/huh.mp3', import.meta.url)));
+  assert.match(script, /window\.AudioContext \|\| window\.webkitAudioContext/, 'the huh sound uses Web Audio on iOS');
   assert.doesNotMatch(css, /xp-cat-hop/, 'no extra CSS hop on top of the original animation');
   assert.match(css, /\.xp-cat-runner\s*\{[^}]*animation:xp-cat-walk/, 'runners still cross the taskbar');
   assert.match(css, /\.xp-cat-runner\s*\{[^}]*width:136px; height:156px/, 'desktop taskbar cats are larger');

@@ -17,7 +17,7 @@
     'assets/cats/feeding-transparent.webp',
     'assets/cats/hilarious-transparent.webp',
     'assets/cats/giphy-transparent.webp',
-    'assets/cats/huh-cutout.webp',
+    'assets/cats/huh-animated.webp',
   ];
   const spots = [
     [17, 23, 195, -7], [81, 22, 175, 8],
@@ -28,7 +28,12 @@
   if (!panel || !happyPanel || !video || !swarm || !runway || !releaseButton || !recallButton) return;
   let released = false;
   let playToken = 0;
-  let huhAudio = null;
+  let huhContext = null;
+  let huhBufferPromise = null;
+  let huhSource = null;
+  let huhFallback = null;
+  let huhToken = 0;
+  let happyVolumeBeforeHuh = null;
 
   function emit(name, app) {
     document.dispatchEvent(new CustomEvent(name, { detail: { window: app } }));
@@ -67,27 +72,99 @@
     }
   }
 
-  function playHuh() {
-    if (!huhAudio) {
-      huhAudio = new Audio();
-      huhAudio.preload = 'none';
-      huhAudio.src = 'assets/cats/huh.mp3';
-      huhAudio.volume = 0.85;
-      huhAudio.addEventListener('ended', () => emit('xp:huh-playback-stop', 'release-cats'));
-      huhAudio.addEventListener('error', () => emit('xp:huh-playback-stop', 'release-cats'));
+  function huhEnded(token) {
+    if (token !== huhToken) return;
+    huhSource = null;
+    restoreHappyVolume();
+    panel.dataset.huhAudio = 'ended';
+    emit('xp:huh-playback-stop', 'release-cats');
+  }
+
+  function restoreHappyVolume() {
+    if (happyVolumeBeforeHuh === null) return;
+    try { video.volume = happyVolumeBeforeHuh; } catch { /* fixed-volume mobile audio */ }
+    happyVolumeBeforeHuh = null;
+  }
+
+  function fallbackHuh(token) {
+    if (!huhFallback) {
+      huhFallback = new Audio();
+      huhFallback.preload = 'none';
+      huhFallback.src = 'assets/cats/huh.mp3';
+      huhFallback.volume = 0.95;
     }
-    huhAudio.currentTime = 0;
+    huhFallback.onended = () => huhEnded(token);
+    huhFallback.currentTime = 0;
+    const attempt = huhFallback.play();
+    if (attempt && typeof attempt.then === 'function') {
+      attempt.then(() => {
+        if (token === huhToken) panel.dataset.huhAudio = 'playing';
+      }).catch(() => {
+        if (token !== huhToken) return;
+        restoreHappyVolume();
+        panel.dataset.huhAudio = 'blocked';
+        emit('xp:huh-playback-stop', 'release-cats');
+      });
+    }
+  }
+
+  function playHuh() {
+    const token = ++huhToken;
+    if (typeof video.volume === 'number' && happyVolumeBeforeHuh === null) {
+      happyVolumeBeforeHuh = video.volume;
+      try { video.volume = Math.min(video.volume, 0.18); } catch { /* fixed-volume mobile audio */ }
+    }
+    panel.dataset.huhAudio = 'loading';
     emit('xp:huh-playback-start', 'release-cats');
-    const attempt = huhAudio.play();
-    if (attempt && typeof attempt.catch === 'function') {
-      attempt.catch(() => emit('xp:huh-playback-stop', 'release-cats'));
+    // Unlock Web Audio in the release tap. Its buffer can finish downloading
+    // afterward, and it mixes with happy.exe even on mobile Safari.
+    const AudioContextType = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextType) return fallbackHuh(token);
+    try {
+      if (!huhContext) huhContext = new AudioContextType();
+      const unlocked = huhContext.resume();
+      if (!huhBufferPromise) {
+        huhBufferPromise = fetch('assets/cats/huh.mp3')
+          .then(response => {
+            if (!response.ok) throw new Error('HUH sound download failed');
+            return response.arrayBuffer();
+          })
+          .then(bytes => huhContext.decodeAudioData(bytes))
+          .catch(error => { huhBufferPromise = null; throw error; });
+      }
+      Promise.all([unlocked, huhBufferPromise]).then(([, buffer]) => {
+        if (token !== huhToken || !released) return;
+        const source = huhContext.createBufferSource();
+        source.buffer = buffer;
+        source.connect(huhContext.destination);
+        source.onended = () => huhEnded(token);
+        huhSource = source;
+        source.start(0);
+        panel.dataset.huhAudio = 'playing';
+      }).catch(() => {
+        if (token !== huhToken) return;
+        // AudioContext is absent/blocked on some browsers; retry normal media.
+        fallbackHuh(token);
+      });
+    } catch {
+      fallbackHuh(token);
     }
   }
 
   function stopHuh() {
-    if (!huhAudio) return;
-    huhAudio.pause();
-    huhAudio.currentTime = 0;
+    ++huhToken;
+    restoreHappyVolume();
+    if (huhSource) {
+      huhSource.onended = null;
+      try { huhSource.stop(); } catch { /* already ended */ }
+      huhSource.disconnect();
+      huhSource = null;
+    }
+    if (huhFallback) {
+      huhFallback.pause();
+      huhFallback.currentTime = 0;
+    }
+    panel.dataset.huhAudio = 'stopped';
     emit('xp:huh-playback-stop', 'release-cats');
   }
 
