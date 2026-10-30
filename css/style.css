@@ -895,6 +895,7 @@ blockquote {
 .xp-contact-icon { background: linear-gradient(135deg,#f8efb0,#b68d48); color: #194e8b; text-shadow: none; }
 .xp-memorial-icon { background: linear-gradient(140deg,#1e2c5f,#667aa1); color: #f0dcaa; text-shadow: 0 0 3px #d4c189; }
 .xp-wikipedia-icon { background:linear-gradient(145deg,#f3f3f3,#b0bfd4); color:#222; text-shadow:none; font-family:Georgia,serif; font-weight:bold; }
+.xp-news-icon { background:linear-gradient(145deg,#f1f4fb,#7092c4); color:#153359; text-shadow:none; font:bold 13px Georgia,serif; }
 .xp-app-window {
   position: fixed;
   z-index: 60;
@@ -942,6 +943,21 @@ blockquote {
 .wikipedia-body #wikipedia-image-link { display:block; margin:16px auto; width:fit-content; max-width:100%; }
 .wikipedia-body #wikipedia-image { display:block; max-width:100%; max-height:360px; object-fit:contain; border:1px solid #c8ccd1; background:#fff; }
 .wikipedia-extract { margin:14px 0 24px; white-space:pre-line; }
+.news-panel { width:min(770px,calc(100vw - 30px)); height:min(710px,calc(100dvh - 65px)); }
+.xp-app-window .news-body { display:flex; flex-direction:column; overflow:hidden; background:#f9fbfe; color:#14243a; font:calc(12px * var(--xp-text-scale,1))/1.5 Tahoma,Arial,sans-serif; }
+.news-filters { flex:none; display:flex; gap:5px; overflow-x:auto; padding:9px; border-bottom:1px solid #b8cbe2; background:linear-gradient(#f8fbff,#e0eafa); scrollbar-width:thin; }
+.news-filter { flex:none; border:1px solid #7f9cc2; border-radius:3px; padding:5px 9px; background:linear-gradient(#fff,#e0e9f6); color:#173860; cursor:pointer; font:bold calc(11px * var(--xp-text-scale,1)) Tahoma,sans-serif; white-space:nowrap; }
+.news-filter.is-active, .news-filter:hover { background:linear-gradient(#2c80d6,#0756a9); border-color:#064a91; color:white; }
+.news-status { margin:12px 16px; color:#53647c; font-size:calc(12px * var(--xp-text-scale,1)); }
+.news-status[hidden] { display:none !important; }
+.news-items { flex:1 1 0; min-height:0; overflow-y:auto; margin:0; padding:0; list-style:none; scrollbar-color:#9ab4d4 #eef3fa; }
+.news-entry { padding:12px clamp(12px,3vw,23px); border-bottom:1px solid #d7e2ef; }
+.news-entry:last-child { border-bottom:0; }
+.news-headline { color:#104e91; font:bold calc(15px * var(--xp-text-scale,1))/1.35 Tahoma,Arial,sans-serif; text-decoration:none; }
+.news-headline:is(:hover,:focus-visible) { text-decoration:underline; color:#0b67c0; }
+.news-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:5px; color:#576d85; font:calc(10px * var(--xp-text-scale,1))/1.5 Tahoma,sans-serif; }
+.news-meta strong { color:#24577e; }
+.news-summary { margin:6px 0 0; color:#33455d; font:calc(12px * var(--xp-text-scale,1))/1.5 Tahoma,Arial,sans-serif; }
 .contact-panel { width:540px; height:min(660px,calc(100dvh - 65px)); }
 .contact-body { overflow-y:auto; padding:18px; background:#f8f7ee; scrollbar-color:#b8cbe4 #e8edf6; }
 .contact-image-wrap { padding:12px; border:1px solid #a1adbe; background:#fff; }
@@ -1189,6 +1205,15 @@ body.module-overlay-open { overflow: hidden; }
   .xp-app-footer a { color: #aed1ff; }
   .xp-app-window .wikipedia-body { background:#202633; color:#e9edf5; scrollbar-color:#54657c #1b2636; }
   .wikipedia-date, .wikipedia-description, .wikipedia-status { color:#bac8dc; }
+  .xp-app-window .news-body { background:#1d2735; color:#e9f0fc; }
+  .news-filters { background:linear-gradient(#263950,#1f2d40); border-color:#506480; }
+  .news-filter { color:#e2eefa; background:linear-gradient(#375473,#2a415d); border-color:#607c9f; }
+  .news-filter.is-active, .news-filter:hover { background:linear-gradient(#397ebc,#1d5b98); color:#fff; }
+  .news-entry { border-color:#40506a; }
+  .news-headline { color:#b6d9ff; }
+  .news-headline:is(:hover,:focus-visible) { color:#fff; }
+  .news-status, .news-meta, .news-summary { color:#bfd0e2; }
+  .news-meta strong { color:#9dc3f0; }
 
   .contact-body { background: #202a3a; }
   .contact-image-wrap { background: #28374c; border-color: #61738d; }

@@ -5,6 +5,9 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["master"]
+  # Refresh the static news cache hourly without committing RSS content.
+  schedule:
+    - cron: '23 * * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,7 +38,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Restore CyberChef Mobile build
+        id: cyberchef-cache
+        uses: actions/cache@v4
+        with:
+          path: cyberchef-mobile
+          key: cyberchef-mobile-${{ hashFiles('.github/cyberchef-mobile.patch') }}-node24
       - name: Build CyberChef Mobile Beta
+        if: steps.cyberchef-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -56,6 +66,8 @@ jobs:
           test -s "$GITHUB_WORKSPACE/cyberchef-mobile/index.html"
           test -s "$GITHUB_WORKSPACE/cyberchef-mobile/assets/main.js"
           grep -q 'mobile-nav' "$GITHUB_WORKSPACE/cyberchef-mobile/index.html"
+      - name: Refresh RSS news
+        run: python3 scripts/build-news.py
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

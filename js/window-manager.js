@@ -212,6 +212,8 @@
     'graph-calculator': 'Graphing Calculator',
     'fractal-explorer': 'Fractal Explorer',
     'stellarium': 'Stellarium Web',
+    'wikipedia-featured': 'Wikipedia Article of the Day',
+    'news': 'News',
     'about': 'About Me',
     'patrick-stewart': 'Patrick Stewart Memorial',
   };
