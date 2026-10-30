@@ -7,6 +7,8 @@ const script = readFileSync(new URL('../js/release-cats.js', import.meta.url), '
 const musicScript = readFileSync(new URL('../js/music.js', import.meta.url), 'utf8');
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
+const windowManager = readFileSync(new URL('../js/window-manager.js', import.meta.url), 'utf8');
+const fullscreenScript = readFileSync(new URL('../js/module-fullscreen.js', import.meta.url), 'utf8');
 
 function makePage(width = 1200) {
   const events = new Map();
@@ -18,7 +20,7 @@ function makePage(width = 1200) {
       add(name) { this.values.add(name); },
       remove(name) { this.values.delete(name); },
     },
-    style: { setProperty() {} },
+    style: { values: {}, setProperty(name, value) { this.values[name] = value; } },
     addEventListener(type, handler) { this.listeners[type] = handler; },
     appendChild(child) { this.children.push(child); },
     replaceChildren() { this.children = []; },
@@ -81,6 +83,20 @@ test('happy.exe is a separate XP window with a looping, sound-capable, lazy vide
   assert.match(html, /src="js\/release-cats\.js\?v=/);
   assert.doesNotMatch(html, /<video[^>]+autoplay/);
   assert.ok(existsSync(new URL('../assets/cats/happy.mp4', import.meta.url)));
+});
+
+test('happy.exe fills a proportional 512:910 video window as it changes size', () => {
+  assert.match(css, /\.happy-body video\s*\{[^}]*object-fit:cover/);
+  assert.match(css, /\.xp-app-window \.happy-body\s*\{[^}]*aspect-ratio:var\(--happy-video-ratio,512 \/ 910\)/);
+  assert.match(css, /\.happy-panel\s*\{[^}]*height:auto!important/);
+  assert.match(windowManager, /function boundedHappyRect\(/);
+  assert.match(windowManager, /function happyHeight\(/);
+  assert.match(fullscreenScript, /module\.classList\.toggle\('happy-enlarged'\)/);
+  const page = makePage();
+  page.video.videoWidth = 512;
+  page.video.videoHeight = 910;
+  page.video.listeners.loadedmetadata();
+  assert.equal(page.happyPanel.style.values['--happy-video-ratio'], '512 / 910');
 });
 
 test('only four distinct large cats, with repeated taskbar jumpers; KITTY JAIL clears everything', () => {

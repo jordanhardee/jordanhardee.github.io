@@ -41,10 +41,15 @@
     modules.forEach(module => {
       const button = module.querySelector('.module-fullscreen-button');
       if (!button) return;
-      const expanded = isExpanded(module);
+      const expanded = isExpanded(module) || module.classList.contains('happy-enlarged');
       const name = moduleName(module);
-      button.setAttribute('aria-label', `${expanded ? 'Exit' : 'Open'} ${name} fullscreen`);
-      button.title = expanded ? `Exit fullscreen ${name}` : `Fullscreen ${name}`;
+      if (module.dataset.window === 'happy-exe') {
+        button.setAttribute('aria-label', `${expanded ? 'Shrink' : 'Enlarge'} happy.exe`);
+        button.title = expanded ? 'Shrink happy.exe' : 'Enlarge happy.exe';
+      } else {
+        button.setAttribute('aria-label', `${expanded ? 'Exit' : 'Open'} ${name} fullscreen`);
+        button.title = expanded ? `Exit fullscreen ${name}` : `Fullscreen ${name}`;
+      }
       button.textContent = expanded ? '❐' : '□';
       const task = taskButtons.get(module.dataset.window);
       if (task) {
@@ -69,6 +74,14 @@
 
   async function toggle(module) {
     if (module.classList.contains('module-minimized')) restore(module);
+    if (module.dataset.window === 'happy-exe') {
+      // Zoom the XP window itself; viewport fullscreen would letterbox this
+      // portrait video on nearly every desktop display.
+      const enlarged = module.classList.toggle('happy-enlarged');
+      document.dispatchEvent(new CustomEvent('xp:happy-size-change', { detail: { enlarged } }));
+      updateButtons();
+      return;
+    }
     if (module.classList.contains('module-is-expanded')) {
       closeOverlay();
       return;

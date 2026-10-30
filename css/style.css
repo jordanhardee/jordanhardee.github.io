@@ -1445,9 +1445,11 @@ button.playing-card { padding:0; cursor:pointer; }
    remain click-through, including over XP video and taskbar controls. */
 .xp-cats-icon { background:linear-gradient(145deg,#ffead0,#dfa97f); color:#523c42; text-shadow:none; font:17px/1 system-ui,sans-serif; }
 .cats-panel { width:min(385px,calc(100vw - 22px)); height:min(265px,calc(100dvh - 65px)); }
-.happy-panel { width:min(340px,calc(100vw - 22px)); height:min(500px,calc(100dvh - 65px)); }
-.xp-app-window .happy-body { display:flex; align-items:center; justify-content:center; margin:5px; overflow:hidden; background:#0b0b0d; }
-.happy-body video { display:block; width:100%; height:100%; object-fit:contain; background:#0b0b0d; }
+.happy-panel { width:min(290px,calc(100vw - 22px)); height:auto!important; }
+/* The XP title bar is outside the picture. The body itself always has the
+   video's aspect ratio, including during a live window resize. */
+.xp-app-window .happy-body { display:flex; flex:0 0 auto; align-items:stretch; margin:0; border:0; overflow:hidden; aspect-ratio:var(--happy-video-ratio,512 / 910); background:transparent; box-shadow:none; }
+.happy-body video { display:block; width:100%; height:100%; object-fit:cover; background:transparent; }
 .happy-body #happy-playback-hint { position:absolute; left:10px; right:10px; bottom:26px; margin:0; padding:6px 8px; background:#fffbe9; color:#273b5a; font:12px/1.35 Tahoma,sans-serif; text-align:center; }
 .happy-body #happy-playback-hint[hidden] { display:none!important; }
 .xp-app-window .cats-body { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; overflow:auto; padding:15px; background:linear-gradient(145deg,#e1f3f8,#fff0d5); color:#344253; color-scheme:light; text-align:center; }
@@ -1468,7 +1470,8 @@ button.playing-card { padding:0; cursor:pointer; }
 /* Each runner slides across the taskbar; only its own GIF animates vertically. */
 @keyframes xp-cat-bob { 0%,100% { transform:translate(-50%,-50%) rotate(var(--cat-tilt)); } 50% { transform:translate(-50%,calc(-50% - 20px)) rotate(var(--cat-tilt-reverse)); } }
 @media(max-width:1050px) {
-  .xp-app-window.happy-panel { position:fixed!important; inset:10px 9px auto 9px!important; width:auto!important; height:min(43dvh,calc(100dvh - 270px))!important; z-index:10001!important; }
+  .xp-app-window.happy-panel { position:fixed!important; inset:10px auto auto 9px!important; width:min(240px,calc(100vw - 18px),calc((100dvh - 290px) * .5626))!important; height:auto!important; z-index:10001!important; }
+  .xp-app-window.happy-panel.happy-enlarged { width:min(320px,calc(100vw - 18px),calc((100dvh - 290px) * .5626))!important; }
   .xp-app-window.cats-panel { position:fixed!important; inset:auto 9px calc(var(--xp-taskbar-height) + 9px) 9px!important; width:auto!important; height:200px!important; z-index:10003!important; }
   .xp-app-window:is(.happy-panel,.cats-panel):is(:fullscreen,.module-is-expanded) { inset:0!important; width:100vw!important; height:100dvh!important; z-index:99999!important; }
 }

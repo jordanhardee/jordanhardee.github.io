@@ -126,6 +126,11 @@
     if (hint) hint.hidden = true;
     emit('xp:happy-playback-start', 'happy-exe');
   });
+  video.addEventListener('loadedmetadata', () => {
+    if (!video.videoWidth || !video.videoHeight) return;
+    happyPanel.style.setProperty('--happy-video-ratio', `${video.videoWidth} / ${video.videoHeight}`);
+    emit('xp:happy-video-metadata', 'happy-exe');
+  });
   video.addEventListener('pause', () => emit('xp:happy-playback-stop', 'happy-exe'));
   video.addEventListener('error', () => emit('xp:happy-playback-stop', 'happy-exe'));
 

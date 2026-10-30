@@ -10,6 +10,7 @@
   const minWidth = 245;
   const minHeight = 185;
   const taskbarHeight = 38;
+  const happyFallbackRatio = 512 / 910;
   let active = null;
   let highestLayer = 30;
   let saved = {};
@@ -25,6 +26,29 @@
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), Math.max(min, max));
+  }
+
+  function isHappy(module) {
+    return module.dataset.window === 'happy-exe';
+  }
+
+  function happyRatio(module) {
+    const video = module.querySelector('video');
+    return video?.videoWidth > 0 && video?.videoHeight > 0
+      ? video.videoWidth / video.videoHeight : happyFallbackRatio;
+  }
+
+  function happyChrome(module) {
+    const styles = window.getComputedStyle(module);
+    const side = (parseFloat(styles.borderLeftWidth) || 2) + (parseFloat(styles.borderRightWidth) || 2);
+    const topBottom = (parseFloat(styles.borderTopWidth) || 2) + (parseFloat(styles.borderBottomWidth) || 2);
+    const header = module.querySelector('.xp-app-header')?.getBoundingClientRect().height || 36;
+    return { side, height: topBottom + header };
+  }
+
+  function happyHeight(module, width) {
+    const chrome = happyChrome(module);
+    return chrome.height + (width - chrome.side) / happyRatio(module);
   }
 
   function defaultRect(module) {
@@ -43,11 +67,12 @@
         contact: [540, 630],
         credits: [540, 420],
         'release-cats': [360, 255],
-        'happy-exe': [338, 500],
+        'happy-exe': [290, 560],
       };
       const [preferredWidth, preferredHeight] = sizes[module.dataset.window] || [540, 385];
       const width = Math.min(preferredWidth, window.innerWidth - 30);
-      const height = Math.min(preferredHeight, window.innerHeight - taskbarHeight - 30);
+      const height = isHappy(module) ? happyHeight(module, width)
+        : Math.min(preferredHeight, window.innerHeight - taskbarHeight - 30);
       return {
         left: module.dataset.window === 'happy-exe'
           ? Math.max(10, Math.round(window.innerWidth * 0.045))
@@ -86,8 +111,22 @@
     };
   }
 
+  function boundedHappyRect(module, rect) {
+    const chrome = happyChrome(module);
+    const usableHeight = Math.max(120, window.innerHeight - taskbarHeight - 5);
+    const maxWidth = Math.min(window.innerWidth - 8,
+      chrome.side + Math.max(1, usableHeight - chrome.height) * happyRatio(module));
+    const width = clamp(numberOr(rect.width, 290), Math.min(190, maxWidth), maxWidth);
+    const height = happyHeight(module, width);
+    return {
+      left: clamp(numberOr(rect.left, 0), 0, window.innerWidth - width),
+      top: clamp(numberOr(rect.top, 0), 0, usableHeight - height),
+      width, height,
+    };
+  }
+
   function setRect(module, rect) {
-    const next = boundedRect(rect);
+    const next = isHappy(module) ? boundedHappyRect(module, rect) : boundedRect(rect);
     for (const property of ['left', 'top', 'width', 'height']) {
       module.style[property] = `${next[property]}px`;
     }
@@ -175,6 +214,27 @@
     if (active.kind === 'move') {
       rect.left += dx;
       rect.top += dy;
+    } else if (isHappy(active.module)) {
+      // The height belongs to the video, not to the pointer's independent
+      // X/Y movement. Resize either axis and derive the other from 512:910.
+      const direction = active.direction;
+      const deltaWidth = direction.includes('w') ? -dx : direction.includes('e') ? dx : null;
+      const deltaFromHeight = (direction.includes('n') ? -dy : dy) * happyRatio(active.module);
+      const delta = deltaWidth === null ? deltaFromHeight
+        : direction.includes('n') || direction.includes('s')
+          ? Math.abs(deltaWidth) > Math.abs(deltaFromHeight) ? deltaWidth : deltaFromHeight
+          : deltaWidth;
+      const requestedWidth = active.rect.width + delta;
+      const chrome = happyChrome(active.module);
+      const availableHeight = Math.max(120, window.innerHeight - taskbarHeight - 5);
+      const maxWidth = Math.min(window.innerWidth - 8,
+        chrome.side + Math.max(1, availableHeight - chrome.height) * happyRatio(active.module));
+      rect.width = clamp(requestedWidth, Math.min(190, maxWidth), maxWidth);
+      rect.height = happyHeight(active.module, rect.width);
+      if (direction.includes('w')) rect.left = active.rect.left + active.rect.width - rect.width;
+      else if (!direction.includes('e')) rect.left += (active.rect.width - rect.width) / 2;
+      if (direction.includes('n')) rect.top = active.rect.top + active.rect.height - rect.height;
+      else if (!direction.includes('s')) rect.top += (active.rect.height - rect.height) / 2;
     } else {
       // Resize from any of the eight XP window handles while anchoring
       // the opposite side in place (including north and west edges).
@@ -250,6 +310,18 @@
       front(module);
       const rect = currentRect(module);
       const step = event.shiftKey ? 40 : 15;
+      if (isHappy(module)) {
+        const delta = (event.key === 'ArrowRight' || event.key === 'ArrowDown' ? step : -step)
+          * (event.key === 'ArrowUp' || event.key === 'ArrowDown' ? happyRatio(module) : 1);
+        const width = rect.width + delta;
+        const height = happyHeight(module, width);
+        rect.left += (rect.width - width) / 2;
+        rect.top += (rect.height - height) / 2;
+        rect.width = width;
+        setRect(module, rect);
+        remember(module);
+        return;
+      }
       if (event.key === 'ArrowRight') rect.width += step;
       if (event.key === 'ArrowLeft') rect.width -= step;
       if (event.key === 'ArrowDown') rect.height += step;
@@ -267,6 +339,26 @@
   document.addEventListener('xp:bring-to-front', event => {
     const module = windows.find(item => item.dataset.window === event.detail?.window);
     if (module) front(module);
+  });
+  let happyNormalRect = null;
+  document.addEventListener('xp:happy-size-change', event => {
+    const module = windows.find(item => isHappy(item));
+    if (!module || !desktop.matches) return; // Phone layout uses CSS sizes.
+    if (event.detail?.enlarged) {
+      happyNormalRect = currentRect(module);
+      const chrome = happyChrome(module);
+      const height = Math.max(120, window.innerHeight - taskbarHeight - 18);
+      const width = chrome.side + (height - chrome.height) * happyRatio(module);
+      setRect(module, { left: module.getBoundingClientRect().left, top: 9, width, height });
+    } else if (happyNormalRect) {
+      setRect(module, happyNormalRect);
+      happyNormalRect = null;
+    }
+    remember(module);
+  });
+  document.addEventListener('xp:happy-video-metadata', () => {
+    const module = windows.find(item => isHappy(item));
+    if (module && desktop.matches) setRect(module, currentRect(module));
   });
   fitViewport();
 })();
