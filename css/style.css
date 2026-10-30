@@ -923,6 +923,12 @@ blockquote {
 .cyberchef-body iframe { display:block; width:100%; height:100%; border:0; background:white; }
 .cyberchef-loading { position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; background:#f0f0f0; color:#3a4864; font:12px Tahoma,sans-serif; }
 .cyberchef-loading[hidden] { display:none; }
+.stellarium-panel { width:min(1050px,calc(100vw - 30px)); height:min(740px,calc(100dvh - 65px)); }
+.xp-stellarium-icon { background:linear-gradient(145deg,#07142e,#3565ad); color:#f9e7a1; text-shadow:none; }
+.stellarium-body { background:#020918; }
+.stellarium-body iframe { display:block; width:100%; height:100%; border:0; background:#020918; }
+.stellarium-loading { position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; background:#08112a; color:#f0f5ff; font:12px Tahoma,sans-serif; }
+.stellarium-loading[hidden] { display:none; }
 .xp-app-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; flex:none; padding:2px 9px 5px; color:#5b6270; font:9px Tahoma,sans-serif; }
 .xp-app-footer a { color:#1550a1; text-decoration:underline; }
 .contact-panel { width:540px; height:min(660px,calc(100dvh - 65px)); }

@@ -38,6 +38,7 @@
         'unit-converter': [620, 500],
         'graph-calculator': [740, 750],
         'fractal-explorer': [850, 780],
+        stellarium: [1050, 740],
         about: [590, 550],
         contact: [540, 630],
       };
@@ -210,6 +211,7 @@
     'unit-converter': 'Unit Converter',
     'graph-calculator': 'Graphing Calculator',
     'fractal-explorer': 'Fractal Explorer',
+    'stellarium': 'Stellarium Web',
     'about': 'About Me',
     'patrick-stewart': 'Patrick Stewart Memorial',
   };

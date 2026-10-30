@@ -67,6 +67,9 @@ test('Start menu keeps cybersecurity-only items in Hack the Planet and opens new
   assert.match(personal,/github.com\/jordanhardee/);
   assert.match(apps,/Fractal Explorer/);
   assert.match(apps,/Unit Converter/);
+  assert.match(apps,/data-open-window="stellarium"/);
+  assert.match(html,/<iframe id="stellarium-frame"[^>]+data-src="https:\/\/stellarium-web\.org\/"/);
+  assert.equal((html.match(/data-window="stellarium"/g)||[]).length,2);
   assert.match(html,/Icon Wall/);
   assert.match(html,/\(coming soon\)/);
   assert.equal((html.match(/data-window="about"/g)||[]).length,2);

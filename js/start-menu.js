@@ -4,6 +4,8 @@
   const menu = document.getElementById('xp-start-menu');
   const chefFrame = document.getElementById('cyberchef-frame');
   const chefLoading = document.getElementById('cyberchef-loading');
+  const skyFrame = document.getElementById('stellarium-frame');
+  const skyLoading = document.getElementById('stellarium-loading');
   if (!start || !menu) return;
   let contactScriptRequested = false;
   const onDemandApps = {
@@ -138,7 +140,11 @@
   chefFrame?.addEventListener('load', () => {
     if (chefLoading && chefFrame.getAttribute('src')) chefLoading.hidden = true;
   });
+  skyFrame?.addEventListener('load', () => {
+    if (skyLoading && skyFrame.getAttribute('src')) skyLoading.hidden = true;
+  });
   document.addEventListener('xp:closed', event => {
     if (event.detail?.window === 'cyberchef' && chefLoading) chefLoading.hidden = false;
+    if (event.detail?.window === 'stellarium' && skyLoading) skyLoading.hidden = false;
   });
 })();

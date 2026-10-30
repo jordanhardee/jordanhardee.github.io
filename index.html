@@ -104,6 +104,17 @@
         </div>
         <div class="xp-app-footer">CYBERCHEF · APACHE 2.0 <a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer">OPEN DIRECTLY</a></div>
       </section>
+      <section class="xp-app-window stellarium-panel module-closed" data-window="stellarium" aria-labelledby="stellarium-heading">
+        <div class="xp-app-header">
+          <h2 id="stellarium-heading"><span class="xp-app-icon xp-stellarium-icon" aria-hidden="true">✶</span> Stellarium Web</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Stellarium text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Stellarium text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Stellarium" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Stellarium" title="Maximize Stellarium">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Stellarium" title="Close Stellarium">×</button></span>
+        </div>
+        <div class="xp-app-body stellarium-body">
+          <iframe id="stellarium-frame" title="Stellarium Web interactive sky chart and planetarium" data-src="https://stellarium-web.org/" referrerpolicy="no-referrer" allow="geolocation; fullscreen" allowfullscreen loading="eager"></iframe>
+          <div class="stellarium-loading" id="stellarium-loading" role="status">Loading Stellarium Web…</div>
+        </div>
+        <div class="xp-app-footer"><span>STELLARIUM WEB · LIVE SKY CHART</span><a href="https://stellarium-web.org/" target="_blank" rel="noopener noreferrer">OPEN DIRECTLY</a></div>
+      </section>
       <section class="xp-app-window contact-panel module-closed" data-window="contact" aria-labelledby="contact-heading">
         <div class="xp-app-header">
           <h2 id="contact-heading"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span> Contact</h2>
@@ -277,6 +288,7 @@
             <button class="xp-menu-item" type="button" data-open-window="unit-converter"><span class="xp-app-icon xp-converter-icon" aria-hidden="true">⇄</span><span class="xp-menu-label"><strong>Unit Converter</strong><small>Scientific and everyday units</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="graph-calculator"><span class="xp-app-icon xp-graphcalc-icon" aria-hidden="true">∑</span><span class="xp-menu-label"><strong>Graphing Calculator</strong><small>Scientific calculator and graphs</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="fractal-explorer"><span class="xp-app-icon xp-fractal-icon" aria-hidden="true">✺</span><span class="xp-menu-label"><strong>Fractal Explorer</strong><small>Explore mathematical fractals</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="stellarium"><span class="xp-app-icon xp-stellarium-icon" aria-hidden="true">✶</span><span class="xp-menu-label"><strong>Stellarium Web</strong><small>Interactive sky chart</small></span></button>
           </div>
         </div>
         <div class="xp-menu-folder">
@@ -319,6 +331,7 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="unit-converter" aria-label="Restore Unit Converter" aria-pressed="false"><span class="xp-task-icon xp-converter-icon" aria-hidden="true">⇄</span><span class="xp-task-label">Unit Converter</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="graph-calculator" aria-label="Restore Graph Calculator" aria-pressed="false"><span class="xp-task-icon xp-graphcalc-icon" aria-hidden="true">∑</span><span class="xp-task-label">Graphing Calculator</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="fractal-explorer" aria-label="Restore Fractal Explorer" aria-pressed="false"><span class="xp-task-icon xp-fractal-icon" aria-hidden="true">✺</span><span class="xp-task-label">Fractal Explorer</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="stellarium" aria-label="Restore Stellarium Web" aria-pressed="false"><span class="xp-task-icon xp-stellarium-icon" aria-hidden="true">✶</span><span class="xp-task-label">Stellarium Web</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="about" aria-label="Restore About Me" aria-pressed="false"><span class="xp-task-icon xp-about-icon" aria-hidden="true">?</span><span class="xp-task-label">About Me</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="patrick-stewart" aria-label="Restore Patrick Stewart Memorial" aria-pressed="false"><span class="xp-task-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-task-label">Patrick Stewart</span></button>
       </div>
@@ -330,9 +343,9 @@
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
-    <script src="js/module-fullscreen.js?v=20261030-fractals-catalog"></script>
+    <script src="js/module-fullscreen.js?v=20261030-stellarium"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
-    <script src="js/window-manager.js?v=20261030-fractals-catalog"></script>
-    <script src="js/start-menu.js?v=20261030-fractals-catalog"></script>
+    <script src="js/window-manager.js?v=20261030-stellarium"></script>
+    <script src="js/start-menu.js?v=20261030-stellarium"></script>
   </body>
 </html>

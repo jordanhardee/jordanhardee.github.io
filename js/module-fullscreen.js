@@ -21,6 +21,7 @@
       'unit-converter': 'Unit Converter',
       'graph-calculator': 'Graphing Calculator',
       'fractal-explorer': 'Fractal Explorer',
+      'stellarium': 'Stellarium Web',
       'about': 'About Me',
       'patrick-stewart': 'Patrick Stewart Memorial'
     };
