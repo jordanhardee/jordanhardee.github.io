@@ -1,6 +1,7 @@
 // Windows XP Start menu and on-demand desktop app launching.
 (function () {
   const start = document.getElementById('xp-start-button');
+  const startLabel = document.getElementById('xp-start-label');
   const menu = document.getElementById('xp-start-menu');
   const chefFrame = document.getElementById('cyberchef-frame');
   const chefLoading = document.getElementById('cyberchef-loading');
@@ -19,6 +20,7 @@
     news: new URL('./news.mjs?v=20261030-1', document.currentScript.src).href,
   };
   const loadedApps = new Set();
+  let openedOnce = false;
   // The short "Dry fart" sound from the Archive.org Fart Sounds collection.
   // Playing directly inside the click handler satisfies iOS audio gesture rules.
   const fartAudio = new Audio('https://archive.org/download/fart-with-reverb/dry-fart.mp3');
@@ -56,7 +58,14 @@
 
   start.addEventListener('click', () => {
     const opening = menu.hidden;
-    if (opening) playFart();
+    if (opening) {
+      playFart();
+      if (!openedOnce) {
+        openedOnce = true;
+        if (startLabel) startLabel.textContent = 'fart';
+        menu.setAttribute('aria-label', 'Windows XP Fart menu');
+      }
+    }
     showMenu(opening);
   });
   const folderButtons = Array.from(menu.querySelectorAll('[data-folder-toggle]'));
