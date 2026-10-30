@@ -19,52 +19,21 @@
     news: new URL('./news.mjs?v=20261030-1', document.currentScript.src).href,
   };
   const loadedApps = new Set();
-  let soundContext;
+  // The short "Dry fart" sound from the Archive.org Fart Sounds collection.
+  // Playing directly inside the click handler satisfies iOS audio gesture rules.
+  const fartAudio = new Audio('https://archive.org/download/fart-with-reverb/dry-fart.mp3');
+  fartAudio.preload = 'auto';
+  fartAudio.volume = 0.9;
 
-  // A tiny original, synthesized raspberry. Create the audio engine only from
-  // the Start button's click gesture (necessary for iOS Safari audio playback).
   function playFart() {
-    const AudioEngine = window.AudioContext || window.webkitAudioContext;
-    if (!AudioEngine) return;
     try {
-      if (!soundContext) soundContext = new AudioEngine();
-      if (soundContext.state === 'suspended') {
-        soundContext.resume().catch(() => {});
-      }
-
-      const duration = .57;
-      const sampleRate = soundContext.sampleRate;
-      const buffer = soundContext.createBuffer(1, Math.round(duration * sampleRate), sampleRate);
-      const samples = buffer.getChannelData(0);
-      let phase = 0;
-      let rumble = 0;
-      for (let i = 0; i < samples.length; i++) {
-        const t = i / sampleRate;
-        const progress = t / duration;
-        const frequency = 104 - 64 * progress + 16 * Math.sin(t * 43);
-        phase += 2 * Math.PI * frequency / sampleRate;
-        rumble = .89 * rumble + .11 * (Math.random() * 2 - 1);
-        const flutter = .68 + .32 * Math.sin(2 * Math.PI * 19 * t);
-        const envelope = Math.pow(Math.sin(Math.PI * progress), .7);
-        samples[i] = (Math.sin(phase) * .47 + Math.sin(phase * 2) * .17 + rumble * .75)
-          * flutter * envelope;
-      }
-
-      const source = soundContext.createBufferSource();
-      const filter = soundContext.createBiquadFilter();
-      const volume = soundContext.createGain();
-      const now = soundContext.currentTime;
-      source.buffer = buffer;
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(620, now);
-      filter.frequency.exponentialRampToValueAtTime(160, now + duration);
-      volume.gain.value = .25;
-      source.connect(filter);
-      filter.connect(volume);
-      volume.connect(soundContext.destination);
-      source.start(now);
+      fartAudio.pause();
+      fartAudio.currentTime = 0;
+      fartAudio.play().catch(error => {
+        console.warn('Dry fart sound unavailable:', error);
+      });
     } catch (error) {
-      console.warn('Fart button sound unavailable:', error);
+      console.warn('Dry fart sound unavailable:', error);
     }
   }
 
