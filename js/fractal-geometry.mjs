@@ -79,7 +79,9 @@ export function drawGeometricFractal(ctx, algorithm, palette, view, width, heigh
       const dx=(bx-ax)/3,dy=(by-ay)/3;
       const mx=ax+dx,my=ay+dy;
       const nx=ax+2*dx,ny=ay+2*dy;
-      const vx=mx+dx*.5-dy*Math.sqrt(3)/2,vy=my+dy*.5+dx*Math.sqrt(3)/2;
+      // The triangle's winding is clockwise in screen coordinates; the
+      // negative sixty-degree turn puts Koch's peaks outside the snowflake.
+      const vx=mx+dx*.5+dy*Math.sqrt(3)/2,vy=my+dy*.5-dx*Math.sqrt(3)/2;
       koch(ax,ay,mx,my,d-1);koch(mx,my,vx,vy,d-1);koch(vx,vy,nx,ny,d-1);koch(nx,ny,bx,by,d-1);
     }
     const a=[0,-.78],b=[.85,.70],c=[-.85,.70],level=Math.min(6,4+Math.floor(detail/350));

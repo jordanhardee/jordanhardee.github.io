@@ -1,5 +1,5 @@
 import { initialView, zoomView, scaleDescription, isGeometricFractal } from './fractal-math.mjs?v=20261030-fractal-variety';
-import { drawGeometricFractal } from './fractal-geometry.mjs?v=20261030-fractal-detail2';
+import { drawGeometricFractal } from './fractal-geometry.mjs?v=20261030-koch3';
 
 const panel = document.querySelector('[data-window="fractal-explorer"]');
 const canvas = document.getElementById('fractal-canvas');
