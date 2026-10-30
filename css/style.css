@@ -21,8 +21,23 @@ body {
   font-weight:400;
 }
 
-/* A separate full-viewport tank sits above the starfield but below the site.
-   Its water and source art are translucent, so the stars remain visible. */
+/* Japanese-character rain between the star wallpaper and the aquarium.
+   Same stacking level as the tank, but earlier in DOM paint order: behind fish. */
+.site-matrix-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+#site-matrix-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* A separate full-viewport tank sits above the stars and falling characters.
+   Its water and source art are translucent, so both remain visible. */
 .site-aquarium-background {
   position: fixed;
   inset: 0;
