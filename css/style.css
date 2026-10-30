@@ -1463,11 +1463,9 @@ button.playing-card { padding:0; cursor:pointer; }
 .xp-cat-floater img { display:block; max-width:100%; max-height:min(33dvh,260px); width:100%; height:auto; object-fit:contain; }
 .xp-cat-runway { position:fixed; z-index:10010; bottom:calc(var(--xp-taskbar-height) - 4px); left:0; right:0; height:115px; overflow:hidden; pointer-events:none; }
 .xp-cat-runner { position:absolute; bottom:0; left:-92px; width:88px; height:100px; display:block; animation:xp-cat-walk 14.4s linear infinite; animation-delay:var(--cat-delay); will-change:transform; }
-.xp-cat-runner img { display:block; width:100%; height:100%; object-fit:contain; transform-origin:center bottom; animation:xp-cat-hop 2.2s ease-in-out infinite; filter:drop-shadow(0 3px 4px #0a1a4280); }
+.xp-cat-runner img { display:block; width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 3px 4px #0a1a4280); }
 @keyframes xp-cat-walk { from { transform:translateX(0); } to { transform:translateX(calc(100vw + 125px)); } }
-/* The source sticker lasts 2.2 seconds. Match the hop to its cycle so the
-   movement lands cleanly and repeats without a jarring vertical reset. */
-@keyframes xp-cat-hop { 0%,100% { transform:translateY(0) scale(1); } 48% { transform:translateY(-28px) scale(1.03); } 62% { transform:translateY(-20px) scale(1); } }
+/* Each runner slides across the taskbar; only its own GIF animates vertically. */
 @keyframes xp-cat-bob { 0%,100% { transform:translate(-50%,-50%) rotate(var(--cat-tilt)); } 50% { transform:translate(-50%,calc(-50% - 20px)) rotate(var(--cat-tilt-reverse)); } }
 @media(max-width:1050px) {
   .xp-app-window.happy-panel { position:fixed!important; inset:10px 9px auto 9px!important; width:auto!important; height:min(43dvh,calc(100dvh - 270px))!important; z-index:10001!important; }

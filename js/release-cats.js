@@ -13,10 +13,10 @@
 
   const jump = 'assets/cats/jump-transparent.webp';
   const cats = [
-    'assets/cats/hands.gif',
+    'assets/cats/hands-transparent.webp',
     'assets/cats/feeding-transparent.webp',
-    'assets/cats/hilarious.gif',
-    'assets/cats/giphy.gif',
+    'assets/cats/hilarious-transparent.webp',
+    'assets/cats/giphy-transparent.webp',
   ];
   const spots = [
     [17, 23, 195, -7], [81, 22, 175, 8],

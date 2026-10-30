@@ -6,6 +6,7 @@ import vm from 'node:vm';
 const script = readFileSync(new URL('../js/release-cats.js', import.meta.url), 'utf8');
 const musicScript = readFileSync(new URL('../js/music.js', import.meta.url), 'utf8');
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 
 function makePage(width = 1200) {
   const events = new Map();
@@ -108,6 +109,20 @@ test('only four distinct large cats, with repeated taskbar jumpers; KITTY JAIL c
   assert.match(page.status.textContent, /KITTY JAIL/);
   page.dispatch('xp:window-opened');
   assert.equal(page.swarm.children.length, 4);
+});
+
+test('cat cutouts are all transparent animated WebP; taskbar adds no vertical bounce', () => {
+  for (const name of ['hands', 'feeding', 'hilarious', 'giphy', 'jump']) {
+    const path = `assets/cats/${name}-transparent.webp`;
+    assert.ok(script.includes(path), `${name} is displayed using its cutout`);
+    const bytes = readFileSync(new URL(`../${path}`, import.meta.url));
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+    assert.equal(bytes.toString('ascii', 12, 16), 'VP8X');
+    assert.ok(bytes[20] & 0x10, `${name} has alpha transparency`);
+    assert.ok(bytes.includes(Buffer.from('ANIM')), `${name} retains its animated frames`);
+  }
+  assert.doesNotMatch(css, /xp-cat-hop/, 'no extra CSS hop on top of the original animation');
+  assert.match(css, /\.xp-cat-runner\s*\{[^}]*animation:xp-cat-walk/, 'runners still cross the taskbar');
 });
 
 test('closing happy.exe stops its video without recalling the cats; closing cats recalls both', () => {
