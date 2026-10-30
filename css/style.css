@@ -937,7 +937,8 @@ blockquote {
 .xp-app-window .wikipedia-body { overflow-y:auto; padding:clamp(16px,3vw,30px); background:#f8f9fa; color:#202122; font:calc(14px * var(--xp-text-scale,1))/1.65 Georgia,serif; scrollbar-color:#aab7c7 #f2f4f6; }
 .wikipedia-body [hidden] { display:none !important; }
 .wikipedia-date { margin:0 0 12px; color:#54595d; font:calc(11px * var(--xp-text-scale,1))/1.4 Tahoma,sans-serif; }
-.wikipedia-body h3 { margin:0 0 8px; font: bold calc(29px * var(--xp-text-scale,1))/1.2 Georgia,serif; }
+.wikipedia-body h3 { margin:0 0 8px; color:#173b62; font: bold calc(29px * var(--xp-text-scale,1))/1.2 Georgia,serif; }
+.wikipedia-body p { font-family:Georgia,'Times New Roman',serif; }
 .wikipedia-description { margin:0 0 15px; font-style:italic; color:#54595d; }
 .wikipedia-status { margin:20px 0; color:#54595d; font:calc(12px * var(--xp-text-scale,1))/1.5 Tahoma,sans-serif; }
 .wikipedia-body #wikipedia-image-link { display:block; margin:16px auto; width:fit-content; max-width:100%; }
@@ -1205,6 +1206,7 @@ body.module-overlay-open { overflow: hidden; }
   .xp-app-footer a { color: #aed1ff; }
   .xp-app-window .wikipedia-body { background:#202633; color:#e9edf5; scrollbar-color:#54657c #1b2636; }
   .wikipedia-date, .wikipedia-description, .wikipedia-status { color:#bac8dc; }
+  .wikipedia-body h3 { color:#e7f0ff; }
   .xp-app-window .news-body { background:#1d2735; color:#e9f0fc; }
   .news-filters { background:linear-gradient(#263950,#1f2d40); border-color:#506480; }
   .news-filter { color:#e2eefa; background:linear-gradient(#375473,#2a415d); border-color:#607c9f; }
