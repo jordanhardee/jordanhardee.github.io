@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-chess-math-tools">
+    <link rel="stylesheet" href="css/style.css?v=20261030-fractals-catalog">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -182,9 +182,11 @@
         </div>
         <div class="xp-app-body converter-body">
           <p class="math-intro">Convert between metric, imperial, scientific, and computing units.</p>
+          <label class="math-field">Find a scientific field<input id="unit-search" type="search" placeholder="e.g. radioactivity, astronomy, viscosity…" autocomplete="off"></label>
           <label class="math-field">Category<select id="unit-category"></select></label>
           <div class="converter-fields"><label class="math-field">Value<input id="unit-value" inputmode="decimal" type="number" value="1" step="any"></label><label class="math-field">From<select id="unit-from"></select></label><button type="button" id="unit-swap" title="Swap units" aria-label="Swap units">⇄</button><label class="math-field">To<select id="unit-to"></select></label></div>
           <output class="converter-result" id="unit-result" aria-live="polite">Loading converter…</output>
+          <p class="math-note" id="unit-summary"></p>
           <p class="math-note">Conversions are calculated locally using open-source Math.js.</p>
         </div>
         <div class="xp-app-footer"><span>UNIT CONVERTER</span><span>MATH.JS · APACHE-2.0</span></div>
@@ -203,6 +205,33 @@
           <p id="calc-graph-message" class="math-note" role="status" aria-live="polite">Graph a function of x, such as sin(x), x^2, or cos(x).</p>
         </div>
         <div class="xp-app-footer"><span>ORIGINAL SCIENTIFIC &amp; GRAPHING CALCULATOR</span><span>NOT A TI ROM OR EMULATOR</span></div>
+      </section>
+      <section class="xp-app-window fractal-panel module-closed" data-window="fractal-explorer" aria-labelledby="fractal-heading">
+        <div class="xp-app-header">
+          <h2 id="fractal-heading"><span class="xp-app-icon xp-fractal-icon" aria-hidden="true">✺</span> Fractal Explorer</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Fractal Explorer text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Fractal Explorer text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Fractal Explorer" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Fractal Explorer" title="Maximize Fractal Explorer">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Fractal Explorer" title="Close Fractal Explorer">×</button></span>
+        </div>
+        <div class="xp-app-body fractal-body">
+          <div class="fractal-controls">
+            <label>Algorithm<select id="fractal-algorithm"><option value="mandelbrot">Mandelbrot set</option><option value="julia">Julia set</option><option value="burning-ship">Burning Ship</option><option value="tricorn">Tricorn</option><option value="multibrot3">Multibrot z³ + c</option><option value="celtic">Celtic Mandelbrot</option></select></label>
+            <label>Colors<select id="fractal-palette"><option value="nebula">Nebula</option><option value="ocean">Ocean</option><option value="fire">Fire</option><option value="monochrome">Monochrome</option></select></label>
+            <label class="fractal-iterations">Detail <output id="fractal-iteration-value">350</output><input id="fractal-iterations" type="range" min="100" max="1100" value="350" step="50"></label>
+          </div>
+          <div class="fractal-julia-options" id="fractal-julia-options" hidden><label>Julia c (real)<input id="fractal-julia-real" type="number" value="-0.7" step="0.01"></label><label>Julia c (imaginary)<input id="fractal-julia-imag" type="number" value="0.27015" step="0.01"></label></div>
+          <div class="fractal-viewport" id="fractal-viewport" tabindex="0" aria-label="Interactive fractal image. Click to zoom in, drag to select a region, use plus or minus keys to zoom."><canvas id="fractal-canvas" width="640" height="400" role="img" aria-label="Rendered fractal"></canvas><div id="fractal-selection" class="fractal-selection" hidden></div></div>
+          <div class="fractal-actions"><button id="fractal-zoom-in" type="button">Zoom in +</button><button id="fractal-zoom-out" type="button">Zoom out −</button><button id="fractal-previous" type="button">Back</button><button id="fractal-reset" type="button">Reset view</button><button id="fractal-save" type="button">Save PNG</button></div>
+          <p class="fractal-status" id="fractal-status" role="status" aria-live="polite">Preparing fractal…</p>
+          <p class="fractal-scale" id="fractal-scale"></p>
+          <p class="fractal-note">Deep zoom uses expanding BigInt precision. Rendering takes longer as you zoom into finer details; practical limits depend on your device.</p>
+        </div>
+        <div class="xp-app-footer"><span>FRACTAL EXPLORER · SIX ALGORITHMS</span><span>LOCAL RENDERING · NO UPLOADS</span></div>
+      </section>
+      <section class="xp-app-window about-panel module-closed" data-window="about" aria-labelledby="about-heading">
+        <div class="xp-app-header">
+          <h2 id="about-heading"><span class="xp-app-icon xp-about-icon" aria-hidden="true">?</span> About Me</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease About Me text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase About Me text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize About Me" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize About Me" title="Maximize About Me">□</button><button class="xp-close module-close-button" type="button" aria-label="Close About Me" title="Close About Me">×</button></span>
+        </div>
+        <div class="xp-app-body about-body"><img src="floppa.jpeg" alt="Floppa wearing sunglasses" class="about-floppa"><h3>Who is Jordan Hardee?</h3><div class="about-copy" aria-label="About Me text"><!-- Jordan's own text can go here later. --></div></div>
       </section>
       <section class="xp-app-window memorial-panel module-closed" data-window="patrick-stewart" aria-labelledby="memorial-heading">
         <div class="xp-app-header">
@@ -237,11 +266,25 @@
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-hack"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Hack the Planet</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-hack" hidden>
-            <button class="xp-menu-item" type="button" data-open-window="hacker-news"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-menu-label"><strong>Hacker News</strong><small>Current front-page stories</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="threat-intel"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span class="xp-menu-label"><strong>Cyber Threat Wire</strong><small>Security news and exploited CVEs</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="cyberchef"><span class="xp-app-icon xp-chef-icon" aria-hidden="true">⚗</span><span class="xp-menu-label"><strong>CyberChef</strong><small>Cyber Swiss Army Knife</small></span></button>
+          </div>
+        </div>
+        <div class="xp-menu-folder">
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-apps"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Apps</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <div class="xp-folder-contents" id="xp-folder-apps" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="hacker-news"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-menu-label"><strong>Hacker News</strong><small>Current front-page stories</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="unit-converter"><span class="xp-app-icon xp-converter-icon" aria-hidden="true">⇄</span><span class="xp-menu-label"><strong>Unit Converter</strong><small>Scientific and everyday units</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="graph-calculator"><span class="xp-app-icon xp-graphcalc-icon" aria-hidden="true">∑</span><span class="xp-menu-label"><strong>Graphing Calculator</strong><small>Scientific calculator and graphs</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="fractal-explorer"><span class="xp-app-icon xp-fractal-icon" aria-hidden="true">✺</span><span class="xp-menu-label"><strong>Fractal Explorer</strong><small>Explore mathematical fractals</small></span></button>
+          </div>
+        </div>
+        <div class="xp-menu-folder">
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-personal"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Personal</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <div class="xp-folder-contents" id="xp-folder-personal" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="contact"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-menu-label"><strong>Contact</strong></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="about"><span class="xp-app-icon xp-about-icon" aria-hidden="true">?</span><span class="xp-menu-label"><strong>About Me</strong></span></button>
+            <a class="xp-menu-item xp-external-link" href="https://github.com/jordanhardee" target="_blank" rel="noopener noreferrer"><span class="xp-app-icon xp-github-icon" aria-hidden="true">⌘</span><span class="xp-menu-label"><strong>GitHub</strong></span></a>
           </div>
         </div>
         <div class="xp-menu-folder">
@@ -249,12 +292,12 @@
           <div class="xp-folder-contents" id="xp-folder-life" hidden>
             <button class="xp-menu-item" type="button" data-open-window="daily-office"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-menu-label"><strong>Daily Office</strong><small>2019 Book of Common Prayer</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="nasa-apod"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>NASA APOD</strong><small>Astronomy Picture of the Day</small></span></button>
+            <div class="xp-menu-item xp-menu-unavailable" aria-disabled="true"><span class="xp-app-icon xp-iconwall-icon" aria-hidden="true">▦</span><span class="xp-menu-label"><strong>Icon Wall</strong><small>(coming soon)</small></span></div>
           </div>
         </div>
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-misc"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Miscellaneous</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-misc" hidden>
-            <button class="xp-menu-item" type="button" data-open-window="contact"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-menu-label"><strong>Contact</strong><small>Visual contact clue</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
           </div>
         </div>
@@ -275,6 +318,8 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="chess" aria-label="Restore Chess" aria-pressed="false"><span class="xp-task-icon xp-chess-icon" aria-hidden="true">♞</span><span class="xp-task-label">Chess</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="unit-converter" aria-label="Restore Unit Converter" aria-pressed="false"><span class="xp-task-icon xp-converter-icon" aria-hidden="true">⇄</span><span class="xp-task-label">Unit Converter</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="graph-calculator" aria-label="Restore Graph Calculator" aria-pressed="false"><span class="xp-task-icon xp-graphcalc-icon" aria-hidden="true">∑</span><span class="xp-task-label">Graphing Calculator</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="fractal-explorer" aria-label="Restore Fractal Explorer" aria-pressed="false"><span class="xp-task-icon xp-fractal-icon" aria-hidden="true">✺</span><span class="xp-task-label">Fractal Explorer</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="about" aria-label="Restore About Me" aria-pressed="false"><span class="xp-task-icon xp-about-icon" aria-hidden="true">?</span><span class="xp-task-label">About Me</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="patrick-stewart" aria-label="Restore Patrick Stewart Memorial" aria-pressed="false"><span class="xp-task-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-task-label">Patrick Stewart</span></button>
       </div>
       <div class="xp-tray"><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
@@ -285,9 +330,9 @@
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
-    <script src="js/module-fullscreen.js?v=20261029-window-names"></script>
+    <script src="js/module-fullscreen.js?v=20261030-fractals-catalog"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
-    <script src="js/window-manager.js?v=20261029-window-names"></script>
-    <script src="js/start-menu.js?v=20261029-window-names"></script>
+    <script src="js/window-manager.js?v=20261030-fractals-catalog"></script>
+    <script src="js/start-menu.js?v=20261030-fractals-catalog"></script>
   </body>
 </html>

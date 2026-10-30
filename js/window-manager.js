@@ -37,6 +37,8 @@
         chess: [910, 680],
         'unit-converter': [620, 500],
         'graph-calculator': [740, 750],
+        'fractal-explorer': [850, 780],
+        about: [590, 550],
         contact: [540, 630],
       };
       const [preferredWidth, preferredHeight] = sizes[module.dataset.window] || [540, 385];
@@ -207,6 +209,8 @@
     'chess': 'Chess',
     'unit-converter': 'Unit Converter',
     'graph-calculator': 'Graphing Calculator',
+    'fractal-explorer': 'Fractal Explorer',
+    'about': 'About Me',
     'patrick-stewart': 'Patrick Stewart Memorial',
   };
   windows.forEach(module => {

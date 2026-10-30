@@ -1332,5 +1332,46 @@ button.playing-card { padding:0; cursor:pointer; }
   .converter-result,.calc-result { background:#131e30; color:#e8f4ff; border-color:#50698e; }
 }
 
+/* Additional on-demand XP windows and deliberately unwritten personal bio. */
+.xp-external-link { text-decoration:none; }
+.xp-menu-unavailable { cursor:default; opacity:.58; }
+.xp-menu-unavailable:hover { color:inherit; background:transparent; }
+.xp-fractal-icon { background:linear-gradient(145deg,#2a256d,#b85ccc); color:#f7f3ff; text-shadow:none; }
+.xp-about-icon { background:linear-gradient(145deg,#e0f0ff,#91b8e9); color:#234d83; text-shadow:none; }
+.xp-github-icon { background:linear-gradient(145deg,#4f5661,#111827); color:#fff; text-shadow:none; }
+.xp-iconwall-icon { background:linear-gradient(145deg,#f8dd88,#c5a655); color:#805118; text-shadow:none; }
+.about-panel { width:min(590px,calc(100vw - 30px)); height:min(550px,calc(100dvh - 65px)); }
+.xp-app-window .about-body { overflow:auto; padding:clamp(16px,3vw,28px); background:#f8f8fc; color:#1d2940; }
+.about-floppa { display:block; width:clamp(120px,30%,185px); height:auto; aspect-ratio:1; object-fit:cover; border:4px solid white; border-radius:8px; box-shadow:1px 2px 10px #0005; margin:0 auto 15px; }
+.about-body h3 { color:#23334b; font:calc(26px * var(--xp-text-scale,1))/1.35 Georgia,serif; text-align:center; margin:0; }
+.about-copy { min-height:200px; margin-top:24px; }
+.fractal-panel { width:min(850px,calc(100vw - 30px)); height:min(780px,calc(100dvh - 65px)); }
+.xp-app-window .fractal-body { overflow:auto; padding:12px; background:#10182e; color:#ebf3ff; font:calc(12px * var(--xp-text-scale,1))/1.5 Tahoma,Arial,sans-serif; }
+.fractal-controls { display:grid; grid-template-columns:minmax(130px,1.4fr) minmax(100px,1fr) minmax(115px,1.2fr); gap:9px; align-items:end; margin-bottom:9px; }
+.fractal-controls label,.fractal-julia-options label { display:grid; gap:3px; font-weight:bold; }
+.fractal-controls select,.fractal-julia-options input { box-sizing:border-box; width:100%; min-width:0; border:1px solid #5f7fb9; border-radius:3px; padding:7px 6px; background:#f6f9ff; color:#10203b; font:12px Tahoma,Arial,sans-serif; }
+.fractal-iterations input { width:100%; accent-color:#76c3fd; margin:7px 0; }
+.fractal-julia-options { display:flex; gap:12px; margin:6px 0 10px; }
+.fractal-julia-options[hidden] { display:none!important; }
+.fractal-viewport { width:100%; aspect-ratio:16/10; position:relative; border:1px solid #365685; overflow:hidden; background:#030c1e; cursor:crosshair; touch-action:none; user-select:none; }
+.fractal-viewport canvas { display:block; width:100%; height:100%; image-rendering:auto; }
+.fractal-selection { position:absolute; border:2px dashed #e9f7ff; background:#a3d9ff33; box-sizing:border-box; pointer-events:none; }
+.fractal-selection[hidden] { display:none!important; }
+.fractal-actions { display:flex; flex-wrap:wrap; gap:7px; margin:10px 0; }
+.xp-app-window .fractal-actions button { flex:1 1 auto; min-width:70px; padding:7px 10px; border:1px solid #6592d7; border-radius:3px; background:linear-gradient(#fbfdff,#d1e2f9); color:#163c6a; font:bold calc(11px * var(--xp-text-scale,1)) Tahoma,sans-serif; cursor:pointer; }
+.xp-app-window .fractal-actions button:disabled { opacity:.5; cursor:default; }
+.xp-app-window .fractal-actions button:hover:not(:disabled) { background:linear-gradient(#fff,#b0d1fe); }
+.fractal-status { min-height:20px; margin:6px 0; color:#d9eaff; font:calc(12px * var(--xp-text-scale,1))/1.4 Tahoma,sans-serif; }
+.fractal-scale { margin:4px 0; color:#90d8ff; font:calc(11px * var(--xp-text-scale,1))/1.4 monospace; overflow-wrap:anywhere; }
+.fractal-note { margin:8px 0 1px; color:#a8bbcf; font:calc(10px * var(--xp-text-scale,1))/1.5 Tahoma,sans-serif; }
+@media(max-width:620px) {
+  .fractal-controls { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .fractal-iterations { grid-column:1/-1; }
+  .xp-app-window .fractal-body { padding:8px; }
+  .fractal-actions { gap:5px; }
+  .xp-app-window .fractal-actions button { min-width:57px; padding:6px; }
+}
+@media(prefers-color-scheme:dark) { .xp-app-window .about-body { background:#232e40; color:#eaf1ff; } .about-body h3 { color:#eaf1ff; } }
+
 
 

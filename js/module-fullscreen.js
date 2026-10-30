@@ -20,6 +20,8 @@
       'chess': 'Chess',
       'unit-converter': 'Unit Converter',
       'graph-calculator': 'Graphing Calculator',
+      'fractal-explorer': 'Fractal Explorer',
+      'about': 'About Me',
       'patrick-stewart': 'Patrick Stewart Memorial'
     };
     return names[module.dataset.window] || 'Window';

@@ -10,8 +10,9 @@
     blackjack: new URL('./blackjack.mjs?v=20261029-1', document.currentScript.src).href,
     solitaire: new URL('./solitaire.mjs?v=20261029-2', document.currentScript.src).href,
     chess: new URL('./chess-game.mjs?v=20261029-1', document.currentScript.src).href,
-    'unit-converter': new URL('./unit-converter.mjs?v=20261029-1', document.currentScript.src).href,
+    'unit-converter': new URL('./unit-converter.mjs?v=20261030-catalog', document.currentScript.src).href,
     'graph-calculator': new URL('./graph-calculator.mjs?v=20261029-1', document.currentScript.src).href,
+    'fractal-explorer': new URL('./fractal-explorer.mjs?v=20261030-1', document.currentScript.src).href,
   };
   const loadedApps = new Set();
   let soundContext;
@@ -119,6 +120,9 @@
         });
       }
     });
+  });
+  menu.querySelectorAll('a.xp-external-link').forEach(link => {
+    link.addEventListener('click', () => showMenu(false));
   });
   document.addEventListener('pointerdown', event => {
     if (!menu.hidden && !menu.contains(event.target) && !start.contains(event.target)) showMenu(false);
