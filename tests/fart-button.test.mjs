@@ -16,29 +16,23 @@ function makePage(withAudio) {
   };
   const menu = {
     hidden: true,
+    setAttribute() {},
     querySelectorAll() { return []; },
     contains() { return false; },
   };
-  class AudioContextMock {
-    state = 'running';
-    currentTime = 0;
-    sampleRate = 22050;
-    destination = {};
-    createBuffer(_channels, count) { return { getChannelData() { return new Float32Array(count); } }; }
-    createBufferSource() { return { connect() {}, start() { sounds++; } }; }
-    createBiquadFilter() {
-      return { frequency: { setValueAtTime() {}, exponentialRampToValueAtTime() {} }, connect() {} };
-    }
-    createGain() { return { gain: { value: 0 }, connect() {} }; }
+  const startLabel = { textContent: 'start' };
+  class AudioMock {
+    pause() {}
+    play() {sounds++;return Promise.resolve();}
   }
   const document = {
     currentScript: { src: 'https://example.test/js/start-menu.js' },
-    getElementById(id) { return id === 'xp-start-button' ? start : id === 'xp-start-menu' ? menu : null; },
+    getElementById(id) { return id === 'xp-start-button' ? start : id === 'xp-start-menu' ? menu : id === 'xp-start-label' ? startLabel : null; },
     addEventListener() {},
   };
-  const window = withAudio ? { AudioContext: AudioContextMock } : {};
-  vm.runInNewContext(script, { document, window, URL, console, Math });
-  return { open: () => clicks(), menu, attributes, getSounds: () => sounds };
+  const window = {};
+  vm.runInNewContext(script, { document, window, URL, console, Math, ...(withAudio ? {Audio:AudioMock} : {}) });
+  return { open: () => clicks(), menu, attributes, startLabel, getSounds: () => sounds };
 }
 
 test('fart plays on opening but not closing the XP menu', () => {
@@ -47,11 +41,13 @@ test('fart plays on opening but not closing the XP menu', () => {
   assert.equal(page.menu.hidden, false);
   assert.equal(page.getSounds(), 1);
   assert.equal(page.attributes['aria-expanded'], 'true');
+  assert.equal(page.startLabel.textContent, 'fart');
   page.open();
   assert.equal(page.menu.hidden, true);
   assert.equal(page.getSounds(), 1);
   page.open();
   assert.equal(page.getSounds(), 2);
+  assert.equal(page.startLabel.textContent, 'fart');
 });
 
 test('menu still opens if the browser has no Web Audio API', () => {

@@ -7,6 +7,9 @@
   const chefLoading = document.getElementById('cyberchef-loading');
   const skyFrame = document.getElementById('stellarium-frame');
   const skyLoading = document.getElementById('stellarium-loading');
+  const hackButton = document.getElementById('xp-hack-planet');
+  const hackFlash = document.getElementById('xp-hack-flash');
+  const hackGif = document.getElementById('xp-hack-gif');
   if (!start || !menu) return;
   let contactScriptRequested = false;
   const onDemandApps = {
@@ -15,7 +18,7 @@
     chess: new URL('./chess-game.mjs?v=20261029-1', document.currentScript.src).href,
     'unit-converter': new URL('./unit-converter.mjs?v=20261030-catalog', document.currentScript.src).href,
     'graph-calculator': new URL('./graph-calculator.mjs?v=20261029-1', document.currentScript.src).href,
-    'fractal-explorer': new URL('./fractal-explorer.mjs?v=20261030-1', document.currentScript.src).href,
+    'fractal-explorer': new URL('./fractal-explorer.mjs?v=20261030-fractal-variety', document.currentScript.src).href,
     'wikipedia-featured': new URL('./wikipedia-featured.mjs?v=20261030-1', document.currentScript.src).href,
     news: new URL('./news.mjs?v=20261030-1', document.currentScript.src).href,
   };
@@ -23,11 +26,16 @@
   let openedOnce = false;
   // The short "Dry fart" sound from the Archive.org Fart Sounds collection.
   // Playing directly inside the click handler satisfies iOS audio gesture rules.
-  const fartAudio = new Audio('https://archive.org/download/fart-with-reverb/dry-fart.mp3');
-  fartAudio.preload = 'auto';
-  fartAudio.volume = 0.9;
+  const fartAudio = typeof Audio === 'function'
+    ? new Audio('https://archive.org/download/fart-with-reverb/dry-fart.mp3')
+    : null;
+  if (fartAudio) {
+    fartAudio.preload = 'auto';
+    fartAudio.volume = 0.9;
+  }
 
   function playFart() {
+    if (!fartAudio) return;
     try {
       fartAudio.pause();
       fartAudio.currentTime = 0;
@@ -105,6 +113,42 @@
   });
   menu.querySelectorAll('a.xp-external-link').forEach(link => {
     link.addEventListener('click', () => showMenu(false));
+  });
+  // A short fullscreen Easter egg. The fixed overlay still works on iOS,
+  // where the Fullscreen API for arbitrary elements may be unavailable.
+  let flashTimer;
+  let flashEndTimer;
+  const hackGifUrl = 'https://media.tenor.com/K8R7LThju04AAAAC/hack-the-planet.gif';
+  function closeHackFlash() {
+    window.clearTimeout(flashTimer);
+    window.clearTimeout(flashEndTimer);
+    if (hackFlash) hackFlash.hidden = true;
+    if (document.fullscreenElement === hackFlash) document.exitFullscreen?.().catch(() => {});
+  }
+  hackButton?.addEventListener('click', () => {
+    showMenu(false);
+    if (!hackFlash || !hackGif) return;
+    closeHackFlash();
+    hackFlash.hidden = false;
+    hackGif.onload = null;
+    hackGif.onerror = null;
+    hackGif.removeAttribute('src');
+    hackFlash.requestFullscreen?.().catch(() => {});
+    // A GIF may take a moment to arrive on slow mobile connections. Once
+    // loaded, show approximately one second of animation before restoring.
+    const endSoon = () => {
+      window.clearTimeout(flashEndTimer);
+      flashEndTimer = window.setTimeout(closeHackFlash, 1250);
+    };
+    hackGif.onload = endSoon;
+    hackGif.onerror = closeHackFlash;
+    hackGif.src = hackGifUrl;
+    if (hackGif.complete && hackGif.naturalWidth) endSoon();
+    flashTimer = window.setTimeout(closeHackFlash, 6000);
+  });
+  hackFlash?.addEventListener('click', closeHackFlash);
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && hackFlash && !hackFlash.hidden) closeHackFlash();
   });
   document.addEventListener('pointerdown', event => {
     if (!menu.hidden && !menu.contains(event.target) && !start.contains(event.target)) showMenu(false);

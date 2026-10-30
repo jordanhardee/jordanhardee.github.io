@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261030-credits">
+    <link rel="stylesheet" href="css/style.css?v=20261030-fractal-variety">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -224,8 +224,8 @@
         </div>
         <div class="xp-app-body fractal-body">
           <div class="fractal-controls">
-            <label>Algorithm<select id="fractal-algorithm"><option value="mandelbrot">Mandelbrot set</option><option value="julia">Julia set</option><option value="burning-ship">Burning Ship</option><option value="tricorn">Tricorn</option><option value="multibrot3">Multibrot z³ + c</option><option value="celtic">Celtic Mandelbrot</option></select></label>
-            <label>Colors<select id="fractal-palette"><option value="nebula">Nebula</option><option value="ocean">Ocean</option><option value="fire">Fire</option><option value="monochrome">Monochrome</option></select></label>
+            <label>Algorithm<select id="fractal-algorithm"><optgroup label="Trees &amp; nature"><option value="tree" selected>Branching tree</option><option value="pythagoras-tree">Pythagoras tree</option><option value="barnsley-fern">Barnsley fern</option></optgroup><optgroup label="Geometric fractals"><option value="sierpinski-triangle">Sierpiński triangle</option><option value="sierpinski-carpet">Sierpiński carpet</option><option value="koch-snowflake">Koch snowflake</option><option value="dragon-curve">Heighway dragon curve</option><option value="cantor-set">Cantor set</option></optgroup><optgroup label="Complex-plane fractals"><option value="mandelbrot">Mandelbrot set</option><option value="julia">Julia set</option><option value="burning-ship">Burning Ship</option><option value="tricorn">Tricorn</option><option value="multibrot3">Multibrot z³ + c</option><option value="multibrot4">Multibrot z⁴ + c</option><option value="celtic">Celtic Mandelbrot</option><option value="perpendicular-ship">Perpendicular Burning Ship</option><option value="buffalo">Buffalo fractal</option></optgroup></select></label>
+            <label>Colors<select id="fractal-palette"><option value="aero" selected>Frutiger Aero</option><option value="cozy">Cozy autumn</option><option value="meadow">Soft meadow</option><option value="lilac">Lavender dusk</option><option value="seaglass">Sea glass</option><option value="monochrome">Monochrome</option></select></label>
             <label class="fractal-iterations">Detail <output id="fractal-iteration-value">350</output><input id="fractal-iterations" type="range" min="100" max="1100" value="350" step="50"></label>
           </div>
           <div class="fractal-julia-options" id="fractal-julia-options" hidden><label>Julia c (real)<input id="fractal-julia-real" type="number" value="-0.7" step="0.01"></label><label>Julia c (imaginary)<input id="fractal-julia-imag" type="number" value="0.27015" step="0.01"></label></div>
@@ -233,7 +233,7 @@
           <div class="fractal-actions"><button id="fractal-zoom-in" type="button">Zoom in +</button><button id="fractal-zoom-out" type="button">Zoom out −</button><button id="fractal-previous" type="button">Back</button><button id="fractal-reset" type="button">Reset view</button><button id="fractal-save" type="button">Save PNG</button></div>
           <p class="fractal-status" id="fractal-status" role="status" aria-live="polite">Preparing fractal…</p>
           <p class="fractal-scale" id="fractal-scale"></p>
-          <p class="fractal-note">Deep zoom uses expanding BigInt precision. Rendering takes longer as you zoom into finer details; practical limits depend on your device.</p>
+          <p class="fractal-note">Drag to zoom into details or use the +/− buttons. Complex-plane fractals use expanding BigInt precision for deep zoom; geometric fractals are rendered recursively with practical detail limits.</p>
         </div>
         <div class="xp-app-footer"><span>FRACTAL EXPLORER · SIX ALGORITHMS</span><span>LOCAL RENDERING · NO UPLOADS</span></div>
       </section>
@@ -322,21 +322,29 @@
           </div>
         </div>
         <div class="xp-menu-folder">
-          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-hack"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Hack the Planet</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-hack"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Hack</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-hack" hidden>
+            <button class="xp-menu-item" type="button" id="xp-hack-planet"><span class="xp-app-icon xp-hack-planet-icon" aria-hidden="true">!</span><span class="xp-menu-label"><strong>Hack the Planet</strong></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="hacker-news"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-menu-label"><strong>Hacker News</strong></span></button>
             <button class="xp-menu-item" type="button" data-open-window="threat-intel"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span class="xp-menu-label"><strong>Cyber Threat Wire</strong><small>Security news and exploited CVEs</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="cyberchef"><span class="xp-app-icon xp-chef-icon" aria-hidden="true">⚗</span><span class="xp-menu-label"><strong>CyberChef</strong><small>(CyberChef Beta Mobile Version)</small></span></button>
           </div>
         </div>
         <div class="xp-menu-folder">
-          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-apps"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Apps</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
-          <div class="xp-folder-contents" id="xp-folder-apps" hidden>
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-reading"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>News &amp; Reading</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <div class="xp-folder-contents" id="xp-folder-reading" hidden>
             <button class="xp-menu-item" type="button" data-open-window="news"><span class="xp-app-icon xp-news-icon" aria-hidden="true">N</span><span class="xp-menu-label"><strong>News</strong></span></button>
-            <button class="xp-menu-item" type="button" data-open-window="hacker-news"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-menu-label"><strong>Hacker News</strong><small>Current front-page stories</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="wikipedia-featured"><span class="xp-app-icon xp-wikipedia-icon" aria-hidden="true">W</span><span class="xp-menu-label"><strong>Wikipedia Article of the Day</strong></span></button>
+          </div>
+        </div>
+        <div class="xp-menu-folder">
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-apps"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Science &amp; Math</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <div class="xp-folder-contents" id="xp-folder-apps" hidden>
             <button class="xp-menu-item" type="button" data-open-window="unit-converter"><span class="xp-app-icon xp-converter-icon" aria-hidden="true">⇄</span><span class="xp-menu-label"><strong>Unit Converter</strong><small>Scientific and everyday units</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="graph-calculator"><span class="xp-app-icon xp-graphcalc-icon" aria-hidden="true">∑</span><span class="xp-menu-label"><strong>Graphing Calculator</strong><small>Scientific calculator and graphs</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="fractal-explorer"><span class="xp-app-icon xp-fractal-icon" aria-hidden="true">✺</span><span class="xp-menu-label"><strong>Fractal Explorer</strong><small>Explore mathematical fractals</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="stellarium"><span class="xp-app-icon xp-stellarium-icon" aria-hidden="true">✶</span><span class="xp-menu-label"><strong>Stellarium Web</strong><small>Interactive sky chart</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="nasa-apod"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>NASA APOD</strong></span></button>
           </div>
         </div>
         <div class="xp-menu-folder">
@@ -351,14 +359,12 @@
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-life"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Lifestyle</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-life" hidden>
             <button class="xp-menu-item" type="button" data-open-window="daily-office"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-menu-label"><strong>Daily Office</strong><small>2019 Book of Common Prayer</small></span></button>
-            <button class="xp-menu-item" type="button" data-open-window="nasa-apod"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>NASA APOD</strong><small>Astronomy Picture of the Day</small></span></button>
             <div class="xp-menu-item xp-menu-unavailable" aria-disabled="true"><span class="xp-app-icon xp-iconwall-icon" aria-hidden="true">▦</span><span class="xp-menu-label"><strong>Icon Wall</strong><small>(coming soon)</small></span></div>
           </div>
         </div>
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-misc"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Miscellaneous</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-misc" hidden>
-            <button class="xp-menu-item" type="button" data-open-window="wikipedia-featured"><span class="xp-app-icon xp-wikipedia-icon" aria-hidden="true">W</span><span class="xp-menu-label"><strong>Wikipedia Article of the Day</strong></span></button>
             <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="credits"><span class="xp-app-icon xp-credits-icon" aria-hidden="true">♫</span><span class="xp-menu-label"><strong>Credits</strong></span></button>
           </div>
@@ -366,6 +372,9 @@
       </div>
       <div class="xp-menu-bottom">JordanHardee.com</div>
     </nav>
+    <div class="xp-hack-flash" id="xp-hack-flash" role="img" aria-label="Hack the Planet animation" hidden>
+      <img id="xp-hack-gif" alt="Hack the Planet!" decoding="async">
+    </div>
     <footer class="xp-taskbar" aria-label="Windows XP taskbar">
       <button class="xp-start" type="button" id="xp-start-button" aria-controls="xp-start-menu" aria-expanded="false"><span class="xp-start-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span> <span id="xp-start-label">start</span></button>
       <div class="xp-task-list" role="group" aria-label="Application windows">
@@ -399,7 +408,7 @@
     <script src="js/module-fullscreen.js?v=20261030-credits"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
     <script src="js/window-manager.js?v=20261030-credits"></script>
-    <script src="js/start-menu.js?v=20261030-fart-reveal"></script>
+    <script src="js/start-menu.js?v=20261030-hack-flash"></script>
     <script src="js/music.js?v=20261030-credits"></script>
   </body>
 </html>

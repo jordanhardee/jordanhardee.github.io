@@ -1,4 +1,4 @@
-import { approximate, iterateFloat, iterateBigInt, colorForIteration } from './fractal-math.mjs';
+import { approximate, iterateFloat, iterateBigInt, colorForIteration } from './fractal-math.mjs?v=20261030-fractal-variety';
 
 let latestJob = 0;
 async function render(job) {

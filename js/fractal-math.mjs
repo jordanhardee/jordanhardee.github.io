@@ -1,8 +1,12 @@
 // BigInt-backed complex viewport coordinates. Precision expands as the user
 // zooms, instead of losing the fractal to 64-bit floating-point rounding.
-export function initialView() {
+export const GEOMETRIC_FRACTALS = Object.freeze(['tree','pythagoras-tree','barnsley-fern','sierpinski-triangle','sierpinski-carpet','koch-snowflake','dragon-curve','cantor-set']);
+export function isGeometricFractal(name) { return GEOMETRIC_FRACTALS.includes(name); }
+
+export function initialView(algorithm = 'mandelbrot') {
   const scalePower = 80;
   const scale = 10n ** BigInt(scalePower);
+  if (isGeometricFractal(algorithm)) return {scalePower,centerX:0n,centerY:0n,span:32n*scale/10n};
   return { scalePower, centerX: -scale / 2n, centerY: 0n, span: 32n * scale / 10n };
 }
 
@@ -60,7 +64,10 @@ export function iterateFloat(x, y, algorithm, limit, juliaX=-0.7, juliaY=0.27015
     }
     let nr, ni;
     if (algorithm === 'multibrot3') { nr = zr*r2-3*zr*i2+cx; ni = 3*r2*zi-zi*i2+cy; }
+    else if (algorithm === 'multibrot4') { const a=r2-i2,b=2*zr*zi;nr=a*a-b*b+cx;ni=2*a*b+cy; }
     else if (algorithm === 'burning-ship') { nr = r2-i2+cx; ni = 2*Math.abs(zr*zi)+cy; }
+    else if (algorithm === 'perpendicular-ship') { nr = r2-i2+cx; ni = -2*Math.abs(zr)*zi+cy; }
+    else if (algorithm === 'buffalo') { nr = Math.abs(r2-i2)+cx; ni = -2*Math.abs(zr*zi)+cy; }
     else if (algorithm === 'tricorn') { nr = r2-i2+cx; ni = -2*zr*zi+cy; }
     else if (algorithm === 'celtic') { nr = Math.abs(r2-i2)+cx; ni = 2*zr*zi+cy; }
     else { nr = r2-i2+cx; ni = 2*zr*zi+cy; }
@@ -87,9 +94,20 @@ export function iterateBigInt(x, y, algorithm, limit, scale, juliaX=0n, juliaY=0
     if (algorithm === 'multibrot3') {
       nr = zr*(r2-3n*i2)/scale+cx;
       ni = zi*(3n*r2-i2)/scale+cy;
+    } else if (algorithm === 'multibrot4') {
+      const a=r2-i2, b=2n*zr*zi/scale;
+      nr=(a*a-b*b)/scale+cx;
+      ni=2n*a*b/scale+cy;
     } else if (algorithm === 'burning-ship') {
       nr = r2-i2+cx;
       ni = 2n*(zr*zi < 0n ? -zr*zi : zr*zi)/scale+cy;
+    } else if (algorithm === 'perpendicular-ship') {
+      nr = r2-i2+cx;
+      ni = -2n*(zr<0n?-zr:zr)*zi/scale+cy;
+    } else if (algorithm === 'buffalo') {
+      const a=r2-i2,b=zr*zi;
+      nr = (a<0n?-a:a)+cx;
+      ni = -2n*(b<0n?-b:b)/scale+cy;
     } else if (algorithm === 'tricorn') {
       nr = r2-i2+cx;
       ni = -2n*zr*zi/scale+cy;
@@ -106,14 +124,26 @@ export function iterateBigInt(x, y, algorithm, limit, scale, juliaX=0n, juliaY=0
   return limit;
 }
 
-export function colorForIteration(count, limit, palette='nebula') {
-  if (count >= limit) return [1, 7, 21, 255];
-  const n = Math.max(0,count);
-  if (palette === 'monochrome') {
-    const g = Math.max(0, Math.min(255,Math.round(n*17 % 255)));
-    return [g,g,g,255];
-  }
-  if (palette === 'fire') return [Math.min(255,Math.round(n*8)),Math.min(255,Math.round(Math.max(0,n-8)*5)),Math.min(230,Math.round(Math.max(0,n-22)*3)),255];
-  if (palette === 'ocean') return [Math.round(15+25*(1+Math.sin(n*.11))),Math.round(60+80*(1+Math.sin(n*.12+.8))/2),Math.round(125+110*(1+Math.sin(n*.09+1.4))/2),255];
-  return [Math.round(110+110*Math.sin(n*.08)),Math.round(105+105*Math.sin(n*.08+2.1)),Math.round(120+115*Math.sin(n*.08+4.2)),255];
+// Restrained palettes based on adjacent harmonious hues, no rainbow sine waves.
+export const PALETTES = Object.freeze({
+  aero: [[18,70,116],[48,154,195],[115,209,210],[204,240,203],[255,246,209]],
+  cozy: [[76,66,71],[137,92,86],[193,130,104],[229,182,140],[248,223,191]],
+  meadow: [[39,93,84],[89,142,109],[161,193,142],[215,219,167],[249,241,212]],
+  lilac: [[62,74,121],[119,118,164],[176,157,187],[220,190,194],[250,222,206]],
+  seaglass: [[32,88,110],[55,140,151],[107,190,175],[186,220,196],[241,240,220]],
+  monochrome: [[40,50,60],[90,110,120],[151,169,169],[209,220,213],[250,250,245]]
+});
+
+export function paletteColor(palette = 'aero', position = 0) {
+  const stops = PALETTES[palette] || PALETTES.aero;
+  const scaled = Math.max(0,Math.min(0.999999,position))* (stops.length-1);
+  const i = Math.floor(scaled), fraction = scaled-i;
+  return stops[i].map((value,j) => Math.round(value+(stops[i+1][j]-value)*fraction));
+}
+
+export function colorForIteration(count, limit, palette='aero') {
+  if (count >= limit) return [18,36,52,255];
+  // A long, gentle gradient wraps for large escape counts.
+  const progression = ((Math.max(0,count)*0.024) % 1 + 1) % 1;
+  return [...paletteColor(palette, progression),255];
 }

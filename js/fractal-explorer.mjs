@@ -1,4 +1,5 @@
-import { initialView, zoomView, scaleDescription } from './fractal-math.mjs';
+import { initialView, zoomView, scaleDescription, isGeometricFractal } from './fractal-math.mjs?v=20261030-fractal-variety';
+import { drawGeometricFractal } from './fractal-geometry.mjs?v=20261030-fractal-variety';
 
 const panel = document.querySelector('[data-window="fractal-explorer"]');
 const canvas = document.getElementById('fractal-canvas');
@@ -20,7 +21,7 @@ const juliaReal = document.getElementById('fractal-julia-real');
 const juliaImag = document.getElementById('fractal-julia-imag');
 
 if (panel && canvas && canvasWrap && selection && algorithm && palette && iterations && iterationValue && status && spanText && zoomIn && zoomOut && reset && previous && save && juliaOptions && juliaReal && juliaImag) {
-  let view = initialView();
+  let view = initialView(algorithm.value);
   let history = [];
   let jobId = 0;
   let renderTimeout = null;
@@ -29,29 +30,40 @@ if (panel && canvas && canvasWrap && selection && algorithm && palette && iterat
   const context = canvas.getContext('2d', {alpha:false});
   const originalLabel = 'Click or tap to zoom ×2; drag a rectangle to zoom into an area. Scroll over the image to zoom.';
 
-  try { worker = new Worker(new URL('./fractal-worker.mjs',import.meta.url),{type:'module'}); }
+  try { worker = new Worker(new URL('./fractal-worker.mjs?v=20261030-fractal-variety',import.meta.url),{type:'module'}); }
   catch (error) { status.textContent = `Fractal renderer unavailable: ${error.message}`; }
 
   function refreshScale() {
-    spanText.textContent = `Horizontal span: ${scaleDescription(view)} · ${view.scalePower} decimal digits available`;
+    spanText.textContent = `Horizontal span: ${scaleDescription(view)}${isGeometricFractal(algorithm.value) ? ' · recursive geometry' : ` · ${view.scalePower} decimal digits available`}`;
     previous.disabled = history.length===0;
     iterationValue.textContent = iterations.value;
     juliaOptions.hidden = algorithm.value !== 'julia';
   }
   function render() {
     refreshScale();
-    if (!worker || !context) return;
+    if (!context) return;
     if (renderTimeout) window.clearTimeout(renderTimeout);
     const size = canvasWrap.getBoundingClientRect();
-    const deep = view.span < 10n**BigInt(view.scalePower) / 1000000000000n;
+    const geometric = isGeometricFractal(algorithm.value);
+    const deep = !geometric && view.span < 10n**BigInt(view.scalePower) / 1000000000000n;
     const width = Math.max(200, Math.min(deep ? 270 : 720,Math.round(size.width||570)));
     const height = Math.max(140,Math.round(width*0.625));
     canvas.width = width;
     canvas.height = height;
-    context.fillStyle='#030c1e'; context.fillRect(0,0,width,height);
+    jobId++;
+    if (geometric) {
+      worker?.postMessage({type:'cancel',id:jobId});
+      status.textContent = 'Drawing recursive geometry…';
+      try {
+        drawGeometricFractal(context,algorithm.value,palette.value,view,width,height);
+        status.textContent = originalLabel;
+      } catch(error) { status.textContent=`Drawing error: ${error.message}`; }
+      return;
+    }
+    if (!worker) {status.textContent='Complex-plane renderer unavailable.';return;}
+    context.fillStyle='#19384b'; context.fillRect(0,0,width,height);
     const chosenIterations = Math.min(Number(iterations.value),deep ? 360 : 1100);
     status.textContent = deep ? 'Rendering with expanded BigInt precision… (deep zoom is slower)' : 'Rendering…';
-    jobId++;
     worker.postMessage({type:'render',id:jobId,width,height,algorithm:algorithm.value,palette:palette.value,
       iterations:chosenIterations,juliaReal:Number(juliaReal.value),juliaImag:Number(juliaImag.value),
       view:{centerX:view.centerX.toString(),centerY:view.centerY.toString(),span:view.span.toString(),scalePower:view.scalePower}});
@@ -124,9 +136,9 @@ if (panel && canvas && canvasWrap && selection && algorithm && palette && iterat
   });
   zoomIn.addEventListener('click',() => zoomAt(canvasWrap.clientWidth/2,canvasWrap.clientHeight/2));
   zoomOut.addEventListener('click',() => zoomAt(canvasWrap.clientWidth/2,canvasWrap.clientHeight/2,2n,1n));
-  reset.addEventListener('click',() => {saveView(); view=initialView();render();});
+  reset.addEventListener('click',() => {saveView(); view=initialView(algorithm.value);render();});
   previous.addEventListener('click',() => {if(!history.length)return;view=history.pop();render();});
-  algorithm.addEventListener('change',() => {saveView();view=initialView();render();});
+  algorithm.addEventListener('change',() => {history=[];view=initialView(algorithm.value);render();});
   palette.addEventListener('change',render);
   iterations.addEventListener('input',() => {iterationValue.textContent=iterations.value;scheduleRender();});
   for (const input of [juliaReal,juliaImag]) input.addEventListener('change',render);
