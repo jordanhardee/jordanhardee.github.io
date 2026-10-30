@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261030-fractals-catalog">
+    <link rel="stylesheet" href="css/style.css?v=20261030-wikipedia-featured">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -244,6 +244,23 @@
         </div>
         <div class="xp-app-body about-body"><img src="floppa.jpeg" alt="Floppa wearing sunglasses" class="about-floppa"><h3>Who is Jordan Hardee?</h3><div class="about-copy" aria-label="About Me text"><!-- Jordan's own text can go here later. --></div></div>
       </section>
+      <section class="xp-app-window wikipedia-panel module-closed" data-window="wikipedia-featured" aria-labelledby="wikipedia-heading">
+        <div class="xp-app-header">
+          <h2 id="wikipedia-heading"><span class="xp-app-icon xp-wikipedia-icon" aria-hidden="true">W</span> Wikipedia Article of the Day</h2>
+          <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Wikipedia text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Wikipedia text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Wikipedia" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Wikipedia" title="Maximize Wikipedia">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Wikipedia" title="Close Wikipedia">×</button></span>
+        </div>
+        <div class="xp-app-body wikipedia-body" tabindex="0" aria-label="Wikipedia featured article preview">
+          <p class="wikipedia-date" id="wikipedia-date"></p>
+          <p class="wikipedia-status" id="wikipedia-status" role="status" aria-live="polite">Opening Wikipedia’s featured article…</p>
+          <article id="wikipedia-article" hidden>
+            <h3 id="wikipedia-title"></h3>
+            <p class="wikipedia-description" id="wikipedia-description"></p>
+            <a id="wikipedia-image-link" target="_blank" rel="noopener noreferrer" hidden><img id="wikipedia-image" alt="" loading="lazy"></a>
+            <p class="wikipedia-extract" id="wikipedia-extract"></p>
+          </article>
+        </div>
+        <div class="xp-app-footer"><span>WIKIPEDIA CONTRIBUTORS · CC BY-SA</span><a id="wikipedia-source" href="https://en.wikipedia.org/wiki/Wikipedia:Today%27s_featured_article" target="_blank" rel="noopener noreferrer">READ ON WIKIPEDIA</a></div>
+      </section>
       <section class="xp-app-window memorial-panel module-closed" data-window="patrick-stewart" aria-labelledby="memorial-heading">
         <div class="xp-app-header">
           <h2 id="memorial-heading"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span> Patrick Stewart — In Memoriam</h2>
@@ -310,6 +327,7 @@
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-misc"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Miscellaneous</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-misc" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="wikipedia-featured"><span class="xp-app-icon xp-wikipedia-icon" aria-hidden="true">W</span><span class="xp-menu-label"><strong>Wikipedia Article of the Day</strong></span></button>
             <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
           </div>
         </div>
@@ -333,6 +351,7 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="fractal-explorer" aria-label="Restore Fractal Explorer" aria-pressed="false"><span class="xp-task-icon xp-fractal-icon" aria-hidden="true">✺</span><span class="xp-task-label">Fractal Explorer</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="stellarium" aria-label="Restore Stellarium Web" aria-pressed="false"><span class="xp-task-icon xp-stellarium-icon" aria-hidden="true">✶</span><span class="xp-task-label">Stellarium Web</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="about" aria-label="Restore About Me" aria-pressed="false"><span class="xp-task-icon xp-about-icon" aria-hidden="true">?</span><span class="xp-task-label">About Me</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="wikipedia-featured" aria-label="Restore Wikipedia Article of the Day" aria-pressed="false"><span class="xp-task-icon xp-wikipedia-icon" aria-hidden="true">W</span><span class="xp-task-label">Wikipedia</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="patrick-stewart" aria-label="Restore Patrick Stewart Memorial" aria-pressed="false"><span class="xp-task-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-task-label">Patrick Stewart</span></button>
       </div>
       <div class="xp-tray"><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
@@ -343,9 +362,9 @@
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
-    <script src="js/module-fullscreen.js?v=20261030-stellarium"></script>
+    <script src="js/module-fullscreen.js?v=20261030-wikipedia-featured"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
     <script src="js/window-manager.js?v=20261030-stellarium"></script>
-    <script src="js/start-menu.js?v=20261030-stellarium"></script>
+    <script src="js/start-menu.js?v=20261030-wikipedia-featured"></script>
   </body>
 </html>
