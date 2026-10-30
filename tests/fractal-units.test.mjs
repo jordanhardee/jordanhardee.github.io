@@ -73,6 +73,12 @@ test('tree is the default, geometric families render, and palettes remain in ran
     drawGeometricFractal(ctx,name,'cozy',initialView(name),640,400);
     assert.ok(marks>30,`${name} rendered ${marks} marks`);
   }
+  marks=0;
+  drawGeometricFractal(ctx,'tree','aero',initialView('tree'),640,400,100);
+  const lowDetail=marks;
+  marks=0;
+  drawGeometricFractal(ctx,'tree','aero',initialView('tree'),640,400,1100);
+  assert.ok(marks>lowDetail, 'Detail slider adds tree branches');
   for(const color of Object.keys(PALETTES))for(const n of [0,11,83,450]) {
     const rgba=colorForIteration(n,1000,color);
     assert.equal(rgba.length,4);

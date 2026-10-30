@@ -1,5 +1,5 @@
 import { initialView, zoomView, scaleDescription, isGeometricFractal } from './fractal-math.mjs?v=20261030-fractal-variety';
-import { drawGeometricFractal } from './fractal-geometry.mjs?v=20261030-fractal-variety';
+import { drawGeometricFractal } from './fractal-geometry.mjs?v=20261030-fractal-detail2';
 
 const panel = document.querySelector('[data-window="fractal-explorer"]');
 const canvas = document.getElementById('fractal-canvas');
@@ -55,7 +55,7 @@ if (panel && canvas && canvasWrap && selection && algorithm && palette && iterat
       worker?.postMessage({type:'cancel',id:jobId});
       status.textContent = 'Drawing recursive geometry…';
       try {
-        drawGeometricFractal(context,algorithm.value,palette.value,view,width,height);
+        drawGeometricFractal(context,algorithm.value,palette.value,view,width,height,Number(iterations.value));
         status.textContent = originalLabel;
       } catch(error) { status.textContent=`Drawing error: ${error.message}`; }
       return;

@@ -2,7 +2,7 @@ import { approximate, paletteColor } from './fractal-math.mjs?v=20261030-fractal
 
 // Recursive and iterated-function fractals. Unlike escape-time sets, these
 // are drawn as vector primitives, so their edges stay crisp on every redraw.
-export function drawGeometricFractal(ctx, algorithm, palette, view, width, height) {
+export function drawGeometricFractal(ctx, algorithm, palette, view, width, height, detail=350) {
   const cx = approximate(view.centerX, view.scalePower);
   const cy = approximate(view.centerY, view.scalePower);
   const span = approximate(view.span, view.scalePower);
@@ -41,12 +41,12 @@ export function drawGeometricFractal(ctx, algorithm, palette, view, width, heigh
   }
 
   if (algorithm==='tree' || algorithm==='pythagoras-tree') {
-    const depth = Math.min(14, 11 + Math.max(0,Math.floor(Math.log2(3.2/Math.max(span,.0000001)))));
+    const depth = Math.min(14, 10 + Math.floor(detail/300) + Math.max(0,Math.floor(Math.log2(3.2/Math.max(span,.0000001)))));
     branch(0,.82,.46,0,depth,depth,algorithm==='pythagoras-tree');
   } else if (algorithm==='barnsley-fern') {
     let x=0,y=0,seed=79321;
     const rand=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
-    for(let i=0;i<75000;i++) {
+    for(let i=0;i<Math.min(170000,30000+detail*130);i++) {
       const r=rand();let nx,ny;
       if(r<.01){nx=0;ny=.16*y;}
       else if(r<.86){nx=.85*x+.04*y;ny=-.04*x+.85*y+1.6;}
@@ -64,14 +64,14 @@ export function drawGeometricFractal(ctx, algorithm, palette, view, width, heigh
       const ab=midpoint(a,b),bc=midpoint(b,c),ca=midpoint(c,a);
       triangle(a,ab,ca,d-1);triangle(ab,b,bc,d-1);triangle(ca,bc,c,d-1);
     }
-    triangle([-1,.78],[1,.78],[0,-.85],Math.min(8,6+Math.max(0,Math.floor(Math.log2(3.2/span)))));
+    triangle([-1,.78],[1,.78],[0,-.85],Math.min(8,5+Math.floor(detail/350)+Math.max(0,Math.floor(Math.log2(3.2/span)))));
   } else if (algorithm==='sierpinski-carpet') {
     function carpet(x,y,size,depth){
       if(depth===0){ctx.fillStyle=rgb(.2+(x+1)/3);ctx.fillRect(px(x),py(y),size*ratio+.5,size*ratio+.5);return;}
       const sub=size/3;
       for(let row=0;row<3;row++)for(let col=0;col<3;col++)if(row!==1||col!==1)carpet(x+col*sub,y+row*sub,sub,depth-1);
     }
-    carpet(-.85,-.85,1.7,Math.min(5,4+Math.max(0,Math.floor(Math.log2(3.2/span)))));
+    carpet(-.85,-.85,1.7,Math.min(5,3+Math.floor(detail/300)+Math.max(0,Math.floor(Math.log2(3.2/span)))));
   } else if (algorithm==='koch-snowflake') {
     let drawn=0;
     function koch(ax,ay,bx,by,d){
@@ -82,11 +82,11 @@ export function drawGeometricFractal(ctx, algorithm, palette, view, width, heigh
       const vx=mx+dx*.5-dy*Math.sqrt(3)/2,vy=my+dy*.5+dx*Math.sqrt(3)/2;
       koch(ax,ay,mx,my,d-1);koch(mx,my,vx,vy,d-1);koch(vx,vy,nx,ny,d-1);koch(nx,ny,bx,by,d-1);
     }
-    const a=[0,-.78],b=[.85,.70],c=[-.85,.70],level=5;
+    const a=[0,-.78],b=[.85,.70],c=[-.85,.70],level=Math.min(6,4+Math.floor(detail/350));
     koch(...a,...b,level);koch(...b,...c,level);koch(...c,...a,level);
   } else if (algorithm==='dragon-curve') {
     let turns=[1];
-    for(let n=0;n<11;n++)turns=turns.concat([1],turns.slice().reverse().map(t=>-t));
+    for(let n=0;n<Math.min(13,10+Math.floor(detail/350));n++)turns=turns.concat([1],turns.slice().reverse().map(t=>-t));
     let x=0,y=0,heading=0;const points=[[0,0]];
     for(const turn of turns){x+=[1,0,-1,0][heading];y+=[0,1,0,-1][heading];points.push([x,y]);heading=(heading+turn+4)%4;}
     x+=[1,0,-1,0][heading];y+=[0,1,0,-1][heading];points.push([x,y]);
@@ -105,6 +105,6 @@ export function drawGeometricFractal(ctx, algorithm, palette, view, width, heigh
       cantor(x,y+.22,length/3,d-1);
       cantor(x+length*2/3,y+.22,length/3,d-1);
     }
-    cantor(-.9,-.82,1.8,7);
+    cantor(-.9,-.82,1.8,Math.min(8,6+Math.floor(detail/400)));
   }
 }
