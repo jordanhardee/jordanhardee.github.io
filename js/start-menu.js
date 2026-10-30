@@ -6,11 +6,14 @@
   const chefLoading = document.getElementById('cyberchef-loading');
   if (!start || !menu) return;
   let contactScriptRequested = false;
-  const cardGames = {
+  const onDemandApps = {
     blackjack: new URL('./blackjack.mjs?v=20261029-1', document.currentScript.src).href,
     solitaire: new URL('./solitaire.mjs?v=20261029-2', document.currentScript.src).href,
+    chess: new URL('./chess-game.mjs?v=20261029-1', document.currentScript.src).href,
+    'unit-converter': new URL('./unit-converter.mjs?v=20261029-1', document.currentScript.src).href,
+    'graph-calculator': new URL('./graph-calculator.mjs?v=20261029-1', document.currentScript.src).href,
   };
-  const loadedGames = new Set();
+  const loadedApps = new Set();
   let soundContext;
 
   // A tiny original, synthesized raspberry. Create the audio engine only from
@@ -107,12 +110,12 @@
         detail: { window: button.dataset.openWindow }
       }));
       if (button.dataset.openWindow === 'contact') loadContactOnDemand();
-      const game = button.dataset.openWindow;
-      if (cardGames[game] && !loadedGames.has(game)) {
-        loadedGames.add(game);
-        import(cardGames[game]).catch(error => {
-          loadedGames.delete(game);
-          console.error(`${game} could not start:`, error);
+      const app = button.dataset.openWindow;
+      if (onDemandApps[app] && !loadedApps.has(app)) {
+        loadedApps.add(app);
+        import(onDemandApps[app]).catch(error => {
+          loadedApps.delete(app);
+          console.error(`${app} could not start:`, error);
         });
       }
     });

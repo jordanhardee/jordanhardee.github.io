@@ -98,6 +98,13 @@ body {
   text-shadow: 2px 2px 0 #001342, 0 0 12px rgba(0, 10, 55, .9);
 }
 .desktop-site-title span { font-size: inherit; }
+/* Per-letter phases preserve Jordan's original colorful marquee without
+   interpolating through muddy colors between the four primary keyframes. */
+.desktop-site-title span:nth-child(5n + 1) { -webkit-animation-delay: -1.3s; animation-delay: -1.3s; }
+.desktop-site-title span:nth-child(5n + 2) { -webkit-animation-delay: -3.6s; animation-delay: -3.6s; }
+.desktop-site-title span:nth-child(5n + 3) { -webkit-animation-delay: -5.9s; animation-delay: -5.9s; }
+.desktop-site-title span:nth-child(5n + 4) { -webkit-animation-delay: -8.2s; animation-delay: -8.2s; }
+.desktop-site-title span:nth-child(5n) { -webkit-animation-delay: -10.5s; animation-delay: -10.5s; }
 section {
   background-color: #00006a;
 }
@@ -1265,6 +1272,62 @@ button.playing-card { padding:0; cursor:pointer; }
   .memorial-farewell { border-top-color: #556079; }
   .contact-key-gate { border-top-color: #62718a; }
   .contact-key-gate h3 { color: #e3ebf7; }
+}
+
+/* Local XP desktop tools: chess, a broad unit converter, and an original
+   scientific/graphing calculator (no TI code, ROM, or proprietary artwork). */
+.xp-chess-icon { background:linear-gradient(135deg,#eee2be,#679f7b); color:#214633; text-shadow:none; }
+.xp-converter-icon { background:linear-gradient(135deg,#dcf7ff,#51a4b8); color:#085b76; text-shadow:none; }
+.xp-graphcalc-icon { background:linear-gradient(135deg,#f8ecb4,#ed9c5a); color:#88460c; text-shadow:none; }
+.chess-panel { width:min(800px,calc(100vw - 30px)); height:min(690px,calc(100dvh - 65px)); }
+.converter-panel { width:min(680px,calc(100vw - 30px)); height:min(440px,calc(100dvh - 65px)); }
+.graphcalc-panel { width:min(720px,calc(100vw - 30px)); height:min(770px,calc(100dvh - 65px)); }
+.xp-app-window :is(.chess-body,.converter-body,.graphcalc-body) { overflow:auto; padding:clamp(9px,2.5vw,20px); background:#eaf0fa; color:#15243c; font:calc(13px * var(--xp-text-scale,1))/1.5 Tahoma,Arial,sans-serif; }
+.xp-app-window :is(.chess-body,.converter-body,.graphcalc-body) button { cursor:pointer; border:1px solid #6682ae; border-radius:4px; padding:5px 9px; background:linear-gradient(#fff,#d4e3f5); color:#153758; font:inherit; }
+.xp-app-window :is(.chess-body,.converter-body,.graphcalc-body) button:is(:hover,:focus-visible) { background:linear-gradient(#fff,#b5d4ff); }
+.xp-app-window :is(.chess-body,.converter-body,.graphcalc-body) button:disabled { opacity:.5; cursor:default; }
+.chess-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:8px; }
+.chess-toolbar > span { margin-right:auto; font-size:calc(10px * var(--xp-text-scale,1)); font-weight:bold; letter-spacing:.04em; }
+.chess-toolbar label { display:flex; align-items:center; gap:5px; }
+.chess-message { margin:4px 0 10px; font-weight:bold; color:#144e85; min-height:18px; }
+.chess-layout { display:flex; gap:15px; align-items:flex-start; }
+.chess-board { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); width:min(100%,490px); aspect-ratio:1; flex:0 1 490px; border:4px solid #344c61; box-shadow:2px 3px 6px #15243c77; box-sizing:border-box; touch-action:manipulation; }
+.xp-app-window .chess-board .chess-square { display:flex; justify-content:center; align-items:center; aspect-ratio:1; min-width:0; padding:0; border:0; border-radius:0; font:inherit; position:relative; }
+.chess-square.is-light { background:#ecdfc4; }.chess-square.is-dark { background:#819c88; }
+.xp-app-window .chess-board .chess-square:is(:hover,:focus-visible) { filter:brightness(1.12); }
+.chess-square.is-selected { outline:3px solid #f2ab28; outline-offset:-3px; z-index:1; }
+.chess-square.is-legal { box-shadow:inset 0 0 0 3px #edb045; }
+.chess-piece { user-select:none; pointer-events:none; font:clamp(25px,4.5vw,47px)/1 'DejaVu Sans', 'Segoe UI Symbol', serif; }
+.chess-piece.is-white { color:#fff; text-shadow:-1px -1px #202a34,1px 1px #202a34,1px -1px #202a34,-1px 1px #202a34,0 2px 2px #333; }
+.chess-piece.is-black { color:#182b36; text-shadow:0 1px 1px #fff8; }
+.chess-move-hint { width:24%; aspect-ratio:1; border-radius:50%; background:#ffce5d9c; }
+.chess-sidebar { flex:1 1 140px; min-width:110px; }
+.chess-sidebar p { margin:0 0 12px; font:inherit; }.chess-sidebar h3 { margin:0 0 5px; color:#1b3759; font:bold 13px Tahoma,sans-serif; }
+.chess-sidebar ol { max-height:340px; overflow:auto; margin:0; padding:0 0 0 25px; font-family:Consolas,monospace; }
+.chess-sidebar li { margin-bottom:3px; }
+.math-field { display:grid; gap:4px; font-weight:bold; min-width:0; }
+.math-field :is(input,select) { min-width:0; box-sizing:border-box; width:100%; font:inherit; font-weight:normal; padding:8px; border:1px solid #7895c0; border-radius:3px; background:#fff; color:#1a2837; }
+.converter-fields { display:grid; grid-template-columns:minmax(85px,1fr) minmax(105px,1.4fr) auto minmax(105px,1.4fr); align-items:end; gap:10px; margin:18px 0; }
+.converter-fields #unit-swap { align-self:end; min-width:35px; min-height:38px; }
+.converter-result,.calc-result { display:block; white-space:normal; overflow-wrap:anywhere; padding:12px; background:#fff; border:1px inset #91a3b7; border-radius:2px; font:bold calc(20px * var(--xp-text-scale,1))/1.4 Tahoma,sans-serif; }
+.converter-body > p,.math-note { color:#465b74; font:calc(11px * var(--xp-text-scale,1))/1.5 Tahoma,Arial,sans-serif; }
+.graphcalc-body .calc-result { margin:10px 0; min-height:24px; text-align:right; }
+.calc-keypad { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:5px; }
+.xp-app-window .calc-keypad button { min-height:38px; padding:4px; font-size:calc(15px * var(--xp-text-scale,1)); }
+.xp-app-window .calc-keypad button.equals { background:linear-gradient(#e3ffe2,#a6d8a1); font-weight:bold; }
+.calc-graph-controls { display:flex; align-items:end; gap:10px; margin:18px 0 8px; }
+.calc-graph-controls .math-field { flex:1; }
+.calc-graph { display:block; box-sizing:border-box; width:100%; height:auto; border:1px solid #9baecb; background:#f9fbff; }
+@media(max-width:620px) {
+  .chess-layout { flex-direction:column; }.chess-board { flex:auto; width:min(100%,440px); }.chess-sidebar { flex:auto; width:100%; }.chess-sidebar ol { max-height:120px; columns:2; }
+  .converter-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }.converter-fields #unit-swap { order:3; }.converter-fields label:last-child { order:4; }
+  .calc-keypad { gap:3px; }.xp-app-window .calc-keypad button { min-height:37px; }
+}
+@media(prefers-color-scheme:dark) {
+  .xp-app-window :is(.chess-body,.converter-body,.graphcalc-body) { background:#26354a; color:#e3efff; }
+  .chess-message,.chess-sidebar h3 { color:#badcff; }
+  .math-note,.converter-body > p { color:#b4c6db; }
+  .converter-result,.calc-result { background:#131e30; color:#e8f4ff; border-color:#50698e; }
 }
 
 

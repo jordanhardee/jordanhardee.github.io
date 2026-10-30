@@ -17,6 +17,9 @@
       'contact': 'Contact.exe',
       'blackjack': 'Blackjack.exe',
       'solitaire': 'Solitaire.exe',
+      'chess': 'Chess.exe',
+      'unit-converter': 'UnitConvert.exe',
+      'graph-calculator': 'GraphCalc.exe',
       'patrick-stewart': 'Patrick Stewart Memorial'
     };
     return names[module.dataset.window] || 'Window';

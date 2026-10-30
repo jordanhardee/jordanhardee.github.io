@@ -34,6 +34,9 @@
         'patrick-stewart': [900, 660],
         blackjack: [760, 570],
         solitaire: [1030, 710],
+        chess: [910, 680],
+        'unit-converter': [620, 500],
+        'graph-calculator': [740, 750],
         contact: [540, 630],
       };
       const [preferredWidth, preferredHeight] = sizes[module.dataset.window] || [540, 385];
@@ -201,6 +204,9 @@
     'contact': 'Contact.exe',
     'blackjack': 'Blackjack.exe',
     'solitaire': 'Solitaire.exe',
+    'chess': 'Chess.exe',
+    'unit-converter': 'UnitConvert.exe',
+    'graph-calculator': 'GraphCalc.exe',
     'patrick-stewart': 'Patrick Stewart Memorial',
   };
   windows.forEach(module => {
