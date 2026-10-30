@@ -139,6 +139,8 @@ test('cat cutouts are all transparent animated WebP; taskbar adds no vertical bo
   }
   assert.doesNotMatch(css, /xp-cat-hop/, 'no extra CSS hop on top of the original animation');
   assert.match(css, /\.xp-cat-runner\s*\{[^}]*animation:xp-cat-walk/, 'runners still cross the taskbar');
+  assert.match(css, /\.xp-cat-runner\s*\{[^}]*width:136px; height:156px/, 'desktop taskbar cats are larger');
+  assert.match(css, /@media\(max-width:650px\)[\s\S]*?\.xp-cat-runner\s*\{[^}]*width:112px; height:128px/, 'mobile taskbar cats are larger');
 });
 
 test('closing happy.exe stops its video without recalling the cats; closing cats recalls both', () => {
