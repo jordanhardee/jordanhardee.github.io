@@ -31,6 +31,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Node.js for CyberChef
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build CyberChef Mobile Beta
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHEF_BUILD_DIR="$RUNNER_TEMP/cyberchef-mobile"
+          git init --quiet "$CHEF_BUILD_DIR"
+          git -C "$CHEF_BUILD_DIR" remote add origin https://github.com/gchq/CyberChef.git
+          git -C "$CHEF_BUILD_DIR" fetch --quiet --depth 1 origin b75398f1134fc59fd74d288f620aa1eecba77dc9
+          git -C "$CHEF_BUILD_DIR" checkout --quiet --detach FETCH_HEAD
+          git -C "$CHEF_BUILD_DIR" apply --check "$GITHUB_WORKSPACE/.github/cyberchef-mobile.patch"
+          git -C "$CHEF_BUILD_DIR" apply "$GITHUB_WORKSPACE/.github/cyberchef-mobile.patch"
+          cd "$CHEF_BUILD_DIR"
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx grunt exec:fixCryptoApiImports exec:fixSnackbarMarkup
+          npm run build
+          mkdir -p "$GITHUB_WORKSPACE/cyberchef-mobile"
+          rsync -a --include='eng.traineddata.gz' --exclude='*.br' --exclude='*.gz' --exclude='*.zip' --exclude='BundleAnalyzerReport.html' --exclude='sha256digest.txt' build/prod/ "$GITHUB_WORKSPACE/cyberchef-mobile/"
+          node -e 'const fs=require("node:fs"); const file=process.env.GITHUB_WORKSPACE+"/cyberchef-mobile/index.html"; const html=fs.readFileSync(file,"utf8"); fs.writeFileSync(file,html.replace(/<a href=CyberChef_v[^>]+>Download ZIP file<\/a>/g,""));'
+          test -s "$GITHUB_WORKSPACE/cyberchef-mobile/index.html"
+          test -s "$GITHUB_WORKSPACE/cyberchef-mobile/assets/main.js"
+          grep -q 'mobile-nav' "$GITHUB_WORKSPACE/cyberchef-mobile/index.html"
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
