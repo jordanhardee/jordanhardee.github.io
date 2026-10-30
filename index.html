@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261029-start-profile2">
+    <link rel="stylesheet" href="css/style.css?v=20261029-folders-rainbow">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -52,8 +52,11 @@
           </div>
         </section>
       </aside>
-      <!-- The desktop center remains clear so the aquarium is visible. -->
-      <div class="content" aria-hidden="true"></div>
+      <div class="content">
+        <h1 class="desktop-site-title" aria-label="JordanHardee.com">
+          <span class="rainbow-textRed" aria-hidden="true">J</span><span class="rainbow-textBlue" aria-hidden="true">o</span><span class="rainbow-textYellow" aria-hidden="true">r</span><span class="rainbow-textBlue" aria-hidden="true">d</span><span class="rainbow-textGreen" aria-hidden="true">a</span><span class="rainbow-textRed" aria-hidden="true">n</span><span class="rainbow-textBlue" aria-hidden="true">H</span><span class="rainbow-textGreen" aria-hidden="true">a</span><span class="rainbow-textYellow" aria-hidden="true">r</span><span class="rainbow-textRed" aria-hidden="true">d</span><span class="rainbow-textGreen" aria-hidden="true">e</span><span class="rainbow-textYellow" aria-hidden="true">e</span><span class="rainbow-textRed" aria-hidden="true">.</span><span class="rainbow-textBlue" aria-hidden="true">c</span><span class="rainbow-textYellow" aria-hidden="true">o</span><span class="rainbow-textGreen" aria-hidden="true">m</span>
+        </h1>
+      </div>
       <aside class="sidebar-right" aria-label="Astronomy and Daily Office">
         <section class="apod-panel module-closed" data-window="nasa-apod" aria-labelledby="apod-heading">
           <div class="apod-header">
@@ -183,20 +186,38 @@
     <nav class="xp-start-menu" id="xp-start-menu" aria-label="Windows XP Start menu" hidden>
       <div class="xp-menu-user">
         <img class="xp-menu-avatar" src="floppa.jpeg" alt="Floppa, the caracal wearing sunglasses">
-        <strong class="xp-menu-user-name" aria-label="Jordan Hardee">
-          <span class="rainbow-textRed" aria-hidden="true">J</span><span class="rainbow-textBlue" aria-hidden="true">o</span><span class="rainbow-textYellow" aria-hidden="true">r</span><span class="rainbow-textBlue" aria-hidden="true">d</span><span class="rainbow-textGreen" aria-hidden="true">a</span><span class="rainbow-textRed" aria-hidden="true">n</span><span class="xp-name-space" aria-hidden="true"> </span><span class="rainbow-textBlue" aria-hidden="true">H</span><span class="rainbow-textGreen" aria-hidden="true">a</span><span class="rainbow-textYellow" aria-hidden="true">r</span><span class="rainbow-textRed" aria-hidden="true">d</span><span class="rainbow-textGreen" aria-hidden="true">e</span><span class="rainbow-textYellow" aria-hidden="true">e</span>
-        </strong>
+        <strong class="xp-menu-user-name">Jordan Hardee</strong>
       </div>
       <div class="xp-menu-items">
-        <button class="xp-menu-item" type="button" data-open-window="hacker-news"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span><strong>Hacker News</strong><small>Current front-page stories</small></span></button>
-        <button class="xp-menu-item" type="button" data-open-window="threat-intel"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span><strong>Cyber Threat Wire</strong><small>Security news and exploited CVEs</small></span></button>
-        <button class="xp-menu-item" type="button" data-open-window="nasa-apod"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span><strong>NASA APOD</strong><small>Astronomy Picture of the Day</small></span></button>
-        <button class="xp-menu-item" type="button" data-open-window="daily-office"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span><strong>Daily Office</strong><small>2019 Book of Common Prayer</small></span></button>
-        <button class="xp-menu-item" type="button" data-open-window="cyberchef"><span class="xp-app-icon xp-chef-icon" aria-hidden="true">⚗</span><span><strong>CyberChef.exe</strong><small>Cyber Swiss Army Knife</small></span></button>
-        <button class="xp-menu-item" type="button" data-open-window="contact"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span><span><strong>Contact.exe</strong><small>Visual contact clue</small></span></button>
-        <button class="xp-menu-item" type="button" data-open-window="blackjack"><span class="xp-app-icon xp-blackjack-icon" aria-hidden="true">♠</span><span><strong>Blackjack.exe</strong><small>Play against the dealer</small></span></button>
-        <button class="xp-menu-item" type="button" data-open-window="solitaire"><span class="xp-app-icon xp-solitaire-icon" aria-hidden="true">♥</span><span><strong>Solitaire.exe</strong><small>Classic Klondike</small></span></button>
-        <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
+        <div class="xp-menu-folder">
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-games"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Games</strong><small>Classic desktop games</small></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <div class="xp-folder-contents" id="xp-folder-games" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="blackjack"><span class="xp-app-icon xp-blackjack-icon" aria-hidden="true">♠</span><span class="xp-menu-label"><strong>Blackjack.exe</strong><small>Play against the dealer</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="solitaire"><span class="xp-app-icon xp-solitaire-icon" aria-hidden="true">♥</span><span class="xp-menu-label"><strong>Solitaire.exe</strong><small>Classic Klondike</small></span></button>
+          </div>
+        </div>
+        <div class="xp-menu-folder">
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-hack"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Hack the Planet</strong><small>Tech, security, and tools</small></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <div class="xp-folder-contents" id="xp-folder-hack" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="hacker-news"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-menu-label"><strong>Hacker News</strong><small>Current front-page stories</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="threat-intel"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span class="xp-menu-label"><strong>Cyber Threat Wire</strong><small>Security news and exploited CVEs</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="cyberchef"><span class="xp-app-icon xp-chef-icon" aria-hidden="true">⚗</span><span class="xp-menu-label"><strong>CyberChef.exe</strong><small>Cyber Swiss Army Knife</small></span></button>
+          </div>
+        </div>
+        <div class="xp-menu-folder">
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-life"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Lifestyle</strong><small>Prayer and astronomy</small></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <div class="xp-folder-contents" id="xp-folder-life" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="daily-office"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-menu-label"><strong>Daily Office</strong><small>2019 Book of Common Prayer</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="nasa-apod"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>NASA APOD</strong><small>Astronomy Picture of the Day</small></span></button>
+          </div>
+        </div>
+        <div class="xp-menu-folder">
+          <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-misc"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Miscellaneous</strong><small>Contact and memorial</small></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
+          <div class="xp-folder-contents" id="xp-folder-misc" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="contact"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-menu-label"><strong>Contact.exe</strong><small>Visual contact clue</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="patrick-stewart"><span class="xp-app-icon xp-memorial-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>Patrick Stewart Memorial</strong><small>Remembering Jean-Luc Picard</small></span></button>
+          </div>
+        </div>
       </div>
       <div class="xp-menu-bottom">JordanHardee.com</div>
     </nav>
@@ -224,6 +245,6 @@
     <script src="js/module-fullscreen.js?v=20261029-card-games"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
     <script src="js/window-manager.js?v=20261029-card-games"></script>
-    <script src="js/start-menu.js?v=20261029-card-games2"></script>
+    <script src="js/start-menu.js?v=20261029-folders"></script>
   </body>
 </html>

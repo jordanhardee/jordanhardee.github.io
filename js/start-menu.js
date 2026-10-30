@@ -30,6 +30,24 @@
   }
 
   start.addEventListener('click', () => showMenu(menu.hidden));
+  const folderButtons = Array.from(menu.querySelectorAll('[data-folder-toggle]'));
+  folderButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const opening = button.getAttribute('aria-expanded') !== 'true';
+      // Only one folder is expanded at once so the Start menu stays compact
+      // on phones and doesn't make the visitor hunt through a long list.
+      folderButtons.forEach(folder => {
+        folder.setAttribute('aria-expanded', 'false');
+        const contents = document.getElementById(folder.getAttribute('aria-controls'));
+        if (contents) contents.hidden = true;
+      });
+      if (opening) {
+        button.setAttribute('aria-expanded', 'true');
+        const contents = document.getElementById(button.getAttribute('aria-controls'));
+        if (contents) contents.hidden = false;
+      }
+    });
+  });
   menu.querySelectorAll('[data-open-window]').forEach(button => {
     button.addEventListener('click', () => {
       showMenu(false);
