@@ -1485,3 +1485,91 @@ button.playing-card { padding:0; cursor:pointer; }
   .xp-cat-floater,.xp-cat-runner,.xp-cat-runner img { animation:none; }
   .xp-cat-runner { left:15vw; }
 }
+
+/* FLOPPA FRIDAY: the tiny chase target and full-screen fractal takeover. */
+.floppa-friday-trigger {
+  position:fixed; left:0; top:0; z-index:10020;
+  display:block; width:110px; height:110px; padding:0;
+  border:3px solid #9cfcff; border-radius:4px;
+  background:#02133a; box-shadow:0 0 0 2px #02092c,0 0 18px #1cedff;
+  cursor:pointer; user-select:none; touch-action:manipulation; will-change:transform;
+}
+.floppa-friday-trigger img {
+  display:block; width:100%; height:100%; object-fit:cover; object-position:center;
+  pointer-events:none; animation:floppa-frantic-shake .085s steps(2,end) infinite;
+}
+.floppa-friday-trigger:hover { border-color:#fff672; box-shadow:0 0 0 3px #102569,0 0 25px #f6ff4d; }
+.floppa-friday-trigger:focus-visible { outline:4px solid #fff; outline-offset:6px; }
+.floppa-friday-trigger[hidden],.floppa-friday-show[hidden] { display:none!important; }
+body.floppa-friday-active { overflow:hidden; }
+@keyframes floppa-frantic-shake {
+  0% { transform:translate(-8px,5px) rotate(-10deg) scale(1.08); }
+  25% { transform:translate(9px,-7px) rotate(9deg) scale(1.06); }
+  50% { transform:translate(-7px,-5px) rotate(-12deg) scale(1.1); }
+  75% { transform:translate(8px,7px) rotate(11deg) scale(1.07); }
+  100% { transform:translate(-8px,5px) rotate(-10deg) scale(1.08); }
+}
+.floppa-friday-show {
+  position:fixed; inset:0; z-index:100100; isolation:isolate;
+  display:flex; flex-direction:column; align-items:center;
+  overflow:hidden; background:#000417; color:#fff;
+}
+.floppa-friday-fractal {
+  position:absolute; inset:-12%; z-index:0;
+  background:url('../assets/floppa-friday/fractal-floppas.webp') center/cover no-repeat;
+  filter:saturate(1.4) contrast(1.12);
+  animation:floppa-fractal-zoom 14s ease-in-out infinite alternate;
+  will-change:transform;
+}
+.floppa-friday-fractal-echo {
+  inset:-22%; z-index:1; opacity:.46; mix-blend-mode:screen;
+  filter:hue-rotate(30deg) saturate(1.8) contrast(1.3);
+  animation:floppa-fractal-spiral 19s linear infinite;
+}
+#floppa-friday-particles { position:absolute; inset:0; z-index:1; width:100%; height:100%; pointer-events:none; }
+.floppa-friday-title {
+  position:relative; z-index:2; box-sizing:border-box;
+  width:min(98vw,1450px); padding:0 10px;
+  margin:clamp(72px,13vh,132px) 0 0;
+  font:clamp(38px,7vw,106px)/1.08 'Mario',Tahoma,sans-serif;
+  letter-spacing:-.018em; text-align:center;
+  text-shadow:3px 4px 0 #000528,0 0 12px #00112e,0 0 28px #77f9ff;
+  animation:floppa-title-arrive .8s cubic-bezier(.19,1.7,.2,1) both;
+}
+.floppa-friday-line { display:block; white-space:nowrap; }
+.floppa-friday-line-bottom { font-size:.74em; }
+.floppa-friday-title .rainbow-textRed,.floppa-friday-title .rainbow-textBlue,
+.floppa-friday-title .rainbow-textYellow,.floppa-friday-title .rainbow-textGreen {
+  display:inline-block; font-size:inherit;
+}
+.floppa-friday-holy-moly {
+  position:relative; z-index:2; display:block;
+  width:clamp(150px,21vw,270px); height:auto; aspect-ratio:1;
+  object-fit:contain; margin:auto 0 clamp(12px,7vh,65px);
+  border:4px solid #adfff2; border-radius:50%;
+  background:#fff; box-shadow:0 0 0 5px #09264bd9,0 0 38px 12px #5affc4b8;
+  animation:floppa-smiley-arrive .7s .6s both,floppa-smiley-bob 1.2s 1.3s ease-in-out infinite;
+}
+.floppa-friday-close {
+  position:absolute; top:max(14px,env(safe-area-inset-top)); right:max(16px,env(safe-area-inset-right));
+  z-index:5; padding:9px 15px; border:2px solid #c3ffff; border-radius:7px;
+  background:#021b46d9; color:#fff; cursor:pointer;
+  font:bold 13px Tahoma,sans-serif; box-shadow:0 2px 12px #000a;
+}
+.floppa-friday-close:hover,.floppa-friday-close:focus-visible { background:#1264a5; outline:2px solid #faff75; }
+@keyframes floppa-fractal-zoom { from { transform:scale(1) rotate(-3deg); } to { transform:scale(1.5) rotate(7deg); } }
+@keyframes floppa-fractal-spiral { from { transform:scale(1) rotate(0); } to { transform:scale(1.4) rotate(360deg); } }
+@keyframes floppa-title-arrive { from { opacity:0; transform:scale(.1) rotate(-8deg); } to { opacity:1; transform:scale(1) rotate(0); } }
+@keyframes floppa-smiley-arrive { from { opacity:0; transform:scale(.15) rotate(-30deg); } to { opacity:1; transform:scale(1) rotate(0); } }
+@keyframes floppa-smiley-bob { 50% { transform:translateY(-12px) rotate(5deg); } }
+@media(max-width:650px) {
+  .floppa-friday-trigger { width:84px; height:84px; }
+  .floppa-friday-title { margin-top:clamp(92px,18vh,152px); font-size:clamp(29px,9.5vw,54px); }
+  .floppa-friday-line-bottom { font-size:.68em; }
+  .floppa-friday-holy-moly { width:clamp(148px,43vw,210px); margin-bottom:clamp(65px,12vh,120px); }
+  .floppa-friday-close { font-size:11px; padding:7px 10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .floppa-friday-trigger img,.floppa-friday-fractal,.floppa-friday-fractal-echo,
+  .floppa-friday-title,.floppa-friday-holy-moly { animation:none!important; }
+}

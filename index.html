@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261030-big-taskbar-cats">
+    <link rel="stylesheet" href="css/style.css?v=20261031-floppa-friday">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -403,6 +403,20 @@
     </div>
     <div class="xp-cat-swarm" id="xp-cat-swarm" aria-hidden="true" hidden></div>
     <div class="xp-cat-runway" id="xp-cat-runway" aria-hidden="true" hidden></div>
+    <button class="floppa-friday-trigger" id="floppa-friday-trigger" type="button" aria-label="Catch the violently shaking Floppa to unleash Floppa Friday" title="CATCH THE FLOPPA!">
+      <img src="assets/floppa-friday/beanie-floppa.webp" alt="" draggable="false">
+    </button>
+    <div class="floppa-friday-show" id="floppa-friday-show" role="dialog" aria-modal="true" aria-labelledby="floppa-friday-title" hidden>
+      <div class="floppa-friday-fractal" aria-hidden="true"></div>
+      <div class="floppa-friday-fractal floppa-friday-fractal-echo" aria-hidden="true"></div>
+      <canvas id="floppa-friday-particles" aria-hidden="true"></canvas>
+      <h2 class="floppa-friday-title" id="floppa-friday-title" aria-label="Holy moly, it's Floppa Friday!">
+        <span class="floppa-friday-line" data-rainbow-text="HOLY MOLY,"></span>
+        <span class="floppa-friday-line floppa-friday-line-bottom" data-rainbow-text="IT'S FLOPPA FRIDAY!"></span>
+      </h2>
+      <img class="floppa-friday-holy-moly" id="floppa-friday-holy-moly" data-src="assets/floppa-friday/holy-moly.gif" alt="The talking Holy Moly smiley face">
+      <button class="floppa-friday-close" id="floppa-friday-close" type="button" aria-label="Close Floppa Friday and return to desktop">× <span>BACK TO DESKTOP</span></button>
+    </div>
     <footer class="xp-taskbar" aria-label="Windows XP taskbar">
       <button class="xp-start" type="button" id="xp-start-button" aria-controls="xp-start-menu" aria-expanded="false"><span class="xp-start-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span> <span id="xp-start-label">start</span></button>
       <div class="xp-task-list" role="group" aria-label="Application windows">
@@ -439,6 +453,7 @@
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
     <script src="js/window-manager.js?v=20261030-happy-ratio"></script>
     <script src="js/release-cats.js?v=20261030-huh-animated-audio"></script>
+    <script src="js/floppa-friday.js?v=20261031-floppa-friday"></script>
     <script src="js/start-menu.js?v=20261030-hack-video"></script>
     <script src="js/music.js?v=20261030-huh-cat"></script>
   </body>

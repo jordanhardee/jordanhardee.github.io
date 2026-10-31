@@ -69,7 +69,7 @@
 
   trayButton.addEventListener('click', toggleMusic);
   creditsButton.addEventListener('click', toggleMusic);
-  for (const kind of ['happy', 'hack', 'huh']) {
+  for (const kind of ['happy', 'hack', 'huh', 'floppa']) {
     document.addEventListener(`xp:${kind}-playback-start`, () => {
       activeVideos.add(kind);
       audio.pause();
