@@ -1054,6 +1054,7 @@ blockquote {
 .xp-app-footer a { color:#1550a1; text-decoration:underline; }
 .guestbook-panel { width:min(680px,calc(100vw - 30px)); height:min(705px,calc(100dvh - 65px)); }
 .xp-app-window .guestbook-body { overflow-y:auto; padding:clamp(12px,2.5vw,20px); background:#f7f7f0; color:#27394f; font:calc(13px * var(--xp-text-scale,1))/1.45 Tahoma,Arial,sans-serif; }
+.guestbook-body p { font-family:Tahoma,Arial,sans-serif; }
 .guestbook-body [hidden] { display:none!important; }
 .guestbook-intro { margin:0 0 18px; padding:0 0 12px; border-bottom:1px solid #afbfce; }
 .guestbook-intro h3 { margin:0 0 5px; color:#143e78; font:bold calc(17px * var(--xp-text-scale,1))/1.35 Tahoma,Arial,sans-serif; }
