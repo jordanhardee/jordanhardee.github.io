@@ -92,7 +92,7 @@
       if (!openedOnce) {
         openedOnce = true;
         if (startLabel) startLabel.textContent = 'fart';
-        menu.setAttribute('aria-label', 'Windows XP Fart menu');
+        menu.setAttribute('aria-label', 'Fart menu');
       }
     }
     showMenu(opening);
