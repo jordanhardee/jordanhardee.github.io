@@ -47,9 +47,196 @@ body {
   background: radial-gradient(ellipse at 50% 58%, rgba(18, 152, 189, .15), rgba(0, 54, 133, .08) 70%, rgba(5, 32, 110, .04));
 }
 #site-aquarium-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   display: block;
   width: 100%;
   height: 100%;
+}
+
+/* A 2009-ish SpringBoard, painted underneath the transparent swimming fish. */
+.ios-retro-screen {
+  position: absolute;
+  z-index: 1;
+  top: 13px;
+  right: 14px;
+  box-sizing: border-box;
+  width: 328px;
+  height: 463px;
+  overflow: hidden;
+  border: 2px solid rgba(5, 16, 48, .75);
+  border-radius: 9px;
+  box-shadow: inset 0 1px 0 #ffffff60, 0 6px 28px #00103d99;
+  background:
+    radial-gradient(ellipse at 76% 10%, #6687bdc9, transparent 58%),
+    radial-gradient(ellipse at 15% 76%, #06346ca3, transparent 65%),
+    linear-gradient(135deg, #224074, #07142e 64%, #0a214e);
+  font-family: Helvetica, Arial, sans-serif;
+  color: #fff;
+  opacity: .96;
+}
+.ios-retro-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg, #ffffff04 0 2px, transparent 2px 6px);
+  pointer-events: none;
+}
+.ios-retro-status {
+  position: relative;
+  height: 25px;
+  box-sizing: border-box;
+  padding: 3px 9px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(#111b32e8, #09101fbb);
+  box-shadow: 0 1px 0 #8ca7d66e;
+  font: 10px/1 Helvetica, Arial, sans-serif;
+  text-shadow: 0 1px 1px #000;
+}
+.ios-retro-status strong { font-size: 12px; }
+.ios-retro-apps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 4px;
+  row-gap: 13px;
+  padding: 18px 9px 0;
+}
+.ios-retro-app { display: flex; flex-direction: column; align-items: center; min-width: 0; gap: 4px; }
+.ios-retro-app img {
+  display: block;
+  width: 57px;
+  height: 57px;
+  object-fit: cover;
+  border-radius: 11px;
+  box-shadow: 0 1px 2px #0009, inset 0 1px 1px #fff9;
+}
+.ios-retro-app span {
+  display: block;
+  max-width: 100%;
+  font: 10px/1.15 Helvetica, Arial, sans-serif;
+  text-shadow: 0 1px 2px #000, 0 1px 3px #000;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.ios-retro-dots {
+  position: absolute;
+  bottom: 71px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+.ios-retro-dots > * { width: 6px; height: 6px; border-radius: 50%; background: #f6f7f9; box-shadow: 0 1px 1px #000; }
+.ios-retro-dots > i { background: #788397; }
+.ios-retro-dock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 57px;
+  border-top: 1px solid #c7d8ef91;
+  background: linear-gradient(#fff9 0, #c5d8e866 3px, #d8e4f46b 35%, #bac4d15d 80%, #7187a888);
+  box-shadow: inset 0 1px 0 #fff9;
+}
+
+/* Original application art, arranged as small Windows XP desktop shortcuts. */
+.desktop-icon-museum {
+  position: fixed;
+  top: 127px;
+  left: 7px;
+  z-index: 18;
+  width: 350px;
+  color: #fff;
+  text-shadow: 1px 1px 2px #05112e, 1px 2px 3px #000;
+  font-family: Tahoma, Verdana, sans-serif;
+  user-select: none;
+  pointer-events: none;
+}
+.nostalgia-icon-section h2 {
+  display: inline-block;
+  margin: 0 0 5px 7px;
+  padding: 1px 7px 2px;
+  border: 1px solid #ffffff40;
+  border-radius: 3px;
+  background: #083d87a6;
+  font: bold 11px/1.4 Tahoma, sans-serif;
+  letter-spacing: .3px;
+}
+.nostalgia-icon-grid { display: grid; grid-template-columns: repeat(4, 86px); column-gap: 1px; row-gap: 4px; }
+.nostalgia-desktop-icon {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 79px;
+  padding: 2px 2px 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.nostalgia-desktop-icon img {
+  display: block;
+  width: 51px;
+  height: 51px;
+  object-fit: contain;
+  filter: drop-shadow(1px 2px 1px #0011249c);
+}
+.nostalgia-desktop-icon span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font: 11px/1.13 Tahoma, Verdana, sans-serif;
+  overflow-wrap: anywhere;
+}
+.nostalgia-mac-section { margin-top: 7px; }
+.nostalgia-mac-section h2 { background: #353b4bb5; }
+.nostalgia-mac-section .nostalgia-desktop-icon img { width: 57px; height: 53px; }
+
+.club-penguin-dancers {
+  position: fixed;
+  right: 15px;
+  bottom: calc(var(--xp-taskbar-height) + 6px);
+  z-index: 19;
+  display: flex;
+  align-items: end;
+  gap: 3px;
+  pointer-events: none;
+  filter: drop-shadow(2px 3px 2px #000a);
+}
+.club-penguin-dancers img { width: 73px; height: auto; transform-origin: 50% 85%; }
+.club-penguin-orange { animation: puffle-dance-orange .65s ease-in-out infinite alternate; }
+.club-penguin-pink { animation: puffle-dance-pink .82s ease-in-out infinite alternate; }
+@keyframes puffle-dance-orange { from { transform: translateY(0) rotate(-12deg); } to { transform: translateY(-14px) rotate(13deg); } }
+@keyframes puffle-dance-pink { from { transform: translateY(-8px) rotate(10deg); } to { transform: translateY(0) rotate(-10deg); } }
+@media (max-width: 1000px) {
+  .desktop-icon-museum { width: 274px; }
+  .nostalgia-icon-grid { grid-template-columns: repeat(3, 89px); }
+  .ios-retro-screen { right: 6px; width: 300px; }
+  .ios-retro-app img { width: 53px; height: 53px; }
+}
+@media (max-width: 650px) {
+  .desktop-icon-museum { position: absolute; top: 106px; left: 3px; width: 174px; }
+  .nostalgia-icon-grid { grid-template-columns: repeat(2, 86px); row-gap: 1px; }
+  .nostalgia-desktop-icon { min-height: 64px; gap: 2px; }
+  .nostalgia-desktop-icon img, .nostalgia-mac-section .nostalgia-desktop-icon img { width: 42px; height: 42px; }
+  .nostalgia-desktop-icon span { font-size: 10px; }
+  .ios-retro-screen { top: 105px; right: 3px; width: min(53vw, 205px); height: 365px; }
+  .ios-retro-status { height: 22px; padding-inline: 4px; font-size: 8px; }
+  .ios-retro-status strong { font-size: 10px; }
+  .ios-retro-apps { padding: 12px 3px 0; gap: 12px 1px; }
+  .ios-retro-app img { width: min(37px, 9vw); height: min(37px, 9vw); border-radius: 7px; }
+  .ios-retro-app span { font-size: 7px; }
+  .ios-retro-dots { bottom: 50px; }
+  .ios-retro-dock { height: 39px; }
+  .club-penguin-dancers { right: 4px; bottom: calc(var(--xp-taskbar-height) + 5px); }
+  .club-penguin-dancers img { width: 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .club-penguin-dancers img { animation: none; }
 }
 
 .page-wrapper {
