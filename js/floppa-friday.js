@@ -1,13 +1,13 @@
-// A click-to-start, locally hosted Floppa Friday Easter egg.
-// The tiny photo moves until caught; then the visitor's click unlocks sound.
+// An XP desktop shortcut releases a bouncing Floppa; catching it unlocks sound.
 (function () {
+  const shortcut = document.getElementById('floppa-exe-shortcut');
   const trigger = document.getElementById('floppa-friday-trigger');
   const show = document.getElementById('floppa-friday-show');
   const close = document.getElementById('floppa-friday-close');
   const canvas = document.getElementById('floppa-friday-particles');
   const smiley = document.getElementById('floppa-friday-holy-moly');
   const video = document.getElementById('happy-video');
-  if (!trigger || !show || !close || !canvas || !smiley) return;
+  if (!shortcut || !trigger || !show || !close || !canvas || !smiley) return;
 
   const context = canvas.getContext('2d');
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || false;
@@ -31,6 +31,7 @@
   let resumeHappy = false;
   let particles = [];
   let generation = 0;
+  let lastTouchClickAt = 0;
 
   let audioContext = null;
   let audioBufferPromise = null;
@@ -58,9 +59,9 @@
     height = window.innerHeight;
     const side = trigger.offsetWidth || 110;
     const maxX = Math.max(8, width - side - 8);
-    const maxY = Math.max(8, height - side - 46); // Leave the XP taskbar clear.
+    const maxY = Math.max(44, height - side - 46); // Keep the ! and XP taskbar visible.
     x = Math.min(Math.max(8, x), maxX);
-    y = Math.min(Math.max(8, y), maxY);
+    y = Math.min(Math.max(44, y), maxY);
     trigger.style.transform = `translate3d(${x}px,${y}px,0)`;
     if (context) {
       const scale = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -77,11 +78,11 @@
     if (!reducedMotion) {
       const side = trigger.offsetWidth || 110;
       const maxX = Math.max(8, width - side - 8);
-      const maxY = Math.max(8, height - side - 46);
+      const maxY = Math.max(44, height - side - 46);
       x += vx * elapsed;
       y += vy * elapsed;
       if (x < 8 || x > maxX) { x = Math.min(Math.max(x, 8), maxX); vx = -vx; }
-      if (y < 8 || y > maxY) { y = Math.min(Math.max(y, 8), maxY); vy = -vy; }
+      if (y < 44 || y > maxY) { y = Math.min(Math.max(y, 44), maxY); vy = -vy; }
       trigger.style.transform = `translate3d(${x}px,${y}px,0)`;
     }
     orbitFrame = requestAnimationFrame(orbit);
@@ -212,6 +213,38 @@
     result?.catch?.(() => { if (token === generation) show.dataset.audio = 'blocked'; });
   }
 
+  function selectShortcut(selected) {
+    shortcut.classList.toggle('is-selected', selected);
+    shortcut.setAttribute('aria-pressed', String(selected));
+  }
+
+  function launch() {
+    if (active || !trigger.hidden) return;
+    selectShortcut(true);
+    trigger.hidden = false;
+    lastOrbit = 0;
+    bounds();
+    cancelAnimationFrame(orbitFrame);
+    orbitFrame = requestAnimationFrame(orbit);
+  }
+
+  shortcut.addEventListener('click', event => {
+    selectShortcut(true);
+    // Browsers deliver click.detail=2 on mouse double clicks. iOS Safari may
+    // send two individual tap clicks, so recognize a quick second touch too.
+    const touch = event.pointerType === 'touch';
+    const now = Date.now();
+    if (event.detail >= 2 || (touch && now - lastTouchClickAt < 450)) launch();
+    lastTouchClickAt = touch ? now : 0;
+  });
+  shortcut.addEventListener('dblclick', launch);
+  shortcut.addEventListener('keydown', event => {
+    if (event.key === 'Enter') { event.preventDefault(); launch(); }
+  });
+  document.addEventListener('pointerdown', event => {
+    if (!shortcut.contains(event.target)) selectShortcut(false);
+  });
+
   function start() {
     if (active) return;
     active = true;
@@ -252,14 +285,13 @@
     show.dataset.audio = 'stopped';
     show.dataset.state = 'closed';
     show.hidden = true;
-    trigger.hidden = false;
+    trigger.hidden = true;
     document.body.classList.remove('floppa-friday-active');
     emit('xp:floppa-playback-stop');
     if (resumeHappy) video?.play().catch?.(() => {});
     resumeHappy = false;
     lastOrbit = 0;
-    orbitFrame = requestAnimationFrame(orbit);
-    trigger.focus();
+    shortcut.focus();
   }
 
   trigger.addEventListener('click', start);
@@ -269,5 +301,4 @@
   });
   window.addEventListener('resize', bounds);
   bounds();
-  orbitFrame = requestAnimationFrame(orbit);
 })();

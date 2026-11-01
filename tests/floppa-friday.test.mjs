@@ -13,14 +13,19 @@ function harness() {
   const sources = [];
   let nextFrame = 1;
   function element() {
+    const classes = new Set();
     return {
       hidden:false, dataset:{}, children:[], handlers:{}, style:{}, offsetWidth:110,
       addEventListener(name, fn) { this.handlers[name] = fn; },
       appendChild(child) { this.children.push(child); },
-      setAttribute() {}, focus() { this.focused = true; },
+      setAttribute(name,value) { this[name] = value; }, focus() { this.focused = true; },
+      classList:{ toggle(name,value) {if (value) classes.add(name); else classes.delete(name);}, contains:name=>classes.has(name) },
+      contains(target) { return target === this; },
     };
   }
+  const shortcut = element();
   const trigger = element();
+  trigger.hidden = true;
   const show = element();
   const close = element();
   const smiley = element();
@@ -39,6 +44,7 @@ function harness() {
   show.querySelectorAll = () => lines;
   const video = { paused:false, pause() { this.paused = true; }, play() { this.paused = false; return Promise.resolve(); } };
   const nodes = {
+    'floppa-exe-shortcut':shortcut,
     'floppa-friday-trigger':trigger, 'floppa-friday-show':show,
     'floppa-friday-close':close, 'floppa-friday-particles':canvas,
     'floppa-friday-holy-moly':smiley, 'happy-video':video,
@@ -76,11 +82,17 @@ function harness() {
   const cancelAnimationFrame = id => rafs.delete(id);
   const fetch = async () => ({ok:true,arrayBuffer:async()=>new ArrayBuffer(8)});
   vm.runInNewContext(script,{document,window,Image,CustomEvent,requestAnimationFrame,cancelAnimationFrame,fetch});
-  return {trigger,show,close,smiley,video,lines,events,rafs,sources,bodyClasses};
+  return {shortcut,trigger,show,close,smiley,video,lines,events,rafs,sources,bodyClasses,document};
 }
 
 test('uses both supplied Floppa images and an authentic animated holy-moly GIF', () => {
+  assert.match(html, /id="floppa-exe-shortcut"[^>]*aria-pressed="false"/);
+  assert.match(html, /class="xp-desktop-shortcut-label">Floppa\.exe<\/span>/);
   assert.match(html, /id="floppa-friday-trigger"/);
+  assert.match(html, /class="floppa-friday-attention"[^>]*>!<\/span>/);
+  assert.match(css, /\.floppa-friday-attention\s*\{[^}]*#ffef31/);
+  const reference = readFileSync(new URL('../assets/floppa-friday/floppa-exe-reference.jpg', import.meta.url));
+  assert.equal(reference.subarray(0,2).toString('hex'),'ffd8');
   assert.match(html, /id="floppa-friday-show"[^>]*role="dialog"/);
   assert.match(html, /data-rainbow-text="HOLY MOLY,"/);
   assert.match(html, /data-rainbow-text="IT'S FLOPPA FRIDAY!"/);
@@ -95,8 +107,17 @@ test('uses both supplied Floppa images and an authentic animated holy-moly GIF',
   assert.ok(readFileSync(new URL('../assets/floppa-friday/holy-moly.mp3',import.meta.url)).length > 3_000);
 });
 
-test('shaking square moves, click opens fractal show with sound, close restores desktop', async () => {
+test('XP shortcut selects, double-click releases the marked Floppa, click triggers fractals, close resets', async () => {
   const page = harness();
+  assert.equal(page.trigger.hidden,true,'the bouncing cat waits for Floppa.exe to launch');
+  assert.equal(page.rafs.size,0);
+  page.shortcut.handlers.click({detail:1,pointerType:'mouse'});
+  assert.equal(page.shortcut['aria-pressed'],'true');
+  assert.equal(page.trigger.hidden,true,'single click only selects the desktop icon');
+  page.document.listeners.pointerdown({target:{}});
+  assert.equal(page.shortcut['aria-pressed'],'false','clicking the desktop clears selection');
+  page.shortcut.handlers.click({detail:2,pointerType:'mouse'});
+  assert.equal(page.trigger.hidden,false);
   assert.match(page.trigger.style.transform,/translate3d/);
   assert.match(css, /floppa-frantic-shake \.085s/);
   const first = page.trigger.style.transform;
@@ -120,10 +141,21 @@ test('shaking square moves, click opens fractal show with sound, close restores 
   assert.equal(page.show.dataset.audio,'playing');
   page.close.handlers.click();
   assert.equal(page.show.hidden,true);
-  assert.equal(page.trigger.hidden,false);
+  assert.equal(page.trigger.hidden,true,'the desktop icon relaunches the Easter egg');
+  assert.equal(page.shortcut.focused,true);
   assert.equal(page.sources[0].stopped,true);
   assert.equal(page.show.dataset.audio,'stopped');
   assert.ok(page.events.includes('xp:floppa-playback-stop'));
   assert.equal(page.video.paused,false);
   assert.ok(!page.bodyClasses.has('floppa-friday-active'));
+  page.shortcut.handlers.keydown({key:'Enter',preventDefault(){}});
+  assert.equal(page.trigger.hidden,false,'keyboard activation opens Floppa.exe');
+});
+
+test('a quick second tap also launches the shortcut on touch screens', () => {
+  const page = harness();
+  page.shortcut.handlers.click({detail:1,pointerType:'touch'});
+  assert.equal(page.trigger.hidden,true);
+  page.shortcut.handlers.click({detail:1,pointerType:'touch'});
+  assert.equal(page.trigger.hidden,false);
 });

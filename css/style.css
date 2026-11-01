@@ -1486,6 +1486,43 @@ button.playing-card { padding:0; cursor:pointer; }
   .xp-cat-runner { left:15vw; }
 }
 
+/* A real XP-style desktop shortcut: one click selects, two clicks launch. */
+.xp-desktop-shortcut {
+  position:fixed; top:max(10px,env(safe-area-inset-top)); left:max(9px,env(safe-area-inset-left));
+  z-index:20; display:flex; flex-direction:column; align-items:center; gap:4px;
+  box-sizing:border-box; width:98px; min-height:106px; padding:7px 3px 5px;
+  border:1px solid transparent; border-radius:2px; background:transparent;
+  color:#fff; font:12px/1.25 Tahoma,Verdana,sans-serif;
+  text-shadow:1px 1px 2px #03143c,1px 2px 3px #000;
+  cursor:default; user-select:none; -webkit-user-select:none; touch-action:manipulation;
+}
+.xp-desktop-shortcut-image {
+  position:relative; display:block; flex:none; width:68px; height:68px;
+  background:#eee url('../assets/floppa-friday/floppa-exe-reference.jpg') 57% 36% / 198% auto no-repeat;
+  border:1px solid #e9eaf0; border-radius:2px; box-shadow:1px 2px 3px #0009;
+}
+.xp-desktop-shortcut-arrow {
+  position:absolute; left:-3px; bottom:-2px; box-sizing:border-box;
+  display:grid; place-items:center; width:21px; height:21px;
+  border:1px solid #9c9fa5; background:#fff; color:#1765a9;
+  font:bold 21px/1 Arial,sans-serif; text-shadow:none; box-shadow:1px 1px 1px #0009;
+}
+.xp-desktop-shortcut-label {
+  display:block; max-width:94px; padding:2px 4px; border:1px solid transparent;
+  overflow-wrap:anywhere; white-space:nowrap;
+}
+.xp-desktop-shortcut.is-selected .xp-desktop-shortcut-image {
+  outline:1px solid #a9cfff; filter:brightness(.85) sepia(.5) saturate(2) hue-rotate(170deg);
+}
+.xp-desktop-shortcut.is-selected .xp-desktop-shortcut-label {
+  border:1px dotted #dbeaff; background:#1457b9; text-shadow:none;
+}
+.xp-desktop-shortcut:focus-visible { outline:1px dotted #e7f4ff; outline-offset:-1px; }
+@media(max-width:650px) {
+  .xp-desktop-shortcut { width:89px; padding-top:5px; }
+  .xp-desktop-shortcut-image { width:60px; height:60px; }
+}
+
 /* FLOPPA FRIDAY: the tiny chase target and full-screen fractal takeover. */
 .floppa-friday-trigger {
   position:fixed; left:0; top:0; z-index:10020;
@@ -1497,6 +1534,16 @@ button.playing-card { padding:0; cursor:pointer; }
 .floppa-friday-trigger img {
   display:block; width:100%; height:100%; object-fit:cover; object-position:center;
   pointer-events:none; animation:floppa-frantic-shake .085s steps(2,end) infinite;
+}
+.floppa-friday-attention {
+  position:absolute; left:50%; top:-42px; z-index:1; pointer-events:none;
+  color:#ffef31; font:900 48px/1 'Arial Black',Tahoma,sans-serif;
+  -webkit-text-stroke:2px #151b23;
+  text-shadow:2px 3px 0 #121922,0 0 8px #fff27f,0 0 18px #ffeb18;
+  transform:translateX(-50%); animation:floppa-alert-bob .5s ease-in-out infinite alternate;
+}
+@keyframes floppa-alert-bob {
+  to { transform:translate(-50%,-8px) scale(1.16); }
 }
 .floppa-friday-trigger:hover { border-color:#fff672; box-shadow:0 0 0 3px #102569,0 0 25px #f6ff4d; }
 .floppa-friday-trigger:focus-visible { outline:4px solid #fff; outline-offset:6px; }
@@ -1564,6 +1611,7 @@ body.floppa-friday-active { overflow:hidden; }
 @keyframes floppa-smiley-bob { 50% { transform:translateY(-12px) rotate(5deg); } }
 @media(max-width:650px) {
   .floppa-friday-trigger { width:84px; height:84px; }
+  .floppa-friday-attention { top:-36px; font-size:42px; }
   .floppa-friday-title { margin-top:clamp(92px,18vh,152px); font-size:clamp(29px,9.5vw,54px); }
   .floppa-friday-line-bottom { font-size:.68em; }
   .floppa-friday-holy-moly { width:clamp(148px,43vw,210px); margin-bottom:clamp(65px,12vh,120px); }
@@ -1571,5 +1619,5 @@ body.floppa-friday-active { overflow:hidden; }
 }
 @media(prefers-reduced-motion:reduce) {
   .floppa-friday-trigger img,.floppa-friday-fractal,.floppa-friday-fractal-echo,
-  .floppa-friday-title,.floppa-friday-holy-moly { animation:none!important; }
+  .floppa-friday-title,.floppa-friday-holy-moly,.floppa-friday-attention { animation:none!important; }
 }

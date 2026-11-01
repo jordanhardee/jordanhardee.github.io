@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261031-floppa-friday">
+    <link rel="stylesheet" href="css/style.css?v=20261031-floppa-shortcut">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -16,6 +16,10 @@
     <div class="site-aquarium-background" aria-hidden="true">
       <canvas id="site-aquarium-canvas"></canvas>
     </div>
+    <button class="xp-desktop-shortcut" id="floppa-exe-shortcut" type="button" aria-label="Floppa.exe desktop shortcut. Double-click or press Enter to release Floppa." aria-pressed="false" title="Floppa.exe — double-click to open">
+      <span class="xp-desktop-shortcut-image" aria-hidden="true"><span class="xp-desktop-shortcut-arrow">➚</span></span>
+      <span class="xp-desktop-shortcut-label">Floppa.exe</span>
+    </button>
     <div class="page-wrapper">
       <aside class="sidebar-left">
         <section class="hn-panel module-closed" data-window="hacker-news" aria-labelledby="hn-heading">
@@ -403,8 +407,9 @@
     </div>
     <div class="xp-cat-swarm" id="xp-cat-swarm" aria-hidden="true" hidden></div>
     <div class="xp-cat-runway" id="xp-cat-runway" aria-hidden="true" hidden></div>
-    <button class="floppa-friday-trigger" id="floppa-friday-trigger" type="button" aria-label="Catch the violently shaking Floppa to unleash Floppa Friday" title="CATCH THE FLOPPA!">
+    <button class="floppa-friday-trigger" id="floppa-friday-trigger" type="button" aria-label="Catch the violently shaking Floppa to unleash Floppa Friday" title="CATCH THE FLOPPA!" hidden>
       <img src="assets/floppa-friday/beanie-floppa.webp" alt="" draggable="false">
+      <span class="floppa-friday-attention" aria-hidden="true">!</span>
     </button>
     <div class="floppa-friday-show" id="floppa-friday-show" role="dialog" aria-modal="true" aria-labelledby="floppa-friday-title" hidden>
       <div class="floppa-friday-fractal" aria-hidden="true"></div>
@@ -453,7 +458,7 @@
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
     <script src="js/window-manager.js?v=20261030-happy-ratio"></script>
     <script src="js/release-cats.js?v=20261030-huh-animated-audio"></script>
-    <script src="js/floppa-friday.js?v=20261031-floppa-friday"></script>
+    <script src="js/floppa-friday.js?v=20261031-floppa-shortcut"></script>
     <script src="js/start-menu.js?v=20261030-hack-video"></script>
     <script src="js/music.js?v=20261030-huh-cat"></script>
   </body>
