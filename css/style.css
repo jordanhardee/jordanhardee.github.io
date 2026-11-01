@@ -214,13 +214,8 @@ body {
   text-shadow: 2px 2px 0 #001342, 0 0 12px rgba(0, 10, 55, .9);
 }
 .desktop-site-title span { font-size: inherit; }
-/* Per-letter phases preserve Jordan's original colorful marquee without
-   interpolating through muddy colors between the four primary keyframes. */
-.desktop-site-title span:nth-child(5n + 1) { -webkit-animation-delay: -1.3s; animation-delay: -1.3s; }
-.desktop-site-title span:nth-child(5n + 2) { -webkit-animation-delay: -3.6s; animation-delay: -3.6s; }
-.desktop-site-title span:nth-child(5n + 3) { -webkit-animation-delay: -5.9s; animation-delay: -5.9s; }
-.desktop-site-title span:nth-child(5n + 4) { -webkit-animation-delay: -8.2s; animation-delay: -8.2s; }
-.desktop-site-title span:nth-child(5n) { -webkit-animation-delay: -10.5s; animation-delay: -10.5s; }
+/* All four rainbow keyframes are permutations of one palette. Keep every
+   letter on the same animation clock so adjacent colors never coincide. */
 section {
   background-color: #00006a;
 }
