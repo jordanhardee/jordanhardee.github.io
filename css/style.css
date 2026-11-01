@@ -1861,3 +1861,190 @@ body.nostalgia-mode .desktop-site-title {
   .club-penguin-orange { animation: none; }
   .xp-nostalgia-track, .xp-nostalgia-track span { transition: none; }
 }
+
+/* Classic XP Start-menu layout: header, white programs column, pale-blue
+   shortcuts column, and a blue action footer. Always use the light XP skin. */
+.xp-start-menu {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min(650px, calc(100vw - 8px));
+  height: min(710px, calc(100dvh - var(--xp-taskbar-height) - 5px));
+  max-height: none;
+  overflow: hidden;
+  border: 2px solid #0f52b2;
+  border-radius: 10px 10px 0 0;
+  background: #d5e6fa;
+  color: #183052;
+  color-scheme: light;
+  box-shadow: 5px -5px 24px #0008;
+}
+.xp-start-menu .xp-menu-user {
+  flex: 0 0 auto;
+  min-height: 76px;
+  box-sizing: border-box;
+  padding: 12px 15px;
+  background: linear-gradient(#0855b7, #2278df 55%, #3c93ed);
+  border-bottom: 3px solid #f4aa40;
+}
+.xp-menu-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 51%) minmax(0, 49%);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.xp-menu-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: #fff;
+  border-right: 1px solid #7da6ce;
+}
+.xp-menu-home,
+.xp-menu-main .xp-menu-items {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: #fff;
+  padding: 9px 9px 0;
+}
+.xp-menu-home[hidden],
+.xp-menu-main .xp-menu-items[hidden] { display: none !important; }
+.xp-menu-featured { padding-bottom: 8px; border-bottom: 1px solid #d3d3d3; }
+.xp-menu-featured .xp-menu-item { min-height: 64px; }
+.xp-menu-featured .xp-menu-item > .xp-app-icon {
+  flex-basis: 42px;
+  width: 42px;
+  height: 42px;
+  font-size: 25px;
+}
+.xp-menu-featured .xp-menu-item strong { font-size: 15px; }
+.xp-menu-shortcuts { padding-top: 7px; }
+.xp-menu-shortcuts .xp-menu-item { min-height: 48px; }
+.xp-menu-side {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 13px 11px;
+  background: linear-gradient(90deg, #d1e4f8, #d9e9fb);
+}
+.xp-menu-side-group { padding: 2px 0 9px; }
+.xp-menu-side-group + .xp-menu-side-group { padding-top: 9px; border-top: 1px solid #abc8e5; }
+.xp-menu-side .xp-menu-item { min-height: 47px; padding: 7px 8px; }
+.xp-menu-side .xp-menu-item strong { font-size: 13px; }
+.xp-menu-main .xp-menu-item,
+.xp-menu-side .xp-menu-item { color: #1c3155; background: transparent; }
+.xp-menu-main .xp-menu-item small,
+.xp-menu-side .xp-menu-item small { color: #687586; }
+.xp-menu-main .xp-menu-item:hover,
+.xp-menu-main .xp-menu-item:focus-visible,
+.xp-menu-side .xp-menu-item:hover,
+.xp-menu-side .xp-menu-item:focus-visible {
+  color: #fff;
+  background: #2468bd;
+}
+.xp-menu-main .xp-menu-item:hover small,
+.xp-menu-main .xp-menu-item:focus-visible small { color: #e1eeff; }
+.xp-menu-main .xp-folder-toggle[aria-expanded="true"] { background: #e4effe; }
+.xp-menu-main .xp-folder-contents { background: #f2f7ff; border-left-color: #98b3d7; }
+.xp-menu-main .xp-menu-folder + .xp-menu-folder { border-top-color: #dae4f0; }
+.xp-all-programs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex: 0 0 51px;
+  min-height: 51px;
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #d4d4d4;
+  background: #fff;
+  color: #172036;
+  font: bold 16px/1.2 Tahoma, Verdana, sans-serif;
+  cursor: pointer;
+}
+.xp-all-programs:hover,
+.xp-all-programs:focus-visible { background: #e4f0ff; outline: 2px solid #2c76d8; outline-offset: -2px; }
+.xp-all-programs-arrow { color: #21a73a; font-size: 24px; text-shadow: 1px 1px #075e19; }
+.xp-all-programs[aria-expanded="true"] .xp-all-programs-arrow { transform: rotate(180deg); }
+.xp-start-menu .xp-menu-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  min-height: 63px;
+  box-sizing: border-box;
+  padding: 7px 13px;
+  border-top: 2px solid #81b6fa;
+  background: linear-gradient(#428eea, #1f6ed1 45%, #1055b9);
+  color: #fff;
+}
+.xp-start-menu .xp-menu-bottom .xp-nostalgia-toggle {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 9px;
+  width: auto;
+  max-width: 285px;
+  min-height: 44px;
+  margin: 0;
+  padding: 4px 7px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-shadow: 1px 1px #14498e;
+}
+.xp-menu-bottom .xp-nostalgia-toggle small { color: #e2edff; }
+.xp-menu-bottom .xp-nostalgia-toggle:hover,
+.xp-menu-bottom .xp-nostalgia-toggle:focus-visible { background: #ffffff24; }
+.xp-menu-bottom .xp-nostalgia-toggle:hover small,
+.xp-menu-bottom .xp-nostalgia-toggle:focus-visible small { color: #fff; }
+.xp-menu-dismiss {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border: 1px solid #9abce6;
+  border-radius: 4px;
+  background: linear-gradient(#3879cd, #1c509d);
+  box-shadow: inset 0 1px #b5d2f5, 0 1px 3px #154888;
+  color: #fff;
+  font: 12px Tahoma, Verdana, sans-serif;
+  cursor: pointer;
+}
+.xp-menu-dismiss span { color: #ffe1a4; font-size: 18px; }
+.xp-menu-dismiss:hover,
+.xp-menu-dismiss:focus-visible { background: #154b95; outline: 2px solid #fef0ab; }
+@media (max-width: 650px) {
+  .xp-start-menu { width: calc(100vw - 4px); height: calc(100dvh - var(--xp-taskbar-height) - 3px); left: 0; }
+  .xp-start-menu .xp-menu-user { min-height: 61px; padding: 8px 10px; }
+  .xp-menu-avatar { width: 41px; height: 41px; }
+  .xp-menu-user-name { font-size: 15px; }
+  .xp-menu-columns { grid-template-columns: minmax(0, 52%) minmax(0, 48%); }
+  .xp-menu-home, .xp-menu-main .xp-menu-items { padding: 5px 3px 0; }
+  .xp-menu-side { padding: 7px 3px; }
+  .xp-menu-main .xp-menu-item, .xp-menu-side .xp-menu-item { gap: 5px; padding: 6px 5px; }
+  .xp-menu-featured .xp-menu-item { min-height: 56px; }
+  .xp-menu-featured .xp-menu-item > .xp-app-icon { flex-basis: 33px; width: 33px; height: 33px; font-size: 20px; }
+  .xp-menu-featured .xp-menu-item strong { font-size: 12px; }
+  .xp-menu-shortcuts .xp-menu-item, .xp-menu-side .xp-menu-item { min-height: 43px; }
+  .xp-menu-main .xp-menu-item strong, .xp-menu-side .xp-menu-item strong { font-size: 11px; }
+  .xp-menu-main .xp-menu-item small { font-size: 9px; }
+  .xp-menu-main .xp-menu-item > :is(.xp-task-icon, .xp-app-icon),
+  .xp-menu-side .xp-menu-item > :is(.xp-task-icon, .xp-app-icon) { flex-basis: 23px; width: 23px; height: 23px; }
+  .xp-all-programs { flex-basis: 45px; min-height: 45px; font-size: 13px; gap: 8px; }
+  .xp-all-programs-arrow { font-size: 19px; }
+  .xp-start-menu .xp-menu-bottom { min-height: 58px; padding: 5px 6px; gap: 2px; }
+  .xp-start-menu .xp-menu-bottom .xp-nostalgia-toggle { padding: 3px 5px; gap: 5px; }
+  .xp-menu-bottom .xp-nostalgia-toggle strong { font-size: 11px; }
+  .xp-menu-bottom .xp-nostalgia-toggle small { font-size: 9px; }
+  .xp-menu-bottom .xp-nostalgia-track { flex-basis: 35px; height: 21px; }
+  .xp-menu-bottom .xp-nostalgia-track span { width: 15px; height: 15px; }
+  .xp-menu-bottom .xp-nostalgia-toggle[aria-checked="true"] .xp-nostalgia-track span { transform: translateX(14px); }
+  .xp-menu-dismiss { padding: 6px 7px; gap: 3px; font-size: 10px; }
+  .xp-menu-dismiss span { font-size: 15px; }
+}

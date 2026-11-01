@@ -5,6 +5,11 @@
   const menu = document.getElementById('xp-start-menu');
   const nostalgiaToggle = document.getElementById('xp-nostalgia-toggle');
   const nostalgiaDescription = document.getElementById('xp-nostalgia-description');
+  const allProgramsToggle = document.getElementById('xp-all-programs-toggle');
+  const allProgramsLabel = document.getElementById('xp-all-programs-label');
+  const programList = document.getElementById('xp-program-list');
+  const menuHome = document.getElementById('xp-menu-home');
+  const menuDismiss = document.getElementById('xp-menu-dismiss');
   const chefFrame = document.getElementById('cyberchef-frame');
   const chefLoading = document.getElementById('cyberchef-loading');
   const skyFrame = document.getElementById('stellarium-frame');
@@ -62,10 +67,24 @@
     document.body.appendChild(script);
   }
 
+  function showAllPrograms(open) {
+    if (!allProgramsToggle || !programList || !menuHome) return;
+    programList.hidden = !open;
+    menuHome.hidden = open;
+    allProgramsToggle.setAttribute('aria-expanded', String(open));
+    if (allProgramsLabel) allProgramsLabel.textContent = open ? 'Back' : 'All Programs';
+    if (open) programList.scrollTop = 0;
+  }
+
   function showMenu(open) {
+    if (open) showAllPrograms(false);
     menu.hidden = !open;
     start.setAttribute('aria-expanded', String(open));
   }
+  allProgramsToggle?.addEventListener('click', () => {
+    showAllPrograms(allProgramsToggle.getAttribute('aria-expanded') !== 'true');
+  });
+  menuDismiss?.addEventListener('click', () => showMenu(false));
 
   const nostalgiaPreference = 'jordanhardee-nostalgia-mode';
   function setNostalgiaMode(enabled) {

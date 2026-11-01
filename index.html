@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261101-synced-rainbow">
+    <link rel="stylesheet" href="css/style.css?v=20261101-two-column-start">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -387,12 +387,22 @@
         <img class="xp-menu-avatar" src="floppa.jpeg" alt="Floppa, the caracal wearing sunglasses">
         <strong class="xp-menu-user-name">Jordan Hardee</strong>
       </div>
-      <div class="xp-menu-items">
-        <button class="xp-menu-item xp-nostalgia-toggle" id="xp-nostalgia-toggle" type="button" role="switch" aria-checked="false">
-          <span class="xp-app-icon xp-nostalgia-icon" aria-hidden="true">✦</span>
-          <span class="xp-menu-label"><strong>Nostalgia Mode</strong><small id="xp-nostalgia-description">Off · show vintage icons</small></span>
-          <span class="xp-nostalgia-track" aria-hidden="true"><span></span></span>
-        </button>
+      <div class="xp-menu-columns">
+        <div class="xp-menu-main">
+          <div class="xp-menu-home" id="xp-menu-home">
+            <div class="xp-menu-featured">
+              <button class="xp-menu-item" type="button" data-open-window="news"><span class="xp-app-icon xp-news-icon" aria-hidden="true">N</span><span class="xp-menu-label"><strong>News</strong><small>Current headlines</small></span></button>
+              <button class="xp-menu-item" type="button" data-open-window="contact"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-menu-label"><strong>Contact</strong><small>Get in touch</small></span></button>
+            </div>
+            <div class="xp-menu-shortcuts">
+              <button class="xp-menu-item" type="button" data-open-window="hacker-news"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-menu-label"><strong>Hacker News</strong></span></button>
+              <button class="xp-menu-item" type="button" data-open-window="cyberchef"><span class="xp-app-icon xp-chef-icon" aria-hidden="true">⚗</span><span class="xp-menu-label"><strong>CyberChef</strong></span></button>
+              <button class="xp-menu-item" type="button" data-open-window="fractal-explorer"><span class="xp-app-icon xp-fractal-icon" aria-hidden="true">✺</span><span class="xp-menu-label"><strong>Fractal Explorer</strong></span></button>
+              <button class="xp-menu-item" type="button" data-open-window="release-cats"><span class="xp-app-icon xp-cats-icon" aria-hidden="true">🐈</span><span class="xp-menu-label"><strong>RELEASE THE CATS</strong></span></button>
+              <button class="xp-menu-item" type="button" data-open-window="chess"><span class="xp-app-icon xp-chess-icon" aria-hidden="true">♞</span><span class="xp-menu-label"><strong>Chess</strong></span></button>
+            </div>
+          </div>
+          <div class="xp-menu-items" id="xp-program-list" hidden>
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-games"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Games</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-games" hidden>
@@ -450,8 +460,36 @@
             <button class="xp-menu-item" type="button" data-open-window="credits"><span class="xp-app-icon xp-credits-icon" aria-hidden="true">♫</span><span class="xp-menu-label"><strong>Credits</strong></span></button>
           </div>
         </div>
+          </div>
+          <button class="xp-all-programs" id="xp-all-programs-toggle" type="button" aria-expanded="false" aria-controls="xp-program-list"><span id="xp-all-programs-label">All Programs</span><span class="xp-all-programs-arrow" aria-hidden="true">▶</span></button>
+        </div>
+        <div class="xp-menu-side">
+          <div class="xp-menu-side-group">
+            <button class="xp-menu-item" type="button" data-open-window="about"><span class="xp-app-icon xp-about-icon" aria-hidden="true">?</span><span class="xp-menu-label"><strong>About Me</strong></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="contact"><span class="xp-app-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-menu-label"><strong>Contact</strong></span></button>
+            <a class="xp-menu-item xp-external-link" href="https://github.com/jordanhardee" target="_blank" rel="noopener noreferrer"><span class="xp-app-icon xp-github-icon" aria-hidden="true">⌘</span><span class="xp-menu-label"><strong>GitHub</strong></span></a>
+          </div>
+          <div class="xp-menu-side-group">
+            <button class="xp-menu-item" type="button" data-open-window="nasa-apod"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-menu-label"><strong>NASA APOD</strong></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="daily-office"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-menu-label"><strong>Daily Office</strong></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="stellarium"><span class="xp-app-icon xp-stellarium-icon" aria-hidden="true">✶</span><span class="xp-menu-label"><strong>Stellarium Web</strong></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="wikipedia-featured"><span class="xp-app-icon xp-wikipedia-icon" aria-hidden="true">W</span><span class="xp-menu-label"><strong>Wikipedia Article</strong></span></button>
+          </div>
+          <div class="xp-menu-side-group">
+            <button class="xp-menu-item" type="button" data-open-window="unit-converter"><span class="xp-app-icon xp-converter-icon" aria-hidden="true">⇄</span><span class="xp-menu-label"><strong>Unit Converter</strong></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="graph-calculator"><span class="xp-app-icon xp-graphcalc-icon" aria-hidden="true">∑</span><span class="xp-menu-label"><strong>Graphing Calculator</strong></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="credits"><span class="xp-app-icon xp-credits-icon" aria-hidden="true">♫</span><span class="xp-menu-label"><strong>Credits</strong></span></button>
+          </div>
+        </div>
       </div>
-      <div class="xp-menu-bottom">JordanHardee.com</div>
+      <div class="xp-menu-bottom">
+        <button class="xp-menu-item xp-nostalgia-toggle" id="xp-nostalgia-toggle" type="button" role="switch" aria-checked="false">
+          <span class="xp-app-icon xp-nostalgia-icon" aria-hidden="true">✦</span>
+          <span class="xp-menu-label"><strong>Nostalgia Mode</strong><small id="xp-nostalgia-description">Off · show vintage icons</small></span>
+          <span class="xp-nostalgia-track" aria-hidden="true"><span></span></span>
+        </button>
+        <button class="xp-menu-dismiss" id="xp-menu-dismiss" type="button"><span aria-hidden="true">⏻</span> Close Menu</button>
+      </div>
     </nav>
     <div class="xp-hack-video-overlay" id="xp-hack-video-overlay" role="dialog" aria-modal="true" aria-label="Hack the Planet video" hidden>
       <video id="xp-hack-video" playsinline preload="none" aria-label="Hack the Planet clip"></video>
