@@ -27,6 +27,8 @@ test('Floppa remains the first XP desktop shortcut, followed by the archive', ()
   assert.ok(xpGrid > 0 && floppa > xpGrid && floppa < limewire);
   assert.ok(markup.includes('club-penguin/orange-penguin.png'));
   assert.ok(!markup.includes('puffle-clean.png'));
+  assert.ok(!markup.includes('<h2>Windows XP</h2>'));
+  assert.ok(!markup.includes('<h2>Mac OS X</h2>'));
 });
 
 test('aquarium fish swim above freely arranged iOS icons, without a fake device', () => {

@@ -1807,14 +1807,7 @@ body.nostalgia-mode .club-penguin-dancers { display: flex !important; }
 }
 
 /* Keep the site name legible; pin it to the very top in nostalgia mode. */
-.desktop-site-title {
-  font-family: Tahoma, Verdana, sans-serif;
-  font-weight: bold;
-  font-size: clamp(24px, 4vw, 56px);
-  letter-spacing: -.035em;
-  text-shadow: 1px 2px 0 #001342, 0 0 10px #000a;
-}
-.desktop-site-title span { animation: none !important; -webkit-animation: none !important; color: #fff !important; }
+/* Keep Jordan's original Mario font and animated rainbow letters intact. */
 body.nostalgia-mode .desktop-site-title {
   position: fixed;
   z-index: 50;
@@ -1826,8 +1819,8 @@ body.nostalgia-mode .desktop-site-title {
   margin: 0;
   padding: 3px 8px 8px;
   background: linear-gradient(#000b35c4, #00104980 75%, transparent);
-  font: bold clamp(18px, 3vw, 30px)/1.2 Tahoma, Verdana, sans-serif;
-  letter-spacing: -.025em;
+  font: clamp(20px, 3.4vw, 40px)/1.25 "Mario", Tahoma, sans-serif;
+  letter-spacing: -.02em;
   text-align: center;
 }
 
