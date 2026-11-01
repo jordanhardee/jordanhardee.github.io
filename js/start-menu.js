@@ -29,6 +29,7 @@
     'fractal-explorer': new URL('./fractal-explorer.mjs?v=20261030-koch3', document.currentScript.src).href,
     'wikipedia-featured': new URL('./wikipedia-featured.mjs?v=20261030-1', document.currentScript.src).href,
     news: new URL('./news.mjs?v=20261030-1', document.currentScript.src).href,
+    guestbook: new URL('./guestbook.mjs?v=20261101-guestbook', document.currentScript.src).href,
   };
   const loadedApps = new Set();
   let openedOnce = false;

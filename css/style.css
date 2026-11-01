@@ -1011,6 +1011,7 @@ blockquote {
 .xp-app-icon { display: grid; place-items: center; flex: none; width: 23px; height: 23px; border: 1px solid #dde9f7; border-radius: 4px; background: linear-gradient(135deg,#91c6f7,#2460b3); color: #fff; font: bold 17px Georgia,serif; text-shadow: 1px 1px #173c76; }
 .xp-chef-icon { background: linear-gradient(135deg,#244773,#62bbd5); color: #fff6a4; }
 .xp-contact-icon { background: linear-gradient(135deg,#f8efb0,#b68d48); color: #194e8b; text-shadow: none; }
+.xp-guestbook-icon { background:linear-gradient(145deg,#fffdf0,#d5e4f7); border-color:#7391b9; color:#255f9f; text-shadow:none; font:bold 17px/1 Georgia,serif; }
 .xp-memorial-icon { background: linear-gradient(140deg,#1e2c5f,#667aa1); color: #f0dcaa; text-shadow: 0 0 3px #d4c189; }
 .xp-wikipedia-icon { background:linear-gradient(145deg,#f3f3f3,#b0bfd4); color:#222; text-shadow:none; font-family:Georgia,serif; font-weight:bold; }
 .xp-news-icon { background:linear-gradient(145deg,#f1f4fb,#7092c4); color:#153359; text-shadow:none; font:bold 13px Georgia,serif; }
@@ -1051,6 +1052,30 @@ blockquote {
 .stellarium-loading[hidden] { display:none; }
 .xp-app-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; flex:none; padding:2px 9px 5px; color:#5b6270; font:9px Tahoma,sans-serif; }
 .xp-app-footer a { color:#1550a1; text-decoration:underline; }
+.guestbook-panel { width:min(680px,calc(100vw - 30px)); height:min(705px,calc(100dvh - 65px)); }
+.xp-app-window .guestbook-body { overflow-y:auto; padding:clamp(12px,2.5vw,20px); background:#f7f7f0; color:#27394f; font:calc(13px * var(--xp-text-scale,1))/1.45 Tahoma,Arial,sans-serif; }
+.guestbook-body [hidden] { display:none!important; }
+.guestbook-intro { margin:0 0 18px; padding:0 0 12px; border-bottom:1px solid #afbfce; }
+.guestbook-intro h3 { margin:0 0 5px; color:#143e78; font:bold calc(17px * var(--xp-text-scale,1))/1.35 Tahoma,Arial,sans-serif; }
+.guestbook-intro p { margin:0; color:#55616f; }
+.guestbook-captcha-gate { max-width:440px; margin:0 auto; padding:17px; border:1px solid #a3a9ae; background:#ece9d8; box-shadow:inset 1px 1px #fff,1px 1px #ddd; }
+.guestbook-captcha-title { margin:-17px -17px 12px; padding:7px 12px; border-bottom:1px solid #a3a9ae; background:linear-gradient(#fff,#dce5f4); font-weight:bold; color:#29496d; }
+.guestbook-captcha-gate p { margin:0 0 12px; }
+.guestbook-captcha-gate canvas { display:block; max-width:100%; height:auto; margin:0 auto 13px; border:1px solid #758ba6; background:#deedf2; }
+.guestbook-captcha-math { text-align:center; padding:17px 8px; border:1px solid #758ba6; background:#f6fbff; color:#203e67; font:bold calc(23px * var(--xp-text-scale,1))/1.4 Tahoma,sans-serif; }
+.guestbook-captcha-actions { display:flex; flex-wrap:wrap; align-items:center; gap:7px; }
+.guestbook-captcha-actions label { font-weight:bold; }
+.guestbook-captcha-actions input { flex:1 1 90px; min-width:0; max-width:140px; padding:6px; border:1px solid #8295af; border-radius:2px; background:white; font:inherit; text-transform:uppercase; }
+.guestbook-captcha-actions button { padding:6px 10px; border:1px solid #7b94b3; border-radius:3px; background:linear-gradient(#fff,#d4e3f5); color:#1a416b; font:inherit; font-weight:bold; cursor:pointer; }
+.guestbook-captcha-actions button:hover, .guestbook-captcha-actions button:focus-visible { background:linear-gradient(#fff,#bad7fd); }
+.guestbook-captcha-alternate { display:block; margin:12px 0 2px; padding:0; border:0; background:none; color:#1556a2; font:inherit; text-decoration:underline; text-align:left; cursor:pointer; }
+#guestbook-captcha-feedback { min-height:1em; margin:9px 0 0; color:#8a3030; }
+.guestbook-unlocked { min-height:200px; }
+#guestbook-status { padding:9px; border:1px solid #b5c2d0; background:#e9f3ff; color:#2b4b69; }
+.guestbook-discussions, .guestbook-discussions .giscus-frame { width:100%; }
+.guestbook-fallback { padding:13px; border:1px solid #d0ba7e; background:#fff8db; color:#5f4a23; }
+.guestbook-fallback a { color:#1556a2; }
+@media (max-width:560px) { .guestbook-captcha-gate { padding:12px; }.guestbook-captcha-title { margin:-12px -12px 11px; }.guestbook-intro h3 { font-size:calc(15px * var(--xp-text-scale,1)); } }
 .wikipedia-panel { width:min(680px,calc(100vw - 30px)); height:min(690px,calc(100dvh - 65px)); }
 .xp-app-window .wikipedia-body { overflow-y:auto; padding:clamp(16px,3vw,30px); background:#f8f9fa; color:#202122; font:calc(14px * var(--xp-text-scale,1))/1.65 Georgia,serif; scrollbar-color:#aab7c7 #f2f4f6; }
 .wikipedia-body [hidden] { display:none !important; }

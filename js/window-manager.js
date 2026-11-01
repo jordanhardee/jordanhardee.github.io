@@ -65,6 +65,7 @@
         stellarium: [1050, 740],
         about: [590, 550],
         contact: [540, 630],
+        guestbook: [680, 705],
         credits: [540, 420],
         'release-cats': [360, 255],
         'happy-exe': [290, 560],
