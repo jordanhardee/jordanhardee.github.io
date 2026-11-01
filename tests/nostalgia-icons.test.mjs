@@ -8,7 +8,7 @@ const markup = readFileSync(join(root, 'index.html'), 'utf8');
 const stylesheet = readFileSync(join(root, 'css/style.css'), 'utf8');
 
 test('all 30 requested app icons and both Puffles have local, valid image files', () => {
-  const requested = [...markup.matchAll(/src="(assets\/nostalgia\/[^"]+)"/g)].map(match => match[1]);
+  const requested = [...markup.matchAll(/src="(assets\/nostalgia\/[^"]+)"/g)].map(match => match[1].split('?')[0]);
   assert.equal(requested.length, 32);
   assert.equal(new Set(requested).size, 32);
   for (const relativePath of requested) {
