@@ -31,7 +31,7 @@ All images on the desktop are sourced from identifiable historical app art, arch
 | Word, PowerPoint, Excel 2003 | [Hopstarter Sleek XP Software icon set](https://www.iconarchive.com/show/sleek-xp-software-icons-by-hopstarter.html): 2003-era Office icon renditions, **not exact executable bitmaps**; attributed to Hopstarter (CC BY-NC-ND 4.0 as displayed by the archive). |
 | Publisher 2003 | [Smooth Metal Software Pack's Microsoft Office 2003 Publisher rendition](https://www.iconeasy.com/icon/microsoft-office-2003-publisher-icon/): identifiable Publisher 2003 icon, not an exact Microsoft binary extraction. |
 | ToonTown | [Flippy illustration from ToonTown's historic character art](https://www.pngaaa.com/detail/5549245), cropped to the blue dog's face. [ToonTown Wiki](https://toontown.wiki.gg/wiki/Flippy) confirms the launcher showed Flippy's face. **Exact launcher `.ico` not recovered.** |
-| AIM | [Wikimedia Crystal AIM logo](https://commons.wikimedia.org/wiki/File:Crystal_128_aim.png): period AIM wordmark (different from the running-man application icon). |
+| AIM | [Benjigarner SoftDimension AIM-yellow icon](https://www.iconarchive.com/show/softdimension-icons-by-benjigarner/AIM-yellow-icon.html): period-style 3D rendition of the signature yellow running man, **not the exact AOL executable bitmap**. |
 | Pirates of the Caribbean Online | [2007 MMO promotional artwork](https://www.imdb.com/title/tt1042425/), cropped around the actual Disney Pirates Online title. **Exact launcher `.ico` not recovered.** |
 | VirtualBox | [Old Application Icons archive, innotek 2007](https://winclassic.github.io/icons): original 32 × 32 historical `.ico`. |
 

@@ -157,6 +157,7 @@ body {
   user-select: none;
   pointer-events: none;
 }
+.desktop-icon-museum .nostalgia-icon-section { background: transparent; }
 .nostalgia-icon-section h2 {
   display: inline-block;
   margin: 0 0 5px 7px;
