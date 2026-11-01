@@ -28,12 +28,12 @@ All images on the desktop are sourced from identifiable historical app art, arch
 | FrostWire | [FrostWire's own static icon](https://static.frostwire.com/images/frostwire-icon-512x512.png): actual app branding; exact historical release not verified. |
 | CMD | [WinXpIcons Command Prompt](https://github.com/holylance98/WinXpIcons/blob/main/Command%20Prompt.png): Windows XP-style command-prompt icon. |
 | µTorrent | [Wikimedia µTorrent logo](https://commons.wikimedia.org/wiki/File:UTorrent_(logo).png): legacy green µ. |
-| Word, PowerPoint, Excel 2003 | [Hopstarter Sleek XP Software icon set](https://www.iconarchive.com/show/sleek-xp-software-icons-by-hopstarter.html): 2003-era Office icon renditions, **not exact executable bitmaps**; attributed to Hopstarter (CC BY-NC-ND 4.0 as displayed by the archive). |
-| Publisher 2003 | [Smooth Metal Software Pack's Microsoft Office 2003 Publisher rendition](https://www.iconeasy.com/icon/microsoft-office-2003-publisher-icon/): identifiable Publisher 2003 icon, not an exact Microsoft binary extraction. |
+| Word, PowerPoint, Excel, Publisher 2003 | [WinClassic archive, “All Office icons”](https://winclassic.github.io/resources.html), `Office Icons/Office 2003/PNG`: preserved original Microsoft Office 2003 48 × 48 program icons, rather than modernized XP-style renditions. |
 | ToonTown | [Flippy illustration from ToonTown's historic character art](https://www.pngaaa.com/detail/5549245), cropped to the blue dog's face. [ToonTown Wiki](https://toontown.wiki.gg/wiki/Flippy) confirms the launcher showed Flippy's face. **Exact launcher `.ico` not recovered.** |
-| AIM | [Benjigarner SoftDimension AIM-yellow icon](https://www.iconarchive.com/show/softdimension-icons-by-benjigarner/AIM-yellow-icon.html): period-style 3D rendition of the signature yellow running man, **not the exact AOL executable bitmap**. |
+| AIM | [Wikimedia Commons, AOL Instant Messenger original brand logo](https://commons.wikimedia.org/wiki/File:AIM_logo.svg): authentic yellow running man with blue AOL triangle, converted from vector to a transparent PNG. This is the original brand mark, **not verified as the executable's `.ico` bitmap**. |
 | Pirates of the Caribbean Online | [2007 MMO promotional artwork](https://www.imdb.com/title/tt1042425/), cropped around the actual Disney Pirates Online title. **Exact launcher `.ico` not recovered.** |
 | VirtualBox | [Old Application Icons archive, innotek 2007](https://winclassic.github.io/icons): original 32 × 32 historical `.ico`. |
+| Floppa.exe | Circular transparent crop from the desktop shortcut screenshot provided by the site owner, retaining the recognizable cat head and shortcut arrow. Functions as an XP shortcut. |
 
 ## Classic Mac OS X icons (upper left)
 
@@ -47,5 +47,4 @@ All images on the desktop are sourced from identifiable historical app art, arch
 
 ## Club Penguin (bottom right)
 
-- Orange and pink Puffle character illustrations: [Orange Puffle](https://www.realclipart.com/middle/m2i8H7d3K9H7Z5N4_puffles-club-penguin-puffles-orange/) and [Pink Puffle](https://www.realclipart.com/middle/m2i8A0G6b1H7N4K9_club-penguin-pink-puffle/), recognizably matching the original Club Penguin characters.
-- The source copies had baked-in checkerboard backgrounds; those were locally flood-filled to transparency. A small CSS bob/rotation animation makes them dance. **This is not the exact archived Club Penguin dance GIF/sprite animation.**
+- [Orange Club Penguin penguin illustration in a dancing pose](https://w1.pngwing.com/pngs/304/95/png-transparent-penguin-club-penguin-club-penguin-island-animation-roblox-game-beak-bird.png). The penguin was extracted from a source illustration with a checkerboard background, and its pose animates with a CSS bounce and flip. **This is not the exact original Club Penguin in-game dance animation or sprite sheet.** No Puffles are displayed.

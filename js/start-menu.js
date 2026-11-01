@@ -3,6 +3,8 @@
   const start = document.getElementById('xp-start-button');
   const startLabel = document.getElementById('xp-start-label');
   const menu = document.getElementById('xp-start-menu');
+  const nostalgiaToggle = document.getElementById('xp-nostalgia-toggle');
+  const nostalgiaDescription = document.getElementById('xp-nostalgia-description');
   const chefFrame = document.getElementById('cyberchef-frame');
   const chefLoading = document.getElementById('cyberchef-loading');
   const skyFrame = document.getElementById('stellarium-frame');
@@ -64,6 +66,24 @@
     menu.hidden = !open;
     start.setAttribute('aria-expanded', String(open));
   }
+
+  const nostalgiaPreference = 'jordanhardee-nostalgia-mode';
+  function setNostalgiaMode(enabled) {
+    document.body?.classList?.toggle('nostalgia-mode', enabled);
+    nostalgiaToggle?.setAttribute('aria-checked', String(enabled));
+    if (nostalgiaDescription) nostalgiaDescription.textContent = enabled
+      ? 'On · vintage icons visible'
+      : 'Off · show vintage icons';
+  }
+  let nostalgiaEnabled = false;
+  try { nostalgiaEnabled = localStorage.getItem(nostalgiaPreference) === 'on'; } catch { /* private mode */ }
+  setNostalgiaMode(nostalgiaEnabled);
+  nostalgiaToggle?.addEventListener('click', () => {
+    const enabled = !document.body?.classList?.contains('nostalgia-mode');
+    setNostalgiaMode(enabled);
+    try { localStorage.setItem(nostalgiaPreference, enabled ? 'on' : 'off'); } catch { /* private mode */ }
+    showMenu(false);
+  });
 
   start.addEventListener('click', () => {
     const opening = menu.hidden;

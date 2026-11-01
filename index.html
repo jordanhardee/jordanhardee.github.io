@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261101-retro-icons-fix2">
+    <link rel="stylesheet" href="css/style.css?v=20261101-nostalgia-toggle">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -14,8 +14,7 @@
       <canvas id="site-matrix-canvas"></canvas>
     </div>
     <div class="site-aquarium-background" aria-hidden="true">
-      <div class="ios-retro-screen">
-        <div class="ios-retro-status"><span>▂▃▅▇ &nbsp; iPod &nbsp; ◕</span><strong>9:41 AM</strong><span>100% ▰</span></div>
+      <div class="ios-retro-icons nostalgia-layer">
         <div class="ios-retro-apps">
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/cydia.png" alt=""><span>Cydia</span></div>
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/winterboard.png" alt=""><span>WinterBoard</span></div>
@@ -31,19 +30,17 @@
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/gpsphone.png" alt=""><span>gpSPhone</span></div>
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/snes4iphone.png" alt=""><span>snes4iphone</span></div>
         </div>
-        <div class="ios-retro-dots" aria-hidden="true"><b></b><i></i><i></i></div>
-        <div class="ios-retro-dock" aria-hidden="true"></div>
       </div>
       <canvas id="site-aquarium-canvas"></canvas>
     </div>
-    <button class="xp-desktop-shortcut" id="floppa-exe-shortcut" type="button" aria-label="Floppa.exe desktop shortcut. Double-click or press Enter to release Floppa." aria-pressed="false" title="Floppa.exe — double-click to open">
-      <span class="xp-desktop-shortcut-image" aria-hidden="true"><span class="xp-desktop-shortcut-arrow">➚</span></span>
-      <span class="xp-desktop-shortcut-label">Floppa.exe</span>
-    </button>
-    <aside class="desktop-icon-museum" aria-label="Historical Windows XP and classic Mac application shortcuts">
+    <aside class="desktop-icon-museum nostalgia-layer" aria-label="Historical Windows XP and classic Mac application shortcuts">
       <section class="nostalgia-icon-section" aria-label="Windows XP desktop icons">
         <h2>Windows XP</h2>
         <div class="nostalgia-icon-grid">
+          <button class="xp-desktop-shortcut" id="floppa-exe-shortcut" type="button" aria-label="Floppa.exe desktop shortcut. Double-click or press Enter to release Floppa." aria-pressed="false" title="Floppa.exe — double-click to open">
+            <span class="xp-desktop-shortcut-image" aria-hidden="true"><img src="assets/nostalgia/xp/floppa.png" alt=""><span class="xp-desktop-shortcut-arrow">➚</span></span>
+            <span class="xp-desktop-shortcut-label">Floppa.exe</span>
+          </button>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/limewire.png" alt=""><span>LimeWire</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/frostwire-small.png" alt=""><span>FrostWire</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/cmd-small.png" alt=""><span>CMD</span></div>
@@ -53,7 +50,7 @@
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/publisher.png" alt=""><span>Publisher</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/excel.png" alt=""><span>Excel 2003</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/toontown.png" alt=""><span>ToonTown</span></div>
-          <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/aim.png?v=20261101-running-man" alt=""><span>AIM</span></div>
+          <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/aim.png?v=20261101-authentic-aol" alt=""><span>AIM</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/pirates-online.png" alt=""><span>Pirates Online</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/virtualbox.png" alt=""><span>VirtualBox</span></div>
         </div>
@@ -69,9 +66,8 @@
         </div>
       </section>
     </aside>
-    <div class="club-penguin-dancers" aria-label="Dancing orange and pink Club Penguin Puffles" role="img">
-      <img class="club-penguin-orange" src="assets/nostalgia/club-penguin/orange-puffle-clean.png" alt="">
-      <img class="club-penguin-pink" src="assets/nostalgia/club-penguin/pink-puffle-clean.png" alt="">
+    <div class="club-penguin-dancers nostalgia-layer" aria-label="Dancing orange Club Penguin penguin" role="img">
+      <img class="club-penguin-orange" src="assets/nostalgia/club-penguin/orange-penguin.png" alt="">
     </div>
     <div class="page-wrapper">
       <aside class="sidebar-left">
@@ -394,6 +390,11 @@
         <strong class="xp-menu-user-name">Jordan Hardee</strong>
       </div>
       <div class="xp-menu-items">
+        <button class="xp-menu-item xp-nostalgia-toggle" id="xp-nostalgia-toggle" type="button" role="switch" aria-checked="false">
+          <span class="xp-app-icon xp-nostalgia-icon" aria-hidden="true">✦</span>
+          <span class="xp-menu-label"><strong>Nostalgia Mode</strong><small id="xp-nostalgia-description">Off · show vintage icons</small></span>
+          <span class="xp-nostalgia-track" aria-hidden="true"><span></span></span>
+        </button>
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-games"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Games</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-games" hidden>
@@ -512,7 +513,7 @@
     <script src="js/window-manager.js?v=20261030-happy-ratio"></script>
     <script src="js/release-cats.js?v=20261030-huh-animated-audio"></script>
     <script src="js/floppa-friday.js?v=20261031-floppa-shortcut"></script>
-    <script src="js/start-menu.js?v=20261030-hack-video"></script>
+    <script src="js/start-menu.js?v=20261101-nostalgia-toggle"></script>
     <script src="js/music.js?v=20261030-huh-cat"></script>
   </body>
 </html>

@@ -3,18 +3,18 @@
     src: URL("Mario.ttf") format("TrueType");
 }
 :root { --xp-taskbar-height: 38px; color-scheme: light; }
-html{
-  cursor: url("dani071.cur"), auto;
-}
+html { cursor: url("dani071.cur"), auto; }
+html, body { height: 100%; overflow: hidden; }
 /* Cursor sparkles are decorative and must not swallow clicks on page controls. */
 div[id^="dots"] { pointer-events: none; }
 body {
   /*background-color: #e4edff;*/
   background-image: url("bg.jpg");
-  background-repeat: repeat;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-attachment: fixed;
   margin: 0;
-  padding: 0 0 var(--xp-taskbar-height);
+  padding: 0;
   font: 14px/1.5 "Noto Sans", "Mario", "Helvetica Neue", Helvetica, Arial, sans-serif;
   /*color:#3d3d3d;*/
   color: rgb(248, 231, 205);
@@ -1808,4 +1808,140 @@ body.floppa-friday-active { overflow:hidden; }
 @media(prefers-reduced-motion:reduce) {
   .floppa-friday-trigger img,.floppa-friday-fractal,.floppa-friday-fractal-echo,
   .floppa-friday-title,.floppa-friday-holy-moly,.floppa-friday-attention { animation:none!important; }
+}
+
+/* Nostalgia Mode is opt-in. Nothing in this desktop layer is shown initially. */
+.nostalgia-layer { display: none !important; }
+body.nostalgia-mode .nostalgia-layer { display: block !important; }
+body.nostalgia-mode .club-penguin-dancers { display: flex !important; }
+
+/* iOS-era artwork arranged like SpringBoard, not inside a pretend device. */
+.ios-retro-icons {
+  position: absolute;
+  z-index: 1; /* aquarium fish paint over the icons */
+  top: 58px;
+  right: 12px;
+  width: 332px;
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+}
+.ios-retro-icons .ios-retro-apps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px 4px;
+  padding: 0;
+}
+.desktop-icon-museum { top: 56px; }
+.page-wrapper { height: 100dvh; min-height: 0; overflow: hidden; }
+
+/* Floppa.exe is the first XP shortcut and uses a transparent circular head. */
+.nostalgia-icon-grid .xp-desktop-shortcut {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  box-sizing: border-box;
+  width: 86px;
+  min-height: 79px;
+  padding: 2px 2px 3px;
+  gap: 4px;
+  pointer-events: auto;
+}
+.nostalgia-icon-grid .xp-desktop-shortcut-image {
+  width: 51px;
+  height: 51px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  box-shadow: none;
+}
+.nostalgia-icon-grid .xp-desktop-shortcut-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.nostalgia-icon-grid .xp-desktop-shortcut-arrow {
+  left: -2px;
+  bottom: -1px;
+  width: 15px;
+  height: 15px;
+  font-size: 13px;
+}
+.nostalgia-icon-grid .xp-desktop-shortcut-label { max-width: 100%; font: 11px/1.13 Tahoma, Verdana, sans-serif; }
+
+/* One dancing orange Club Penguin penguin, not Puffles. */
+.club-penguin-dancers { gap: 0; }
+.club-penguin-dancers img { width: 102px; transform-origin: 50% 86%; }
+.club-penguin-orange { animation: orange-penguin-dance .65s ease-in-out infinite alternate; }
+@keyframes orange-penguin-dance {
+  from { transform: translateY(0) rotate(-10deg) scaleX(1); }
+  to { transform: translateY(-13px) rotate(9deg) scaleX(-1); }
+}
+
+/* Keep the site name legible; pin it to the very top in nostalgia mode. */
+.desktop-site-title {
+  font-family: Tahoma, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: clamp(24px, 4vw, 56px);
+  letter-spacing: -.035em;
+  text-shadow: 1px 2px 0 #001342, 0 0 10px #000a;
+}
+.desktop-site-title span { animation: none !important; -webkit-animation: none !important; color: #fff !important; }
+body.nostalgia-mode .desktop-site-title {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  transform: none;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 3px 8px 8px;
+  background: linear-gradient(#000b35c4, #00104980 75%, transparent);
+  font: bold clamp(18px, 3vw, 30px)/1.2 Tahoma, Verdana, sans-serif;
+  letter-spacing: -.025em;
+  text-align: center;
+}
+
+/* A real stateful XP-style toggle in Start. */
+.xp-nostalgia-toggle { min-height: 62px; margin-bottom: 5px; border-bottom: 1px solid #c9d9ed; }
+.xp-nostalgia-icon { background: linear-gradient(135deg, #7950ca, #004e9b); color: #fdf49a; }
+.xp-nostalgia-track {
+  box-sizing: border-box;
+  flex: 0 0 44px;
+  height: 24px;
+  padding: 2px;
+  border: 1px solid #8294b0;
+  border-radius: 20px;
+  background: #b7c3d6;
+  box-shadow: inset 0 2px 2px #1b2c4466;
+  transition: background .15s;
+}
+.xp-nostalgia-track span { display: block; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #0006; transition: transform .15s; }
+.xp-nostalgia-toggle[aria-checked="true"] .xp-nostalgia-track { background: #3fbd46; }
+.xp-nostalgia-toggle[aria-checked="true"] .xp-nostalgia-track span { transform: translateX(19px); }
+
+@media (max-width: 1000px) {
+  .ios-retro-icons { right: 6px; width: 300px; }
+}
+@media (max-width: 650px) {
+  .desktop-icon-museum { position: fixed; top: 54px; left: 3px; width: 159px; }
+  .nostalgia-icon-grid { grid-template-columns: repeat(2, 78px); gap: 0; }
+  .nostalgia-desktop-icon, .nostalgia-icon-grid .xp-desktop-shortcut { min-height: 51px; padding: 0; gap: 0; }
+  .nostalgia-desktop-icon img, .nostalgia-mac-section .nostalgia-desktop-icon img,
+  .nostalgia-icon-grid .xp-desktop-shortcut-image { width: 36px; height: 36px; }
+  .nostalgia-desktop-icon span, .nostalgia-icon-grid .xp-desktop-shortcut-label { font-size: 9px; }
+  .nostalgia-icon-section h2 { margin-bottom: 2px; font-size: 10px; }
+  .nostalgia-mac-section { margin-top: 3px; }
+  .ios-retro-icons { top: 57px; right: 3px; width: min(53vw, 202px); }
+  .ios-retro-icons .ios-retro-apps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 1px; }
+  .ios-retro-app img { width: min(43px, 11vw); height: min(43px, 11vw); border-radius: 8px; }
+  .ios-retro-app span { font-size: 8px; }
+  .club-penguin-dancers { right: 4px; bottom: calc(var(--xp-taskbar-height) + 5px); }
+  .club-penguin-dancers img { width: 72px; }
+  body.nostalgia-mode .desktop-site-title { padding-top: 4px; font-size: clamp(18px, 5vw, 26px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .club-penguin-orange { animation: none; }
+  .xp-nostalgia-track, .xp-nostalgia-track span { transition: none; }
 }
