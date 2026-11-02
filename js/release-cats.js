@@ -3,6 +3,7 @@
 (function () {
   const panel = document.querySelector('[data-window="release-cats"]');
   const happyPanel = document.querySelector('[data-window="happy-exe"]');
+  const zoomPanel = document.querySelector('[data-window="zoom-exe"]');
   const video = document.getElementById('happy-video');
   const hint = document.getElementById('happy-playback-hint');
   const swarm = document.getElementById('xp-cat-swarm');
@@ -25,7 +26,7 @@
     [49, 47, 195, 3],
   ];
 
-  if (!panel || !happyPanel || !video || !swarm || !runway || !releaseButton || !recallButton) return;
+  if (!panel || !happyPanel || !zoomPanel || !video || !swarm || !runway || !releaseButton || !recallButton) return;
   let released = false;
   let playToken = 0;
   let huhContext = null;
@@ -203,6 +204,13 @@
     }
   }
 
+  function openZoom() {
+    if (!released) return;
+    if (zoomPanel.classList.contains('module-closed') || zoomPanel.classList.contains('module-minimized')) {
+      emit('xp:open-window', 'zoom-exe');
+    }
+  }
+
   function release() {
     const firstRelease = !released;
     if (!released) {
@@ -213,6 +221,7 @@
       addJumpers();
     }
     openHappy();
+    openZoom();
     if (firstRelease) playHuh();
     if (status) status.textContent = '5 cats loose! KITTY JAIL puts them back.';
   }
@@ -226,6 +235,7 @@
     stopHuh();
     stopHappy();
     if (!happyPanel.classList.contains('module-closed')) emit('xp:close-window', 'happy-exe');
+    if (!zoomPanel.classList.contains('module-closed')) emit('xp:close-window', 'zoom-exe');
     if (status) status.textContent = 'All cats are safely in KITTY JAIL.';
   }
 

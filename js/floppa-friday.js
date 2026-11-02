@@ -1,4 +1,4 @@
-// An XP desktop shortcut releases a bouncing Floppa; catching it unlocks sound.
+// The roaming Floppa visits on local Fridays; Floppa.exe opens the show on demand.
 (function () {
   const shortcut = document.getElementById('floppa-exe-shortcut');
   const trigger = document.getElementById('floppa-friday-trigger');
@@ -31,7 +31,7 @@
   let resumeHappy = false;
   let particles = [];
   let generation = 0;
-  let lastTouchClickAt = 0;
+  let touchShortcut = false;
 
   let audioContext = null;
   let audioBufferPromise = null;
@@ -218,24 +218,47 @@
     shortcut.setAttribute('aria-pressed', String(selected));
   }
 
-  function launch() {
-    if (active || !trigger.hidden) return;
-    selectShortcut(true);
-    trigger.hidden = false;
-    lastOrbit = 0;
-    bounds();
-    cancelAnimationFrame(orbitFrame);
-    orbitFrame = requestAnimationFrame(orbit);
+  function localFriday() {
+    return new Date().getDay() === 5;
   }
 
+  // A Friday is based on the visitor's calendar, not the server's timezone.
+  // Recheck while the tab stays open so the cat arrives/leaves at midnight.
+  function syncFriday() {
+    if (active) return;
+    if (localFriday()) {
+      if (!trigger.hidden) return;
+      trigger.hidden = false;
+      lastOrbit = 0;
+      bounds();
+      cancelAnimationFrame(orbitFrame);
+      orbitFrame = requestAnimationFrame(orbit);
+    } else if (!trigger.hidden) {
+      trigger.hidden = true;
+      cancelAnimationFrame(orbitFrame);
+      orbitFrame = 0;
+    }
+  }
+
+  function launch() {
+    if (active) return;
+    selectShortcut(true);
+    // The shortcut is available every day. Only the roaming square is Friday-only.
+    // Keep sound inside the activation gesture for mobile Safari.
+    start();
+  }
+
+  shortcut.addEventListener('pointerdown', event => {
+    touchShortcut = event.pointerType === 'touch' || event.pointerType === 'pen';
+  });
+  shortcut.addEventListener('touchstart', () => { touchShortcut = true; }, { passive:true });
   shortcut.addEventListener('click', event => {
     selectShortcut(true);
-    // Browsers deliver click.detail=2 on mouse double clicks. iOS Safari may
-    // send two individual tap clicks, so recognize a quick second touch too.
-    const touch = event.pointerType === 'touch';
-    const now = Date.now();
-    if (event.detail >= 2 || (touch && now - lastTouchClickAt < 450)) launch();
-    lastTouchClickAt = touch ? now : 0;
+    // Safari may send a MouseEvent for the synthetic click after a touch;
+    // remember the real pointer/touch event and launch on one mobile tap.
+    const touch = touchShortcut || event.pointerType === 'touch';
+    touchShortcut = false;
+    if (touch || event.detail >= 2) launch();
   });
   shortcut.addEventListener('dblclick', launch);
   shortcut.addEventListener('keydown', event => {
@@ -292,6 +315,7 @@
     resumeHappy = false;
     lastOrbit = 0;
     shortcut.focus();
+    syncFriday();
   }
 
   trigger.addEventListener('click', start);
@@ -300,5 +324,9 @@
     if (event.key === 'Escape' && active) { event.preventDefault(); stop(); }
   });
   window.addEventListener('resize', bounds);
+  window.addEventListener('focus', syncFriday);
+  document.addEventListener('visibilitychange', syncFriday);
+  window.setInterval(syncFriday, 60_000);
   bounds();
+  syncFriday();
 })();

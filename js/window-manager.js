@@ -69,6 +69,7 @@
         credits: [540, 420],
         'release-cats': [360, 255],
         'happy-exe': [290, 560],
+        'zoom-exe': [480, 520],
       };
       const [preferredWidth, preferredHeight] = sizes[module.dataset.window] || [540, 385];
       const width = Math.min(preferredWidth, window.innerWidth - 30);
@@ -77,8 +78,11 @@
       return {
         left: module.dataset.window === 'happy-exe'
           ? Math.max(10, Math.round(window.innerWidth * 0.045))
-          : Math.max(0, Math.round((window.innerWidth - width) / 2)),
-        top: Math.max(8, Math.round((window.innerHeight - taskbarHeight - height) / 2)),
+          : module.dataset.window === 'zoom-exe'
+            ? Math.max(0, window.innerWidth - width - 24)
+            : Math.max(0, Math.round((window.innerWidth - width) / 2)),
+        top: module.dataset.window === 'zoom-exe' ? 64
+          : Math.max(8, Math.round((window.innerHeight - taskbarHeight - height) / 2)),
         width, height,
       };
     }
@@ -285,6 +289,7 @@
     'patrick-stewart': 'Patrick Stewart Memorial',
     'release-cats': 'Release the Cats',
     'happy-exe': 'happy.exe',
+    'zoom-exe': 'Zoom.exe',
   };
   windows.forEach(module => {
     const header = module.querySelector(headerSelector);

@@ -28,7 +28,8 @@
       'credits': 'Credits',
       'patrick-stewart': 'Patrick Stewart Memorial',
       'release-cats': 'Release the Cats',
-      'happy-exe': 'happy.exe'
+      'happy-exe': 'happy.exe',
+      'zoom-exe': 'Zoom.exe'
     };
     return names[module.dataset.window] || 'Window';
   }

@@ -7,10 +7,12 @@ const script = readFileSync(new URL('../js/floppa-friday.js', import.meta.url), 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 
-function harness() {
+function harness(day = 1) {
   const events = [];
   const rafs = new Map();
   const sources = [];
+  const timers = [];
+  const clock = {day};
   let nextFrame = 1;
   function element() {
     const classes = new Set();
@@ -60,6 +62,7 @@ function harness() {
   const window = {
     innerWidth:1200, innerHeight:820, devicePixelRatio:1,
     matchMedia:() => ({matches:false}), addEventListener:noop,
+    setInterval:fn => {timers.push(fn);return timers.length;},
     AudioContext:class {
       constructor() { this.currentTime = 0; this.destination = {}; }
       resume() { return Promise.resolve(); }
@@ -81,8 +84,9 @@ function harness() {
   const requestAnimationFrame = fn => {const id=nextFrame++;rafs.set(id,fn);return id;};
   const cancelAnimationFrame = id => rafs.delete(id);
   const fetch = async () => ({ok:true,arrayBuffer:async()=>new ArrayBuffer(8)});
-  vm.runInNewContext(script,{document,window,Image,CustomEvent,requestAnimationFrame,cancelAnimationFrame,fetch});
-  return {shortcut,trigger,show,close,smiley,video,lines,events,rafs,sources,bodyClasses,document};
+  const Date = class {getDay() {return clock.day;}};
+  vm.runInNewContext(script,{document,window,Image,CustomEvent,requestAnimationFrame,cancelAnimationFrame,fetch,Date});
+  return {shortcut,trigger,show,close,smiley,video,lines,events,rafs,sources,bodyClasses,document,clock,timers};
 }
 
 test('uses both supplied Floppa images and an authentic animated holy-moly GIF', () => {
@@ -107,9 +111,9 @@ test('uses both supplied Floppa images and an authentic animated holy-moly GIF',
   assert.ok(readFileSync(new URL('../assets/floppa-friday/holy-moly.mp3',import.meta.url)).length > 3_000);
 });
 
-test('XP shortcut selects, double-click releases the marked Floppa, click triggers fractals, close resets', async () => {
+test('desktop double-click opens the full-screen Floppa show without a weekday roaming square', async () => {
   const page = harness();
-  assert.equal(page.trigger.hidden,true,'the bouncing cat waits for Floppa.exe to launch');
+  assert.equal(page.trigger.hidden,true,'the bouncing cat is absent on Mondays');
   assert.equal(page.rafs.size,0);
   page.shortcut.handlers.click({detail:1,pointerType:'mouse'});
   assert.equal(page.shortcut['aria-pressed'],'true');
@@ -117,16 +121,6 @@ test('XP shortcut selects, double-click releases the marked Floppa, click trigge
   page.document.listeners.pointerdown({target:{}});
   assert.equal(page.shortcut['aria-pressed'],'false','clicking the desktop clears selection');
   page.shortcut.handlers.click({detail:2,pointerType:'mouse'});
-  assert.equal(page.trigger.hidden,false);
-  assert.match(page.trigger.style.transform,/translate3d/);
-  assert.match(css, /floppa-frantic-shake \.085s/);
-  const first = page.trigger.style.transform;
-  const step = [...page.rafs.values()][0];
-  step(100);
-  const next = [...page.rafs.values()].at(-1);
-  next(150);
-  assert.notEqual(page.trigger.style.transform,first,'the small square travels across the desktop');
-  page.trigger.handlers.click();
   assert.equal(page.trigger.hidden,true);
   assert.equal(page.show.hidden,false);
   assert.equal(page.video.paused,true);
@@ -141,7 +135,7 @@ test('XP shortcut selects, double-click releases the marked Floppa, click trigge
   assert.equal(page.show.dataset.audio,'playing');
   page.close.handlers.click();
   assert.equal(page.show.hidden,true);
-  assert.equal(page.trigger.hidden,true,'the desktop icon relaunches the Easter egg');
+  assert.equal(page.trigger.hidden,true,'the roaming square remains Friday-only');
   assert.equal(page.shortcut.focused,true);
   assert.equal(page.sources[0].stopped,true);
   assert.equal(page.show.dataset.audio,'stopped');
@@ -149,13 +143,35 @@ test('XP shortcut selects, double-click releases the marked Floppa, click trigge
   assert.equal(page.video.paused,false);
   assert.ok(!page.bodyClasses.has('floppa-friday-active'));
   page.shortcut.handlers.keydown({key:'Enter',preventDefault(){}});
-  assert.equal(page.trigger.hidden,false,'keyboard activation opens Floppa.exe');
+  assert.equal(page.show.hidden,false,'keyboard activation opens Floppa.exe');
 });
 
-test('a quick second tap also launches the shortcut on touch screens', () => {
+test('a single mobile tap launches Floppa.exe even when click has no pointerType', () => {
   const page = harness();
-  page.shortcut.handlers.click({detail:1,pointerType:'touch'});
-  assert.equal(page.trigger.hidden,true);
-  page.shortcut.handlers.click({detail:1,pointerType:'touch'});
+  page.shortcut.handlers.pointerdown({pointerType:'touch'});
+  page.shortcut.handlers.click({detail:1});
+  assert.equal(page.show.hidden,false);
+});
+
+test('the shaky square roams on Fridays only and responds when the local date changes', () => {
+  const page = harness(5);
   assert.equal(page.trigger.hidden,false);
+  assert.match(page.trigger.style.transform,/translate3d/);
+  assert.match(css, /floppa-frantic-shake \.085s/);
+  const first = page.trigger.style.transform;
+  const step = [...page.rafs.values()][0];
+  step(100);
+  const next = [...page.rafs.values()].at(-1);
+  next(150);
+  assert.notEqual(page.trigger.style.transform,first,'the Friday square travels across the desktop');
+  page.trigger.handlers.click();
+  assert.equal(page.show.hidden,false);
+  page.close.handlers.click();
+  assert.equal(page.trigger.hidden,false,'after the show, Friday Floppa returns');
+  page.clock.day=6;
+  page.timers[0]();
+  assert.equal(page.trigger.hidden,true,'the roaming cat leaves when Friday ends');
+  page.clock.day=5;
+  page.timers[0]();
+  assert.equal(page.trigger.hidden,false,'the roaming cat arrives when Friday starts');
 });

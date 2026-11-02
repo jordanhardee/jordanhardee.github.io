@@ -50,9 +50,10 @@ function makePage(width = 1200, webAudio = false) {
   });
   const swarm = element(), runway = element(), status = { textContent: '' };
   const release = element(), recall = element(), hint = element();
-  const panel = element(), happyPanel = element();
+  const panel = element(), happyPanel = element(), zoomPanel = element();
   panel.classList.add('module-closed');
   happyPanel.classList.add('module-closed');
+  zoomPanel.classList.add('module-closed');
   const video = element();
   video.volume = 1;
   video.attributes = {};
@@ -76,7 +77,8 @@ function makePage(width = 1200, webAudio = false) {
     constructor(type, options) { this.type = type; this.detail = options.detail; }
   };
   const document = {
-    querySelector: selector => selector.includes('happy-exe') ? happyPanel : panel,
+    querySelector: selector => selector.includes('happy-exe') ? happyPanel
+      : selector.includes('zoom-exe') ? zoomPanel : panel,
     getElementById: id => nodes[id] || null,
     createElement: element,
     addEventListener(name, listener) {
@@ -91,6 +93,13 @@ function makePage(width = 1200, webAudio = false) {
         happyPanel.classList.add('module-closed');
         document.dispatchEvent(new CustomEvent('xp:closed', { detail: { window: 'happy-exe' } }));
       }
+      if (event.type === 'xp:open-window' && event.detail.window === 'zoom-exe') {
+        zoomPanel.classList.remove('module-closed', 'module-minimized');
+      }
+      if (event.type === 'xp:close-window' && event.detail.window === 'zoom-exe') {
+        zoomPanel.classList.add('module-closed');
+        document.dispatchEvent(new CustomEvent('xp:closed', { detail: { window: 'zoom-exe' } }));
+      }
       for (const listener of events.get(event.type) || []) listener(event);
     },
   };
@@ -99,8 +108,25 @@ function makePage(width = 1200, webAudio = false) {
   const fetch = async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(4) });
   vm.runInNewContext(script, { document, window, CustomEvent, Audio, fetch });
   const dispatch = (name, app = 'release-cats') => document.dispatchEvent(new CustomEvent(name, { detail: { window: app } }));
-  return { swarm, runway, status, release, recall, panel, happyPanel, video, hint, sounds, sources, dispatch };
+  return { swarm, runway, status, release, recall, panel, happyPanel, zoomPanel, video, hint, sounds, sources, dispatch };
 }
+
+test('Release the Cats also opens a draggable XP Zoom.exe window with the supplied nine-cat visual', () => {
+  assert.match(html, /data-window="zoom-exe" aria-labelledby="zoom-heading"/);
+  assert.match(html, /src="assets\/cats\/zoom-call\.jpg"/);
+  assert.match(html, /data-window="zoom-exe" aria-label="Restore Zoom\.exe"/);
+  assert.match(windowManager, /'zoom-exe': \[480, 520\]/);
+  assert.match(fullscreenScript, /'zoom-exe': 'Zoom\.exe'/);
+  const image = readFileSync(new URL('../assets/cats/zoom-call.jpg',import.meta.url));
+  assert.equal(image.subarray(0,2).toString('hex'),'ffd8');
+  const page = makePage();
+  page.dispatch('xp:window-opened');
+  assert.equal(page.zoomPanel.classList.contains('module-closed'),false);
+  page.recall.listeners.click();
+  assert.equal(page.zoomPanel.classList.contains('module-closed'),true);
+  page.dispatch('xp:window-opened');
+  assert.equal(page.zoomPanel.classList.contains('module-closed'),false);
+});
 
 test('happy.exe is a separate XP window with a looping, sound-capable, lazy video', () => {
   assert.match(html, /data-window="happy-exe"/);

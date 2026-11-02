@@ -1581,6 +1581,10 @@ button.playing-card { padding:0; cursor:pointer; }
 /* RELEASE THE CATS: local animations load only on release. The floating cats
    remain click-through, including over XP video and taskbar controls. */
 .xp-cats-icon { background:linear-gradient(145deg,#ffead0,#dfa97f); color:#523c42; text-shadow:none; font:17px/1 system-ui,sans-serif; }
+.xp-zoom-icon { background:linear-gradient(145deg,#83b7ff,#275cbb); color:#fff; text-shadow:none; font:bold 14px/1 Tahoma,sans-serif; }
+.zoom-panel { width:min(480px,calc(100vw - 22px)); height:min(520px,calc(100dvh - 65px)); }
+.xp-app-window .zoom-body { display:flex; align-items:center; justify-content:center; overflow:hidden; background:#101014; }
+.zoom-body img { display:block; width:100%; height:100%; object-fit:contain; }
 .cats-panel { width:min(385px,calc(100vw - 22px)); height:min(265px,calc(100dvh - 65px)); }
 .happy-panel { width:min(290px,calc(100vw - 22px)); height:auto!important; }
 /* The XP title bar is outside the picture. The body itself always has the
@@ -1608,9 +1612,14 @@ button.playing-card { padding:0; cursor:pointer; }
 @keyframes xp-cat-bob { 0%,100% { transform:translate(-50%,-50%) rotate(var(--cat-tilt)); } 50% { transform:translate(-50%,calc(-50% - 20px)) rotate(var(--cat-tilt-reverse)); } }
 @media(max-width:1050px) {
   .xp-app-window.happy-panel { position:fixed!important; inset:10px auto auto 9px!important; width:min(240px,calc(100vw - 18px),calc((100dvh - 290px) * .5626))!important; height:auto!important; z-index:10001!important; }
+  /* Put the cat conference beside happy.exe on phones; its maximize button
+     opens the image large without covering KITTY JAIL by default. */
+  .xp-app-window.zoom-panel { position:fixed!important; inset:10px 8px auto auto!important; width:clamp(145px,42vw,340px)!important; height:auto!important; z-index:10002!important; }
+  .xp-app-window.zoom-panel .zoom-body { aspect-ratio:1; flex:0 0 auto; }
   .xp-app-window.happy-panel.happy-enlarged { width:min(320px,calc(100vw - 18px),calc((100dvh - 290px) * .5626))!important; }
   .xp-app-window.cats-panel { position:fixed!important; inset:auto 9px calc(var(--xp-taskbar-height) + 9px) 9px!important; width:auto!important; height:200px!important; z-index:10003!important; }
-  .xp-app-window:is(.happy-panel,.cats-panel):is(:fullscreen,.module-is-expanded) { inset:0!important; width:100vw!important; height:100dvh!important; z-index:99999!important; }
+  .xp-app-window:is(.happy-panel,.cats-panel,.zoom-panel):is(:fullscreen,.module-is-expanded) { inset:0!important; width:100vw!important; height:100dvh!important; z-index:99999!important; }
+  .xp-app-window.zoom-panel:is(:fullscreen,.module-is-expanded) .zoom-body { flex:1 1 0; aspect-ratio:auto; }
 }
 @media(max-width:650px) {
   .xp-cat-floater { width:min(var(--cat-width),38vw); }
@@ -1794,6 +1803,7 @@ body.nostalgia-mode .club-penguin-dancers { display: flex !important; }
   padding: 2px 2px 3px;
   gap: 4px;
   pointer-events: auto;
+  touch-action: manipulation;
 }
 .nostalgia-icon-grid .xp-desktop-shortcut-image {
   width: 51px;
