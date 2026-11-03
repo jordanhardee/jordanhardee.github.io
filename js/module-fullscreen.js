@@ -16,7 +16,6 @@
       'cyberchef': 'CyberChef',
       'cmd-terminal': 'Command Prompt',
       'kali-terminal': 'Kali terminal',
-      'club-penguin': 'Club Penguin',
       'contact': 'Contact',
       'blackjack': 'Blackjack',
       'solitaire': 'Solitaire',

@@ -6,21 +6,18 @@ import vm from 'node:vm';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const terminals = readFileSync(new URL('../js/nostalgia-apps.js', import.meta.url), 'utf8');
-const penguin = readFileSync(new URL('../js/club-penguin.js', import.meta.url), 'utf8');
 const manager = readFileSync(new URL('../js/window-manager.js', import.meta.url), 'utf8');
 
-test('retro launchers have actual windows, inputs, and taskbar buttons', () => {
-  for (const id of ['cmd-terminal', 'kali-terminal', 'club-penguin']) {
+test('retro terminal launchers have actual windows, inputs, and taskbar buttons', () => {
+  for (const id of ['cmd-terminal', 'kali-terminal']) {
     assert.ok(html.includes(`data-window="${id}"`), `${id} window absent`);
     assert.ok(html.includes(`class="xp-task-button module-task-hidden" type="button" data-window="${id}"`), `${id} taskbar missing`);
     assert.ok(manager.includes(`'${id}': [`), `${id} lacks default dimensions`);
   }
   assert.match(html, /id="cmd-shortcut" data-launch="cmd-terminal"/);
   assert.match(html, /id="openssh-shortcut" data-launch="kali-terminal"/);
-  assert.match(html, /id="club-penguin-shortcut"/);
-  assert.match(css, /\.club-penguin-dancers\s*\{\s*pointer-events:\s*auto;/);
   assert.match(css, /\.terminal-output\s*\{[^}]*overflow-y:\s*auto/);
-  assert.match(css, /#penguin-game\s*\{[^}]*touch-action:\s*none/);
+  assert.doesNotMatch(html, /id="penguin-game"|data-window="club-penguin"/);
 });
 
 test('fake CMD and Kali accept commands but safely render input as text', () => {
@@ -62,13 +59,3 @@ test('fake CMD and Kali accept commands but safely render input as text', () => 
   assert.ok(nodes['kali-output'].children.some(node => /no network traffic/i.test(node.textContent)));
 });
 
-test('penguin minigame uses a local canvas, multiple rooms, movement and collection', () => {
-  assert.match(html, /<canvas id="penguin-game"[^>]*tabindex="0"/);
-  for (const room of ['town', 'rink', 'hill']) assert.ok(html.includes(`data-penguin-room="${room}"`));
-  assert.match(penguin, /canvas\.addEventListener\('pointerdown'/);
-  assert.match(penguin, /canvas\.addEventListener\('keydown'/);
-  assert.match(penguin, /points \+= 1/);
-  assert.match(penguin, /requestAnimationFrame\(tick\)/);
-  assert.match(penguin, /cancelAnimationFrame\(frameId\)/);
-  assert.doesNotMatch(penguin, /fetch\(|eval\(|new Function\(/);
-});

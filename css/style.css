@@ -1847,15 +1847,7 @@ body.nostalgia-mode .club-penguin-dancers { display: flex !important; }
 }
 .ios-retro-app.nostalgia-launcher { padding: 0; text-shadow: inherit; }
 .nostalgia-desktop-icon.nostalgia-launcher { text-shadow: inherit; }
-.club-penguin-dancers {
-  pointer-events: auto;
-  appearance: none;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-.nostalgia-launcher:focus-visible,.club-penguin-dancers:focus-visible {
+.nostalgia-launcher:focus-visible {
   outline: 2px solid #fff15c;
   outline-offset: 2px;
   border-radius: 5px;
@@ -2139,23 +2131,7 @@ body.nostalgia-mode .desktop-site-title {
 }
 .terminal-form:focus-within { outline: 1px dotted #94a3b8; outline-offset: 4px; }
 
-/* Locally drawn, single-player penguin playground. */
-.xp-penguin-icon { background: linear-gradient(#84e7ff,#1377d4); color:#fff; text-shadow: none; }
-.club-penguin-panel { width: min(960px,calc(100vw - 30px)); height: min(710px,calc(100dvh - 65px)); }
-.xp-app-window .club-penguin-body { display: flex; flex-direction: column; overflow: hidden; background: #d7f6ff; border-color: #5ca7d3; }
-.penguin-toolbar { display: flex; flex: none; align-items: center; gap: 7px; padding: 8px; background: linear-gradient(#a3eafa,#62bce9); border-bottom: 2px solid #3484bd; }
-.penguin-toolbar button,.penguin-actions button { border: 2px solid #438ebc; border-radius: 16px; background: linear-gradient(#fff,#d3f6ff); padding: 5px 11px; color: #11447d; font: bold 12px Tahoma,Arial,sans-serif; cursor: pointer; }
-.penguin-toolbar button[aria-pressed="true"] { border-color:#fdf3af; background: #1973bf; color:#fff; box-shadow: 0 1px 4px #024b87; }
-.penguin-toolbar button:focus-visible,.penguin-actions button:focus-visible { outline: 3px solid #ffeb62; outline-offset: 2px; }
-#penguin-score { margin-left: auto; padding: 4px 9px; border-radius: 14px; background: #fffce7; color: #165685; font: bold 13px Tahoma, sans-serif; white-space: nowrap; }
-#penguin-game { display: block; flex: 1 1 0; min-height: 0; width: 100%; background: #9feaff; touch-action: none; cursor: crosshair; }
-.penguin-actions { flex: none; display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 7px; padding: 7px; border-top: 2px solid #3b92c6; background: #e8faff; }
-#penguin-message { flex: 1 1 220px; font: 12px/1.3 Tahoma,Arial,sans-serif; color: #164d78; }
 @media (max-width:650px) {
   .xp-app-window .terminal-body { padding: 8px; font-size: 11px; }
   .terminal-form { gap: 4px; }
-  .penguin-toolbar { gap: 3px; padding: 5px 3px; }
-  .penguin-toolbar button,.penguin-actions button { padding: 5px 6px; font-size: 10px; }
-  .penguin-actions { gap: 4px; padding: 5px; }
-  #penguin-message { flex-basis: 100%; font-size: 10px; }
 }
