@@ -3,7 +3,8 @@
 These assets are original archived Club Penguin Flash files/artwork, **not**
 recreated drawings. They are used for a single-room, offline nostalgia viewer.
 
-- `coffee.swf`: original Coffee Shop room (2010), retrieved from
+- `../clubpenguin/coffee.swf`: original Coffee Shop room (2010), at the
+  public URL `/assets/clubpenguin/coffee.swf`, retrieved from
   [barichello/cp-swf-archive](https://gitlab.com/barichello/cp-swf-archive/-/blob/master/2010/default/coffee.swf).
 - `blue-puffle.swf`: original blue puffle sprite collection, preserved by
   [Club Penguin Archives mirror](https://toolbox.solero.me/cparchives/static/images/archives/0/00/PuffleSpritesBlue.swf).

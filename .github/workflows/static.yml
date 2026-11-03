@@ -47,7 +47,7 @@ jobs:
           tar -xzf "$RUNNER_TEMP/ruffle-rs-ruffle-0.7.1.tgz" -C ruffle --strip-components=1 --wildcards 'package/*.wasm' 'package/*.js' 'package/LICENSE_*'
           test -s ruffle/ruffle.js
           test "$(find ruffle -name '*.wasm' | wc -l)" -ge 1
-          test -s assets/club-penguin/coffee.swf
+          test -s assets/clubpenguin/coffee.swf
           test -s assets/club-penguin/blue-puffle-idle.webp
       - name: Restore CyberChef Mobile build
         id: cyberchef-cache
