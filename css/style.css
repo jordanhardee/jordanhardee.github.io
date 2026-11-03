@@ -2138,7 +2138,7 @@ body.nostalgia-mode .desktop-site-title {
   user-select: none;
 }
 .kali-terminal-session { margin-left: auto; color: #b5b5b5; font-size: 11px; white-space: nowrap; }
-.kali-terminal-body .terminal-output { padding: 13px 15px 0; scrollbar-color: #4b5359 #111214; }
+.kali-terminal-body .terminal-output { flex: 0 1 auto; padding: 13px 15px 0; scrollbar-color: #4b5359 #111214; }
 .kali-terminal-body .terminal-output p { margin-bottom: 5px; }
 .kali-terminal-body .terminal-output .terminal-banner {
   margin: 0 0 12px; padding-left: 11px; border-left: 2px solid #4a91b8;
@@ -2176,5 +2176,6 @@ body.nostalgia-mode .desktop-site-title {
   .kali-terminal-session { display: none; }
   .kali-terminal-body .terminal-output { padding: 9px 9px 0; }
   .kali-terminal-body .terminal-form { padding: 7px 9px 10px; }
+  .kali-terminal-body .terminal-form label { max-width: 55%; overflow: hidden; text-overflow: ellipsis; }
   .terminal-form { gap: 4px; }
 }
