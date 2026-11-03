@@ -20,6 +20,11 @@
     #coffee-player { position: absolute; inset: 0; }
     #coffee-player ruffle-player { position: absolute; inset: 0; }
     .cp-puffle { position: absolute; z-index: 3; width: 12%; min-width: 44px; max-width: 132px; left: 45%; bottom: 12%; height: auto; pointer-events: none; filter: drop-shadow(0 3px 1px #17426c65); }
+    .cp-game-viewport { touch-action: none; cursor: pointer; }
+    .cp-avatar { position: absolute; z-index: 4; left: 41%; top: 82%; width: 12%; aspect-ratio: 460 / 480; transform: translate(-50%, -100%) scale(var(--penguin-scale, 1)); transform-origin: 50% 100%; pointer-events: none; will-change: left, top, transform; }
+    .cp-avatar img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .cp-avatar.is-facing-right img { transform: scaleX(-1); }
+    .cp-avatar-name { position: absolute; top: 99%; left: 50%; transform: translateX(-50%); white-space: nowrap; font: bold clamp(8px, 1.45vw, 13px) Tahoma, sans-serif; color: #fff; text-shadow: -1px -1px #203b60, 1px -1px #203b60, -1px 1px #203b60, 1px 1px #203b60, 0 2px 2px #0008; }
     .cp-loading { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; padding: 16px; color: #073c69; text-align: center; font-size: 15px; font-weight: bold; background: linear-gradient(#e1f5ff, #a8d9fc); }
     .cp-loading[hidden] { display: none; }
     .cp-bottom { width: min(100%, 1200px); min-height: 27px; display: flex; justify-content: space-between; align-items: center; gap: 10px; color: #e5f5ff; font-size: 10px; text-shadow: 0 1px #062858; }
@@ -49,11 +54,16 @@
       <div id="coffee-player"></div>
       <p class="cp-loading" id="cp-loading" role="status">Loading the original Coffee Shop…</p>
       <img class="cp-puffle" src="./assets/club-penguin/blue-puffle-idle.webp" alt="An animated original blue puffle" draggable="false">
+      <div class="cp-avatar" id="cp-avatar" role="img" aria-label="Jordan, controllable blue penguin">
+        <img id="cp-avatar-sprite" src="./assets/clubpenguin/avatar/idle-1.webp" alt="" draggable="false">
+        <span class="cp-avatar-name" aria-hidden="true">Jordan</span>
+      </div>
     </section>
     <footer class="cp-bottom">
-      <span class="cp-notice">ORIGINAL 2010 ROOM · OFFLINE DISPLAY · NO ACCOUNTS OR MULTIPLAYER</span>
+      <span class="cp-notice">CLICK / TAP TO WADDLE · ARROW KEYS OR WASD · OFFLINE SINGLE PLAYER</span>
       <button id="cp-fullscreen" type="button" aria-label="Toggle browser fullscreen">⛶ FULLSCREEN</button>
     </footer>
   </main>
+  <script type="module" src="./js/club-penguin-avatar.js?v=20261103-penguin-walk"></script>
 </body>
 </html>
