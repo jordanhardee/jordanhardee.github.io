@@ -124,10 +124,10 @@ index 0ba0ffc..0acd0e9
          for (let i = 0; i < this.ingList.length; i++) {
 diff --git a/src/web/MobileLayout.mjs b/src/web/MobileLayout.mjs
 new file mode 100644
-index 0000000..f0c3170
+index 0000000..f5d317f
 --- /dev/null
 +++ b/src/web/MobileLayout.mjs
-@@ -0,0 +1,187 @@
+@@ -0,0 +1,199 @@
 +/**
 + * Small-screen navigation for the existing CyberChef workspace.
 + * The operations, recipe and editors stay mounted so their state is preserved.
@@ -196,12 +196,13 @@ index 0000000..f0c3170
 +    // Use one handler for a mobile tap or desktop double-click, not both.
 +    const operationsPane = document.getElementById("operations");
 +    /**
-+     * Add the selected operation to the recipe.
-+     * @param {MouseEvent} e Browser selection event.
++     * Add the operation under a click target, when one exists in the list.
++     * @param {MouseEvent} e - The click or double-click event.
++     * @returns {HTMLElement|null} The operation row that was added.
 +     */
 +    function addSelectedOperation(e) {
 +        const operation = e.target.closest?.(".op-list li.operation");
-+        if (!operation || !operationsPane.contains(operation)) return;
++        if (!operation || !operationsPane.contains(operation)) return null;
 +        app.manager.recipe.addOperation(operation.textContent.trim());
 +        if (media.matches) {
 +            showPanel("recipe");
@@ -209,17 +210,28 @@ index 0000000..f0c3170
 +                recList.lastElementChild?.scrollIntoView({block: "nearest"});
 +            });
 +        }
++        return operation;
 +    }
 +
++    let lastTapAdded = null;
 +    operationsPane.addEventListener("click", e => {
-+        if (media.matches) addSelectedOperation(e);
++        if (!media.matches) return;
++        const operation = addSelectedOperation(e);
++        if (operation) lastTapAdded = {operation, at: performance.now()};
 +    });
 +    document.addEventListener("dblclick", e => {
-+        if (!e.target.closest?.("#operations .op-list li.operation")) return;
++        const operation = e.target.closest?.("#operations .op-list li.operation");
++        if (!operation) return;
 +        // Stop the original document-level delegate from adding a duplicate.
 +        e.stopImmediatePropagation();
 +        e.preventDefault();
-+        if (!media.matches) addSelectedOperation(e);
++        // In a narrow XP iframe, a click normally adds the operation. If that
++        // click was lost to a focus/hover transition, the double-click must
++        // still work. Do not add twice when the first click succeeded.
++        if (!media.matches || lastTapAdded?.operation !== operation ||
++            performance.now() - lastTapAdded.at > 700) {
++            addSelectedOperation(e);
++        }
 +    }, true);
 +
 +    // Arrow buttons give recipe reordering a precise alternative to dragging.
@@ -864,10 +876,18 @@ index 0000000..c942c8d
 diff --git a/src/web/waiters/OperationsWaiter.mjs b/src/web/waiters/OperationsWaiter.mjs
 old mode 100755
 new mode 100644
-index 39075bd..06ba9dc
+index 39075bd..9c2517c
 --- a/src/web/waiters/OperationsWaiter.mjs
 +++ b/src/web/waiters/OperationsWaiter.mjs
-@@ -204,6 +204,10 @@ class OperationsWaiter {
+@@ -201,16 +201,37 @@ class OperationsWaiter {
+      */
+     enableOpsListPopovers(el) {
+         const self = this;
++        const hoverTimers = new WeakMap();
++        const cancelHover = item => {
++            clearTimeout(hoverTimers.get(item));
++            hoverTimers.delete(item);
++        };
          $(el).find("[data-toggle=popover]").addBack("[data-toggle=popover]")
              .popover({trigger: "manual"})
              .on("mouseenter", function(e) {
@@ -877,12 +897,35 @@ index 39075bd..06ba9dc
 +                if (window.matchMedia("(max-width: 1023px)").matches) return;
                  if (e.buttons > 0 || self.manager.recipe.dragInProgress) return; // Mouse button held down - likely dragging an operation
                  const _this = this;
-                 $(this).popover("show");
+-                $(this).popover("show");
+-                $(".popover").on("mouseleave", function () {
+-                    $(_this).popover("hide");
+-                });
++                cancelHover(_this);
++                // An immediate hover popover can cover the next click of a
++                // double-click, especially inside a resizable iframe.
++                hoverTimers.set(_this, setTimeout(() => {
++                    hoverTimers.delete(_this);
++                    if (!_this.isConnected || !_this.matches(":hover") ||
++                        self.manager.recipe.dragInProgress) return;
++                    $(_this).popover("show");
++                    $(".popover").on("mouseleave", function () {
++                        $(_this).popover("hide");
++                    });
++                }, 500));
++            }).on("mousedown", function () {
++                cancelHover(this);
++                $(this).popover("hide");
+             }).on("mouseleave", function () {
++                cancelHover(this);
+                 const _this = this;
+                 setTimeout(function() {
+                     // Determine if the popover associated with this element is being hovered over
 diff --git a/src/web/waiters/RecipeWaiter.mjs b/src/web/waiters/RecipeWaiter.mjs
-index d2e4af9..c38e2e6 100755
+index d2e4af9..432fe56 100755
 --- a/src/web/waiters/RecipeWaiter.mjs
 +++ b/src/web/waiters/RecipeWaiter.mjs
-@@ -30,4 +30,13 @@ class RecipeWaiter {
+@@ -30,6 +30,15 @@ class RecipeWaiter {
          // list. Both Sortable instances must maintain it: several drop targets rely on it to tell an
          // operation drag apart from a file or text drag.
          this.dragInProgress = false;
@@ -896,6 +939,8 @@ index d2e4af9..c38e2e6 100755
 +            });
 +        });
      }
+ 
+ 
 @@ -43,6 +52,7 @@ class RecipeWaiter {
          Sortable.create(recList, {
              group: "recipe",
@@ -912,7 +957,15 @@ index d2e4af9..c38e2e6 100755
              setData: function(dataTransfer, dragEl) {
                  dataTransfer.setData("Text", dragEl.textContent);
              },
-@@ -322,6 +333,7 @@ class RecipeWaiter {
+@@ -117,6 +128,7 @@ class RecipeWaiter {
+                     .removeData("bs.popover")
+                     .off("mouseenter")
+                     .off("mouseleave")
++                    .off("mousedown")
+                     .attr("data-toggle", "popover-disabled");
+                 $(evt.clone)
+                     .off(".popover")
+@@ -322,6 +334,7 @@ class RecipeWaiter {
       * @param {event} e
       */
      operationDblclick(e) {
@@ -920,7 +973,7 @@ index d2e4af9..c38e2e6 100755
          e.target.remove();
          this.opRemove(e);
      }
-@@ -335,6 +347,7 @@ class RecipeWaiter {
+@@ -335,6 +348,7 @@ class RecipeWaiter {
       * @param {event} e
       */
      operationChildDblclick(e) {
@@ -930,10 +983,10 @@ index d2e4af9..c38e2e6 100755
      }
 diff --git a/tests/browser/mobile-smoke.cjs b/tests/browser/mobile-smoke.cjs
 new file mode 100644
-index 0000000..6a9fd60
+index 0000000..a8659b5
 --- /dev/null
 +++ b/tests/browser/mobile-smoke.cjs
-@@ -0,0 +1,243 @@
+@@ -0,0 +1,274 @@
 +/**
 + * Production-browser smoke test for the responsive CyberChef UI.
 + *
@@ -1102,6 +1155,19 @@ index 0000000..6a9fd60
 +        assert.equal((await driver.findElements(By.css("#rec-list > li.operation"))).length, 0,
 +            "Scrolling must not add an operation to the recipe");
 +        console.log("PASS: finger scrolling on operation rows without dragging");
++        // A narrow embedded XP window can consume the first click during a
++        // focus transition. A delivered double-click must still add the item.
++        await driver.findElement(By.css('[data-target="#catOther"]')).click();
++        await driver.executeScript(() => {
++            document.querySelector("#catOther li.operation").dispatchEvent(
++                new MouseEvent("dblclick", {bubbles: true, cancelable: true})
++            );
++        });
++        await checkPanel(driver, "recipe");
++        assert.equal(await driver.findElement(By.css("#rec-list .op-title")).getText(), "Entropy");
++        await driver.findElement(By.id("clr-recipe")).click();
++        await driver.findElement(By.css('[data-mobile-panel="operations"]')).click();
++        console.log("PASS: Entropy double-click fallback in narrow layout");
 +        await driver.findElement(By.id("search")).sendKeys("To Base64");
 +        await driver.wait(until.elementLocated(By.css("#search-results li.operation")), 10000);
 +        await driver.executeScript(() => document.querySelector("#search-results li.operation").scrollIntoView({block: "center"}));
@@ -1167,6 +1233,24 @@ index 0000000..6a9fd60
 +        assert.equal(await driver.findElement(By.id("operations")).isDisplayed(), true);
 +        assert.equal(await driver.findElement(By.id("recipe")).isDisplayed(), true);
 +        assert.equal(await driver.findElement(By.id("input")).isDisplayed(), true);
++        await driver.findElement(By.id("clr-recipe")).click();
++        await driver.executeScript(() => {
++            if (!document.querySelector("#catOther").classList.contains("show")) {
++                document.querySelector('[data-target="#catOther"]').click();
++            }
++            document.querySelector("#catOther li.operation").scrollIntoView({block: "center"});
++        });
++        await driver.actions().doubleClick(await driver.findElement(By.css("#catOther li.operation"))).perform();
++        await driver.findElement(By.css('[data-target="#catFavourites"]')).click();
++        for (const name of ["To Base64", "From Base64"]) {
++            const target = await driver.executeScript(name =>
++                [...document.querySelectorAll("#catFavourites li.operation")].find(op => op.textContent === name), name);
++            await driver.actions().doubleClick(target).perform();
++        }
++        assert.deepEqual(await driver.executeScript(() =>
++            [...document.querySelectorAll("#rec-list > li.operation .op-title")].map(op => op.textContent)
++        ), ["Entropy", "To Base64", "From Base64"]);
++        console.log("PASS: Other > Entropy and other desktop double-click operations");
 +        console.log("PASS: original desktop layout remains available");
 +    } finally {
 +        await driver.quit();

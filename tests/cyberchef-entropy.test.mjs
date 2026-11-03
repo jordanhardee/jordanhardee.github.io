@@ -13,6 +13,10 @@ test('CyberChef Other > Entropy can be selected by desktop double-click and narr
   assert.match(patch, /e\.target\.closest\?\.\(\"#operations \.op-list li\.operation\"\)/);
   assert.match(patch, /e\.stopImmediatePropagation\(\)/);
   assert.match(patch, /app\.manager\.recipe\.addOperation\(operation\.textContent\.trim\(\)\)/);
-  assert.match(patch, /if \(!media\.matches\) addSelectedOperation\(e\)/);
+  assert.match(patch, /if \(!media\.matches \|\| lastTapAdded/);
+  assert.match(patch, /lastTapAdded\?\.operation !== operation/);
+  assert.match(patch, /performance\.now\(\) - lastTapAdded\.at > 700/);
+  assert.match(patch, /hoverTimers\.set\(_this, setTimeout/);
+  assert.match(patch, /Other > Entropy and other desktop double-click operations/);
   assert.match(workflow, /git -C "\$CHEF_BUILD_DIR" apply --check/);
 });
