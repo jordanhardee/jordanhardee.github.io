@@ -14,6 +14,7 @@
       'nasa-apod': 'NASA APOD',
       'daily-office': 'Daily Office',
       'cyberchef': 'CyberChef',
+      'club-penguin': 'Club Penguin',
       'cmd-terminal': 'Command Prompt',
       'kali-terminal': 'Kali terminal',
       'contact': 'Contact',

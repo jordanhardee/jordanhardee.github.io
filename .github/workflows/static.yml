@@ -38,6 +38,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Bundle self-hosted Ruffle for Club Penguin
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm pack --silent @ruffle-rs/ruffle@0.7.1 --pack-destination "$RUNNER_TEMP" >/dev/null
+          mkdir -p ruffle
+          tar -xzf "$RUNNER_TEMP/ruffle-rs-ruffle-0.7.1.tgz" -C ruffle --strip-components=1 --wildcards 'package/*.wasm' 'package/*.js' 'package/LICENSE_*'
+          test -s ruffle/ruffle.js
+          test "$(find ruffle -name '*.wasm' | wc -l)" -ge 1
+          test -s assets/club-penguin/coffee.swf
+          test -s assets/club-penguin/blue-puffle-idle.webp
       - name: Restore CyberChef Mobile build
         id: cyberchef-cache
         uses: actions/cache@v4

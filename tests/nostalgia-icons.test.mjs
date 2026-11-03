@@ -10,7 +10,9 @@ const startMenu = readFileSync(join(root, 'js/start-menu.js'), 'utf8');
 
 test('all vintage app icons, Floppa, and the orange penguin use local PNG artwork', () => {
   const requested = [...markup.matchAll(/src="(assets\/nostalgia\/[^"]+)"/g)].map(match => match[1].split('?')[0]);
-  assert.equal(requested.length, 32);
+  // The Club Penguin app reuses the original orange-penguin image in its
+  // title bar, Start menu, and taskbar without introducing a new imitation.
+  assert.equal(requested.length, 35);
   assert.equal(new Set(requested).size, 32);
   for (const relativePath of requested) {
     assert.ok(existsSync(join(root, relativePath)), `${relativePath} is missing`);

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Club Penguin.exe · Coffee Shop</title>
+  <meta name="description" content="The original 2010 Club Penguin Coffee Shop Flash room with an authentic blue puffle. Single-player, offline nostalgia viewer.">
+  <style>
+    :root { color-scheme: light; font-family: Tahoma, Verdana, sans-serif; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; min-height: 100%; }
+    body { background: radial-gradient(ellipse at 50% 38%, #226ab0 0%, #104d90 40%, #062858 100%); color: #fff; }
+    .cp-shell { height: 100vh; height: 100dvh; min-height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 7px; padding: 8px; overflow: hidden; }
+    .cp-toolbar { width: min(100%, 1200px); min-height: 37px; display: flex; justify-content: space-between; align-items: center; gap: 9px; padding: 5px 10px; border: 2px solid #4eb4ff; border-radius: 11px; background: linear-gradient(#1889db, #0767b6); box-shadow: 0 2px 0 #064479, inset 0 1px #87d5ff; }
+    .cp-title { font-weight: 900; color: #fff; font-size: clamp(12px, 2.2vw, 19px); letter-spacing: -.04em; text-shadow: 1px 2px #074777; white-space: nowrap; }
+    .cp-counter { display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 9px; border: 1px solid #11649b; background: #fff; color: #11588d; font-size: clamp(10px, 1.5vw, 13px); font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .cp-coin { width: 21px; height: 21px; display: grid; place-items: center; border-radius: 50%; border: 2px solid #d18e03; background: radial-gradient(circle at 25% 25%, #fff0a7, #ffc427 60%, #efa50e); color: #9b6500; box-shadow: inset 0 0 0 2px #ffe078; font-weight: 900; }
+    .cp-game-viewport { position: relative; width: min(100%, calc((100dvh - 96px) * 1.58333333)); max-width: 1200px; min-height: 0; aspect-ratio: 760 / 480; overflow: hidden; flex: 0 1 auto; background: #a8d9fc; border: 3px solid #4dbbff; border-radius: 9px; box-shadow: 0 0 0 2px #064f8e, 0 8px 20px #001b3980; isolation: isolate; }
+    #coffee-player, #coffee-player ruffle-player { display: block; width: 100%; height: 100%; }
+    #coffee-player { position: absolute; inset: 0; }
+    #coffee-player ruffle-player { position: absolute; inset: 0; }
+    .cp-puffle { position: absolute; z-index: 3; width: 12%; min-width: 44px; max-width: 132px; left: 45%; bottom: 12%; height: auto; pointer-events: none; filter: drop-shadow(0 3px 1px #17426c65); }
+    .cp-loading { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; padding: 16px; color: #073c69; text-align: center; font-size: 15px; font-weight: bold; background: linear-gradient(#e1f5ff, #a8d9fc); }
+    .cp-loading[hidden] { display: none; }
+    .cp-bottom { width: min(100%, 1200px); min-height: 27px; display: flex; justify-content: space-between; align-items: center; gap: 10px; color: #e5f5ff; font-size: 10px; text-shadow: 0 1px #062858; }
+    .cp-bottom a, .cp-bottom button { color: #fff; font: bold 10px Tahoma, sans-serif; background: #1675b8; border: 1px solid #81cfff; border-radius: 7px; padding: 6px 10px; text-decoration: none; cursor: pointer; white-space: nowrap; }
+    .cp-bottom button:hover, .cp-bottom a:hover { background: #269ce0; }
+    .cp-notice { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    @media (max-width: 520px) { .cp-shell { padding: 4px; gap: 4px; } .cp-toolbar { padding: 4px 5px; min-height: 32px; } .cp-counter { padding: 3px 5px; gap: 3px; } .cp-coin { width: 16px; height: 16px; font-size: 10px; } .cp-bottom { font-size: 9px; } .cp-bottom button { padding: 4px 5px; } }
+    @media (prefers-reduced-motion: reduce) { .cp-puffle { animation: none; } }
+  </style>
+  <script defer src="./ruffle/ruffle.js"></script>
+  <script defer src="./js/club-penguin.js?v=20261103-authentic"></script>
+</head>
+<body>
+  <main class="cp-shell">
+    <header class="cp-toolbar">
+      <span class="cp-title">CLUB PENGUIN · COFFEE SHOP</span>
+      <span class="cp-counter" aria-label="99,999,999,999 coins (display only)"><span class="cp-coin" aria-hidden="true">C</span> <span id="cp-coins">99,999,999,999</span> COINS</span>
+    </header>
+    <section class="cp-game-viewport" aria-label="Original Club Penguin Coffee Shop Flash room">
+      <div id="coffee-player"></div>
+      <p class="cp-loading" id="cp-loading" role="status">Loading the original Coffee Shop…</p>
+      <img class="cp-puffle" src="./assets/club-penguin/blue-puffle-idle.webp" alt="An animated original blue puffle" draggable="false">
+    </section>
+    <footer class="cp-bottom">
+      <span class="cp-notice">ORIGINAL 2010 ROOM · OFFLINE DISPLAY · NO ACCOUNTS OR MULTIPLAYER</span>
+      <button id="cp-fullscreen" type="button" aria-label="Toggle browser fullscreen">⛶ FULLSCREEN</button>
+    </footer>
+  </main>
+</body>
+</html>

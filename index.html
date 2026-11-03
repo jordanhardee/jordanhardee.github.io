@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261103-retro-apps">
+    <link rel="stylesheet" href="css/style.css?v=20261103-club-penguin">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -154,6 +154,16 @@
           <div class="cyberchef-loading" id="cyberchef-loading" role="status">Starting CyberChef...</div>
         </div>
         <div class="xp-app-footer">CYBERCHEF MOBILE BETA · APACHE 2.0 <a href="./cyberchef-mobile/index.html" target="_blank" rel="noopener noreferrer">OPEN DIRECTLY</a></div>
+      </section>
+      <section class="xp-app-window club-penguin-panel module-closed" data-window="club-penguin" aria-labelledby="club-penguin-heading">
+        <div class="xp-app-header">
+          <h2 id="club-penguin-heading"><img class="xp-club-penguin-icon" src="assets/nostalgia/club-penguin/orange-penguin.png" alt=""> Club Penguin.exe</h2>
+          <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Club Penguin">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Club Penguin">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Club Penguin">×</button></span>
+        </div>
+        <div class="xp-app-body club-penguin-body">
+          <iframe id="club-penguin-frame" title="Original 2010 Club Penguin Coffee Shop and blue puffle" data-src="./club-penguin.html?embedded=1" loading="lazy"></iframe>
+        </div>
+        <div class="xp-app-footer">ORIGINAL COFFEE SHOP · SINGLE-PLAYER EXHIBIT <a href="./club-penguin.html" target="_blank" rel="noopener noreferrer">⛶ OPEN IN NEW TAB</a></div>
       </section>
       <section class="xp-app-window terminal-panel cmd-terminal-panel module-closed" data-window="cmd-terminal" aria-labelledby="cmd-heading">
         <div class="xp-app-header"><h2 id="cmd-heading"><span class="xp-app-icon xp-terminal-icon" aria-hidden="true">C:\</span> Command Prompt</h2>
@@ -468,6 +478,7 @@
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-games"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Games</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-games" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="club-penguin"><img class="xp-menu-image-icon" src="assets/nostalgia/club-penguin/orange-penguin.png" alt=""><span class="xp-menu-label"><strong>Club Penguin.exe</strong><small>Original Coffee Shop + blue puffle</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="blackjack"><span class="xp-app-icon xp-blackjack-icon" aria-hidden="true">♠</span><span class="xp-menu-label"><strong>Blackjack</strong><small>Play against the dealer</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="solitaire"><span class="xp-app-icon xp-solitaire-icon" aria-hidden="true">♥</span><span class="xp-menu-label"><strong>Solitaire</strong><small>Classic Klondike</small></span></button>
             <button class="xp-menu-item" type="button" data-open-window="chess"><span class="xp-app-icon xp-chess-icon" aria-hidden="true">♞</span><span class="xp-menu-label"><strong>Chess</strong><small>Play against the computer</small></span></button>
@@ -584,6 +595,7 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="nasa-apod" aria-label="Restore NASA APOD" aria-pressed="false"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-task-label">NASA APOD</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="daily-office" aria-label="Restore Daily Office" aria-pressed="false"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-task-label">Daily Office</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="cyberchef" aria-label="Restore CyberChef" aria-pressed="false"><span class="xp-task-icon xp-chef-icon" aria-hidden="true">⚗</span><span class="xp-task-label">CyberChef</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="club-penguin" aria-label="Restore Club Penguin" aria-pressed="false"><img class="xp-task-image-icon" src="assets/nostalgia/club-penguin/orange-penguin.png" alt=""><span class="xp-task-label">Club Penguin.exe</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="cmd-terminal" aria-label="Restore Command Prompt" aria-pressed="false"><span class="xp-task-icon xp-terminal-icon" aria-hidden="true">C:\</span><span class="xp-task-label">CMD</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="kali-terminal" aria-label="Restore Kali terminal" aria-pressed="false"><span class="xp-task-icon xp-kali-icon" aria-hidden="true">$</span><span class="xp-task-label">OpenSSH</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="contact" aria-label="Restore Contact" aria-pressed="false"><span class="xp-task-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-task-label">Contact</span></button>
@@ -612,9 +624,9 @@
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
-    <script src="js/module-fullscreen.js?v=20261103-retro-apps"></script>
+    <script src="js/module-fullscreen.js?v=20261103-club-penguin"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
-    <script src="js/window-manager.js?v=20261103-retro-apps"></script>
+    <script src="js/window-manager.js?v=20261103-club-penguin"></script>
     <script src="js/nostalgia-apps.js?v=20261103-retro-apps"></script>
     <script src="js/release-cats.js?v=20261102-zoom"></script>
     <script src="js/floppa-friday.js?v=20261102-friday-mobile"></script>

@@ -17,7 +17,8 @@ test('retro terminal launchers have actual windows, inputs, and taskbar buttons'
   assert.match(html, /id="cmd-shortcut" data-launch="cmd-terminal"/);
   assert.match(html, /id="openssh-shortcut" data-launch="kali-terminal"/);
   assert.match(css, /\.terminal-output\s*\{[^}]*overflow-y:\s*auto/);
-  assert.doesNotMatch(html, /id="penguin-game"|data-window="club-penguin"/);
+  assert.match(html, /data-window="club-penguin"/);
+  assert.match(html, /data-open-window="club-penguin"/);
 });
 
 test('fake CMD and Kali accept commands but safely render input as text', () => {
