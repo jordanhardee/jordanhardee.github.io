@@ -127,7 +127,7 @@ new file mode 100644
 index 0000000..f0c3170
 --- /dev/null
 +++ b/src/web/MobileLayout.mjs
-@@ -0,0 +1,169 @@
+@@ -0,0 +1,183 @@
 +/**
 + * Small-screen navigation for the existing CyberChef workspace.
 + * The operations, recipe and editors stay mounted so their state is preserved.
@@ -191,18 +191,32 @@ index 0000000..f0c3170
 +        showPanel("operations", true);
 +    });
 +
-+    // A mobile tap replaces the desktop-only double-click/drag-to-recipe flow.
-+    document.getElementById("operations").addEventListener("click", e => {
-+        if (!media.matches) return;
-+        const operation = e.target.closest(".op-list li.operation");
-+        if (!operation) return;
-+
++    // The upstream double-click delegate only recognizes an exact <li> target.
++    // Search highlights and nested elements can otherwise swallow the action.
++    // Use one handler for a mobile tap or desktop double-click, not both.
++    const operationsPane = document.getElementById("operations");
++    function addSelectedOperation(e) {
++        const operation = e.target.closest?.(".op-list li.operation");
++        if (!operation || !operationsPane.contains(operation)) return;
 +        app.manager.recipe.addOperation(operation.textContent.trim());
-+        showPanel("recipe");
-+        window.requestAnimationFrame(() => {
-+            recList.lastElementChild?.scrollIntoView({block: "nearest"});
-+        });
++        if (media.matches) {
++            showPanel("recipe");
++            window.requestAnimationFrame(() => {
++                recList.lastElementChild?.scrollIntoView({block: "nearest"});
++            });
++        }
++    }
++
++    operationsPane.addEventListener("click", e => {
++        if (media.matches) addSelectedOperation(e);
 +    });
++    document.addEventListener("dblclick", e => {
++        if (!e.target.closest?.("#operations .op-list li.operation")) return;
++        // Stop the original document-level delegate from adding a duplicate.
++        e.stopImmediatePropagation();
++        e.preventDefault();
++        if (!media.matches) addSelectedOperation(e);
++    }, true);
 +
 +    // Arrow buttons give recipe reordering a precise alternative to dragging.
 +    recList.addEventListener("click", e => {
