@@ -16,7 +16,9 @@ test('retro terminal launchers have actual windows, inputs, and taskbar buttons'
   }
   assert.match(html, /id="cmd-shortcut" data-launch="cmd-terminal"/);
   assert.match(html, /id="openssh-shortcut" data-launch="kali-terminal"/);
+  assert.match(html, /data-open-window="kali-terminal"[^>]*>[\s\S]*?<strong>Kali Terminal<\/strong>/);
   assert.match(css, /\.terminal-output\s*\{[^}]*overflow-y:\s*auto/);
+  assert.match(css, /\.kali-terminal-body \.terminal-output\s*\{[^}]*flex:\s*0 1 auto/);
   assert.match(html, /root@kali:~ — Terminal/);
   assert.match(html, /class="kali-terminal-menubar"/);
   assert.match(html, /KALI 2\.0 SANA · 2015-ERA SIMULATION/);
