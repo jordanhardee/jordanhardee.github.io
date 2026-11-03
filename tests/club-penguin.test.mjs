@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { clampToFloor, facingForVector, floorBounds, walkToward } from '../js/club-penguin-motion.mjs';
 
 const fromRoot = name => readFileSync(new URL(`../${name}`, import.meta.url));
 const html = fromRoot('index.html').toString('utf8');
@@ -53,4 +54,38 @@ test('Ruffle is bundled at build time, with no account/server implementation', (
   assert.match(workflow, /tar -xzf .*ruffle-rs-ruffle-0\.7\.1\.tgz/);
   assert.match(workflow, /test -s assets\/clubpenguin\/coffee\.swf/);
   assert.doesNotMatch(script, /fetch\(|XMLHttpRequest|WebSocket|login|signup|register/i);
+});
+
+test('original playable penguin is present with offline click and keyboard movement', () => {
+  assert.match(player, /id="cp-avatar"/);
+  assert.match(player, /club-penguin-avatar\.js\?v=.*penguin-walk/);
+  assert.match(player, /type="module"/);
+  const avatar = fromRoot('js/club-penguin-avatar.js').toString('utf8');
+  assert.match(avatar, /pointerdown/);
+  assert.match(avatar, /keydown/);
+  assert.match(avatar, /requestAnimationFrame/);
+  assert.doesNotMatch(avatar, /fetch\(|XMLHttpRequest|WebSocket/);
+  for (let direction = 1; direction <= 5; direction++) {
+    const idle = fromRoot(`assets/clubpenguin/avatar/idle-${direction}.webp`);
+    const walk = fromRoot(`assets/clubpenguin/avatar/walk-${direction}.webp`);
+    assert.equal(idle.subarray(0, 4).toString('ascii'), 'RIFF');
+    assert.equal(walk.subarray(8, 12).toString('ascii'), 'WEBP');
+    assert.ok(walk.includes(Buffer.from('ANIM')), `walk-${direction} has genuine animated frames`);
+  }
+});
+
+test('avatar moves toward clicks, respects the walkable floor, and faces eight directions', () => {
+  assert.deepEqual(clampToFloor(0, 0), { x: 205, y: 260 });
+  assert.deepEqual(clampToFloor(900, 900), { x: 728, y: 445 });
+  assert.ok(floorBounds(380).left < floorBounds(300).left);
+  assert.deepEqual(facingForVector(0, 1), { direction: 1, flip: false });
+  assert.deepEqual(facingForVector(-1, 1), { direction: 2, flip: false });
+  assert.deepEqual(facingForVector(1, 0), { direction: 3, flip: true });
+  assert.deepEqual(facingForVector(-1, -1), { direction: 4, flip: false });
+  assert.deepEqual(facingForVector(0, -1), { direction: 5, flip: false });
+  const next = walkToward({ x: 300, y: 400 }, { x: 450, y: 400 }, 50);
+  assert.ok(Math.abs(next.x - 350) < 0.01);
+  assert.equal(next.arrived, false);
+  assert.deepEqual(walkToward({ x: 300, y: 400 }, { x: 320, y: 400 }, 50),
+    { x: 320, y: 400, arrived: true });
 });
