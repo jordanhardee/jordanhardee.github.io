@@ -5,6 +5,10 @@
   const fullscreen = document.getElementById('cp-fullscreen');
   if (!mount || !status) return;
 
+  if (new URLSearchParams(window.location.search).get('fullscreen') === '1') {
+    document.body.classList.add('cp-full-tab');
+  }
+
   function error(message) {
     status.hidden = false;
     status.textContent = message;
@@ -17,16 +21,17 @@
     player.setAttribute('aria-label', 'Original Club Penguin Coffee Shop 2010');
     mount.appendChild(player);
     Promise.resolve(player.ruffle().load({
-      url: './assets/club-penguin/coffee.swf',
+      url: '/assets/clubpenguin/coffee.swf',
       allowScriptAccess: false,
       autoplay: 'on',
       unmuteOverlay: 'hidden',
-      warnOnUnsupportedContent: false,
       letterbox: 'on',
+      scale: 'showAll',
+      forceScale: true,
       quality: 'high',
     }))
       .then(() => { status.hidden = true; })
-      .catch(() => error('The original Coffee Shop SWF could not be loaded.'));
+      .catch(() => error('Coffee Shop could not load. Check /assets/clubpenguin/coffee.swf.'));
   } catch (e) {
     console.error('Club Penguin Ruffle startup:', e);
     error('The local Flash emulator is unavailable. Please try again after deployment finishes.');

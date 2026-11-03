@@ -26,6 +26,13 @@
     .cp-bottom a, .cp-bottom button { color: #fff; font: bold 10px Tahoma, sans-serif; background: #1675b8; border: 1px solid #81cfff; border-radius: 7px; padding: 6px 10px; text-decoration: none; cursor: pointer; white-space: nowrap; }
     .cp-bottom button:hover, .cp-bottom a:hover { background: #269ce0; }
     .cp-notice { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    /* The separate-tab view fills the browser viewport; true OS fullscreen
+       still requires a user gesture, so the on-screen button remains. */
+    body.cp-full-tab .cp-shell { padding: 0; gap: 0; }
+    body.cp-full-tab .cp-toolbar { display: none; }
+    body.cp-full-tab .cp-game-viewport { width: min(100vw, calc(100dvh * 1.58333333)); max-width: none; max-height: 100dvh; border: 0; border-radius: 0; box-shadow: none; }
+    body.cp-full-tab .cp-bottom { position: absolute; z-index: 5; bottom: 8px; right: 8px; width: auto; }
+    body.cp-full-tab .cp-notice { display: none; }
     @media (max-width: 520px) { .cp-shell { padding: 4px; gap: 4px; } .cp-toolbar { padding: 4px 5px; min-height: 32px; } .cp-counter { padding: 3px 5px; gap: 3px; } .cp-coin { width: 16px; height: 16px; font-size: 10px; } .cp-bottom { font-size: 9px; } .cp-bottom button { padding: 4px 5px; } }
     @media (prefers-reduced-motion: reduce) { .cp-puffle { animation: none; } }
   </style>
