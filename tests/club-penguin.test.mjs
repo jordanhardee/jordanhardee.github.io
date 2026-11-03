@@ -11,10 +11,12 @@ const manager = fromRoot('js/window-manager.js').toString('utf8');
 
 test('original 2010 Coffee Shop and blue puffle assets are actually bundled', () => {
   const room = fromRoot('assets/clubpenguin/coffee.swf');
+  const cachedRoomPath = fromRoot('assets/club-penguin/coffee.swf');
   const puffle = fromRoot('assets/club-penguin/blue-puffle.swf');
   const walk = fromRoot('assets/club-penguin/blue-puffle-walk.swf');
   const animation = fromRoot('assets/club-penguin/blue-puffle-idle.webp');
   assert.equal(room.subarray(0, 3).toString('ascii'), 'CWS');
+  assert.deepEqual(cachedRoomPath, room);
   assert.equal(puffle.subarray(0, 3).toString('ascii'), 'CWS');
   assert.equal(walk.subarray(0, 3).toString('ascii'), 'CWS');
   assert.ok(room.byteLength > 80000);

@@ -6,6 +6,8 @@ recreated drawings. They are used for a single-room, offline nostalgia viewer.
 - `../clubpenguin/coffee.swf`: original Coffee Shop room (2010), at the
   public URL `/assets/clubpenguin/coffee.swf`, retrieved from
   [barichello/cp-swf-archive](https://gitlab.com/barichello/cp-swf-archive/-/blob/master/2010/default/coffee.swf).
+  The same SWF remains at `club-penguin/coffee.swf` temporarily for visitors
+  whose browsers have cached an earlier version of the player script.
 - `blue-puffle.swf`: original blue puffle sprite collection, preserved by
   [Club Penguin Archives mirror](https://toolbox.solero.me/cparchives/static/images/archives/0/00/PuffleSpritesBlue.swf).
 - `blue-puffle-walk.swf`: original blue puffle walking sprite collection from
