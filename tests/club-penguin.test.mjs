@@ -58,6 +58,8 @@ test('Ruffle is bundled at build time, with no account/server implementation', (
 
 test('original playable penguin is present with offline click and keyboard movement', () => {
   assert.match(player, /id="cp-avatar"/);
+  assert.match(player, /CLICK \/ TAP TO WADDLE/);
+  assert.match(player, /body\.cp-full-tab \.cp-notice \{ display: block/);
   assert.match(player, /club-penguin-avatar\.js\?v=.*penguin-walk/);
   assert.match(player, /type="module"/);
   const avatar = fromRoot('js/club-penguin-avatar.js').toString('utf8');

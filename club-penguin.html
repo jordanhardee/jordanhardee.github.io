@@ -36,8 +36,8 @@
     body.cp-full-tab .cp-shell { padding: 0; gap: 0; }
     body.cp-full-tab .cp-toolbar { display: none; }
     body.cp-full-tab .cp-game-viewport { width: min(100vw, calc(100dvh * 1.58333333)); max-width: none; max-height: 100dvh; border: 0; border-radius: 0; box-shadow: none; }
-    body.cp-full-tab .cp-bottom { position: absolute; z-index: 5; bottom: 8px; right: 8px; width: auto; }
-    body.cp-full-tab .cp-notice { display: none; }
+    body.cp-full-tab .cp-bottom { position: absolute; z-index: 5; bottom: 8px; left: 8px; right: 8px; width: auto; }
+    body.cp-full-tab .cp-notice { display: block; max-width: calc(100vw - 140px); padding: 6px 9px; border-radius: 6px; background: #124a7acb; }
     @media (max-width: 520px) { .cp-shell { padding: 4px; gap: 4px; } .cp-toolbar { padding: 4px 5px; min-height: 32px; } .cp-counter { padding: 3px 5px; gap: 3px; } .cp-coin { width: 16px; height: 16px; font-size: 10px; } .cp-bottom { font-size: 9px; } .cp-bottom button { padding: 4px 5px; } }
     @media (prefers-reduced-motion: reduce) { .cp-puffle { animation: none; } }
   </style>
