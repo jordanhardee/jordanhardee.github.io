@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261102-zoom-friday">
+    <link rel="stylesheet" href="css/style.css?v=20261103-retro-apps">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -14,7 +14,9 @@
       <canvas id="site-matrix-canvas"></canvas>
     </div>
     <div class="site-aquarium-background" aria-hidden="true">
-      <div class="ios-retro-icons nostalgia-layer">
+      <canvas id="site-aquarium-canvas"></canvas>
+    </div>
+    <div class="ios-retro-icons nostalgia-layer" aria-label="Classic iOS app icons">
         <div class="ios-retro-apps">
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/cydia.png" alt=""><span>Cydia</span></div>
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/winterboard.png" alt=""><span>WinterBoard</span></div>
@@ -26,13 +28,11 @@
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/installous.png" alt=""><span>Installous</span></div>
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/ifile.png" alt=""><span>iFile</span></div>
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/mobileterminal.png" alt=""><span>MobileTerminal</span></div>
-          <div class="ios-retro-app"><img src="assets/nostalgia/ios/openssh.png" alt=""><span>OpenSSH</span></div>
+          <button class="ios-retro-app nostalgia-launcher" id="openssh-shortcut" data-launch="kali-terminal" type="button" title="Open simulated Kali terminal"><img src="assets/nostalgia/ios/openssh.png" alt=""><span>OpenSSH</span></button>
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/gpsphone.png" alt=""><span>gpSPhone</span></div>
           <div class="ios-retro-app"><img src="assets/nostalgia/ios/snes4iphone.png" alt=""><span>snes4iphone</span></div>
         </div>
       </div>
-      <canvas id="site-aquarium-canvas"></canvas>
-    </div>
     <aside class="desktop-icon-museum nostalgia-layer" aria-label="Classic application shortcuts">
       <section class="nostalgia-icon-section" aria-label="Desktop shortcuts">
         <div class="nostalgia-icon-grid">
@@ -42,7 +42,7 @@
           </button>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/limewire.png" alt=""><span>LimeWire</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/frostwire-small.png" alt=""><span>FrostWire</span></div>
-          <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/cmd-small.png" alt=""><span>CMD</span></div>
+          <button class="nostalgia-desktop-icon nostalgia-launcher" id="cmd-shortcut" data-launch="cmd-terminal" type="button" title="Open simulated Windows Command Prompt"><img src="assets/nostalgia/xp/cmd-small.png" alt=""><span>CMD</span></button>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/utorrent.png" alt=""><span>µTorrent</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/word.png" alt=""><span>Word 2003</span></div>
           <div class="nostalgia-desktop-icon"><img src="assets/nostalgia/xp/powerpoint.png" alt=""><span>PowerPoint</span></div>
@@ -64,9 +64,9 @@
         </div>
       </section>
     </aside>
-    <div class="club-penguin-dancers nostalgia-layer" aria-label="Dancing orange Club Penguin penguin" role="img">
+    <button class="club-penguin-dancers nostalgia-layer" id="club-penguin-shortcut" type="button" aria-label="Play Club Penguin mini-game" title="Click to play Club Penguin">
       <img class="club-penguin-orange" src="assets/nostalgia/club-penguin/orange-penguin.png" alt="">
-    </div>
+    </button>
     <div class="page-wrapper">
       <aside class="sidebar-left">
         <section class="hn-panel module-closed" data-window="hacker-news" aria-labelledby="hn-heading">
@@ -154,6 +154,46 @@
           <div class="cyberchef-loading" id="cyberchef-loading" role="status">Starting CyberChef...</div>
         </div>
         <div class="xp-app-footer">CYBERCHEF MOBILE BETA · APACHE 2.0 <a href="./cyberchef-mobile/index.html" target="_blank" rel="noopener noreferrer">OPEN DIRECTLY</a></div>
+      </section>
+      <section class="xp-app-window terminal-panel cmd-terminal-panel module-closed" data-window="cmd-terminal" aria-labelledby="cmd-heading">
+        <div class="xp-app-header"><h2 id="cmd-heading"><span class="xp-app-icon xp-terminal-icon" aria-hidden="true">C:\</span> Command Prompt</h2>
+          <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Command Prompt">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Command Prompt">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Command Prompt">×</button></span>
+        </div>
+        <div class="xp-app-body terminal-body cmd-terminal-body" data-terminal="cmd">
+          <div class="terminal-output" id="cmd-output" role="log" aria-label="Command Prompt output"></div>
+          <form class="terminal-form" id="cmd-form" autocomplete="off"><label id="cmd-prompt" for="cmd-input">C:\Users\Guest&gt;</label><input id="cmd-input" type="text" aria-label="Windows command" spellcheck="false" autocapitalize="off" maxlength="220"></form>
+        </div>
+        <div class="xp-app-footer">WINDOWS COMMAND PROMPT SIMULATION · NO REAL COMMAND EXECUTION</div>
+      </section>
+      <section class="xp-app-window terminal-panel kali-terminal-panel module-closed" data-window="kali-terminal" aria-labelledby="kali-heading">
+        <div class="xp-app-header"><h2 id="kali-heading"><span class="xp-app-icon xp-kali-icon" aria-hidden="true">$</span> OpenSSH · Kali Linux</h2>
+          <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Kali terminal">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Kali terminal">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Kali terminal">×</button></span>
+        </div>
+        <div class="xp-app-body terminal-body kali-terminal-body" data-terminal="kali">
+          <div class="terminal-output" id="kali-output" role="log" aria-label="Kali terminal output"></div>
+          <form class="terminal-form" id="kali-form" autocomplete="off"><label id="kali-prompt" for="kali-input">kali@jordanhardee:~$</label><input id="kali-input" type="text" aria-label="Kali simulated command" spellcheck="false" autocapitalize="off" maxlength="220"></form>
+        </div>
+        <div class="xp-app-footer">SIMULATED KALI TERMINAL · NO SSH OR NETWORK COMMANDS EXECUTED</div>
+      </section>
+      <section class="xp-app-window club-penguin-panel module-closed" data-window="club-penguin" aria-labelledby="penguin-heading">
+        <div class="xp-app-header"><h2 id="penguin-heading"><span class="xp-app-icon xp-penguin-icon" aria-hidden="true">🐧</span> Club Penguin · Mini-Game</h2>
+          <span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Club Penguin">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Club Penguin">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Club Penguin">×</button></span>
+        </div>
+        <div class="xp-app-body club-penguin-body">
+          <div class="penguin-toolbar" aria-label="Choose room">
+            <button type="button" data-penguin-room="town" aria-pressed="true">🏘️ Town</button>
+            <button type="button" data-penguin-room="rink" aria-pressed="false">⛸️ Ice Rink</button>
+            <button type="button" data-penguin-room="hill" aria-pressed="false">🏔️ Ski Hill</button>
+            <span id="penguin-score" aria-live="polite">🐟 0</span>
+          </div>
+          <canvas id="penguin-game" width="960" height="540" tabindex="0" aria-label="Penguin playground. Click or tap to waddle, use arrow keys, and throw snowballs with Space."></canvas>
+          <div class="penguin-actions">
+            <span id="penguin-message" role="status">Click the snow to waddle. Collect fish!</span>
+            <button id="penguin-snowball" type="button">❄ Throw snowball</button>
+            <button id="penguin-wave" type="button">👋 Wave</button>
+          </div>
+        </div>
+        <div class="xp-app-footer">SINGLE-PLAYER FAN MINI-GAME · CLICK/TAP TO MOVE · ARROWS/WASD · SPACE FOR SNOWBALLS</div>
       </section>
       <section class="xp-app-window stellarium-panel module-closed" data-window="stellarium" aria-labelledby="stellarium-heading">
         <div class="xp-app-header">
@@ -564,6 +604,9 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="nasa-apod" aria-label="Restore NASA APOD" aria-pressed="false"><span class="xp-task-icon xp-apod-icon" aria-hidden="true">✦</span><span class="xp-task-label">NASA APOD</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="daily-office" aria-label="Restore Daily Office" aria-pressed="false"><span class="xp-task-icon xp-office-icon" aria-hidden="true">✝</span><span class="xp-task-label">Daily Office</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="cyberchef" aria-label="Restore CyberChef" aria-pressed="false"><span class="xp-task-icon xp-chef-icon" aria-hidden="true">⚗</span><span class="xp-task-label">CyberChef</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="cmd-terminal" aria-label="Restore Command Prompt" aria-pressed="false"><span class="xp-task-icon xp-terminal-icon" aria-hidden="true">C:\</span><span class="xp-task-label">CMD</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="kali-terminal" aria-label="Restore Kali terminal" aria-pressed="false"><span class="xp-task-icon xp-kali-icon" aria-hidden="true">$</span><span class="xp-task-label">OpenSSH</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="club-penguin" aria-label="Restore Club Penguin" aria-pressed="false"><span class="xp-task-icon xp-penguin-icon" aria-hidden="true">🐧</span><span class="xp-task-label">Club Penguin</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="contact" aria-label="Restore Contact" aria-pressed="false"><span class="xp-task-icon xp-contact-icon" aria-hidden="true">@</span><span class="xp-task-label">Contact</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="guestbook" aria-label="Restore Guestbook" aria-pressed="false"><span class="xp-task-icon xp-guestbook-icon" aria-hidden="true">✎</span><span class="xp-task-label">Guestbook.exe</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="blackjack" aria-label="Restore Blackjack" aria-pressed="false"><span class="xp-task-icon xp-blackjack-icon" aria-hidden="true">♠</span><span class="xp-task-label">Blackjack</span></button>
@@ -590,12 +633,14 @@
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
-    <script src="js/module-fullscreen.js?v=20261102-zoom"></script>
+    <script src="js/module-fullscreen.js?v=20261103-retro-apps"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
-    <script src="js/window-manager.js?v=20261102-zoom"></script>
+    <script src="js/window-manager.js?v=20261103-retro-apps"></script>
+    <script src="js/nostalgia-apps.js?v=20261103-retro-apps"></script>
+    <script src="js/club-penguin.js?v=20261103-retro-apps"></script>
     <script src="js/release-cats.js?v=20261102-zoom"></script>
     <script src="js/floppa-friday.js?v=20261102-friday-mobile"></script>
-    <script src="js/start-menu.js?v=20261101-guestbook"></script>
+    <script src="js/start-menu.js?v=20261103-retro-apps"></script>
     <script src="js/music.js?v=20261030-huh-cat"></script>
   </body>
 </html>

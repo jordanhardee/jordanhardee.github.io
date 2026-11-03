@@ -31,10 +31,11 @@ test('Floppa remains the first XP desktop shortcut, followed by the archive', ()
   assert.ok(!markup.includes('<h2>Mac OS X</h2>'));
 });
 
-test('aquarium fish swim above freely arranged iOS icons, without a fake device', () => {
-  assert.match(stylesheet, /\.ios-retro-icons\s*\{[^}]*z-index:\s*1\s*;/s);
+test('iOS icons remain free-floating but are clickable above decorative aquarium', () => {
+  assert.match(stylesheet, /\.ios-retro-icons\s*\{[^}]*z-index:\s*20\s*;/s);
   assert.match(stylesheet, /#site-aquarium-canvas\s*\{[^}]*z-index:\s*2\s*;/s);
-  assert.ok(markup.indexOf('class="ios-retro-icons nostalgia-layer"') < markup.indexOf('id="site-aquarium-canvas"'));
+  assert.ok(markup.indexOf('class="ios-retro-icons nostalgia-layer"') > markup.indexOf('id="site-aquarium-canvas"'));
+  assert.match(markup, /id="openssh-shortcut"[^>]*data-launch="kali-terminal"/);
   assert.ok(!markup.includes('ios-retro-screen'));
   assert.ok(!markup.includes('ios-retro-status'));
 });

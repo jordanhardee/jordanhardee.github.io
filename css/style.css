@@ -67,9 +67,12 @@ body {
 .ios-retro-app { display: flex; flex-direction: column; align-items: center; min-width: 0; gap: 4px; }
 .ios-retro-app img {
   display: block;
-  width: 57px;
-  height: 57px;
-  object-fit: cover;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  /* Several genuine jailbreak icons are only 59–60 px originals. On HiDPI
+     desktops the default bilinear filter blurs them when scaled to device px. */
+  image-rendering: pixelated;
   border-radius: 11px;
   box-shadow: 0 1px 2px #0009, inset 0 1px 1px #fff9;
 }
@@ -1078,7 +1081,7 @@ blockquote {
 .guestbook-fallback a { color:#1556a2; }
 @media (max-width:560px) { .guestbook-captcha-gate { padding:12px; }.guestbook-captcha-title { margin:-12px -12px 11px; }.guestbook-intro h3 { font-size:calc(15px * var(--xp-text-scale,1)); } }
 .wikipedia-panel { width:min(680px,calc(100vw - 30px)); height:min(690px,calc(100dvh - 65px)); }
-.xp-app-window .wikipedia-body { overflow-y:auto; padding:clamp(16px,3vw,30px); background:#f8f9fa; color:#202122; font:calc(14px * var(--xp-text-scale,1))/1.65 Georgia,serif; scrollbar-color:#aab7c7 #f2f4f6; }
+.xp-app-window .wikipedia-body { flex:1 1 auto; min-height:0; overflow-y:scroll; overflow-x:hidden; padding:clamp(16px,3vw,30px); background:#f8f9fa; color:#202122; font:calc(14px * var(--xp-text-scale,1))/1.65 Georgia,serif; scrollbar-color:#aab7c7 #f2f4f6; touch-action:pan-y; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
 .wikipedia-body [hidden] { display:none !important; }
 .wikipedia-date { margin:0 0 12px; color:#54595d; font:calc(11px * var(--xp-text-scale,1))/1.4 Tahoma,sans-serif; }
 .wikipedia-body h3 { margin:0 0 8px; color:#173b62; font: bold calc(29px * var(--xp-text-scale,1))/1.2 Georgia,serif; }
@@ -1087,7 +1090,7 @@ blockquote {
 .wikipedia-status { margin:20px 0; color:#54595d; font:calc(12px * var(--xp-text-scale,1))/1.5 Tahoma,sans-serif; }
 .wikipedia-body #wikipedia-image-link { display:block; margin:16px auto; width:fit-content; max-width:100%; }
 .wikipedia-body #wikipedia-image { display:block; max-width:100%; max-height:360px; object-fit:contain; border:1px solid #c8ccd1; background:#fff; }
-.wikipedia-extract { margin:14px 0 24px; white-space:pre-line; }
+.wikipedia-extract { margin:14px 0 24px; white-space:pre-line; overflow-wrap:anywhere; }
 .news-panel { width:min(770px,calc(100vw - 30px)); height:min(710px,calc(100dvh - 65px)); }
 .xp-app-window .news-body { display:flex; flex-direction:column; overflow:hidden; background:#f9fbfe; color:#14243a; font:calc(12px * var(--xp-text-scale,1))/1.5 Tahoma,Arial,sans-serif; }
 .news-filters { flex:none; display:flex; gap:5px; overflow-x:auto; padding:9px; border-bottom:1px solid #b8cbe2; background:linear-gradient(#f8fbff,#e0eafa); scrollbar-width:thin; }
@@ -1775,8 +1778,8 @@ body.nostalgia-mode .club-penguin-dancers { display: flex !important; }
 
 /* iOS-era artwork arranged like SpringBoard, not inside a pretend device. */
 .ios-retro-icons {
-  position: absolute;
-  z-index: 1; /* aquarium fish paint over the icons */
+  position: fixed;
+  z-index: 20; /* interactive icons must be above the aquarium and desktop */
   top: 58px;
   right: 12px;
   width: 332px;
@@ -1831,6 +1834,32 @@ body.nostalgia-mode .club-penguin-dancers { display: flex !important; }
 /* One dancing orange Club Penguin penguin, not Puffles. */
 .club-penguin-dancers { gap: 0; }
 .club-penguin-dancers img { width: 102px; transform-origin: 50% 86%; }
+.ios-retro-app.nostalgia-launcher,
+.nostalgia-desktop-icon.nostalgia-launcher {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.ios-retro-app.nostalgia-launcher { padding: 0; text-shadow: inherit; }
+.nostalgia-desktop-icon.nostalgia-launcher { text-shadow: inherit; }
+.club-penguin-dancers {
+  pointer-events: auto;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.nostalgia-launcher:focus-visible,.club-penguin-dancers:focus-visible {
+  outline: 2px solid #fff15c;
+  outline-offset: 2px;
+  border-radius: 5px;
+}
 .club-penguin-orange { animation: orange-penguin-dance .65s ease-in-out infinite alternate; }
 @keyframes orange-penguin-dance {
   from { transform: translateY(0) rotate(-10deg); }
@@ -2083,4 +2112,50 @@ body.nostalgia-mode .desktop-site-title {
   .xp-menu-bottom .xp-nostalgia-toggle[aria-checked="true"] .xp-nostalgia-track span { transform: translateX(14px); }
   .xp-menu-dismiss { padding: 6px 7px; gap: 3px; font-size: 10px; }
   .xp-menu-dismiss span { font-size: 15px; }
+}
+
+/* Two functional but deliberately sandboxed retro terminal toys. */
+.xp-terminal-icon { background: #101010; border: 1px solid #bac9d9; color: #fafafa; font: bold 9px/1 monospace; }
+.xp-kali-icon { background: #132a4f; color: #92eaff; font: bold 13px/1 monospace; }
+.terminal-panel { width: min(680px,calc(100vw - 30px)); height: min(480px,calc(100dvh - 65px)); }
+.xp-app-window .terminal-body {
+  display: flex; flex-direction: column; gap: 0; padding: 11px 12px;
+  color: #e6e6e6; background: #090909; overflow: hidden;
+  font: 13px/1.45 Consolas, 'Courier New', monospace;
+}
+.xp-app-window .kali-terminal-body { color: #edf3fc; background: #10182b; }
+.terminal-output { flex: 1 1 0; min-height: 0; overflow-y: auto; overflow-x: hidden; white-space: pre-wrap; overflow-wrap: anywhere; scrollbar-color: #64748a transparent; }
+.terminal-output p { margin: 0 0 1px; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.terminal-output .terminal-command { color: #fff39d; }
+.terminal-output .terminal-error { color: #ff9c98; }
+.terminal-output .terminal-banner { color: #7af2c4; }
+.terminal-form { flex: none; display: flex; align-items: baseline; gap: 7px; min-width: 0; margin-top: 5px; }
+.terminal-form label { flex: none; color: #91efbd; white-space: nowrap; font: inherit; }
+.cmd-terminal-body .terminal-form label { color: inherit; }
+.terminal-form input {
+  flex: 1; min-width: 0; margin: 0; padding: 0; outline: 0;
+  color: inherit; caret-color: #fff; border: 0; border-radius: 0;
+  background: transparent; font: inherit; box-shadow: none;
+}
+.terminal-form:focus-within { outline: 1px dotted #94a3b8; outline-offset: 4px; }
+
+/* Locally drawn, single-player penguin playground. */
+.xp-penguin-icon { background: linear-gradient(#84e7ff,#1377d4); color:#fff; text-shadow: none; }
+.club-penguin-panel { width: min(960px,calc(100vw - 30px)); height: min(710px,calc(100dvh - 65px)); }
+.xp-app-window .club-penguin-body { display: flex; flex-direction: column; overflow: hidden; background: #d7f6ff; border-color: #5ca7d3; }
+.penguin-toolbar { display: flex; flex: none; align-items: center; gap: 7px; padding: 8px; background: linear-gradient(#a3eafa,#62bce9); border-bottom: 2px solid #3484bd; }
+.penguin-toolbar button,.penguin-actions button { border: 2px solid #438ebc; border-radius: 16px; background: linear-gradient(#fff,#d3f6ff); padding: 5px 11px; color: #11447d; font: bold 12px Tahoma,Arial,sans-serif; cursor: pointer; }
+.penguin-toolbar button[aria-pressed="true"] { border-color:#fdf3af; background: #1973bf; color:#fff; box-shadow: 0 1px 4px #024b87; }
+.penguin-toolbar button:focus-visible,.penguin-actions button:focus-visible { outline: 3px solid #ffeb62; outline-offset: 2px; }
+#penguin-score { margin-left: auto; padding: 4px 9px; border-radius: 14px; background: #fffce7; color: #165685; font: bold 13px Tahoma, sans-serif; white-space: nowrap; }
+#penguin-game { display: block; flex: 1 1 0; min-height: 0; width: 100%; background: #9feaff; touch-action: none; cursor: crosshair; }
+.penguin-actions { flex: none; display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 7px; padding: 7px; border-top: 2px solid #3b92c6; background: #e8faff; }
+#penguin-message { flex: 1 1 220px; font: 12px/1.3 Tahoma,Arial,sans-serif; color: #164d78; }
+@media (max-width:650px) {
+  .xp-app-window .terminal-body { padding: 8px; font-size: 11px; }
+  .terminal-form { gap: 4px; }
+  .penguin-toolbar { gap: 3px; padding: 5px 3px; }
+  .penguin-toolbar button,.penguin-actions button { padding: 5px 6px; font-size: 10px; }
+  .penguin-actions { gap: 4px; padding: 5px; }
+  #penguin-message { flex-basis: 100%; font-size: 10px; }
 }

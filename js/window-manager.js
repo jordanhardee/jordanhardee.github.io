@@ -54,7 +54,10 @@
   function defaultRect(module) {
     if (module.classList.contains('xp-app-window')) {
       const sizes = {
-        cyberchef: [1000, 660],
+        cyberchef: [1250, 790],
+        'cmd-terminal': [630, 460],
+        'kali-terminal': [710, 520],
+        'club-penguin': [960, 710],
         'patrick-stewart': [900, 660],
         blackjack: [760, 570],
         solitaire: [1030, 710],
@@ -274,6 +277,9 @@
     'nasa-apod': 'NASA APOD',
     'daily-office': 'Daily Office',
     'cyberchef': 'CyberChef',
+    'cmd-terminal': 'Command Prompt',
+    'kali-terminal': 'Kali terminal',
+    'club-penguin': 'Club Penguin',
     'contact': 'Contact',
     'blackjack': 'Blackjack',
     'solitaire': 'Solitaire',
