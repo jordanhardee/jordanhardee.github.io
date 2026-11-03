@@ -127,7 +127,7 @@ new file mode 100644
 index 0000000..f0c3170
 --- /dev/null
 +++ b/src/web/MobileLayout.mjs
-@@ -0,0 +1,183 @@
+@@ -0,0 +1,187 @@
 +/**
 + * Small-screen navigation for the existing CyberChef workspace.
 + * The operations, recipe and editors stay mounted so their state is preserved.
@@ -195,6 +195,10 @@ index 0000000..f0c3170
 +    // Search highlights and nested elements can otherwise swallow the action.
 +    // Use one handler for a mobile tap or desktop double-click, not both.
 +    const operationsPane = document.getElementById("operations");
++    /**
++     * Add the selected operation to the recipe.
++     * @param {MouseEvent} e Browser selection event.
++     */
 +    function addSelectedOperation(e) {
 +        const operation = e.target.closest?.(".op-list li.operation");
 +        if (!operation || !operationsPane.contains(operation)) return;
