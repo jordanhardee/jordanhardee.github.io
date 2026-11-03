@@ -17,7 +17,13 @@
     const history = [];
     let historyIndex = 0;
     let initialized = false;
-    let cwd = kind === 'cmd' ? 'C:\\Users\\Guest' : '/home/kali';
+    let cwd = kind === 'cmd' ? 'C:\\Users\\Guest' : '/root';
+    const kaliTools = [
+      'aircrack-ng', 'airmon-ng', 'airodump-ng', 'arpspoof', 'burpsuite', 'crunch',
+      'ettercap', 'hashcat', 'hydra', 'john', 'maltego', 'msfconsole', 'msfvenom',
+      'netcat', 'nikto', 'nmap', 'reaver', 'sqlmap', 'tcpdump', 'theharvester',
+      'wash', 'wireshark', 'wifite', 'wpscan', 'yersinia',
+    ];
 
     function write(message, className = '') {
       const line = document.createElement('p');
@@ -29,7 +35,7 @@
     }
 
     function updatePrompt() {
-      prompt.textContent = kind === 'cmd' ? `${cwd}>` : `kali@jordanhardee:${cwd === '/home/kali' ? '~' : cwd}$`;
+      prompt.textContent = kind === 'cmd' ? `${cwd}>` : `root@kali:${cwd === '/root' ? '~' : cwd}# `;
     }
 
     function runCommand(raw) {
@@ -65,23 +71,44 @@
       }
 
       switch (command) {
-        case 'help': write('help  ls  pwd  cd  clear  cat  uname  whoami  id  date  echo  ip  nmap'); break;
+        case 'help':
+          write('Kali Linux 2.0 (Sana) · 2015-era terminal\n\nBASIC: help  ls  pwd  cd  clear  cat  uname  whoami  id  date  echo  ifconfig  iwconfig  netstat  dpkg\n\nSECURITY TOOLS:\n' + kaliTools.join('  ') + '\n\nTry: ls /usr/bin, ls /usr/share, nmap --version, msfconsole --version, aircrack-ng --help. All tool output is simulated; nothing executes.');
+          break;
         case 'clear': output.replaceChildren(); break;
         case 'pwd': write(cwd); break;
-        case 'ls': write('Desktop  Documents  Downloads  README.txt  tools'); break;
-        case 'whoami': write('kali'); break;
-        case 'id': write('uid=1000(kali) gid=1000(kali) groups=1000(kali),27(sudo) [simulated]'); break;
-        case 'uname': write('Linux kali 6.12.0-kali-amd64 #1 SMP x86_64 GNU/Linux [simulated]'); break;
+        case 'ls':
+          if (/^\/usr\/(bin|sbin)\/?$/.test(argument)) write(kaliTools.join('  '));
+          else if (argument === '/usr/share' || argument === '/usr/share/') write('aircrack-ng  doc  john  metasploit-framework  nmap  sqlmap  wordlists  wireshark');
+          else if (argument === '/usr/share/wordlists') write('dirb  fasttrack.txt  john.lst  metasploit  rockyou.txt.gz');
+          else if (cwd === '/root') write('Desktop  Documents  Downloads  README.txt');
+          else if (cwd === '/usr/share') write('aircrack-ng  doc  john  metasploit-framework  nmap  sqlmap  wordlists  wireshark');
+          else if (cwd === '/usr/share/wordlists') write('dirb  fasttrack.txt  john.lst  metasploit  rockyou.txt.gz');
+          else write('README.txt');
+          break;
+        case 'whoami': write('root'); break;
+        case 'id': write('uid=0(root) gid=0(root) groups=0(root) [simulated]'); break;
+        case 'uname': write('Linux kali 4.0.0-kali1-amd64 #1 SMP Debian x86_64 GNU/Linux [simulated, 2015]'); break;
         case 'date': write(new Date().toString()); break;
         case 'echo': write(argument); break;
-        case 'cat': write(lower === 'cat readme.txt' || lower === 'cat readme' ? 'Welcome! This is a pretend Kali Linux terminal. All results are local and simulated.' : `cat: ${argument || '(missing path)'}: No such file or directory`, lower.includes('readme') ? '' : 'terminal-error'); break;
-        case 'ip': write('1: lo: <LOOPBACK,UP> mtu 65536\n    inet 127.0.0.1/8 scope host lo\n2: eth0: <BROADCAST,UP> mtu 1500\n    inet 192.0.2.10/24 scope global eth0 (example-only)'); break;
-        case 'nmap': write('This is a simulation: no hosts scanned and no network traffic sent.'); break;
+        case 'cat': write(lower === 'cat readme.txt' || lower === 'cat readme' ? 'Kali Linux 2.0 Sana (2015). This is a purely local browser terminal; no tools are actually installed or executed.' : `cat: ${argument || '(missing path)'}: No such file or directory`, lower.includes('readme') ? '' : 'terminal-error'); break;
+        case 'ip': case 'ifconfig': write('eth0      Link encap:Ethernet  HWaddr 00:00:5e:00:53:01\n          inet addr:192.0.2.10  Bcast:192.0.2.255  Mask:255.255.255.0\nlo        Link encap:Local Loopback\n          inet addr:127.0.0.1  Mask:255.0.0.0\n[SIMULATED TEST-NET ADDRESS]'); break;
+        case 'iwconfig': write('eth0      no wireless extensions.\nlo        no wireless extensions.\n[SIMULATED]'); break;
+        case 'netstat': write('Active Internet connections (only servers)\nProto Recv-Q Send-Q Local Address   Foreign Address State\n[SIMULATED: no network access]'); break;
+        case 'dpkg': write(argument === '-l' || argument === '--list' ? 'ii  aircrack-ng  1:1.2-0~rc2\nii  metasploit-framework  4.11\nii  nmap  6.49BETA4\nii  john  1.8.0\nii  sqlmap  1.0\n[FICTIONAL PACKAGE LIST]' : 'Try dpkg -l to see the simulated vintage tools.'); break;
+        case 'nmap':
+          if (/^(-v|--version)$/i.test(argument)) write('Nmap version 6.49BETA4 ( https://nmap.org ) [simulated]');
+          else if (/^(-h|--help)$/i.test(argument)) write('Nmap 6.49BETA4: nmap [Scan Type(s)] [Options] {target specification}\n-sS TCP SYN scan  -sV Service version  -O OS detection  -Pn Skip host discovery\n[SIMULATED]');
+          else write('Nmap 6.49BETA4 demo mode: no network traffic sent; no host was scanned.');
+          break;
+        case 'msfconsole': case 'msfvenom': case 'aircrack-ng': case 'airmon-ng': case 'airodump-ng': case 'john': case 'hashcat': case 'hydra': case 'sqlmap': case 'nikto': case 'reaver': case 'wifite': case 'wireshark': case 'burpsuite': case 'ettercap': case 'tcpdump': case 'netcat': case 'nc': case 'arpspoof': case 'crunch': case 'maltego': case 'theharvester': case 'wash': case 'wpscan': case 'yersinia':
+          write(`${command}: ${/^(-v|--version|-h|--help)$/.test(argument) ? 'historical Kali 2.0 command recognized' : 'demo only; command not executed'}\n[LOCAL BROWSER SIMULATION · no system or network access]`);
+          break;
         case 'sudo': case 'ssh': case 'curl': case 'wget': write('Simulation only: no privileges, network connections, or commands are executed.'); break;
         case 'cd':
-          if (!argument || argument === '~') cwd = '/home/kali';
+          if (!argument || argument === '~') cwd = '/root';
           else if (argument === '..') cwd = cwd.slice(0, cwd.lastIndexOf('/')) || '/';
-          else if (['desktop', 'documents', 'downloads', 'tools'].includes(argument.toLowerCase())) cwd = `/home/kali/${argument[0].toUpperCase()}${argument.slice(1).toLowerCase()}`;
+          else if (['/usr/share', '/usr/share/wordlists', '/usr/bin', '/root'].includes(argument)) cwd = argument;
+          else if (['desktop', 'documents', 'downloads'].includes(argument.toLowerCase())) cwd = `/root/${argument[0].toUpperCase()}${argument.slice(1).toLowerCase()}`;
           else { write(`cd: ${argument}: No such file or directory`, 'terminal-error'); break; }
           updatePrompt(); break;
         default: write(`${command}: command not found (try help)`, 'terminal-error');
@@ -120,7 +147,7 @@
           write('Microsoft Windows XP [Version 5.1.2600]');
           write('(C) Microsoft Corporation. All rights reserved.');
         } else {
-          write('┌──(kali㉿jordanhardee)-[~]\n└─$ Welcome to Kali Linux (browser simulation)', 'terminal-banner');
+          write('Kali GNU/Linux 2.0 (Sana) · 2015\nroot@kali:~# Welcome to a browser-only retro terminal', 'terminal-banner');
         }
         write('Type HELP for available commands. Nothing here runs on your computer.');
       }

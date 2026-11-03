@@ -57,5 +57,11 @@ test('fake CMD and Kali accept commands but safely render input as text', () => 
   nodes['kali-input'].value = 'nmap example.org';
   listeners.get('kali-form:submit')({ preventDefault() {} });
   assert.ok(nodes['kali-output'].children.some(node => /no network traffic/i.test(node.textContent)));
+  nodes['kali-input'].value = 'help';
+  listeners.get('kali-form:submit')({ preventDefault() {} });
+  assert.ok(nodes['kali-output'].children.some(node => /msfconsole.*sqlmap.*wireshark/s.test(node.textContent)));
+  nodes['kali-input'].value = 'uname -a';
+  listeners.get('kali-form:submit')({ preventDefault() {} });
+  assert.ok(nodes['kali-output'].children.some(node => /4\.0\.0-kali1-amd64/.test(node.textContent)));
 });
 
