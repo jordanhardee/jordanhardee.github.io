@@ -63,6 +63,7 @@ test('original playable penguin is present with offline click and keyboard movem
   const avatar = fromRoot('js/club-penguin-avatar.js').toString('utf8');
   assert.match(avatar, /pointerdown/);
   assert.match(avatar, /keydown/);
+  assert.match(avatar, /stepX \* 12/);
   assert.match(avatar, /requestAnimationFrame/);
   assert.doesNotMatch(avatar, /fetch\(|XMLHttpRequest|WebSocket/);
   for (let direction = 1; direction <= 5; direction++) {

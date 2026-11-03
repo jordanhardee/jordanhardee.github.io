@@ -9,6 +9,10 @@ const sprite = document.getElementById('cp-avatar-sprite');
 if (viewport && avatar && sprite) {
   const keys = new Set();
   const movementKeys = new Set(['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd']);
+  const keyVector = {
+    arrowup: [0, -1], w: [0, -1], arrowdown: [0, 1], s: [0, 1],
+    arrowleft: [-1, 0], a: [-1, 0], arrowright: [1, 0], d: [1, 0],
+  };
   const imageBase = '/assets/clubpenguin/avatar/';
   const speed = 155; // Original-stage pixels per second; independent of window size.
   let position = { x: 310, y: 393 };
@@ -55,6 +59,14 @@ if (viewport && avatar && sprite) {
     const key = event.key.toLowerCase();
     if (event.metaKey || event.ctrlKey || event.altKey || !movementKeys.has(key)) return;
     event.preventDefault();
+    // A quick tap still waddles a visible step; holding the key continues
+    // smoothly in requestAnimationFrame rather than relying on OS key repeat.
+    if (!keys.has(key)) {
+      const [stepX, stepY] = keyVector[key];
+      position = clampToFloor(position.x + stepX * 12, position.y + stepY * 12);
+      ({ direction, flip } = facingForVector(stepX, stepY));
+      draw(true);
+    }
     keys.add(key);
     destination = null;
   }, true);
