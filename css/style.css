@@ -2121,7 +2121,39 @@ body.nostalgia-mode .desktop-site-title {
   color: #e6e6e6; background: #090909; overflow: hidden;
   font: 13px/1.45 Consolas, 'Courier New', monospace;
 }
-.xp-app-window .kali-terminal-body { color: #edf3fc; background: #10182b; }
+.xp-app-window .kali-terminal-body {
+  padding: 0;
+  color: #d5d8d2;
+  background: #111214;
+  border-color: #3b3b3b;
+  font: 13px/1.48 'DejaVu Sans Mono', 'Liberation Mono', Consolas, monospace;
+  box-shadow: inset 0 0 18px #0004;
+}
+.kali-terminal-menubar {
+  display: flex; align-items: center; flex: none; gap: 16px;
+  height: 27px; box-sizing: border-box; padding: 0 11px;
+  color: #e0e0e0; background: linear-gradient(#484847, #292a2b);
+  border-bottom: 1px solid #111;
+  font: 12px/1 'DejaVu Sans', Arial, sans-serif;
+  user-select: none;
+}
+.kali-terminal-session { margin-left: auto; color: #b5b5b5; font-size: 11px; white-space: nowrap; }
+.kali-terminal-body .terminal-output { padding: 13px 15px 0; scrollbar-color: #4b5359 #111214; }
+.kali-terminal-body .terminal-output p { margin-bottom: 5px; }
+.kali-terminal-body .terminal-output .terminal-banner {
+  margin: 0 0 12px; padding-left: 11px; border-left: 2px solid #4a91b8;
+  color: #83bedb;
+}
+.kali-terminal-body .terminal-output .terminal-command { color: #f0f0e6; }
+.kali-terminal-body .terminal-output .terminal-demo { color: #c6dfd1; }
+.kali-terminal-body .terminal-output .terminal-error { color: #ee9292; }
+.kali-terminal-body .terminal-form {
+  align-items: center; flex: none; margin: 0; padding: 8px 15px 12px;
+  border-top: 1px solid #292c2f;
+}
+.kali-terminal-body .terminal-form label { color: #96d7a5; font-weight: 700; }
+.kali-terminal-body .terminal-form input { color: #f0f0e6; caret-color: #b5e5ce; }
+.kali-terminal-body .terminal-form:focus-within { outline: none; background: #ffffff08; }
 .terminal-output { flex: 1 1 0; min-height: 0; overflow-y: auto; overflow-x: hidden; white-space: pre-wrap; overflow-wrap: anywhere; scrollbar-color: #64748a transparent; }
 .terminal-output p { margin: 0 0 1px; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
 .terminal-output .terminal-command { color: #fff39d; }
@@ -2139,5 +2171,10 @@ body.nostalgia-mode .desktop-site-title {
 
 @media (max-width:650px) {
   .xp-app-window .terminal-body { padding: 8px; font-size: 11px; }
+  .xp-app-window .kali-terminal-body { padding: 0; font-size: 11px; }
+  .kali-terminal-menubar { gap: 11px; padding: 0 8px; font-size: 10px; }
+  .kali-terminal-session { display: none; }
+  .kali-terminal-body .terminal-output { padding: 9px 9px 0; }
+  .kali-terminal-body .terminal-form { padding: 7px 9px 10px; }
   .terminal-form { gap: 4px; }
 }

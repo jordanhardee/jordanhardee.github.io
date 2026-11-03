@@ -57,7 +57,7 @@
         cyberchef: [1250, 790],
         'club-penguin': [875, 655],
         'cmd-terminal': [630, 460],
-        'kali-terminal': [710, 520],
+        'kali-terminal': [780, 570],
         'patrick-stewart': [900, 660],
         blackjack: [760, 570],
         solitaire: [1030, 710],
