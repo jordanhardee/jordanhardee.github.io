@@ -29,6 +29,8 @@
       scale: 'showAll',
       forceScale: true,
       quality: 'high',
+      // Mobile Safari treats sustained touches as right-clicks otherwise.
+      contextMenu: 'off',
     }))
       .then(() => { status.hidden = true; })
       .catch(() => error('Coffee Shop could not load. Check /assets/clubpenguin/coffee.swf.'));
