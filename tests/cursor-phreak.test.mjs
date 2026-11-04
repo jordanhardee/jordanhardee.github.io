@@ -11,6 +11,8 @@ const script = read('js/cursor-phreak.js').toString();
 test('MyWebSearch is a crisp native toolbar with a permanent default Cursor Mania icon', () => {
   assert.match(html, /class="ie-nostalgia-toolbar-art"[\s\S]*?id="ie-cursor-phreak"[^>]*aria-label="Cursor Mania — choose a cursor"/);
   assert.match(html, /class="ie-mws-brand"/);
+  assert.match(html, /class="ie-mws-my">my<\/span><strong>web<\/strong><span class="ie-mws-search-name">search<\/span>/);
+  assert.match(css, /\.ie-mws-brand strong\s*\{[^}]*color:#105b82;[^}]*font-style:italic/);
   assert.match(html, /class="ie-mws-monitor-icon"/);
   assert.match(html, /class="ie-mws-smiley-icon"/);
   assert.match(html, /class="ie-cursor-phreak-label"[^>]*>Cursor Mania<\/span>/);

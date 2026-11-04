@@ -1094,8 +1094,10 @@ blockquote {
 .ie-nostalgia-scroll { max-width:100%; height:27px; overflow-x:auto; overflow-y:hidden; background:#edeade; scrollbar-width:none; overscroll-behavior-x:contain; }
 .ie-nostalgia-scroll::-webkit-scrollbar { display:none; }
 .ie-nostalgia-toolbar-art { box-sizing:border-box; display:flex; align-items:center; min-width:801px; width:100%; height:27px; padding:0 4px; border-top:1px solid #fff; border-bottom:1px solid #b5b1a2; background:linear-gradient(#f6f5ef,#e6e3d7); color:#252525; font:11px/1 Tahoma,Verdana,sans-serif; white-space:nowrap; user-select:none; }
-.ie-mws-brand { display:flex; flex:none; align-items:center; gap:0; width:103px; color:#303b45; font-weight:700; letter-spacing:-.4px; }
-.ie-mws-brand strong { color:#0873a4; font-style:italic; }
+.ie-mws-brand { box-sizing:border-box; display:flex; flex:none; align-items:center; gap:0; width:103px; padding-left:3px; color:#5e6367; font:12px/1 Tahoma,Arial,sans-serif; letter-spacing:-.55px; }
+.ie-mws-brand .ie-mws-my { font-weight:400; }
+.ie-mws-brand strong { color:#105b82; font-style:italic; font-weight:700; }
+.ie-mws-brand .ie-mws-search-name { color:#30343a; font-weight:600; }
 .ie-mws-caret { display:inline-block; width:0; height:0; margin-left:6px; border-left:3px solid transparent; border-right:3px solid transparent; border-top:4px solid #3b4142; }
 .ie-mws-query { box-sizing:border-box; flex:none; width:173px; height:21px; border:1px solid #7f9db9; background:#fff; box-shadow:inset 1px 1px 1px #bdc5c5; }
 .ie-mws-search { box-sizing:border-box; display:flex; flex:none; align-items:center; gap:3px; height:23px; padding:0 5px; border:1px solid #b6b2a5; border-left:0; background:linear-gradient(#fff,#e6e5da); }
