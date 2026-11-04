@@ -18,7 +18,7 @@ test('Internet Explorer uses the ordinary XP window lifecycle with a lazy SmolNe
   assert.match(html, /js\/internet-explorer\.js/);
   assert.match(css, /\.ie-nostalgia-scroll\s*\{[^}]*overflow-x:auto;/);
   assert.match(css, /\.ie-nostalgia-scroll\s*\{[^}]*height:27px;/);
-  assert.match(css, /\.ie-nostalgia-scroll img\s*\{[^}]*transform:translateY\(-34px\);/);
+  assert.match(css, /\.ie-nostalgia-toolbar-art > img\s*\{[^}]*transform:translateY\(-34px\);/);
   assert.doesNotMatch(html, /MySearch and Teoma browser toolbar collage/);
 });
 
@@ -27,7 +27,7 @@ test('The exact supplied vintage toolbars are bundled locally without executing 
   assert.equal(image.readUInt32BE(16), 801);
   assert.equal(image.readUInt32BE(20), 122);
   assert.match(html, /assets\/nostalgia\/xp\/mywebsearch-toolbar\.png/);
-  assert.match(html, /Smiley Central, CursorPhreak/);
+  assert.match(html, /Smiley Central, Cursor Mania/);
 });
 
 test('The browser uses a real IE6-era icon in the title bar, Start menu and taskbar', () => {

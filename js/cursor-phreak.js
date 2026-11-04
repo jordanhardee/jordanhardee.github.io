@@ -8,6 +8,8 @@
   const launcher = $('ie-cursor-phreak'), tree = $('cursor-phreak-tree');
   const grid = $('cursor-phreak-grid'), status = $('cursor-phreak-status');
   const code = $('cursor-phreak-code'), image = $('cursor-phreak-current-img');
+  const toolbarPreview = $('ie-cursor-phreak-preview');
+  const cssButton = $('cursor-phreak-css'), jsButton = $('cursor-phreak-js');
   const favoriteButton = $('cursor-phreak-favorite');
   if (!launcher || !tree || !grid || !code) return;
   const archiveRevision = 'c04b94cfeed1f12d6aa580ce7e8c669e4d671c02';
@@ -17,6 +19,7 @@
   const favoriteNode = { n: 'Favorites', k: 'favorites', i: [], c: [] };
   let cats = [], entries = {}, selectedKey = 'most-popular', selectedId = null;
   let snippets = null, format = 'css', loading = null, generation = 0;
+  let pendingId = null;
   let animationTimer = null, observer = null;
   let favorites;
   try {
@@ -237,56 +240,96 @@
   }
   function updateSelection() {
     for (const cell of grid.querySelectorAll('.cm-cell')) {
-      cell.setAttribute('aria-selected', String(cell.dataset.id === selectedId));
+      cell.setAttribute('aria-selected', String(cell.dataset.id === (pendingId || selectedId)));
       cell.dataset.favorite = String(favorites.has(cell.dataset.id));
     }
-    favoriteButton.disabled = !selectedId;
+    favoriteButton.disabled = !selectedId || pendingId !== null;
     favoriteButton.setAttribute('aria-pressed', String(!!selectedId && favorites.has(selectedId)));
     favoriteButton.textContent = selectedId && favorites.has(selectedId) ? '★ Favorite' : '☆ Favorite';
+    cssButton.disabled = jsButton.disabled = pendingId !== null;
     code.value = snippets ? snippets[format] : '';
   }
   async function selectCursor(id) {
     const thisGeneration = ++generation;
+    pendingId = id;
+    updateSelection();
     say(`Loading cursor #${id}…`);
     try {
       const cursor = await readCursor(id);
       if (thisGeneration !== generation) return;
-      selectedId = id; snippets = makeSnippets(cursor);
+      const nextSnippets = makeSnippets(cursor);
+      selectedId = id; pendingId = null; snippets = nextSnippets;
       useCursor(cursor);
       image.hidden = false; image.removeAttribute('src');
-      previewUrl(id).then(url => { if (selectedId === id) image.src = url; }).catch(() => {});
+      if (toolbarPreview) toolbarPreview.src = cursor.frames[0];
+      previewUrl(id).then(url => {
+        if (selectedId !== id) return;
+        image.src = url;
+        if (toolbarPreview) toolbarPreview.src = url;
+      }).catch(() => {});
+      launcher.title = `Cursor Mania — cursor #${id} active`;
       updateSelection();
       say(`Cursor #${id} selected${cursor.frames.length > 1 ? ` · ${cursor.frames.length} animated frames` : ''} · refresh to reset`);
     } catch (error) {
-      if (thisGeneration === generation) say(`Could not load cursor #${id}: ${error.message}`);
+      if (thisGeneration === generation) {
+        pendingId = null;
+        updateSelection();
+        say(`Could not load cursor #${id}: ${error.message}`);
+      }
     }
   }
   function resetCursor() {
-    ++generation; stopAnimation(); selectedId = null; snippets = null;
+    ++generation; stopAnimation(); selectedId = null; pendingId = null; snippets = null;
     image.hidden = true; image.removeAttribute('src');
+    if (toolbarPreview) toolbarPreview.src = 'assets/cursors/arrow-2.png';
+    launcher.title = 'Cursor Mania — choose a cursor';
     document.documentElement.classList.remove('cursorphreak-active');
     document.documentElement.style.removeProperty('--cursorphreak-cursor');
     updateSelection(); say('Default cursor restored.');
   }
-  async function copy(text) {
-    if (navigator.clipboard?.writeText) {
-      try { await navigator.clipboard.writeText(text); return true; } catch { /* fallback */ }
-    }
+  // Try the selection-based copy *inside the click gesture*. On Safari a
+  // rejected async Clipboard API request can consume the gesture, leaving a
+  // subsequent execCommand fallback unable to copy anything.
+  function legacyCopy(text) {
     const field = document.createElement('textarea');
+    const previousFocus = document.activeElement;
     field.value = text;
-    field.style.position = 'fixed'; field.style.left = '-9999px';
-    document.body.appendChild(field); field.select();
-    try { return document.execCommand('copy'); }
+    field.readOnly = true;
+    field.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;font-size:16px';
+    document.body.appendChild(field);
+    try {
+      field.focus({ preventScroll: true });
+      field.select();
+      field.setSelectionRange(0, text.length);
+      return document.execCommand('copy') === true;
+    }
     catch { return false; }
-    finally { field.remove(); }
+    finally {
+      field.remove();
+      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
+    }
+  }
+  async function copy(text) {
+    if (!text) return false;
+    if (legacyCopy(text)) return true;
+    if (navigator.clipboard?.writeText) {
+      try { await navigator.clipboard.writeText(text); return true; } catch { /* manual fallback */ }
+    }
+    return false;
   }
   async function copyFormat(next) {
     format = next;
-    $('cursor-phreak-css').setAttribute('aria-pressed', String(format === 'css'));
-    $('cursor-phreak-js').setAttribute('aria-pressed', String(format === 'js'));
+    cssButton.setAttribute('aria-pressed', String(format === 'css'));
+    jsButton.setAttribute('aria-pressed', String(format === 'js'));
     updateSelection();
+    if (pendingId !== null) { say('Wait for the selected cursor to finish loading.'); return; }
     if (!snippets) { say('Pick a cursor before copying code.'); return; }
-    say(await copy(code.value) ? `${format.toUpperCase()} code copied for cursor #${selectedId}.` : 'Select the code box and copy it manually.');
+    const id = selectedId, text = snippets[next];
+    if (await copy(text)) { say(`${next.toUpperCase()} code copied for cursor #${id}.`); return; }
+    code.focus({ preventScroll: true });
+    code.select();
+    code.setSelectionRange(0, code.value.length);
+    say('Clipboard access blocked. Code selected — use Copy from the text menu.');
   }
   function dialog(title, message) {
     $('cursor-phreak-dialog-title').textContent = title;
@@ -339,8 +382,8 @@
     event.preventDefault();
   });
   $('cursor-phreak-reset').addEventListener('click', resetCursor);
-  $('cursor-phreak-css').addEventListener('click', () => copyFormat('css'));
-  $('cursor-phreak-js').addEventListener('click', () => copyFormat('js'));
+  cssButton.addEventListener('click', () => copyFormat('css'));
+  jsButton.addEventListener('click', () => copyFormat('js'));
   favoriteButton.addEventListener('click', () => {
     if (!selectedId) return;
     if (favorites.has(selectedId)) favorites.delete(selectedId); else favorites.add(selectedId);

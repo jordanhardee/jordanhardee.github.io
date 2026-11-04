@@ -4,8 +4,8 @@
 }
 :root { --xp-taskbar-height: 38px; color-scheme: light; }
 html { cursor: url("dani071.cur"), auto; }
-/* CursorPhreak selections intentionally override ordinary pointer shapes for
-   this page only. Cross-origin iframe contents retain their own cursors. */
+/* CursorPhreak overrides desktop and IE chrome pointer shapes; a cross-origin
+   portal iframe controls its own document cursor and cannot be restyled here. */
 html.cursorphreak-active, html.cursorphreak-active body, html.cursorphreak-active body * {
   cursor: var(--cursorphreak-cursor) !important;
 }
@@ -1073,13 +1073,15 @@ blockquote {
 .ie-address-row button:focus-visible,.ie-address-row input:focus-visible { outline:2px solid #286cce; outline-offset:1px; }
 .ie-nostalgia-scroll { max-width:100%; height:27px; overflow-x:auto; overflow-y:hidden; background:#f0eee2; scrollbar-width:none; overscroll-behavior-x:contain; }
 .ie-nostalgia-scroll::-webkit-scrollbar { display:none; }
-.ie-nostalgia-toolbar-art { position:relative; width:max(800px,100%); height:27px; }
-.ie-nostalgia-scroll img { display:block; width:100%; height:122px; max-width:none; transform:translateY(-34px); user-select:none; pointer-events:none; }
-/* Invisible hit target over *only* the CursorPhreak label in the original art. */
+.ie-nostalgia-toolbar-art { position:relative; width:801px; height:27px; }
+/* The original is 801x122. Never stretch the cropped 27px strip as IE resizes. */
+.ie-nostalgia-toolbar-art > img { display:block; width:801px; height:122px; max-width:none; transform:translateY(-34px); image-rendering:pixelated; user-select:none; pointer-events:none; }
+/* The only working add-on uses sharp HTML text and a live cursor preview. */
 .ie-cursor-phreak-hotspot { position:absolute; top:0; left:69.25%; width:11.5%; height:27px; padding:0; border:0; background:transparent; cursor:pointer; }
 .ie-cursor-phreak-hotspot:hover { background:#c8ddff36; outline:1px solid #608ac0; outline-offset:-2px; }
 .ie-cursor-phreak-hotspot:focus-visible { outline:2px solid #185fbc; outline-offset:-2px; }
-.ie-cursor-phreak-label { position:absolute; left:19%; top:4px; bottom:3px; display:flex; align-items:center; min-width:80%; padding:0 2px; background:linear-gradient(#f2f1e7,#e6e4d9); color:#303030; font:11px/1 Tahoma,Verdana,sans-serif; white-space:nowrap; pointer-events:none; }
+.ie-cursor-phreak-hotspot .ie-cursor-phreak-preview { position:absolute; top:5px; left:2px; width:16px; height:16px; object-fit:contain; image-rendering:pixelated; pointer-events:none; }
+.ie-cursor-phreak-label { position:absolute; left:19%; right:2px; top:4px; bottom:3px; display:flex; align-items:center; padding:0 1px; background:linear-gradient(#f2f1e7,#e6e4d9); color:#303030; font:11px/1 Tahoma,Verdana,sans-serif; white-space:nowrap; pointer-events:none; }
 .internet-explorer-panel .ie-browser-body { flex:1 1 0; min-height:0; margin:4px 5px 3px; background:white; }
 .ie-browser-body iframe { display:block; width:100%; height:100%; border:0; background:white; }
 .ie-browser-message { position:absolute; top:8px; left:8px; right:8px; z-index:1; padding:8px; border:1px solid #e2b15c; background:#fff8d5; color:#663e05; box-shadow:1px 2px 5px #0003; }
