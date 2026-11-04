@@ -15,7 +15,13 @@ recreated drawings. They are used for a single-room, offline nostalgia viewer.
 - `blue-puffle-idle.webp`: the **original eight animation frames** of
   `DefineSprite_8` extracted from `blue-puffle-walk.swf` using
   [JPEXS Free Flash Decompiler](https://github.com/jindrapetrik/jpexs-decompiler)
-  26.4.0. The frames retain the original drawings and timing.
+  26.4.0. This remains the unmodified extraction and loops too quickly to
+  look natural when the puffle is standing still.
+- `blue-puffle-rest.webp`: frame 1 of the archived walking sprite, kept still
+  while the puffle waits for Jordan.
+- `blue-puffle-walk.webp`: the same eight archived sprite frames, with each
+  frame displayed for 110 ms rather than 24 ms. Only their frame timing was
+  adjusted; no artwork was redrawn. Played only while following the penguin.
 - `../clubpenguin/avatar/idle-{1..5}.webp` and `walk-{1..5}.webp`:
   original Club Penguin penguin poses and eight-frame walking cycles from the
   [Penguin extraction by iChibi at The Spriters Resource](https://www.spriters-resource.com/browser_games/clubpenguin/asset/80978/).

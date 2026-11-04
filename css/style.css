@@ -1840,6 +1840,15 @@ body.nostalgia-mode .club-penguin-dancers { display: flex !important; }
 /* One dancing orange Club Penguin penguin, not Puffles. */
 .club-penguin-dancers { gap: 0; }
 .club-penguin-dancers img { width: 102px; transform-origin: 50% 86%; }
+.club-penguin-dancers.nostalgia-launcher {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
 .ios-retro-app.nostalgia-launcher,
 .nostalgia-desktop-icon.nostalgia-launcher {
   appearance: none;

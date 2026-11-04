@@ -19,9 +19,12 @@
     #coffee-player, #coffee-player ruffle-player { display: block; width: 100%; height: 100%; }
     #coffee-player { position: absolute; inset: 0; }
     #coffee-player ruffle-player { position: absolute; inset: 0; }
-    .cp-puffle { position: absolute; z-index: 3; width: 12%; min-width: 44px; max-width: 132px; left: 45%; bottom: 12%; height: auto; pointer-events: none; filter: drop-shadow(0 3px 1px #17426c65); }
+    .cp-puffle { position: absolute; z-index: 3; width: 9%; left: 52%; top: 88%; transform: translate(-50%, -100%) scale(var(--puffle-scale, 1)); transform-origin: 50% 100%; pointer-events: none; filter: drop-shadow(0 3px 1px #17426c65); will-change: left, top, transform; }
+    .cp-puffle img { display: block; width: 100%; height: auto; animation: cp-puffle-idle 3.8s ease-in-out infinite; }
+    .cp-puffle.is-walking img { animation: none; }
+    @keyframes cp-puffle-idle { 0%, 72%, 100% { transform: translateY(0); } 77% { transform: translateY(-2px); } 82% { transform: translateY(0); } }
     .cp-game-viewport { touch-action: none; cursor: pointer; }
-    .cp-avatar { position: absolute; z-index: 4; left: 41%; top: 82%; width: 12%; aspect-ratio: 460 / 480; transform: translate(-50%, -100%) scale(var(--penguin-scale, 1)); transform-origin: 50% 100%; pointer-events: none; will-change: left, top, transform; }
+    .cp-avatar { position: absolute; z-index: 4; left: 41%; top: 82%; width: 18%; aspect-ratio: 360 / 376; transform: translate(-50%, -100%) scale(var(--penguin-scale, 1)); transform-origin: 50% 100%; pointer-events: none; will-change: left, top, transform; }
     .cp-avatar img { display: block; width: 100%; height: 100%; object-fit: contain; }
     .cp-avatar.is-facing-right img { transform: scaleX(-1); }
     .cp-avatar-name { position: absolute; top: 99%; left: 50%; transform: translateX(-50%); white-space: nowrap; font: bold clamp(8px, 1.45vw, 13px) Tahoma, sans-serif; color: #fff; text-shadow: -1px -1px #203b60, 1px -1px #203b60, -1px 1px #203b60, 1px 1px #203b60, 0 2px 2px #0008; }
@@ -39,7 +42,7 @@
     body.cp-full-tab .cp-bottom { position: absolute; z-index: 5; bottom: 8px; left: 8px; right: 8px; width: auto; }
     body.cp-full-tab .cp-notice { display: block; max-width: calc(100vw - 140px); padding: 6px 9px; border-radius: 6px; background: #124a7acb; }
     @media (max-width: 520px) { .cp-shell { padding: 4px; gap: 4px; } .cp-toolbar { padding: 4px 5px; min-height: 32px; } .cp-counter { padding: 3px 5px; gap: 3px; } .cp-coin { width: 16px; height: 16px; font-size: 10px; } .cp-bottom { font-size: 9px; } .cp-bottom button { padding: 4px 5px; } }
-    @media (prefers-reduced-motion: reduce) { .cp-puffle { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .cp-puffle img { animation: none; } }
   </style>
   <script defer src="./ruffle/ruffle.js"></script>
   <script defer src="./js/club-penguin.js?v=20261103-full-tab"></script>
@@ -53,7 +56,9 @@
     <section class="cp-game-viewport" aria-label="Original Club Penguin Coffee Shop Flash room">
       <div id="coffee-player"></div>
       <p class="cp-loading" id="cp-loading" role="status">Loading the original Coffee Shop…</p>
-      <img class="cp-puffle" src="./assets/club-penguin/blue-puffle-idle.webp" alt="An animated original blue puffle" draggable="false">
+      <div class="cp-puffle" id="cp-puffle" role="img" aria-label="An original blue puffle that follows Jordan">
+        <img id="cp-puffle-sprite" src="./assets/club-penguin/blue-puffle-rest.webp" alt="" draggable="false">
+      </div>
       <div class="cp-avatar" id="cp-avatar" role="img" aria-label="Jordan, controllable blue penguin">
         <img id="cp-avatar-sprite" src="./assets/clubpenguin/avatar/idle-1.webp" alt="" draggable="false">
         <span class="cp-avatar-name" aria-hidden="true">Jordan</span>
@@ -64,6 +69,6 @@
       <button id="cp-fullscreen" type="button" aria-label="Toggle browser fullscreen">⛶ FULLSCREEN</button>
     </footer>
   </main>
-  <script type="module" src="./js/club-penguin-avatar.js?v=20261103-penguin-walk2"></script>
+  <script type="module" src="./js/club-penguin-avatar.js?v=20261104-puffle-follow"></script>
 </body>
 </html>

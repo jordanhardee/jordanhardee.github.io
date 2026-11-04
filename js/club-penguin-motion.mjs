@@ -48,3 +48,16 @@ export function walkToward(position, destination, distance) {
     position.y + dy / remaining * distance);
   return { ...next, arrived: Math.hypot(destination.x - next.x, destination.y - next.y) < 1 };
 }
+
+// A pet catches up only when it is farther away than the trailing gap.
+// Do not return an artificial animation step after it has caught up.
+export function followWithGap(follower, leader, maxStep, gap) {
+  const dx = leader.x - follower.x;
+  const dy = leader.y - follower.y;
+  const distance = Math.hypot(dx, dy);
+  if (distance <= gap || maxStep <= 0) return { ...follower, moved: false };
+  const step = Math.min(distance - gap, maxStep);
+  const next = clampToFloor(follower.x + dx / distance * step,
+    follower.y + dy / distance * step);
+  return { ...next, moved: Math.hypot(next.x - follower.x, next.y - follower.y) > 0.05 };
+}
