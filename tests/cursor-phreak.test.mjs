@@ -15,6 +15,8 @@ test('MyWebSearch retains its art and displays the era-accurate Cursor Mania lab
   assert.match(html, /id="ie-cursor-phreak-preview"[^>]*src="assets\/cursors\/arrow-2.png"/);
   assert.match(css, /\.ie-nostalgia-toolbar-art\s*\{[^}]*width:801px/);
   assert.match(css, /\.ie-nostalgia-toolbar-art > img\s*\{[^}]*width:801px;[^}]*image-rendering:pixelated/);
+  // Both export buttons must fit above the status bar, including on mobile.
+  assert.match(css, /\.cm-code-row\s*\{[^}]*height:82px;/);
   assert.match(html, /assets\/cursors\/logo\.png"[^>]*alt="CursorPhreak"/);
   assert.doesNotMatch(html, /id="ie-smiley-central"|id="ie-screensavers"/);
   assert.match(html, /data-window="cursor-phreak"/);
