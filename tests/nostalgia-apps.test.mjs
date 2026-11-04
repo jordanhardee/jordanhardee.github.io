@@ -7,6 +7,8 @@ const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const terminals = readFileSync(new URL('../js/nostalgia-apps.js', import.meta.url), 'utf8');
 const manager = readFileSync(new URL('../js/window-manager.js', import.meta.url), 'utf8');
+const windowModule = readFileSync(new URL('../js/module-fullscreen.js', import.meta.url), 'utf8');
+const startMenu = readFileSync(new URL('../js/start-menu.js', import.meta.url), 'utf8');
 
 test('retro terminal launchers have actual windows, inputs, and taskbar buttons', () => {
   for (const id of ['cmd-terminal', 'kali-terminal']) {
@@ -16,7 +18,6 @@ test('retro terminal launchers have actual windows, inputs, and taskbar buttons'
   }
   assert.match(html, /id="cmd-shortcut" data-launch="cmd-terminal"/);
   assert.match(html, /id="openssh-shortcut" data-launch="kali-terminal"/);
-  assert.match(html, /data-open-window="kali-terminal"[^>]*>[\s\S]*?<strong>Kali Terminal<\/strong>/);
   assert.match(css, /\.terminal-output\s*\{[^}]*overflow-y:\s*auto/);
   assert.match(css, /\.kali-terminal-body \.terminal-output\s*\{[^}]*flex:\s*0 1 auto/);
   assert.match(html, /root@kali:~ — Terminal/);
@@ -25,7 +26,19 @@ test('retro terminal launchers have actual windows, inputs, and taskbar buttons'
   assert.match(css, /\.xp-app-window \.kali-terminal-body\s*\{[^}]*background:\s*#111214/s);
   assert.match(terminals, /no network traffic, files read, or programs executed/);
   assert.match(html, /data-window="club-penguin"/);
-  assert.match(html, /data-open-window="club-penguin"/);
+  assert.match(html, /data-launch="club-penguin"/);
+});
+
+test('CMD, Club Penguin and Kali are nostalgia-only Easter eggs, absent from every Start menu section', () => {
+  const menuStart = html.indexOf('<nav class="xp-start-menu"');
+  const menu = html.slice(menuStart, html.indexOf('</nav>', menuStart) + '</nav>'.length);
+  assert.ok(menu.length > 0, 'Start menu markup missing');
+  for (const name of ['cmd-terminal', 'club-penguin', 'kali-terminal']) {
+    assert.doesNotMatch(menu, new RegExp(`data-open-window="${name}"`), `${name} appears in Start menu`);
+  }
+  assert.doesNotMatch(menu, /Club Penguin|Kali Terminal|Command Prompt|>CMD</i);
+  assert.match(windowModule, /nostalgiaOnlyApps\.has\(module\.dataset\.window\).*nostalgia-mode/);
+  assert.match(startMenu, /\['cmd-terminal', 'club-penguin', 'kali-terminal'\]\.forEach\(window/);
 });
 
 test('fake CMD and Kali accept commands but safely render input as text', () => {

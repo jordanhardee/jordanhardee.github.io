@@ -28,7 +28,7 @@ test('original 2010 Coffee Shop and blue puffle assets are actually bundled', ()
 
 test('Club Penguin.exe opens as resizable XP app with dedicated full-tab player', () => {
   assert.match(html, /data-window="club-penguin"/);
-  assert.match(html, /data-open-window="club-penguin"/);
+  assert.match(html, /data-launch="club-penguin"/);
   assert.match(html, /data-src="\.\/club-penguin\.html\?embedded=1&amp;v=20261104"/);
   assert.match(html, /href="\.\/club-penguin\.html\?fullscreen=1&amp;v=20261104" target="_blank"/);
   assert.match(html, /allow="fullscreen" allowfullscreen/);

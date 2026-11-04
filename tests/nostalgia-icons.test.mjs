@@ -13,8 +13,8 @@ test('all vintage app icons, Floppa, and the orange penguin use local PNG artwor
     .map(match => match[1].split('?')[0])
     .filter(path => !path.endsWith('/mywebsearch-toolbar.png') && !path.endsWith('/internet-explorer-6.png')); // New IE app artwork isn't part of the original desktop icon set.
   // The Club Penguin app reuses the original orange-penguin image in its
-  // title bar, Start menu, and taskbar without introducing a new imitation.
-  assert.equal(requested.length, 35);
+  // title bar and taskbar without introducing a new imitation.
+  assert.equal(requested.length, 34);
   assert.equal(new Set(requested).size, 32);
   for (const relativePath of requested) {
     assert.ok(existsSync(join(root, relativePath)), `${relativePath} is missing`);

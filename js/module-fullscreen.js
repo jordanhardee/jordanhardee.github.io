@@ -4,6 +4,7 @@
 (function () {
   const modules = [...document.querySelectorAll('[data-window].intel-panel, [data-window].hn-panel, [data-window].apod-panel, [data-window].office-panel, [data-window].xp-app-window')];
   const taskButtons = new Map([...document.querySelectorAll('.xp-task-button')].map(button => [button.dataset.window, button]));
+  const nostalgiaOnlyApps = new Set(['cmd-terminal', 'club-penguin', 'kali-terminal']);
   const clock = document.getElementById('xp-clock');
   let overlay = null;
 
@@ -139,6 +140,7 @@
   }
 
   function openApp(module) {
+    if (nostalgiaOnlyApps.has(module.dataset.window) && !document.body.classList.contains('nostalgia-mode')) return;
     module.classList.remove('module-closed', 'module-minimized');
     const iframe = module.querySelector('iframe[data-src]');
     if (iframe && !iframe.getAttribute('src')) iframe.src = iframe.dataset.src;

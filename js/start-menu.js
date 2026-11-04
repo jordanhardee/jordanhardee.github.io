@@ -101,6 +101,12 @@
   nostalgiaToggle?.addEventListener('click', () => {
     const enabled = !document.body?.classList?.contains('nostalgia-mode');
     setNostalgiaMode(enabled);
+    if (!enabled) {
+      // These Easter eggs are only available while nostalgia mode is active.
+      ['cmd-terminal', 'club-penguin', 'kali-terminal'].forEach(window => {
+        document.dispatchEvent(new CustomEvent('xp:close-window', { detail: { window } }));
+      });
+    }
     try { localStorage.setItem(nostalgiaPreference, enabled ? 'on' : 'off'); } catch { /* private mode */ }
     showMenu(false);
   });
