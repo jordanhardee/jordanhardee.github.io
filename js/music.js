@@ -27,7 +27,7 @@
     creditsButton.textContent = enabled ? 'Mute music' : 'Play music';
     creditsButton.setAttribute('aria-pressed', String(enabled));
     if (status) {
-      status.textContent = !enabled ? 'Music is off.' : activeVideos.size ? 'Paused while a video plays.' : failure ||
+      status.textContent = !enabled ? 'Music is off.' : activeVideos.has('kali') ? 'Paused for Kali soundtrack.' : activeVideos.size ? 'Paused while a video plays.' : failure ||
         (audio.paused ? 'Music will start after a tap if autoplay is blocked.' : 'Playing on repeat.');
     }
   }
@@ -69,7 +69,7 @@
 
   trayButton.addEventListener('click', toggleMusic);
   creditsButton.addEventListener('click', toggleMusic);
-  for (const kind of ['happy', 'hack', 'huh', 'floppa']) {
+  for (const kind of ['happy', 'hack', 'huh', 'floppa', 'kali']) {
     document.addEventListener(`xp:${kind}-playback-start`, () => {
       activeVideos.add(kind);
       audio.pause();

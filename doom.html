@@ -103,6 +103,22 @@
   var bootBtn = document.getElementById('bootBtn');
   var pad = document.getElementById('pad');
   var logEl = document.getElementById('log');
+  var kaliMuted = false;
+  function syncAudioFocus() {
+    var context = window.Module && window.Module.SDL2 && window.Module.SDL2.audioContext;
+    if (!context) return;
+    if (kaliMuted && context.state !== 'suspended') context.suspend().catch(function () {});
+    if (!kaliMuted && context.state === 'suspended') context.resume().catch(function () {});
+  }
+  window.addEventListener('message', function (event) {
+    if (event.origin !== window.location.origin || event.source !== window.parent) return;
+    if (event.data && event.data.type === 'xp:audio-focus') {
+      kaliMuted = event.data.muted === true;
+      syncAudioFocus();
+    }
+  });
+  // If Doom initializes audio after the Kali terminal starts, suspend it too.
+  setInterval(function () { if (kaliMuted) syncAudioFocus(); }, 500);
 
   var lines = 0;
   function log(msg, cls) {

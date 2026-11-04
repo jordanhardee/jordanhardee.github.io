@@ -29,8 +29,8 @@ test('original 2010 Coffee Shop and blue puffle assets are actually bundled', ()
 test('Club Penguin.exe opens as resizable XP app with dedicated full-tab player', () => {
   assert.match(html, /data-window="club-penguin"/);
   assert.match(html, /data-launch="club-penguin"/);
-  assert.match(html, /data-src="\.\/club-penguin\.html\?embedded=1&amp;v=20261104"/);
-  assert.match(html, /href="\.\/club-penguin\.html\?fullscreen=1&amp;v=20261104" target="_blank"/);
+  assert.match(html, /data-src="\.\/club-penguin\.html\?embedded=1&amp;v=20261104-kali-audio-focus"/);
+  assert.match(html, /href="\.\/club-penguin\.html\?fullscreen=1&amp;v=20261104-kali-audio-focus" target="_blank"/);
   assert.match(html, /allow="fullscreen" allowfullscreen/);
   assert.match(html, /data-window="club-penguin" aria-label="Restore Club Penguin"/);
   assert.match(manager, /'club-penguin': \[875, 655\]/);
@@ -44,7 +44,7 @@ test('Club Penguin.exe opens as resizable XP app with dedicated full-tab player'
   assert.match(script, /forceScale: true/);
   assert.match(script, /letterbox: 'on'/);
   assert.match(script, /contextMenu: 'off'/);
-  assert.match(player, /club-penguin\.js\?v=20261104-touch-menu/);
+  assert.match(player, /club-penguin\.js\?v=20261104-kali-audio-focus/);
   assert.match(script, /cp-full-tab/);
   assert.match(player, /aspect-ratio: 760 \/ 480/);
   assert.match(player, /body\.cp-full-tab \.cp-game-viewport/);

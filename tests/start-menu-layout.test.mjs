@@ -15,7 +15,7 @@ test('Start menu has the classic two columns, header, and footer', () => {
   assert.match(html, /class="xp-menu-bottom"/);
   assert.match(html, /id="xp-all-programs-toggle"[^>]*aria-expanded="false"/);
   assert.match(html, /id="xp-nostalgia-toggle"[^>]*role="switch"/);
-  assert.match(html, /js\/start-menu\.js\?v=20261104-nostalgia-easter-eggs/);
+  assert.match(html, /js\/start-menu\.js\?v=20261104-kali-audio-focus/);
   assert.match(css, /\.xp-menu-columns\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:/s);
   assert.match(css, /\.xp-menu-side\s*\{[^}]*background:\s*linear-gradient/s);
 });

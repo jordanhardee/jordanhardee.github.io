@@ -35,6 +35,8 @@
   let huhFallback = null;
   let huhToken = 0;
   let happyVolumeBeforeHuh = null;
+  let kaliSoundActive = false;
+  let resumeHappyAfterKali = false;
 
   function emit(name, app) {
     document.dispatchEvent(new CustomEvent(name, { detail: { window: app } }));
@@ -110,6 +112,7 @@
   }
 
   function playHuh() {
+    if (kaliSoundActive) return;
     const token = ++huhToken;
     if (typeof video.volume === 'number' && happyVolumeBeforeHuh === null) {
       happyVolumeBeforeHuh = video.volume;
@@ -171,6 +174,7 @@
 
   function stopHappy() {
     ++playToken;
+    resumeHappyAfterKali = false;
     video.pause();
     if (video.getAttribute('src')) {
       video.removeAttribute('src');
@@ -187,6 +191,10 @@
     }
     if (hint) hint.hidden = true;
     if (!video.getAttribute('src')) video.src = 'assets/cats/happy.mp4';
+    if (kaliSoundActive) {
+      resumeHappyAfterKali = true;
+      return;
+    }
     const token = ++playToken;
     emit('xp:happy-playback-start', 'happy-exe');
     const attempt = video.play();
@@ -240,6 +248,7 @@
   }
 
   video.addEventListener('playing', () => {
+    if (kaliSoundActive) { video.pause(); return; }
     if (hint) hint.hidden = true;
     emit('xp:happy-playback-start', 'happy-exe');
   });
@@ -259,6 +268,20 @@
   document.addEventListener('xp:closed', event => {
     if (event.detail?.window === 'release-cats') recall();
     if (event.detail?.window === 'happy-exe') stopHappy();
+  });
+  document.addEventListener('xp:kali-playback-start', () => {
+    kaliSoundActive = true;
+    resumeHappyAfterKali = resumeHappyAfterKali || (released && !video.paused);
+    stopHuh();
+    video.pause();
+  });
+  document.addEventListener('xp:kali-playback-stop', () => {
+    kaliSoundActive = false;
+    const shouldResume = resumeHappyAfterKali && released
+      && !happyPanel.classList.contains('module-closed')
+      && !document.body?.classList?.contains('floppa-friday-active');
+    resumeHappyAfterKali = false;
+    if (shouldResume) openHappy();
   });
   if (!panel.classList.contains('module-closed')) release();
 })();

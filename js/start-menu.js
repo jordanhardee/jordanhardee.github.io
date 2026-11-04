@@ -33,6 +33,7 @@
   };
   const loadedApps = new Set();
   let openedOnce = false;
+  let kaliSoundActive = false;
   // The short "Dry fart" sound from the Archive.org Fart Sounds collection.
   // Playing directly inside the click handler satisfies iOS audio gesture rules.
   const fartAudio = typeof Audio === 'function'
@@ -44,7 +45,7 @@
   }
 
   function playFart() {
-    if (!fartAudio) return;
+    if (!fartAudio || kaliSoundActive) return;
     try {
       fartAudio.pause();
       fartAudio.currentTime = 0;
@@ -167,9 +168,11 @@
   const hackVideoUrl = new URL('../assets/hack-the-planet.mp4?v=20261030', document.currentScript.src).href;
   let hackOpen = false;
   let enteredFullscreen = false;
+  let resumeHackAfterKali = false;
   function closeHackVideo() {
     if (!hackOpen || !hackOverlay || !hackVideo) return;
     hackOpen = false;
+    resumeHackAfterKali = false;
     hackVideo.pause();
     hackVideo.removeAttribute('src');
     hackVideo.load();
@@ -190,7 +193,8 @@
     hackVideo.volume = 1;
     document.dispatchEvent(new CustomEvent('xp:hack-playback-start'));
     // Do not await either promise: both must be initiated within the gesture.
-    const playback = hackVideo.play();
+    if (kaliSoundActive) resumeHackAfterKali = true;
+    const playback = kaliSoundActive ? null : hackVideo.play();
     playback?.catch(error => {
       console.warn('Hack the Planet autoplay needs a tap:', error);
       if (hackOpen) hackVideo.controls = true;
@@ -215,6 +219,17 @@
   });
   document.addEventListener('fullscreenchange', () => {
     if (hackOpen && enteredFullscreen && document.fullscreenElement !== hackOverlay) closeHackVideo();
+  });
+  document.addEventListener('xp:kali-playback-start', () => {
+    kaliSoundActive = true;
+    fartAudio?.pause();
+    if (hackOpen && !hackVideo.paused) resumeHackAfterKali = true;
+    hackVideo?.pause();
+  });
+  document.addEventListener('xp:kali-playback-stop', () => {
+    kaliSoundActive = false;
+    if (hackOpen && resumeHackAfterKali) hackVideo.play().catch(() => {});
+    resumeHackAfterKali = false;
   });
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && hackOpen) closeHackVideo();

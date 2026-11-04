@@ -1191,6 +1191,11 @@ blockquote {
 .stellarium-loading[hidden] { display:none; }
 .xp-app-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; flex:none; padding:2px 9px 5px; color:#5b6270; font:9px Tahoma,sans-serif; }
 .xp-app-footer a { color:#1550a1; text-decoration:underline; }
+.kali-audio-footer { align-items:center; }
+.kali-audio-footer #kali-sound-status { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#6f233a; font-weight:bold; }
+.kali-audio-footer button { flex:none; border:1px solid #7891ab; border-radius:2px; background:linear-gradient(#fff,#d8e5f5); padding:2px 7px; color:#173665; font:bold 10px Tahoma,sans-serif; cursor:pointer; }
+.kali-audio-footer button:focus-visible { outline:2px solid #164cba; outline-offset:2px; }
+@media(max-width:540px) { .kali-audio-footer > span:first-child { display:none; } }
 .guestbook-panel { width:min(680px,calc(100vw - 30px)); height:min(705px,calc(100dvh - 65px)); }
 .xp-app-window .guestbook-body { overflow-y:auto; padding:clamp(12px,2.5vw,20px); background:#f7f7f0; color:#27394f; font:calc(13px * var(--xp-text-scale,1))/1.45 Tahoma,Arial,sans-serif; }
 .guestbook-body p { font-family:Tahoma,Arial,sans-serif; }

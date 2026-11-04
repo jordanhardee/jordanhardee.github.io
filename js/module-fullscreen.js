@@ -130,11 +130,13 @@
     }
     module.classList.add('module-minimized');
     updateButtons();
+    document.dispatchEvent(new CustomEvent('xp:minimized', { detail: { window: module.dataset.window } }));
   }
 
   function restore(module) {
     module.classList.remove('module-minimized');
     updateButtons();
+    document.dispatchEvent(new CustomEvent('xp:restored', { detail: { window: module.dataset.window } }));
     document.dispatchEvent(new CustomEvent('xp:bring-to-front', { detail: { window: module.dataset.window } }));
     if (window.matchMedia('(max-width: 1050px)').matches) {
       module.scrollIntoView({ block: 'center', behavior: 'smooth' });

@@ -11,7 +11,7 @@ const music = load('js/music.js');
 test('DOOM shareware is a lazy-loaded XP game and a standalone tab', () => {
   assert.match(site, /id="xp-folder-games"[\s\S]*data-open-window="doom"/);
   assert.match(site, /data-window="doom" aria-labelledby="doom-heading"/);
-  assert.match(site, /data-src="\.\/doom\.html\?embedded=1&amp;v=20261104-touch-fix"/);
+  assert.match(site, /data-src="\.\/doom\.html\?embedded=1&amp;v=20261104-kali-audio-focus"/);
   assert.match(site, /href="\.\/doom\.html\?fullscreen=1&amp;v=20261104-touch-fix" target="_blank"/);
   assert.match(site, /data-window="doom" aria-label="Restore DOOM"/);
   assert.match(load('js/window-manager.js'), /doom: \[925, 720\]/);

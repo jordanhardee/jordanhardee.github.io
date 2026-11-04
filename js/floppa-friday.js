@@ -37,6 +37,7 @@
   let audioBufferPromise = null;
   let audioSource = null;
   let audioFallback = null;
+  let kaliSoundActive = false;
 
   // Match the title's Mario font and independently cycling primary colours.
   const colours = ['rainbow-textRed', 'rainbow-textBlue', 'rainbow-textYellow', 'rainbow-textGreen'];
@@ -161,6 +162,7 @@
   }
 
   function sound() {
+    if (kaliSoundActive) { show.dataset.audio = 'muted-for-kali'; return; }
     const token = generation;
     show.dataset.audio = 'loading';
     const Type = window.AudioContext || window.webkitAudioContext;
@@ -311,7 +313,7 @@
     trigger.hidden = true;
     document.body.classList.remove('floppa-friday-active');
     emit('xp:floppa-playback-stop');
-    if (resumeHappy) video?.play().catch?.(() => {});
+    if (resumeHappy && !kaliSoundActive) video?.play().catch?.(() => {});
     resumeHappy = false;
     lastOrbit = 0;
     shortcut.focus();
@@ -319,6 +321,22 @@
   }
 
   trigger.addEventListener('click', start);
+  document.addEventListener('xp:kali-playback-start', () => {
+    kaliSoundActive = true;
+    ++generation; // Prevent an in-flight sound fetch from starting later.
+    if (audioSource) {
+      audioSource.onended = null;
+      try { audioSource.stop(); } catch { /* Already ended. */ }
+      audioSource.disconnect();
+      audioSource = null;
+    }
+    if (audioFallback) { audioFallback.pause(); audioFallback.currentTime = 0; }
+    if (active) show.dataset.audio = 'muted-for-kali';
+  });
+  document.addEventListener('xp:kali-playback-stop', () => {
+    kaliSoundActive = false;
+    if (active && show.dataset.audio === 'muted-for-kali') sound();
+  });
   close.addEventListener('click', stop);
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && active) { event.preventDefault(); stop(); }
