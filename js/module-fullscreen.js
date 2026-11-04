@@ -16,6 +16,7 @@
       'daily-office': 'Daily Office',
       'cyberchef': 'CyberChef',
       'internet-explorer': 'Internet Explorer',
+      'cursor-mania': 'Cursor Mania',
       'club-penguin': 'Club Penguin',
       'cmd-terminal': 'Command Prompt',
       'kali-terminal': 'Kali terminal',

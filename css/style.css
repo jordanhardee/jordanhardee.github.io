@@ -4,6 +4,11 @@
 }
 :root { --xp-taskbar-height: 38px; color-scheme: light; }
 html { cursor: url("dani071.cur"), auto; }
+/* Cursor Mania selections intentionally override ordinary pointer shapes for
+   this page only. Cross-origin iframe contents retain their own cursors. */
+html.cursorphreak-active, html.cursorphreak-active body, html.cursorphreak-active body * {
+  cursor: var(--cursorphreak-cursor) !important;
+}
 html, body { height: 100%; overflow: hidden; }
 /* Cursor sparkles are decorative and must not swallow clicks on page controls. */
 div[id^="dots"] { pointer-events: none; }
@@ -1068,12 +1073,33 @@ blockquote {
 .ie-address-row button:focus-visible,.ie-address-row input:focus-visible { outline:2px solid #286cce; outline-offset:1px; }
 .ie-nostalgia-scroll { max-width:100%; height:27px; overflow-x:auto; overflow-y:hidden; background:#f0eee2; scrollbar-width:none; overscroll-behavior-x:contain; }
 .ie-nostalgia-scroll::-webkit-scrollbar { display:none; }
-.ie-nostalgia-scroll img { display:block; width:max(800px,100%); height:122px; max-width:none; transform:translateY(-34px); user-select:none; pointer-events:none; }
+.ie-nostalgia-toolbar-art { position:relative; width:max(800px,100%); height:27px; }
+.ie-nostalgia-scroll img { display:block; width:100%; height:122px; max-width:none; transform:translateY(-34px); user-select:none; pointer-events:none; }
+/* Invisible hit target over *only* the Cursor Mania label in the original art. */
+.ie-cursor-mania-hotspot { position:absolute; top:0; left:69.25%; width:11.5%; height:27px; padding:0; border:0; background:transparent; cursor:pointer; }
+.ie-cursor-mania-hotspot:hover { background:#c8ddff36; outline:1px solid #608ac0; outline-offset:-2px; }
+.ie-cursor-mania-hotspot:focus-visible { outline:2px solid #185fbc; outline-offset:-2px; }
 .internet-explorer-panel .ie-browser-body { flex:1 1 0; min-height:0; margin:4px 5px 3px; background:white; }
 .ie-browser-body iframe { display:block; width:100%; height:100%; border:0; background:white; }
 .ie-browser-message { position:absolute; top:8px; left:8px; right:8px; z-index:1; padding:8px; border:1px solid #e2b15c; background:#fff8d5; color:#663e05; box-shadow:1px 2px 5px #0003; }
 .ie-browser-message[hidden] { display:none; }
 @media (max-width:600px) { .ie-menu-row { gap:10px; } .ie-address-row { gap:3px; padding:3px; } .ie-address-row button { padding:1px 5px; } .ie-address-row button span { display:none; } }
+.cursor-mania-panel { width:min(440px,calc(100vw - 24px)); height:min(465px,calc(100dvh - 70px)); }
+.cursor-mania-title-icon { width:18px; height:18px; object-fit:contain; image-rendering:pixelated; }
+.xp-app-window .cursor-mania-body { display:flex; flex-direction:column; gap:7px; min-height:0; padding:10px; overflow:hidden; box-sizing:border-box; color:#173250; background:linear-gradient(#f4f8ff,#e4edfb); font:11px/1.35 Tahoma,Arial,sans-serif; }
+.cursor-mania-intro { flex:none; margin:0; }
+.cursor-mania-grid { flex:1 1 0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); align-content:start; gap:6px; min-height:0; overflow-y:auto; padding:2px; scrollbar-color:#8eadd1 #e8eef7; }
+.cursor-mania-choice { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-width:0; min-height:73px; padding:6px 3px; border:1px solid #9bafc8; border-radius:3px; background:linear-gradient(#fff,#e5edf7); color:#17345b; font:10px/1.15 Tahoma,Arial,sans-serif; text-align:center; }
+.cursor-mania-choice img { width:32px; height:32px; image-rendering:pixelated; object-fit:contain; }
+.cursor-mania-choice span { display:block; max-width:100%; overflow-wrap:anywhere; }
+.cursor-mania-choice:hover { background:linear-gradient(#fff,#cbe3ff); border-color:#5f91d2; }
+.cursor-mania-choice[aria-pressed="true"] { background:linear-gradient(#d8ebff,#a9cdfa); border:2px solid #2a69b5; padding:5px 2px; box-shadow:inset 0 0 0 1px #fff; }
+.cursor-mania-choice:focus-visible, .cursor-mania-controls button:focus-visible { outline:2px solid #1964bc; outline-offset:1px; }
+.cursor-mania-controls { display:flex; flex:none; flex-wrap:wrap; align-items:center; gap:7px; padding-top:7px; border-top:1px solid #b0c5de; }
+.cursor-mania-controls button { padding:5px 8px; border:1px solid #6e90bf; border-radius:3px; background:linear-gradient(#fff,#d4e6fd); color:#183e72; font:bold 10px Tahoma,Arial,sans-serif; }
+.cursor-mania-controls [role="status"] { flex:1 1 125px; min-width:0; font-size:10px; }
+.cursor-mania-touch-note { flex:none; margin:0; color:#687b95; font-size:9px; }
+@media (max-width:420px) { .cursor-mania-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 .club-penguin-panel { width:min(875px,calc(100vw - 30px)); height:min(655px,calc(100dvh - 65px)); }
 .club-penguin-body { background:#0b4c8f; margin:4px; }
 .club-penguin-body iframe { display:block; width:100%; height:100%; border:0; background:#0b4c8f; }
