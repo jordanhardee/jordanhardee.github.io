@@ -55,6 +55,7 @@
     if (module.classList.contains('xp-app-window')) {
       const sizes = {
         cyberchef: [1250, 790],
+        'internet-explorer': [1010, 745],
         'club-penguin': [875, 655],
         'cmd-terminal': [630, 460],
         'kali-terminal': [780, 570],
@@ -277,6 +278,7 @@
     'nasa-apod': 'NASA APOD',
     'daily-office': 'Daily Office',
     'cyberchef': 'CyberChef',
+    'internet-explorer': 'Internet Explorer',
     'club-penguin': 'Club Penguin',
     'cmd-terminal': 'Command Prompt',
     'kali-terminal': 'Kali terminal',

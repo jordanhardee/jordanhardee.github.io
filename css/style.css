@@ -1015,6 +1015,7 @@ blockquote {
 .xp-chef-icon { background: linear-gradient(135deg,#244773,#62bbd5); color: #fff6a4; }
 .xp-contact-icon { background: linear-gradient(135deg,#f8efb0,#b68d48); color: #194e8b; text-shadow: none; }
 .xp-guestbook-icon { background:linear-gradient(145deg,#fffdf0,#d5e4f7); border-color:#7391b9; color:#255f9f; text-shadow:none; font:bold 17px/1 Georgia,serif; }
+.xp-ie-icon { background: radial-gradient(circle at 42% 40%,#c8f1ff 0,#5ebaff 40%,#0776d9 75%); border-color:#1362b5; color:#fff1a7; text-shadow:-1px 1px #0653b1; font:italic bold 21px/1 Georgia,serif; border-radius:50%; }
 .xp-memorial-icon { background: linear-gradient(140deg,#1e2c5f,#667aa1); color: #f0dcaa; text-shadow: 0 0 3px #d4c189; }
 .xp-wikipedia-icon { background:linear-gradient(145deg,#f3f3f3,#b0bfd4); color:#222; text-shadow:none; font-family:Georgia,serif; font-weight:bold; }
 .xp-news-icon { background:linear-gradient(145deg,#f1f4fb,#7092c4); color:#153359; text-shadow:none; font:bold 13px Georgia,serif; }
@@ -1047,6 +1048,24 @@ blockquote {
 .cyberchef-body iframe { display:block; width:100%; height:100%; border:0; background:white; }
 .cyberchef-loading { position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; background:#f0f0f0; color:#3a4864; font:12px Tahoma,sans-serif; }
 .cyberchef-loading[hidden] { display:none; }
+/* Internet Explorer.exe: a real SmolNet iframe under the exact vintage
+   toolbars supplied by Jordan. The old add-on graphics are not executable. */
+.internet-explorer-panel { width:min(1010px,calc(100vw - 30px)); height:min(745px,calc(100dvh - 65px)); }
+.ie-browser-chrome { flex:none; min-width:0; background:#ece9d8; color:#222; border-bottom:1px solid #9e9b8c; font:11px Tahoma,Verdana,sans-serif; }
+.ie-menu-row { display:flex; align-items:center; gap:17px; height:22px; padding:0 10px; box-sizing:border-box; box-shadow:inset 0 1px #fff; }
+.ie-address-row { display:flex; align-items:center; gap:5px; margin:0; min-width:0; height:31px; padding:3px 5px; border-top:1px solid #b8b3a3; box-sizing:border-box; box-shadow:inset 0 1px #fff; }
+.ie-address-row label { white-space:nowrap; }
+.ie-address-row input { flex:1 1 auto; min-width:55px; height:22px; padding:1px 5px; box-sizing:border-box; border:1px solid #7f9db9; border-radius:0; color:#222; background:white; font:11px Tahoma,Verdana,sans-serif; }
+.ie-address-row button { flex:none; min-height:23px; padding:1px 7px; border:1px solid #9b9a8f; border-radius:2px; background:linear-gradient(#fff,#e2e0d4); color:#222; cursor:pointer; font:11px Tahoma,Verdana,sans-serif; }
+.ie-address-row button:hover { border-color:#3b75b6; background:linear-gradient(#fff,#c9e0fb); }
+.ie-address-row button:focus-visible,.ie-address-row input:focus-visible { outline:2px solid #286cce; outline-offset:1px; }
+.ie-nostalgia-scroll { max-width:100%; height:122px; overflow-x:auto; overflow-y:hidden; background:#f0eee2; scrollbar-width:thin; overscroll-behavior-x:contain; }
+.ie-nostalgia-scroll img { display:block; width:max(800px,100%); height:122px; max-width:none; user-select:none; pointer-events:none; }
+.internet-explorer-panel .ie-browser-body { flex:1 1 0; min-height:0; margin:4px 5px 3px; background:white; }
+.ie-browser-body iframe { display:block; width:100%; height:100%; border:0; background:white; }
+.ie-browser-message { position:absolute; top:8px; left:8px; right:8px; z-index:1; padding:8px; border:1px solid #e2b15c; background:#fff8d5; color:#663e05; box-shadow:1px 2px 5px #0003; }
+.ie-browser-message[hidden] { display:none; }
+@media (max-width:600px) { .ie-menu-row { gap:10px; } .ie-address-row { gap:3px; padding:3px; } .ie-address-row button { padding:1px 5px; } .ie-address-row button span { display:none; } }
 .club-penguin-panel { width:min(875px,calc(100vw - 30px)); height:min(655px,calc(100dvh - 65px)); }
 .club-penguin-body { background:#0b4c8f; margin:4px; }
 .club-penguin-body iframe { display:block; width:100%; height:100%; border:0; background:#0b4c8f; }

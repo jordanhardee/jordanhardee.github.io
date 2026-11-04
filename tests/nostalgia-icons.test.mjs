@@ -9,7 +9,9 @@ const stylesheet = readFileSync(join(root, 'css/style.css'), 'utf8');
 const startMenu = readFileSync(join(root, 'js/start-menu.js'), 'utf8');
 
 test('all vintage app icons, Floppa, and the orange penguin use local PNG artwork', () => {
-  const requested = [...markup.matchAll(/src="(assets\/nostalgia\/[^"]+)"/g)].map(match => match[1].split('?')[0]);
+  const requested = [...markup.matchAll(/src="(assets\/nostalgia\/[^"]+)"/g)]
+    .map(match => match[1].split('?')[0])
+    .filter(path => !path.endsWith('/mywebsearch-toolbar.png')); // Historical toolbar screenshot, not an app icon.
   // The Club Penguin app reuses the original orange-penguin image in its
   // title bar, Start menu, and taskbar without introducing a new imitation.
   assert.equal(requested.length, 35);
