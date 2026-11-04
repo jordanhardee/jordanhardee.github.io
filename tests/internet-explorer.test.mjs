@@ -27,7 +27,7 @@ test('The exact supplied vintage toolbars are bundled locally without executing 
   assert.equal(image.readUInt32BE(16), 801);
   assert.equal(image.readUInt32BE(20), 122);
   assert.match(html, /assets\/nostalgia\/xp\/mywebsearch-toolbar\.png/);
-  assert.match(html, /Smiley Central, Cursor Mania/);
+  assert.match(html, /Smiley Central, CursorPhreak/);
 });
 
 test('The browser uses a real IE6-era icon in the title bar, Start menu and taskbar', () => {

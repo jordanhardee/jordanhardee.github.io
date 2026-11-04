@@ -56,7 +56,7 @@
       const sizes = {
         cyberchef: [1250, 790],
         'internet-explorer': [1010, 745],
-        'cursor-mania': [700, 640],
+        'cursor-phreak': [460, 615],
         'club-penguin': [875, 655],
         'cmd-terminal': [630, 460],
         'kali-terminal': [780, 570],
@@ -280,7 +280,7 @@
     'daily-office': 'Daily Office',
     'cyberchef': 'CyberChef',
     'internet-explorer': 'Internet Explorer',
-    'cursor-mania': 'Cursor Mania',
+    'cursor-phreak': 'CursorPhreak',
     'club-penguin': 'Club Penguin',
     'cmd-terminal': 'Command Prompt',
     'kali-terminal': 'Kali terminal',

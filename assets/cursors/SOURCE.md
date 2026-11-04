@@ -1,14 +1,14 @@
-# Cursor Mania / CursorPhreak assets
+# CursorPhreak assets
 
-The Cursor Mania window browses **all 11,145 cursors** from Jordan Hardee's
+The CursorPhreak window browses **all 11,145 cursors** from Jordan Hardee's
 [CursorPhreak](https://github.com/jordanhardee/CursorPhreak) catalog, using its
-23 main categories and 153 subcategories. The application logo (`logo.png`) is
-copied from `src/renderer/logo.png` in that project. The gallery lazily retrieves
-the original GIF/PNG previews and selected cursor frames using HTTP byte-range
-requests to `catalog.json`, `previews.pak`, and `frames.pak` at pinned revision
-`c04b94cfeed1f12d6aa580ce7e8c669e4d671c02`. The public GitHub raw CDN
-must be reachable for the complete catalog to work. No visitors' cursor
-selections or favorites are persisted, and no extension is installed.
+23 main categories and subcategories. The application logo (`logo.png`) is
+copied from `src/renderer/logo.png` in that project. The gallery retrieves
+the original GIF/PNG previews and animation frames from the
+[pinned upstream archive](https://github.com/jordanhardee/CursorPhreak/tree/c04b94cfeed1f12d6aa580ce7e8c669e4d671c02/assets)
+using HTTP byte-range requests. Selecting a
+cursor changes the pointer only for the current page visit. Favorites can be
+saved locally in the visitor's browser, and no extension is installed.
 
 ## Previously exported small icons
 
