@@ -44,6 +44,7 @@ test('Club Penguin.exe opens as resizable XP app with dedicated full-tab player'
   assert.match(script, /forceScale: true/);
   assert.match(script, /letterbox: 'on'/);
   assert.match(script, /contextMenu: 'off'/);
+  assert.match(player, /club-penguin\.js\?v=20261104-touch-menu/);
   assert.match(script, /cp-full-tab/);
   assert.match(player, /aspect-ratio: 760 \/ 480/);
   assert.match(player, /body\.cp-full-tab \.cp-game-viewport/);
@@ -64,6 +65,7 @@ test('original playable penguin is present with offline click and keyboard movem
   assert.match(player, /club-penguin-avatar\.js\?v=20261104-puffle-follow/);
   assert.match(player, /type="module"/);
   const avatar = fromRoot('js/club-penguin-avatar.js').toString('utf8');
+  assert.match(avatar, /club-penguin-motion\.mjs\?v=20261104-follow/);
   assert.match(avatar, /pointerdown/);
   assert.match(avatar, /contextmenu/);
   assert.match(avatar, /keydown/);

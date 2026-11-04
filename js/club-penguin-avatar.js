@@ -1,4 +1,4 @@
-import { STAGE_WIDTH, STAGE_HEIGHT, clampToFloor, facingForVector, followWithGap, walkToward } from './club-penguin-motion.mjs';
+import { STAGE_WIDTH, STAGE_HEIGHT, clampToFloor, facingForVector, followWithGap, walkToward } from './club-penguin-motion.mjs?v=20261104-follow';
 
 // Recreates the original click-to-waddle interaction without accounts or a server.
 // The avatar frames are composed exclusively from archived original Flash sprites.
