@@ -5,12 +5,36 @@
   const form = document.getElementById('ie-address-form');
   const address = document.getElementById('ie-address');
   const message = document.getElementById('ie-browser-message');
+  const backButton = document.getElementById('ie-back');
   const homeButton = document.getElementById('ie-home');
   const refreshButton = document.getElementById('ie-refresh');
   if (!frame || !form || !address || !message) return;
 
   const home = 'https://portal.mozz.us/';
   const protocols = new Set(['gemini:', 'gopher:', 'finger:', 'spartan:', 'text:', 'nex:', 'scroll:']);
+  let loadedEntries = 0;
+  let goingBack = false;
+
+  function updateBack() {
+    if (backButton) backButton.disabled = loadedEntries < 2;
+  }
+
+  // Embedded pages are cross-origin. Their URLs aren't readable from here,
+  // but their navigations are part of the browser's joint session history.
+  // Keep Back disabled until the iframe has actually loaded another page, so
+  // we never send a visitor away from the XP desktop on first launch.
+  frame.addEventListener('load', () => {
+    if (!frame.getAttribute('src')) {
+      loadedEntries = 0;
+      goingBack = false;
+    } else if (goingBack) {
+      loadedEntries = Math.max(1, loadedEntries - 1);
+      goingBack = false;
+    } else {
+      loadedEntries += 1;
+    }
+    updateBack();
+  });
 
   function gatewayUrl(value) {
     try {
@@ -42,6 +66,11 @@
     address.value = home;
     navigate(home);
   });
+  backButton?.addEventListener('click', () => {
+    if (loadedEntries < 2 || goingBack) return;
+    goingBack = true;
+    window.history.back();
+  });
   refreshButton?.addEventListener('click', () => {
     navigate(frame.getAttribute('src') || home);
   });
@@ -49,5 +78,9 @@
     if (event.detail?.window !== 'internet-explorer') return;
     address.value = home;
     message.hidden = true;
+    loadedEntries = 0;
+    goingBack = false;
+    updateBack();
   });
+  updateBack();
 })();
