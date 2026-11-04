@@ -56,7 +56,7 @@
       const sizes = {
         cyberchef: [1250, 790],
         'internet-explorer': [1010, 745],
-        'cursor-mania': [440, 465],
+        'cursor-mania': [700, 640],
         'club-penguin': [875, 655],
         'cmd-terminal': [630, 460],
         'kali-terminal': [780, 570],

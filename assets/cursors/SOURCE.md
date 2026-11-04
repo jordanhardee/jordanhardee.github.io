@@ -1,4 +1,16 @@
-# Cursor Mania selections
+# Cursor Mania / CursorPhreak assets
+
+The Cursor Mania window browses **all 11,145 cursors** from Jordan Hardee's
+[CursorPhreak](https://github.com/jordanhardee/CursorPhreak) catalog, using its
+23 main categories and 153 subcategories. The application logo (`logo.png`) is
+copied from `src/renderer/logo.png` in that project. The gallery lazily retrieves
+the original GIF/PNG previews and selected cursor frames using HTTP byte-range
+requests to `catalog.json`, `previews.pak`, and `frames.pak` at pinned revision
+`c04b94cfeed1f12d6aa580ce7e8c669e4d671c02`. The public GitHub raw CDN
+must be reachable for the complete catalog to work. No visitors' cursor
+selections or favorites are persisted, and no extension is installed.
+
+## Previously exported small icons
 
 The 16 PNG files in this directory are first-frame, 32×32 RGBA exports from
 [CursorPhreak](https://github.com/jordanhardee/CursorPhreak), by Jordan Hardee.
