@@ -1075,8 +1075,8 @@ blockquote {
 .cyberchef-body iframe { display:block; width:100%; height:100%; border:0; background:white; }
 .cyberchef-loading { position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; background:#f0f0f0; color:#3a4864; font:12px Tahoma,sans-serif; }
 .cyberchef-loading[hidden] { display:none; }
-/* Internet Explorer.exe: the real SmolNet portal under ONLY the MyWebSearch
-   row of Jordan's vintage screenshot. The add-on graphics are not executable. */
+/* Internet Explorer: a crisp, native recreation of ONLY the MyWebSearch row.
+   The old compressed 801x122 screenshot is no longer rendered. */
 .internet-explorer-panel { width:min(1010px,calc(100vw - 30px)); height:min(745px,calc(100dvh - 65px)); }
 .ie-browser-chrome { flex:none; min-width:0; background:#ece9d8; color:#222; border-bottom:1px solid #9e9b8c; font:11px Tahoma,Verdana,sans-serif; }
 .ie-menu-row { display:flex; align-items:center; gap:17px; height:22px; padding:0 10px; box-sizing:border-box; box-shadow:inset 0 1px #fff; }
@@ -1091,17 +1091,30 @@ blockquote {
 .ie-home-icon::before { content:""; position:absolute; top:0; left:1px; width:13px; height:9px; background:linear-gradient(#edb54c,#a66b28); clip-path:polygon(50% 0,100% 82%,100% 100%,0 100%,0 82%); }
 .ie-home-icon::after { content:""; position:absolute; bottom:0; left:3px; width:9px; height:8px; box-sizing:border-box; border:1px solid #9d6124; background:linear-gradient(90deg,#f8e3a8 0 55%,#6cafd8 56%); }
 .ie-address-row button:focus-visible,.ie-address-row input:focus-visible { outline:2px solid #286cce; outline-offset:1px; }
-.ie-nostalgia-scroll { max-width:100%; height:27px; overflow-x:auto; overflow-y:hidden; background:#f0eee2; scrollbar-width:none; overscroll-behavior-x:contain; }
+.ie-nostalgia-scroll { max-width:100%; height:27px; overflow-x:auto; overflow-y:hidden; background:#edeade; scrollbar-width:none; overscroll-behavior-x:contain; }
 .ie-nostalgia-scroll::-webkit-scrollbar { display:none; }
-.ie-nostalgia-toolbar-art { position:relative; width:801px; height:27px; }
-/* The original is 801x122. Never stretch the cropped 27px strip as IE resizes. */
-.ie-nostalgia-toolbar-art > img { display:block; width:801px; height:122px; max-width:none; transform:translateY(-34px); image-rendering:pixelated; user-select:none; pointer-events:none; }
-/* The only working add-on uses sharp HTML text and a live cursor preview. */
-.ie-cursor-phreak-hotspot { position:absolute; top:0; left:69.25%; width:11.5%; height:27px; padding:0; border:0; background:transparent; cursor:pointer; }
-.ie-cursor-phreak-hotspot:hover { background:#c8ddff36; outline:1px solid #608ac0; outline-offset:-2px; }
+.ie-nostalgia-toolbar-art { box-sizing:border-box; display:flex; align-items:center; min-width:801px; width:100%; height:27px; padding:0 4px; border-top:1px solid #fff; border-bottom:1px solid #b5b1a2; background:linear-gradient(#f6f5ef,#e6e3d7); color:#252525; font:11px/1 Tahoma,Verdana,sans-serif; white-space:nowrap; user-select:none; }
+.ie-mws-brand { display:flex; flex:none; align-items:center; gap:0; width:103px; color:#303b45; font-weight:700; letter-spacing:-.4px; }
+.ie-mws-brand strong { color:#0873a4; font-style:italic; }
+.ie-mws-caret { display:inline-block; width:0; height:0; margin-left:6px; border-left:3px solid transparent; border-right:3px solid transparent; border-top:4px solid #3b4142; }
+.ie-mws-query { box-sizing:border-box; flex:none; width:173px; height:21px; border:1px solid #7f9db9; background:#fff; box-shadow:inset 1px 1px 1px #bdc5c5; }
+.ie-mws-search { box-sizing:border-box; display:flex; flex:none; align-items:center; gap:3px; height:23px; padding:0 5px; border:1px solid #b6b2a5; border-left:0; background:linear-gradient(#fff,#e6e5da); }
+.ie-mws-search svg { width:15px; height:15px; }
+.ie-mws-search .ie-mws-caret { margin-left:3px; }
+.ie-mws-separator { flex:none; align-self:stretch; width:4px; margin:3px 3px; border-left:1px solid #aba99e; border-right:1px solid #fff; }
+.ie-mws-tool { box-sizing:border-box; display:inline-flex; flex:none; align-items:center; justify-content:center; gap:4px; height:23px; padding:0 5px; border-left:1px solid #c5c3b9; color:#252525; }
+.ie-mws-monitor-icon { position:relative; box-sizing:border-box; width:15px; height:12px; margin-right:1px; border:2px solid #354551; border-radius:1px; background:linear-gradient(135deg,#d6eef8,#5e9dbb); box-shadow:inset 0 0 0 1px #fff; }
+.ie-mws-monitor-icon::after { content:''; position:absolute; bottom:-4px; left:3px; width:6px; height:2px; border-bottom:2px solid #354551; }
+.ie-mws-smiley-icon { position:relative; width:16px; height:16px; border:1px solid #7d6822; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff896,#ffd32d 70%); box-shadow:inset -1px -1px 1px #bd8b10; }
+.ie-mws-smiley-icon::before { content:''; position:absolute; left:4px; top:4px; width:2px; height:3px; border-radius:50%; background:#2d301e; box-shadow:5px 0 #2d301e; }
+.ie-mws-smiley-icon::after { content:''; position:absolute; left:4px; top:8px; width:7px; height:4px; border-bottom:2px solid #4b401f; border-radius:0 0 50% 50%; }
+.ie-mws-info-icon { display:grid; flex:none; place-items:center; width:16px; height:16px; border:1px solid #123e7c; border-radius:50%; background:linear-gradient(#3ca6dc,#0d4d9a); color:white; font:italic bold 12px/1 Georgia,serif; text-shadow:0 1px #123e7c; }
+.ie-mws-more { display:grid; flex:1 0 20px; place-items:center end; height:23px; padding-right:3px; border-left:1px solid #c5c3b9; color:#202020; font:bold 17px/1 Tahoma,sans-serif; }
+.ie-cursor-phreak-hotspot { border-top:0; border-right:0; border-bottom:0; background:transparent; font:inherit; cursor:pointer; }
+.ie-cursor-phreak-hotspot:hover { background:linear-gradient(#e6f2ff,#bcd8fb); outline:1px solid #7d9fd1; outline-offset:-1px; }
 .ie-cursor-phreak-hotspot:focus-visible { outline:2px solid #185fbc; outline-offset:-2px; }
-.ie-cursor-phreak-hotspot .ie-cursor-phreak-preview { position:absolute; top:5px; left:2px; width:16px; height:16px; object-fit:contain; image-rendering:pixelated; pointer-events:none; }
-.ie-cursor-phreak-label { position:absolute; left:19%; right:2px; top:4px; bottom:3px; display:flex; align-items:center; padding:0 1px; background:linear-gradient(#f2f1e7,#e6e4d9); color:#303030; font:11px/1 Tahoma,Verdana,sans-serif; white-space:nowrap; pointer-events:none; }
+.ie-cursor-phreak-hotspot .ie-cursor-phreak-preview { display:block; flex:none; width:17px; height:17px; object-fit:contain; image-rendering:pixelated; pointer-events:none; }
+.ie-cursor-phreak-label { pointer-events:none; }
 .internet-explorer-panel .ie-browser-body { flex:1 1 0; min-height:0; margin:4px 5px 3px; background:white; }
 .ie-browser-body iframe { display:block; width:100%; height:100%; border:0; background:white; }
 .ie-browser-message { position:absolute; top:8px; left:8px; right:8px; z-index:1; padding:8px; border:1px solid #e2b15c; background:#fff8d5; color:#663e05; box-shadow:1px 2px 5px #0003; }

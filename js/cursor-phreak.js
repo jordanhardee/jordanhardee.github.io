@@ -8,7 +8,6 @@
   const launcher = $('ie-cursor-phreak'), tree = $('cursor-phreak-tree');
   const grid = $('cursor-phreak-grid'), status = $('cursor-phreak-status');
   const code = $('cursor-phreak-code'), image = $('cursor-phreak-current-img');
-  const toolbarPreview = $('ie-cursor-phreak-preview');
   const cssButton = $('cursor-phreak-css'), jsButton = $('cursor-phreak-js');
   const favoriteButton = $('cursor-phreak-favorite');
   if (!launcher || !tree || !grid || !code) return;
@@ -261,11 +260,9 @@
       selectedId = id; pendingId = null; snippets = nextSnippets;
       useCursor(cursor);
       image.hidden = false; image.removeAttribute('src');
-      if (toolbarPreview) toolbarPreview.src = cursor.frames[0];
       previewUrl(id).then(url => {
         if (selectedId !== id) return;
         image.src = url;
-        if (toolbarPreview) toolbarPreview.src = url;
       }).catch(() => {});
       launcher.title = `Cursor Mania — cursor #${id} active`;
       updateSelection();
@@ -281,7 +278,6 @@
   function resetCursor() {
     ++generation; stopAnimation(); selectedId = null; pendingId = null; snippets = null;
     image.hidden = true; image.removeAttribute('src');
-    if (toolbarPreview) toolbarPreview.src = 'assets/cursors/arrow-2.png';
     launcher.title = 'Cursor Mania — choose a cursor';
     document.documentElement.classList.remove('cursorphreak-active');
     document.documentElement.style.removeProperty('--cursorphreak-cursor');

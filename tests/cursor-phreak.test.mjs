@@ -8,13 +8,16 @@ const html = read('index.html').toString();
 const css = read('css/style.css').toString();
 const script = read('js/cursor-phreak.js').toString();
 
-test('MyWebSearch retains its art and displays the era-accurate Cursor Mania label', () => {
+test('MyWebSearch is a crisp native toolbar with a permanent default Cursor Mania icon', () => {
   assert.match(html, /class="ie-nostalgia-toolbar-art"[\s\S]*?id="ie-cursor-phreak"[^>]*aria-label="Cursor Mania — choose a cursor"/);
-  assert.match(css, /\.ie-cursor-phreak-hotspot\s*\{[^}]*left:69\.25%;[^}]*width:11\.5%/);
+  assert.match(html, /class="ie-mws-brand"/);
+  assert.match(html, /class="ie-mws-monitor-icon"/);
+  assert.match(html, /class="ie-mws-smiley-icon"/);
   assert.match(html, /class="ie-cursor-phreak-label"[^>]*>Cursor Mania<\/span>/);
-  assert.match(html, /id="ie-cursor-phreak-preview"[^>]*src="assets\/cursors\/arrow-2.png"/);
-  assert.match(css, /\.ie-nostalgia-toolbar-art\s*\{[^}]*width:801px/);
-  assert.match(css, /\.ie-nostalgia-toolbar-art > img\s*\{[^}]*width:801px;[^}]*image-rendering:pixelated/);
+  assert.match(html, /class="ie-cursor-phreak-preview" src="assets\/cursors\/arrow-2.png"/);
+  assert.match(css, /\.ie-nostalgia-toolbar-art\s*\{[^}]*display:flex/);
+  assert.doesNotMatch(html, /mywebsearch-toolbar\.png|id="ie-cursor-phreak-preview"/);
+  assert.doesNotMatch(script, /toolbarPreview|ie-cursor-phreak-preview/);
   // Both export buttons must fit above the status bar, including on mobile.
   assert.match(css, /\.cm-code-row\s*\{[^}]*height:82px;/);
   assert.match(html, /assets\/cursors\/logo\.png"[^>]*alt="CursorPhreak"/);
@@ -44,7 +47,6 @@ test('CursorPhreak has original category browsing and both copy-as-code choices'
   assert.match(script, /const legacySuccess = legacyCopy\(text\)/);
   assert.match(script, /const id = selectedId, text = snippets\[next\]/);
   assert.match(script, /pendingId !== null/);
-  assert.match(script, /toolbarPreview\.src = url/);
   assert.match(script, /'cursor-phreak-favorites'/);
   assert.doesNotMatch(script, /setItem\(['"](?:selected-cursor|cursor-phreak-active)/);
 });

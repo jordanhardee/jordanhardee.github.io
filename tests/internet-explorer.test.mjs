@@ -6,7 +6,6 @@ import vm from 'node:vm';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const script = readFileSync(new URL('../js/internet-explorer.js', import.meta.url), 'utf8');
-const image = readFileSync(new URL('../assets/nostalgia/xp/mywebsearch-toolbar.png', import.meta.url));
 const ieIcon = readFileSync(new URL('../assets/nostalgia/xp/internet-explorer-6.png', import.meta.url));
 
 test('Internet Explorer uses the ordinary XP window lifecycle with a lazy SmolNet iframe', () => {
@@ -18,16 +17,20 @@ test('Internet Explorer uses the ordinary XP window lifecycle with a lazy SmolNe
   assert.match(html, /js\/internet-explorer\.js/);
   assert.match(css, /\.ie-nostalgia-scroll\s*\{[^}]*overflow-x:auto;/);
   assert.match(css, /\.ie-nostalgia-scroll\s*\{[^}]*height:27px;/);
-  assert.match(css, /\.ie-nostalgia-toolbar-art > img\s*\{[^}]*transform:translateY\(-34px\);/);
+  assert.match(css, /\.ie-nostalgia-toolbar-art\s*\{[^}]*display:flex/);
+  assert.match(html, /id="internet-explorer-heading"[^>]*>[\s\S]*? Internet Explorer<\/h2>/);
+  assert.doesNotMatch(html, /Internet Explorer\.exe/);
   assert.doesNotMatch(html, /MySearch and Teoma browser toolbar collage/);
 });
 
-test('The exact supplied vintage toolbars are bundled locally without executing add-ons', () => {
-  assert.equal(image.subarray(1, 4).toString(), 'PNG');
-  assert.equal(image.readUInt32BE(16), 801);
-  assert.equal(image.readUInt32BE(20), 122);
-  assert.match(html, /assets\/nostalgia\/xp\/mywebsearch-toolbar\.png/);
-  assert.match(html, /Smiley Central, Cursor Mania/);
+test('The single MyWebSearch row uses crisp HTML/CSS rather than a degraded screenshot', () => {
+  assert.doesNotMatch(html, /assets\/nostalgia\/xp\/mywebsearch-toolbar\.png/);
+  for (const part of ['ie-mws-brand', 'ie-mws-query', 'ie-mws-search', 'ie-mws-monitor-icon', 'ie-mws-smiley-icon', 'ie-mws-info-icon']) {
+    assert.match(html, new RegExp(`class="${part}"`));
+  }
+  assert.match(css, /\.ie-mws-smiley-icon\s*\{/);
+  assert.match(css, /\.ie-mws-monitor-icon\s*\{/);
+  assert.match(html, /Cursor Mania/);
 });
 
 test('The browser uses a real IE6-era icon in the title bar, Start menu and taskbar', () => {
