@@ -40,7 +40,8 @@ test('CursorPhreak has original category browsing and both copy-as-code choices'
   assert.match(script, /function legacyCopy\(text\)/);
   assert.match(script, /field\.focus\(\{ preventScroll: true \}\)/);
   assert.match(script, /field\.setSelectionRange\(0, text\.length\)/);
-  assert.match(script, /if \(legacyCopy\(text\)\) return true;/);
+  assert.match(script, /modernWrite = navigator\.clipboard\.writeText\(text\)/);
+  assert.match(script, /const legacySuccess = legacyCopy\(text\)/);
   assert.match(script, /const id = selectedId, text = snippets\[next\]/);
   assert.match(script, /pendingId !== null/);
   assert.match(script, /toolbarPreview\.src = url/);
@@ -65,6 +66,7 @@ test('copy keeps the user gesture for the Safari fallback and uses Clipboard API
   assert.ok(start > 0 && end > start);
   const calls = [];
   let legacyWorks = true;
+  let modernWorks = true;
   const previousFocus = { isConnected: true, focus() { calls.push('restore-focus'); } };
   const field = {
     style: {},
@@ -79,14 +81,22 @@ test('copy keeps the user gesture for the Safari fallback and uses Clipboard API
     body: { appendChild() { calls.push('append'); } },
     execCommand(command) { assert.equal(command, 'copy'); calls.push('legacy-copy'); return legacyWorks; },
   };
-  const navigator = { clipboard: { async writeText(value) { calls.push(`modern-copy:${value}`); } } };
+  const navigator = { clipboard: { async writeText(value) {
+    calls.push(`modern-copy:${value}`);
+    if (!modernWorks) throw new Error('Clipboard API denied');
+  } } };
   const context = { document, navigator };
   vm.runInNewContext(`${script.slice(start, end)}\nthis.testCopy = copy;`, context);
 
   assert.equal(await context.testCopy('hello'), true);
-  assert.deepEqual(calls, ['append', 'focus', 'select', 'range:0-5', 'legacy-copy', 'remove', 'restore-focus']);
+  assert.deepEqual(calls, ['modern-copy:hello', 'append', 'focus', 'select', 'range:0-5', 'legacy-copy', 'remove', 'restore-focus']);
   calls.length = 0;
   legacyWorks = false;
   assert.equal(await context.testCopy('hello'), true);
-  assert.equal(calls.at(-1), 'modern-copy:hello');
+  assert.equal(calls[0], 'modern-copy:hello');
+  modernWorks = false;
+  legacyWorks = true;
+  assert.equal(await context.testCopy('fallback'), true);
+  legacyWorks = false;
+  assert.equal(await context.testCopy('denied'), false);
 });

@@ -287,9 +287,10 @@
     document.documentElement.style.removeProperty('--cursorphreak-cursor');
     updateSelection(); say('Default cursor restored.');
   }
-  // Try the selection-based copy *inside the click gesture*. On Safari a
-  // rejected async Clipboard API request can consume the gesture, leaving a
-  // subsequent execCommand fallback unable to copy anything.
+  // The legacy selection method can report success without changing the
+  // clipboard. Start the modern write during the click gesture, and run the
+  // selection fallback before awaiting it (Safari may consume the gesture if
+  // a permission-gated clipboard promise rejects).
   function legacyCopy(text) {
     const field = document.createElement('textarea');
     const previousFocus = document.activeElement;
@@ -311,11 +312,15 @@
   }
   async function copy(text) {
     if (!text) return false;
-    if (legacyCopy(text)) return true;
-    if (navigator.clipboard?.writeText) {
-      try { await navigator.clipboard.writeText(text); return true; } catch { /* manual fallback */ }
+    let modernWrite = null;
+    try {
+      if (navigator.clipboard?.writeText) modernWrite = navigator.clipboard.writeText(text);
+    } catch { /* try the selection fallback */ }
+    const legacySuccess = legacyCopy(text);
+    if (modernWrite) {
+      try { await modernWrite; return true; } catch { /* selection fallback already tried */ }
     }
-    return false;
+    return legacySuccess;
   }
   async function copyFormat(next) {
     format = next;
