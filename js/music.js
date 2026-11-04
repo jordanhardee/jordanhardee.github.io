@@ -81,6 +81,18 @@
       refresh();
     });
   }
+  // The game has its own audio. Do not mix the SM64 menu music into DOOM.
+  document.addEventListener('xp:window-opened', event => {
+    if (event.detail?.window !== 'doom') return;
+    activeVideos.add('doom');
+    audio.pause();
+    refresh();
+  });
+  document.addEventListener('xp:closed', event => {
+    if (event.detail?.window !== 'doom' || !activeVideos.delete('doom')) return;
+    if (enabled) tryPlay();
+    refresh();
+  });
   document.addEventListener('click', retryAfterInteraction, { capture: true });
   document.addEventListener('keydown', retryAfterInteraction, { capture: true });
   audio.addEventListener('error', () => {

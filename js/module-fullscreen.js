@@ -18,6 +18,7 @@
       'internet-explorer': 'Internet Explorer',
       'cursor-phreak': 'CursorPhreak',
       'club-penguin': 'Club Penguin',
+      doom: 'DOOM',
       'cmd-terminal': 'Command Prompt',
       'kali-terminal': 'Kali terminal',
       'contact': 'Contact',

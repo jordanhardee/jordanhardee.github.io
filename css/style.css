@@ -1177,6 +1177,10 @@ blockquote {
 .club-penguin-body { background:#0b4c8f; margin:4px; }
 .club-penguin-body iframe { display:block; width:100%; height:100%; border:0; background:#0b4c8f; }
 .xp-club-penguin-icon { width:20px; height:20px; object-fit:contain; }
+.xp-doom-icon { background:linear-gradient(#bd5424 10%,#721b10 70%,#390b05); color:#ffe6ae; border-color:#3b0e06; text-shadow:1px 1px #350700; font:bold 14px/1 Georgia,serif; }
+.doom-panel { width:min(925px,calc(100vw - 30px)); height:min(720px,calc(100dvh - 65px)); }
+.doom-body { background:#000; margin:4px; border-color:#352b23; }
+.doom-body iframe { display:block; width:100%; height:100%; border:0; background:#000; }
 .xp-menu-image-icon { width:23px; height:23px; object-fit:contain; flex:none; }
 .xp-task-image-icon { width:16px; height:16px; object-fit:contain; flex:none; }
 .stellarium-panel { width:min(1050px,calc(100vw - 30px)); height:min(740px,calc(100dvh - 65px)); }

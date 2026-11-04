@@ -49,6 +49,22 @@ jobs:
           test "$(find ruffle -name '*.wasm' | wc -l)" -ge 1
           test -s assets/clubpenguin/coffee.swf
           test -s assets/club-penguin/blue-puffle-idle.webp
+      - name: Bundle Chocolate Doom and original shareware episode
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/doom
+          DOOM_ENGINE_REV=e0ba81004e27e7d66141925dfebb091a558e2fe8
+          DOOM_SHAREWARE_REV=dd321b50b89b5085698cfbf2ff01b2f741da8206
+          curl --fail --location --silent --show-error --retry 3 "https://raw.githubusercontent.com/danborden1/doom-web/$DOOM_ENGINE_REV/websockets-doom.js" -o assets/doom/websockets-doom.js
+          curl --fail --location --silent --show-error --retry 3 "https://raw.githubusercontent.com/danborden1/doom-web/$DOOM_ENGINE_REV/websockets-doom.wasm" -o assets/doom/websockets-doom.wasm
+          curl --fail --location --silent --show-error --retry 3 "https://raw.githubusercontent.com/theMagicalKarp/wasmdoom/$DOOM_SHAREWARE_REV/wads/doom1.wad" -o assets/doom/doom1.wad
+          printf '%s  %s\n' \
+            '4a55e4381d374b9bf347116e8c6f52547bb990fd7fc28a5e21af354830f80f78' assets/doom/websockets-doom.wasm \
+            '1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771' assets/doom/doom1.wad | sha256sum --check --status
+          test -s assets/doom/default.cfg
+          test -s assets/doom/COPYING
+          test -s doom.html
       - name: Restore CyberChef Mobile build
         id: cyberchef-cache
         uses: actions/cache@v4
