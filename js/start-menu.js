@@ -21,9 +21,9 @@
   if (!start || !menu) return;
   let contactScriptRequested = false;
   const onDemandApps = {
-    blackjack: new URL('./blackjack.mjs?v=20261029-1', document.currentScript.src).href,
-    solitaire: new URL('./solitaire.mjs?v=20261029-2', document.currentScript.src).href,
-    chess: new URL('./chess-game.mjs?v=20261029-1', document.currentScript.src).href,
+    blackjack: new URL('./blackjack.mjs?v=20261105-casino', document.currentScript.src).href,
+    solitaire: new URL('./solitaire.mjs?v=20261105-pointer', document.currentScript.src).href,
+    chess: new URL('./chess-game.mjs?v=20261105-coach', document.currentScript.src).href,
     'unit-converter': new URL('./unit-converter.mjs?v=20261030-catalog', document.currentScript.src).href,
     'graph-calculator': new URL('./graph-calculator.mjs?v=20261029-1', document.currentScript.src).href,
     'fractal-explorer': new URL('./fractal-explorer.mjs?v=20261030-koch3', document.currentScript.src).href,

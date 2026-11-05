@@ -2323,3 +2323,143 @@ body.nostalgia-mode .desktop-site-title {
   .kali-terminal-body .terminal-form label { max-width: 55%; overflow: hidden; text-overflow: ellipsis; }
   .terminal-form { gap: 4px; }
 }
+
+/* Game room refresh: exaggerated casino table, real pointer Klondike, wood chess. */
+.blackjack-panel { height:min(760px,calc(100dvh - 65px)); }
+.xp-app-window .blackjack-body {
+  position:relative; color:#fff8ce;
+  background:
+    radial-gradient(ellipse at 52% 42%,#176b5d 0%,#0a4042 54%,#041a29 100%),
+    #092d37;
+  border:7px ridge #bd8d2c; border-radius:18px;
+  box-shadow:inset 0 0 0 2px #ffdc75,inset 0 0 50px #000a;
+  padding:clamp(10px,2vw,20px);
+  font-family:Tahoma,Arial,sans-serif;
+}
+.blackjack-topline { border-bottom:2px solid #efc35e; padding-bottom:10px; gap:14px; }
+.blackjack-topline > div { display:grid; gap:2px; }
+.casino-eyebrow { color:#ff6de6; font:bold 10px Tahoma,sans-serif; letter-spacing:.25em; text-shadow:0 0 9px #fa3ae3; }
+.blackjack-topline strong { color:#fff2b1; font:bold clamp(23px,3vw,32px)/1.1 Impact,'Arial Black',sans-serif; letter-spacing:.08em; text-shadow:0 2px #7f330d,0 0 14px #ffc047; }
+.blackjack-topline strong span { color:#ff4885; font-style:italic; text-shadow:0 0 15px #ff1355; }
+.casino-live { color:#79ff9f; font:bold 10px Tahoma,sans-serif; letter-spacing:.07em; text-shadow:0 0 8px #2dff7c; }
+.casino-marquee {
+  margin:10px 0; padding:7px 5px; border:1px solid #fbbf46; border-radius:4px;
+  background:linear-gradient(90deg,#781f65,#ac2363,#5d217e,#781f65);
+  box-shadow:0 0 14px #fa28c259,inset 0 0 8px #fff3;
+  color:#ffe3a0; font:bold 10px Tahoma,sans-serif; letter-spacing:.08em;
+  text-align:center; animation:casino-glow 2.6s ease-in-out infinite alternate;
+}
+@keyframes casino-glow { to { box-shadow:0 0 22px #ff55cfbd,inset 0 0 12px #fff5; filter:saturate(1.25); } }
+.blackjack-dashboard { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin:11px 0; }
+.blackjack-dashboard > div { display:grid; gap:4px; padding:10px; min-width:0; border:1px solid #f9bd537e; border-radius:7px; background:linear-gradient(#102c42ef,#06202ccf); box-shadow:inset 0 1px #fff3; text-align:center; }
+.blackjack-dashboard small { color:#ffd880; font:bold 9px Tahoma,sans-serif; letter-spacing:.1em; }
+.blackjack-dashboard strong { color:#aeffde; font:bold clamp(18px,3vw,25px)/1 Tahoma,sans-serif; text-shadow:0 0 8px #31ffb27a; }
+.blackjack-hand { margin:10px 0; }
+.blackjack-hand h3 { color:#ffe8a5; letter-spacing:.15em; text-shadow:0 1px 5px #000; }
+.blackjack-hand h3 span { color:#fff; font-weight:normal; letter-spacing:0; }
+.blackjack-body .card-row { min-height:108px; gap:6px; align-items:flex-start; }
+.blackjack-body .card-row:empty { min-height:55px; }
+.blackjack-body .playing-card { width:77px; height:106px; border:2px solid #e8e4d9; border-radius:7px; box-shadow:2px 4px 8px #0009; animation:casino-card-enter .24s ease-out both; }
+.blackjack-body .playing-card:nth-child(2) { animation-delay:.09s; }
+.blackjack-body .playing-card:nth-child(n+3) { animation-delay:.16s; }
+.blackjack-body .playing-card-center { font-size:41px; }
+@keyframes casino-card-enter { from { opacity:.15; transform:translateY(-16px) rotate(-4deg) scale(.95); } to { opacity:1; transform:none; } }
+.blackjack-dealer-zone { border-bottom:2px dashed #d4b4666b; padding-bottom:9px; }
+.blackjack-message { min-height:32px; padding:8px; margin:6px 0; border:1px solid #f4cd55aa; border-radius:5px; background:#07171eb5; color:#fff3a5; text-align:center; font-size:calc(13px * var(--xp-text-scale,1)); text-shadow:0 0 5px #ffbd50a0; }
+.blackjack-body[data-outcome="win"] .blackjack-message { border-color:#6fffab; color:#95ffcb; box-shadow:0 0 13px #17fc8b77; }
+.blackjack-body[data-outcome="loss"] .blackjack-message { border-color:#ff6c9a; color:#ffb6c8; }
+.blackjack-betting { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; padding:10px; margin-top:12px; border:1px solid #ffcc697f; border-radius:12px; background:#031d25c9; }
+.blackjack-bet-heading { display:flex; flex-direction:column; gap:4px; }
+.blackjack-bet-heading strong { color:#fff0ae; font:bold 13px Tahoma,sans-serif; letter-spacing:.13em; }
+.blackjack-bet-heading span { color:#d5cba9; font:10px Tahoma,sans-serif; }
+.blackjack-chip-row { display:flex; flex-wrap:wrap; gap:9px; }
+.blackjack-chip-row .casino-chip {
+  box-sizing:border-box; width:51px; height:51px; border:5px dashed #fffc !important;
+  border-radius:50% !important; padding:0 !important; color:white !important;
+  box-shadow:inset 0 0 0 3px #fff8,0 3px 6px #0009;
+  background:radial-gradient(circle at 35% 25%,#ff8d9f,#d31e55 70%,#76082f) !important;
+  font:bold 13px/1 Tahoma,sans-serif !important; text-shadow:0 1px 2px #000;
+  transition:transform .12s,box-shadow .12s;
+}
+.blackjack-chip-row .casino-chip:nth-child(2) { background:radial-gradient(circle at 35% 25%,#72c4ff,#155bbd 70%,#072a65) !important; }
+.blackjack-chip-row .casino-chip:nth-child(3) { background:radial-gradient(circle at 35% 25%,#8efbc1,#1d9956 70%,#07572d) !important; }
+.blackjack-chip-row .casino-chip:nth-child(4) { background:radial-gradient(circle at 35% 25%,#f7da7e,#cc850a 70%,#80430b) !important; }
+.blackjack-chip-row .casino-chip.is-active { transform:translateY(-5px) scale(1.09); box-shadow:inset 0 0 0 3px #fff9,0 0 0 3px #ffed91,0 0 19px #ffcb31; }
+.blackjack-chip-row .casino-chip:disabled { opacity:.4; transform:none; cursor:default; }
+.blackjack-actions { position:sticky; z-index:3; bottom:0; justify-content:center; margin-top:12px; padding:9px 4px; border-top:1px solid #ffca7d80; background:linear-gradient(#063b3f,#082833); }
+.blackjack-actions button {
+  flex:1 1 110px; min-height:40px; border:2px solid #ffe0a5; border-radius:7px;
+  background:linear-gradient(#ffef72,#fe9a27 50%,#cd4b15);
+  box-shadow:inset 0 2px #fff9,0 3px 0 #6f310b,0 0 12px #ffaf4266;
+  color:#501b12; text-shadow:0 1px #ffe6a8; font:bold 13px Tahoma,sans-serif;
+}
+.blackjack-actions button:hover:not(:disabled) { background:linear-gradient(#fffaa7,#ffce59,#f76e28); transform:translateY(-1px); }
+.blackjack-actions #blackjack-hit { background:linear-gradient(#9affce,#32ec91,#0aa360); color:#063e2b; border-color:#a5ffe2; }
+.blackjack-actions #blackjack-stand { background:linear-gradient(#ffd5f1,#f78dd7,#b94da5); color:#4a1248; border-color:#ffd6f5; }
+.blackjack-actions #blackjack-double { background:linear-gradient(#ccdcff,#76a4ff,#355cc0); color:#0b225d; border-color:#cadcff; }
+.blackjack-actions button:disabled { opacity:.32; box-shadow:none; transform:none; }
+.blackjack-actions #blackjack-refill[hidden] { display:none; }
+.blackjack-scoreboard { margin:13px 0 0; padding-top:9px; color:#f6db92; text-align:center; font:bold 11px Tahoma,sans-serif; letter-spacing:.03em; }
+.blackjack-celebration { position:absolute; z-index:4; left:50%; top:41%; width:max-content; max-width:95%; pointer-events:none; opacity:0; transform:translate(-50%,-50%) scale(.5) rotate(-7deg); color:#fffbed; font:bold clamp(22px,5vw,38px)/1.2 Impact,'Arial Black',sans-serif; letter-spacing:.07em; text-align:center; -webkit-text-stroke:1px #5b1f38; text-shadow:0 4px #a22871,0 0 12px #fffb93,0 0 32px #f742a5; }
+.blackjack-celebration.is-showing { animation:casino-jackpot 1.6s cubic-bezier(.2,.8,.2,1) both; }
+.blackjack-celebration.is-loss { color:#ffbac9; text-shadow:0 3px #771b36,0 0 14px #ff446b; }
+@keyframes casino-jackpot { 0% { opacity:0; transform:translate(-50%,-50%) scale(.3) rotate(-12deg); } 17%,75% { opacity:1; transform:translate(-50%,-50%) scale(1.08) rotate(2deg); } 100% { opacity:0; transform:translate(-50%,-70%) scale(1.3); } }
+.solitaire-body .is-draggable { cursor:grab; touch-action:none; -webkit-user-select:none; user-select:none; }
+.solitaire-body .is-draggable:active { cursor:grabbing; }
+.solitaire-body .is-drag-origin { opacity:.45; }
+.solitaire-tableau-pile.is-drop-target,.solitaire-foundation-slot.is-drop-target { outline:4px solid #fddf70; outline-offset:2px; background:#fbd65b30; box-shadow:0 0 18px #ffe58a99; }
+.solitaire-drag-ghost { position:fixed; left:0; top:0; width:84px; z-index:2147483000; pointer-events:none; filter:drop-shadow(0 9px 10px #0009); }
+.solitaire-drag-ghost .playing-card { position:absolute; left:0; box-shadow:0 3px 7px #0007; }
+body.solitaire-drag-active { cursor:grabbing !important; user-select:none; }
+.chess-panel { height:min(750px,calc(100dvh - 65px)); }
+.xp-app-window .chess-body { background:radial-gradient(ellipse at 50% 0%,#f3e8d2,#d3c4aa); color:#332a20; }
+.chess-toolbar { gap:8px; padding-bottom:9px; border-bottom:1px solid #ad9876; }
+.chess-toolbar > span { color:#5c422e; font-weight:bold; }
+.chess-toolbar label { font-weight:bold; color:#523c2b; }
+.chess-toolbar select { padding:5px; border:1px solid #927e61; background:#fff7e8; color:#352416; }
+.chess-coach-toggle { display:flex; gap:5px; align-items:center; white-space:nowrap; }
+.chess-coach-toggle input { accent-color:#99703e; width:16px; height:16px; }
+.chess-message { padding:5px 8px; background:#fff8e9; border-left:4px solid #9e7045; border-radius:3px; color:#59402b; }
+.chess-board-frame { flex:0 1 522px; width:min(100%,522px); padding:11px; box-sizing:border-box; border:3px ridge #7a4c21; border-radius:6px; background:repeating-linear-gradient(105deg,#9a6538 0 12px,#aa7442 12px 24px,#89522d 24px 37px); box-shadow:0 4px 14px #4d331d7a,inset 0 0 0 2px #d4a86d; }
+.chess-board { width:100%; max-width:none; border:3px solid #50351e; box-shadow:0 2px 5px #2e1e12c0; }
+.xp-app-window .chess-board .chess-square.is-light { background:linear-gradient(140deg,#f3e4c8,#e4c9a0); }
+.xp-app-window .chess-board .chess-square.is-dark { background:linear-gradient(140deg,#9a673e,#85532f); }
+.xp-app-window .chess-board .chess-square.is-last-move { box-shadow:inset 0 0 0 99px #e5d3444a; }
+.xp-app-window .chess-board .chess-square.is-legal { box-shadow:inset 0 0 0 3px #5dce9c; }
+.xp-app-window .chess-board .chess-square.is-selected { outline:3px solid #fff1a0; outline-offset:-3px; z-index:1; }
+.xp-app-window .chess-board .chess-square.is-hint-from { outline:4px solid #3ea9ff; outline-offset:-4px; z-index:2; }
+.xp-app-window .chess-board .chess-square.is-hint-to { box-shadow:inset 0 0 0 5px #3ea9ff; }
+.xp-app-window .chess-board .chess-square.is-check { background:radial-gradient(circle,#ffaaaa,#b62824); }
+.chess-square::before,.chess-square::after { position:absolute; z-index:2; pointer-events:none; font:bold 10px Georgia,serif; opacity:.7; }
+.chess-square::before { content:attr(data-rank); left:3px; top:1px; }
+.chess-square::after { content:attr(data-file); right:3px; bottom:0; }
+.chess-square.is-dark::before,.chess-square.is-dark::after { color:#fff2d6; }
+.chess-square.is-light::before,.chess-square.is-light::after { color:#79522f; }
+.chess-piece-image { position:relative; z-index:1; display:block; width:94%; height:94%; object-fit:contain; pointer-events:none; user-select:none; filter:drop-shadow(1px 3px 2px #27170b77); }
+.chess-board-caption { display:flex; justify-content:space-between; gap:8px; margin-top:7px; color:#ffe5b9; text-shadow:0 1px #53321a; font:bold 9px Georgia,serif; letter-spacing:.1em; }
+.chess-sidebar { min-width:160px; color:#3c2e20; }
+.chess-coach-card { margin-bottom:14px; padding:12px; border:2px ridge #b99a6b; border-radius:7px; background:linear-gradient(#fff9e9,#ecdebc); box-shadow:0 2px 5px #523a2138; }
+.chess-sidebar .chess-coach-card h3 { margin:0 0 7px; color:#735126; font: bold 13px Georgia,serif; }
+.chess-sidebar .chess-coach-card p { margin:0; color:#58432b; }
+.chess-sidebar > h3 { color:#62472e; }
+.chess-sidebar ol { padding-left:8px; list-style:none; font-size:12px; }
+.chess-sidebar li { padding:4px 6px; margin-bottom:3px; border-bottom:1px solid #b59a75; font-family:Consolas,monospace; }
+@media(max-width:750px) {
+  .chess-layout { flex-direction:column; }
+  .chess-board-frame { flex:auto; width:min(100%,500px); }
+  .chess-sidebar { width:100%; }
+  .chess-sidebar ol { columns:2; max-height:180px; }
+  .blackjack-betting { align-items:flex-start; }
+}
+@media(max-width:450px) {
+  .blackjack-body .playing-card { width:64px; height:90px; }
+  .blackjack-body .playing-card-center { font-size:35px; }
+  .blackjack-body .card-row { min-height:92px; }
+  .blackjack-chip-row .casino-chip { width:44px; height:44px; font-size:11px !important; }
+  .blackjack-actions button { flex-basis:80px; font-size:11px; }
+  .blackjack-dashboard > div { padding:7px 4px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .casino-marquee,.blackjack-body .playing-card,.blackjack-celebration.is-showing { animation:none; }
+  .blackjack-celebration.is-showing { opacity:1; transform:translate(-50%,-50%); }
+}

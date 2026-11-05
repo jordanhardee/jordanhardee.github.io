@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261104-kali-audio-focus">
+    <link rel="stylesheet" href="css/style.css?v=20261105-games-revamp">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -374,14 +374,18 @@
           <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Blackjack text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Blackjack text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Blackjack" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Blackjack" title="Maximize Blackjack">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Blackjack" title="Close Blackjack">×</button></span>
         </div>
         <div class="xp-app-body blackjack-body">
-          <div class="blackjack-topline"><strong>BLACKJACK</strong><span>Dealer stands on all 17s · No betting</span></div>
-          <div class="blackjack-hand"><h3>Dealer <span id="blackjack-dealer-score"></span></h3><div class="card-row" id="blackjack-dealer-hand" aria-label="Dealer hand"></div></div>
+          <div class="blackjack-topline"><div><span class="casino-eyebrow">★ THE NEON PIT ★</span><strong>BLACKJACK <span>21</span></strong></div><span class="casino-live">● TABLE OPEN</span></div>
+          <div class="casino-marquee" aria-hidden="true">✦ &nbsp; BIG WIN ENERGY &nbsp; ✦ &nbsp; BLACKJACK PAYS 3:2 &nbsp; ✦ &nbsp; ALL CHIPS ARE IMAGINARY &nbsp; ✦</div>
+          <div class="blackjack-dashboard"><div><small>YOUR STACK</small><strong id="blackjack-bankroll">1,000</strong></div><div><small>ON THE FELT</small><strong id="blackjack-bet-display">50</strong></div><div><small>WIN STREAK</small><strong id="blackjack-streak">0 🔥</strong></div></div>
+          <div class="blackjack-hand blackjack-dealer-zone"><h3>DEALER <span id="blackjack-dealer-score"></span></h3><div class="card-row" id="blackjack-dealer-hand" aria-label="Dealer hand"></div></div>
           <p class="blackjack-message" id="blackjack-message" role="status" aria-live="polite"></p>
-          <div class="blackjack-hand"><h3>Your hand <span id="blackjack-player-score"></span></h3><div class="card-row" id="blackjack-player-hand" aria-label="Your hand"></div></div>
-          <div class="blackjack-actions"><button type="button" id="blackjack-hit">Hit</button><button type="button" id="blackjack-stand">Stand</button><button type="button" id="blackjack-deal">New hand</button></div>
+          <div class="blackjack-hand blackjack-player-zone"><h3>YOUR HAND <span id="blackjack-player-score"></span></h3><div class="card-row" id="blackjack-player-hand" aria-label="Your hand"></div></div>
+          <div class="blackjack-betting"><div class="blackjack-bet-heading"><strong>PLACE YOUR BET</strong><span>Play chips · zero real money</span></div><div class="blackjack-chip-row" id="blackjack-chips" aria-label="Choose a bet"><button type="button" class="casino-chip" data-bet="25">25</button><button type="button" class="casino-chip" data-bet="50">50</button><button type="button" class="casino-chip" data-bet="100">100</button><button type="button" class="casino-chip" data-bet="250">250</button></div></div>
+          <div class="blackjack-actions"><button type="button" id="blackjack-hit">HIT ✚</button><button type="button" id="blackjack-stand">STAND ✋</button><button type="button" id="blackjack-double">DOUBLE ×2</button><button type="button" id="blackjack-deal">DEAL ME IN ♠</button><button type="button" id="blackjack-refill" hidden>FREE CHIP REFILL</button></div>
           <p class="blackjack-scoreboard" id="blackjack-record">Wins 0 · Losses 0 · Pushes 0</p>
+          <div class="blackjack-celebration" id="blackjack-celebration" aria-hidden="true"></div>
         </div>
-        <div class="xp-app-footer"><span>CLASSIC BLACKJACK · COMPUTER DEALER</span><span>FOR FUN ONLY · NO MONEY</span></div>
+        <div class="xp-app-footer"><span>NEON PIT CASINO · DEALER STANDS ON 17</span><span>FREE PLAY · NO REAL MONEY</span></div>
       </section>
       <section class="xp-app-window solitaire-panel module-closed" data-window="solitaire" aria-labelledby="solitaire-heading">
         <div class="xp-app-header">
@@ -394,7 +398,7 @@
             <div class="solitaire-top-row"><div class="solitaire-stock" id="solitaire-stock" aria-label="Draw pile"></div><div class="solitaire-waste" id="solitaire-waste" aria-label="Waste pile"></div><div class="solitaire-foundations" id="solitaire-foundations" aria-label="Foundation piles"></div></div>
             <div class="solitaire-tableau" id="solitaire-tableau" aria-label="Seven tableau columns"></div>
           </div>
-          <p class="solitaire-help">Build A–K by suit in the four foundations. Arrange alternating colors in descending order. Click a card, then its destination—or drag cards with a mouse. Double-click a top card to move it home.</p>
+          <p class="solitaire-help">Drag a card or an entire face-up run with mouse or finger. Drop onto a valid column or foundation. Click/tap to move instead, double-click to send a top card home, or use Undo.</p>
         </div>
         <div class="xp-app-footer"><span>SOLITAIRE · SINGLE PLAYER</span><span>SHUFFLED &amp; DEALT BY YOUR COMPUTER</span></div>
       </section>
@@ -404,9 +408,9 @@
           <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Chess text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Chess text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Chess" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Chess" title="Maximize Chess">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Chess" title="Close Chess">×</button></span>
         </div>
         <div class="xp-app-body chess-body">
-          <div class="chess-toolbar"><span>YOU: WHITE · COMPUTER: BLACK</span><button type="button" id="chess-new">New game</button><button type="button" id="chess-undo">Undo turn</button><label>Computer <select id="chess-level"><option value="1">Casual</option><option value="2" selected>Tactical</option></select></label></div>
+          <div class="chess-toolbar"><span>♔ WHITE vs COMPUTER ♚</span><button type="button" id="chess-new">New game</button><button type="button" id="chess-undo">↶ Undo</button><label>Difficulty <select id="chess-level"><option value="0">Beginner</option><option value="1">Easy</option><option value="2" selected>Normal</option><option value="3">Hard</option></select></label><label class="chess-coach-toggle"><input type="checkbox" id="chess-coach" checked> Beginner coach</label><button type="button" id="chess-hint">💡 Hint</button></div>
           <p class="chess-message" id="chess-status" role="status" aria-live="polite">Preparing the board…</p>
-          <div class="chess-layout"><div class="chess-board" id="chess-board" aria-label="Chess board, white at the bottom"></div><aside class="chess-sidebar"><p>Tap a white piece, then a highlighted square. The computer plays black.</p><h3>Moves</h3><ol id="chess-history" aria-label="Moves played"></ol></aside></div>
+          <div class="chess-layout"><div class="chess-board-frame"><div class="chess-board" id="chess-board" aria-label="Chess board, white at the bottom"></div><div class="chess-board-caption"><span>♖ CLASSIC WOOD TABLE</span><span>YOU PLAY WHITE</span></div></div><aside class="chess-sidebar"><div class="chess-coach-card"><h3>♙ CHESS COACH</h3><p id="chess-coach-text">Select a piece to see legal moves. Need a nudge? Tap Hint.</p></div><h3>MOVE RECORD</h3><ol id="chess-history" aria-label="Moves played"></ol></aside></div>
         </div>
         <div class="xp-app-footer"><span>CHESS · COMPUTER OPPONENT</span><span>LEGAL MOVES BY CHESS.JS · BSD-2-CLAUSE</span></div>
       </section>
@@ -743,14 +747,14 @@
     <script src="js/daily-office.js?v=20261029-xp-lazy-offices"></script>
     <script src="js/module-fullscreen.js?v=20261104-kali-minimize-events"></script>
     <script src="js/window-text-size.js?v=20261029-first-launch"></script>
-    <script src="js/window-manager.js?v=20261104-cursor-phreak"></script>
+    <script src="js/window-manager.js?v=20261105-games-revamp"></script>
     <script src="js/internet-explorer.js?v=20261104-ie6-back"></script>
     <script src="js/cursor-phreak.js?v=20261104-fixed-toolbar-icon"></script>
     <script src="js/visitor-counter.js?v=20261104-visitor-counter"></script>
     <script src="js/nostalgia-apps.js?v=20261103-kali-sana"></script>
     <script src="js/release-cats.js?v=20261104-kali-audio-focus"></script>
     <script src="js/floppa-friday.js?v=20261104-kali-audio-focus"></script>
-    <script src="js/start-menu.js?v=20261104-kali-audio-focus"></script>
+    <script src="js/start-menu.js?v=20261105-games-revamp"></script>
     <script src="js/music.js?v=20261104-kali-audio-focus"></script>
     <script src="js/kali-soundtrack.js?v=20261104-voodoo-people"></script>
   </body>
