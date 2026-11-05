@@ -1,6 +1,6 @@
 import { shuffledDeck, isRed, makeCardElement, SUITS, canStackTableau, canStackFoundation } from './cards-core.mjs';
 
-// Draw-one Klondike with click/tap moves, mouse dragging and undo.
+// Draw-one Klondike: pointer-based stack dragging works with mouse, pen and touch.
 const stockView = document.getElementById('solitaire-stock');
 const wasteView = document.getElementById('solitaire-waste');
 const foundationView = document.getElementById('solitaire-foundations');
@@ -13,6 +13,8 @@ if (stockView && wasteView && foundationView && tableauView && newButton && undo
   let stock = [], waste = [], foundations = [], tableau = [], moves = 0;
   let selection = null;
   let undoStack = [];
+  let pointerDrag = null;
+  let suppressClickUntil = 0;
 
   function sourcePile(source) {
     if (source.area === 'waste') return waste;
@@ -70,6 +72,7 @@ if (stockView && wasteView && foundationView && tableauView && newButton && undo
   }
 
   function selectOrMove(source) {
+    if (performance.now() < suppressClickUntil) return;
     if (selection && selection.area === source.area && selection.pile === source.pile && selection.index === source.index) {
       selection = null;
       render();
@@ -86,23 +89,85 @@ if (stockView && wasteView && foundationView && tableauView && newButton && undo
 
   function attachDrag(cardEl, source) {
     if (!sequence(source)) return;
-    cardEl.draggable = true;
-    cardEl.addEventListener('dragstart', event => {
-      event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', JSON.stringify(source));
+    // Native HTML drag-and-drop creates only a single-card image for tableau
+    // runs and is unreliable in iOS Safari. Pointer events unify all devices.
+    cardEl.draggable = false;
+    cardEl.classList.add('is-draggable');
+    cardEl.addEventListener('pointerdown', event => {
+      if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+      pointerDrag = {
+        source, cardEl, pointerId: event.pointerId,
+        startX: event.clientX, startY: event.clientY,
+        x: event.clientX, y: event.clientY, started: false,
+        ghost: null, target: null,
+      };
+      try { cardEl.setPointerCapture(event.pointerId); } catch { /* Safari fallback: window listeners. */ }
     });
   }
 
   function attachDrop(slot, area, pile) {
-    slot.addEventListener('dragover', event => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; });
-    slot.addEventListener('drop', event => {
-      event.preventDefault();
-      try {
-        const dragged = JSON.parse(event.dataTransfer.getData('text/plain'));
-        if (dragged && ['tableau', 'waste', 'foundation'].includes(dragged.area)) tryMove(dragged, area, pile);
-      } catch { /* Ignore malformed drag data. */ }
-    });
+    slot.dataset.solitaireDrop = area;
+    slot.dataset.pile = String(pile);
   }
+
+  function clearDropHighlight() {
+    document.querySelectorAll('.solitaire-board .is-drop-target')
+      .forEach(element => element.classList.remove('is-drop-target'));
+  }
+
+  function paintGhost(drag) {
+    const stack = sequence(drag.source);
+    if (!stack) return;
+    const ghost = document.createElement('div');
+    ghost.className = 'solitaire-drag-ghost';
+    stack.forEach((card, index) => {
+      const image = makeCardElement(card, { faceDown: false });
+      image.style.top = `${index * 29}px`;
+      ghost.append(image);
+    });
+    document.body.append(ghost);
+    drag.ghost = ghost;
+    drag.started = true;
+    document.body.classList.add('solitaire-drag-active');
+    drag.cardEl.classList.add('is-drag-origin');
+  }
+
+  function moveDrag(event) {
+    const drag = pointerDrag;
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    drag.x = event.clientX;
+    drag.y = event.clientY;
+    if (!drag.started && Math.hypot(drag.x - drag.startX, drag.y - drag.startY) < 7) return;
+    if (!drag.started) paintGhost(drag);
+    if (!drag.ghost) return;
+    event.preventDefault();
+    drag.ghost.style.transform = `translate3d(${drag.x - 32}px, ${drag.y - 28}px, 0)`;
+    clearDropHighlight();
+    const element = document.elementFromPoint(drag.x, drag.y)?.closest('[data-solitaire-drop]');
+    const area = element?.dataset.solitaireDrop;
+    const pile = Number(element?.dataset.pile);
+    drag.target = area && canMove(drag.source, area, pile) ? { area, pile } : null;
+    if (drag.target) element.classList.add('is-drop-target');
+  }
+
+  function endDrag(event, cancelled = false) {
+    const drag = pointerDrag;
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    pointerDrag = null;
+    clearDropHighlight();
+    if (drag.started) {
+      suppressClickUntil = performance.now() + 400;
+      drag.ghost?.remove();
+      document.body.classList.remove('solitaire-drag-active');
+      drag.cardEl.classList.remove('is-drag-origin');
+      if (!cancelled && drag.target) tryMove(drag.source, drag.target.area, drag.target.pile);
+    }
+    try { if (drag.cardEl.hasPointerCapture(drag.pointerId)) drag.cardEl.releasePointerCapture(drag.pointerId); }
+    catch { /* The source card might have been re-rendered. */ }
+  }
+  window.addEventListener('pointermove', moveDrag, { passive: false });
+  window.addEventListener('pointerup', event => endDrag(event));
+  window.addEventListener('pointercancel', event => endDrag(event, true));
 
   function placeholder(label, interactive = false) {
     const el = document.createElement(interactive ? 'button' : 'div');
