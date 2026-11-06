@@ -149,6 +149,23 @@
       <span class="site-visit-digits" id="site-visit-digits" aria-hidden="true">00000000</span>
     </button>
     <div class="xp-app-layer" aria-label="Desktop applications">
+      <section class="xp-app-window module-closed" data-window="mitre-attack" aria-label="MITRE ATT&amp;CK">
+        <div class="xp-app-header"><h2><span class="xp-app-icon" aria-hidden="true">▦</span> MITRE ATT&amp;CK</h2><span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize MITRE ATT&amp;CK">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize MITRE ATT&amp;CK">□</button><button class="xp-close module-close-button" type="button" aria-label="Close MITRE ATT&amp;CK">×</button></span></div>
+        <div class="xp-app-body" style="overflow:auto;display:flex;flex-direction:column;gap:12px;padding:20px;background:#f4f5f7;color:#182333">
+          <h3 style="margin:0">MITRE ATT&amp;CK</h3><p style="margin:0">Browse adversary tactics, techniques, groups, software and mitigations.</p>
+          <a href="https://attack.mitre.org/" target="_blank" rel="noopener noreferrer" style="font-weight:bold">Open official MITRE ATT&amp;CK knowledge base in a new tab</a>
+          <p style="font-size:12px">This shortcut opens the MITRE-maintained knowledge base. It is not a locally hosted fork.</p>
+        </div>
+      </section>
+      <section class="xp-app-window module-closed" data-window="mitre-atlas" aria-label="MITRE ATLAS">
+        <div class="xp-app-header"><h2><span class="xp-app-icon" aria-hidden="true">▦</span> MITRE ATLAS</h2><span class="xp-window-controls"><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize MITRE ATLAS">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize MITRE ATLAS">□</button><button class="xp-close module-close-button" type="button" aria-label="Close MITRE ATLAS">×</button></span></div>
+        <div class="xp-app-body" style="overflow:auto;display:flex;flex-direction:column;gap:12px;padding:20px;background:#f4f5f7;color:#182333">
+          <h3 style="margin:0">MITRE ATLAS</h3><p style="margin:0">Explore adversarial threats, techniques and case studies involving AI systems.</p>
+          <a href="https://atlas.mitre.org/" target="_blank" rel="noopener noreferrer" style="font-weight:bold">Open official MITRE ATLAS knowledge base in a new tab</a>
+          <p style="font-size:12px">This shortcut opens the MITRE-maintained knowledge base. It is not a locally hosted fork.</p>
+        </div>
+      </section>
+
       <section class="xp-app-window visitor-stats-panel module-closed" data-window="visitor-stats" aria-labelledby="visitor-stats-heading">
         <div class="xp-app-header">
           <h2 id="visitor-stats-heading"><span class="xp-app-icon" aria-hidden="true">▥</span> Visitor Statistics</h2>
@@ -633,6 +650,9 @@
         <div class="xp-menu-folder">
           <button class="xp-menu-item xp-folder-toggle" type="button" data-folder-toggle aria-expanded="false" aria-controls="xp-folder-hack"><span class="xp-folder-icon" aria-hidden="true"></span><span class="xp-menu-label"><strong>Hack</strong></span><span class="xp-folder-caret" aria-hidden="true">▸</span></button>
           <div class="xp-folder-contents" id="xp-folder-hack" hidden>
+            <button class="xp-menu-item" type="button" data-open-window="mitre-attack"><span class="xp-app-icon" aria-hidden="true">A</span><span class="xp-menu-label"><strong>MITRE ATT&amp;CK</strong><small>Enterprise adversary techniques</small></span></button>
+            <button class="xp-menu-item" type="button" data-open-window="mitre-atlas"><span class="xp-app-icon" aria-hidden="true">AI</span><span class="xp-menu-label"><strong>MITRE ATLAS</strong><small>AI threat knowledge base</small></span></button>
+
             <button class="xp-menu-item" type="button" id="xp-hack-planet"><span class="xp-app-icon xp-hack-planet-icon" aria-hidden="true">!</span><span class="xp-menu-label"><strong>Hack the Planet</strong></span></button>
             <button class="xp-menu-item" type="button" data-open-window="hacker-news"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-menu-label"><strong>Hacker News</strong></span></button>
             <button class="xp-menu-item" type="button" data-open-window="threat-intel"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span class="xp-menu-label"><strong>Cyber Threat Wire</strong><small>Security news and exploited CVEs</small></span></button>
@@ -756,6 +776,8 @@
     <footer class="xp-taskbar" aria-label="Desktop taskbar">
       <button class="xp-start" type="button" id="xp-start-button" aria-controls="xp-start-menu" aria-expanded="false"><span class="xp-start-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span> <span id="xp-start-label">start</span></button>
       <div class="xp-task-list" role="group" aria-label="Application windows">
+        <button class="xp-task-button module-task-hidden" type="button" data-window="mitre-attack" aria-label="Restore MITRE ATT&CK" aria-pressed="false"><span class="xp-task-icon">A</span><span class="xp-task-label">MITRE ATT&amp;CK</span></button>
+        <button class="xp-task-button module-task-hidden" type="button" data-window="mitre-atlas" aria-label="Restore MITRE ATLAS" aria-pressed="false"><span class="xp-task-icon">AI</span><span class="xp-task-label">MITRE ATLAS</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="visitor-stats" aria-label="Restore Visitor Statistics" aria-pressed="false"><span class="xp-task-icon" aria-hidden="true">▥</span><span class="xp-task-label">Visitor Statistics</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="hacker-news" aria-label="Restore Hacker News" aria-pressed="false"><span class="xp-task-icon xp-hn-icon" aria-hidden="true">Y</span><span class="xp-task-label">Hacker News</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="threat-intel" aria-label="Restore Cyber Threat Wire" aria-pressed="false"><span class="xp-task-icon xp-threat-icon" aria-hidden="true">!</span><span class="xp-task-label">Cyber Threat Wire</span></button>
