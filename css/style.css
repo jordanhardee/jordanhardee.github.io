@@ -2564,7 +2564,7 @@ body.solitaire-drag-active { cursor:grabbing !important; user-select:none; }
 }
 
 /* General Tso's red-and-gold mechanical casino, with a real working pull lever. */
-.xp-app-window .slots-body { background:radial-gradient(ellipse at 50% 15%,#5c2369 0,#260d3c 52%,#11051d 100%); }
+.xp-app-window .slots-body { overflow-x:hidden; overflow-y:auto; background:radial-gradient(ellipse at 50% 15%,#5c2369 0,#260d3c 52%,#11051d 100%); }
 .slots-machine-stage { position:relative; width:calc(100% - 68px); max-width:730px; margin:30px auto 12px; }
 .slots-cabinet {
   position:relative; padding:22px 15px 13px; border:9px solid #cb201b; border-radius:30px 30px 21px 21px;
