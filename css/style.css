@@ -2562,3 +2562,101 @@ body.solitaire-drag-active { cursor:grabbing !important; user-select:none; }
   .slots-banner.is-visible { animation:none; opacity:1; transform:translate(-50%,-50%); }
   .slots-reel.is-spinning .slots-cell { filter:none; }
 }
+
+/* General Tso's red-and-gold mechanical casino, with a real working pull lever. */
+.xp-app-window .slots-body { background:radial-gradient(ellipse at 50% 15%,#5c2369 0,#260d3c 52%,#11051d 100%); }
+.slots-machine-stage { position:relative; width:calc(100% - 68px); max-width:730px; margin:30px auto 12px; }
+.slots-cabinet {
+  position:relative; padding:22px 15px 13px; border:9px solid #cb201b; border-radius:30px 30px 21px 21px;
+  background:linear-gradient(100deg,#a40f12 0%,#fa3b30 12%,#b90c18 45%,#e02725 83%,#7f0614 100%);
+  box-shadow:inset 0 0 0 4px #efaa31,inset 0 0 0 8px #8b1714,0 12px 0 #5a060c,0 21px 35px #000a,0 0 40px #ff6f2966;
+}
+.slots-cabinet::before,.slots-cabinet::after {
+  content:""; position:absolute; top:16px; bottom:16px; width:17px; z-index:2; pointer-events:none;
+  background:radial-gradient(circle at center,#fffde5 0 3px,#fff691 4px,#ffae26 6px,#7c190b 8px,transparent 9px) center top/17px 32px repeat-y;
+  filter:drop-shadow(0 0 6px #ffdf65); animation:slots-light-chase .6s steps(2,end) infinite alternate;
+}
+.slots-cabinet::before { left:-16px; }
+.slots-cabinet::after { right:-16px; animation-delay:-.3s; }
+@keyframes slots-light-chase { to { filter:drop-shadow(0 0 8px #fff) brightness(1.7); } }
+.slots-marquee {
+  position:relative; margin:-48px auto 16px; width:max-content; max-width:90%; padding:12px clamp(22px,5vw,56px);
+  border:8px solid #db3020; border-radius:22px; background:linear-gradient(#730910,#31070a);
+  box-shadow:inset 0 0 0 3px #fcb52d,0 9px 0 #7c140c,0 0 23px #fa641e99;
+  color:#ffe073; font:900 clamp(33px,8vw,75px)/.98 Impact,'Arial Black',sans-serif; letter-spacing:.02em;
+  -webkit-text-stroke:1px #8c2704; text-shadow:0 2px #fff5a7,0 5px #b63508,0 9px #601004,0 0 25px #ffcf6a;
+}
+.slots-marquee::before {
+  content:""; pointer-events:none; position:absolute; inset:-14px; border-radius:24px;
+  background:radial-gradient(circle,#fff8a5 0 3px,#ffb41e 4px,transparent 6px) center top/36px 15px repeat-x;
+  filter:drop-shadow(0 0 6px #ffbf34);
+}
+.slots-cabinet-top,.slots-cabinet-bottom { color:#ffdf81; font-weight:900; text-shadow:0 1px #470a05; }
+.slots-reels {
+  position:relative; border:12px ridge #e3aa4e; border-radius:16px; padding:8px; gap:6px;
+  background:linear-gradient(#3b1614,#0c0505); box-shadow:inset 0 0 22px #000,0 0 0 3px #6b0b10,0 6px 15px #1e0509;
+}
+.slots-reel { border:3px solid #a97535; border-radius:7px; background:#d2d2d1; box-shadow:inset 2px 0 10px #0005,0 0 0 2px #4b2914; }
+.slots-cell,.slots-cell:nth-child(2) {
+  background:linear-gradient(90deg,#a4a3a1 0%,#f3f3ef 21%,#fffefa 50%,#e9e6df 79%,#a8a8a4 100%);
+  border-color:#c4b8a8; color:#9e1710;
+}
+.slots-cell:nth-child(2) { box-shadow:inset 0 5px 13px #89623433,inset 0 -5px 13px #89623433; }
+.slots-emoji { filter:drop-shadow(0 3px 1px #43230d4f); }
+.slots-cell-label { background:#b10f18; color:#fff4d7; text-shadow:0 1px #46030b; }
+.slots-cell[data-symbol="wild"] { background:radial-gradient(circle,#fff9cd,#e4d4b3 80%); }
+.slots-cell.is-winning { background:radial-gradient(circle,#fff9a0,#fff 85%); box-shadow:inset 0 0 0 4px #ffc72e,0 0 18px #fff6b1; }
+.slots-reel.is-spinning .slots-cell { animation:slots-reel-roll .095s linear infinite alternate; }
+@keyframes slots-reel-roll { from { transform:translateY(-5px); filter:blur(2px); } to { transform:translateY(5px); filter:blur(2px); } }
+.slots-jackpot-active .slots-cabinet { animation:slots-gold-flash .38s ease-in-out infinite alternate; }
+@keyframes slots-gold-flash { to { box-shadow:inset 0 0 0 5px #ffe889,0 0 36px #fff48f,0 0 85px #ffae30,0 12px 0 #5a060c; } }
+.slots-lever {
+  position:absolute; z-index:4; right:-67px; top:29%; width:74px; height:210px; padding:0;
+  border:0; border-radius:35px; background:none; cursor:pointer; touch-action:manipulation;
+}
+.slots-lever::before { content:""; position:absolute; top:75px; right:0; width:48px; height:80px; border:6px ridge #f5c565; border-radius:20px; background:linear-gradient(90deg,#7a360b,#e9a949,#8e2b17); box-shadow:0 3px 12px #0007; }
+.slots-lever-arm { position:absolute; z-index:1; left:31px; bottom:78px; width:17px; height:120px; border:3px solid #a36f27; border-radius:16px; background:linear-gradient(90deg,#b36f28,#ffda80,#a95b14); box-shadow:2px 2px 6px #0007; transform-origin:50% 100%; transform:rotate(19deg); }
+.slots-lever-knob { position:absolute; top:-23px; left:-20px; width:50px; height:50px; border:3px solid #ed8d79; border-radius:50%; background:radial-gradient(circle at 30% 24%,#ff9b92,#e01a24 47%,#690917 91%); box-shadow:inset -3px -5px 10px #39010b,0 3px 7px #0008; }
+.slots-lever.is-pulled .slots-lever-arm { animation:slots-lever-pull .7s cubic-bezier(.2,.7,.3,1); }
+@keyframes slots-lever-pull { 0%,100% { transform:rotate(19deg); } 38% { transform:rotate(108deg); } 55% { transform:rotate(105deg); } }
+.slots-lever-label { position:absolute; bottom:22px; right:4px; color:#ffe5a4; font:900 12px Tahoma,sans-serif; text-shadow:0 2px #3b0309; }
+.slots-lever:disabled { cursor:wait; }
+.slots-lever:focus-visible { outline:3px solid #fff; outline-offset:3px; }
+.slots-coin-shower { position:absolute; z-index:5; inset:-55px -55px 0; pointer-events:none; overflow:hidden; }
+.slots-coin { position:absolute; left:var(--x); top:-35px; width:24px; height:24px; border:2px solid #ffed91; border-radius:50%; background:radial-gradient(circle at 33% 24%,#fffbc0,#ffd537 52%,#a65a06); color:#995306; text-align:center; line-height:20px; font:bold 15px Georgia,serif; box-shadow:0 0 10px #ffdd6088; animation:slots-coin-fall var(--duration) linear var(--delay) forwards; }
+@keyframes slots-coin-fall { to { transform:translate(var(--drift),700px) rotate(var(--spin)); opacity:0; } }
+.slots-oracle-invite { display:flex; gap:12px; align-items:center; margin:10px auto; max-width:700px; border:2px solid #c88c28; border-radius:15px; background:linear-gradient(105deg,#350509,#8b141b,#34040d); box-shadow:inset 0 0 0 2px #eed07222; padding:7px 13px; }
+.slots-oracle-invite img { width:72px; height:82px; object-fit:contain; flex:none; filter:drop-shadow(0 0 8px #ffb03866); }
+.slots-oracle-invite > div { display:flex; gap:4px; flex-wrap:wrap; align-items:center; }
+.slots-oracle-invite strong { color:#ffd776; font:900 21px Impact,'Arial Black',sans-serif; letter-spacing:.07em; }
+.slots-oracle-invite span { flex-basis:100%; color:#ffe5c1; font:12px Tahoma,sans-serif; }
+.slots-oracle-invite button { margin-top:4px; padding:8px 12px; background:linear-gradient(#fff8b2,#df9624); color:#5f1507; border:2px solid #fbda88; border-radius:8px; font:bold 12px Tahoma,sans-serif; cursor:pointer; box-shadow:0 3px #722611; }
+.slots-oracle-overlay[hidden] { display:none!important; }
+.slots-oracle-overlay { position:fixed; inset:0; z-index:2147483000; overflow:hidden; background:radial-gradient(ellipse at 50% 66%,#6c1727cc,#180512ef 75%); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px); }
+.slots-oracle-overlay::before { content:""; pointer-events:none; position:absolute; inset:0; opacity:.7; background:repeating-conic-gradient(from 0deg at 50% 55%,#ffcf6212 0deg 6deg,transparent 6deg 20deg); animation:slots-oracle-rays 12s linear infinite; }
+@keyframes slots-oracle-rays { to { transform:rotate(360deg); } }
+.slots-oracle-title { position:absolute; z-index:2; top:max(24px,env(safe-area-inset-top)); left:50%; transform:translateX(-50%); width:max-content; max-width:75vw; color:#ffe5a0; text-align:center; font:900 clamp(28px,7vw,68px)/1 Impact,'Arial Black',sans-serif; letter-spacing:.065em; text-shadow:0 3px #b31b12,0 6px #480a0b,0 0 25px #ffd268; }
+.slots-oracle-close { position:absolute; top:max(16px,env(safe-area-inset-top)); right:max(16px,env(safe-area-inset-right)); z-index:10; width:46px; height:46px; border:3px solid #ffe1a2; border-radius:50%; background:#9d111c; color:#fff; font-size:27px; cursor:pointer; }
+.slots-oracle-figure { position:absolute; bottom:-3vh; left:50%; width:min(79vh,91vw,680px); aspect-ratio:1122/1402; transform:translateX(-50%); filter:drop-shadow(0 0 30px #ffae464f); }
+.slots-oracle-figure img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+.slots-oracle-figure .slots-oracle-mouth-open { opacity:0; }
+.slots-oracle-figure.is-speaking .slots-oracle-mouth-open { animation:slots-cat-speak .28s steps(1,end) infinite; }
+@keyframes slots-cat-speak { 0%,45%,100% { opacity:0; } 46%,95% { opacity:1; } }
+.slots-oracle-caption { position:absolute; z-index:3; left:50%; bottom:max(20px,env(safe-area-inset-bottom)); transform:translateX(-50%); width:min(82vw,650px); box-sizing:border-box; padding:16px 22px; border:3px solid #ffcf77; border-radius:18px; background:#1d060ee8; box-shadow:0 0 0 5px #990d18,0 10px 40px #000b; color:#fff7d9; font:600 clamp(17px,3.2vw,26px)/1.3 Georgia,serif; text-align:center; text-shadow:0 2px #3e0612; }
+@media(max-width:600px) {
+  .slots-machine-stage { width:calc(100% - 36px); margin-top:28px; }
+  .slots-cabinet { padding:14px 6px 9px; border-width:6px; border-radius:20px; }
+  .slots-marquee { padding:8px 14px; border-width:5px; margin-top:-31px; margin-bottom:10px; }
+  .slots-cabinet::before { left:-13px; }.slots-cabinet::after { right:-13px; }
+  .slots-reels { gap:2px; border-width:5px; padding:3px; }
+  .slots-cell { height:68px; }.slots-cell-label { font-size:7px; }
+  .slots-cabinet-top { font-size:7px; }
+  .slots-lever { transform:scale(.55); transform-origin:top right; right:-43px; top:31%; }
+  .slots-oracle-title { top:55px; max-width:82vw; }
+  .slots-oracle-figure { bottom:9vh; width:min(82vh,100vw); }
+  .slots-oracle-caption { width:94vw; padding:11px 13px; bottom:max(12px,env(safe-area-inset-bottom)); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .slots-cabinet::before,.slots-cabinet::after,.slots-reel.is-spinning .slots-cell,.slots-oracle-overlay::before,.slots-oracle-figure.is-speaking .slots-oracle-mouth-open { animation:none; }
+  .slots-coin-shower { display:none; }
+}

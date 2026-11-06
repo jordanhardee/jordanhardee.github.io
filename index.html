@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261105-brainrot-slots">
+    <link rel="stylesheet" href="css/style.css?v=20261106-general-tso">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -393,10 +393,22 @@
           <span class="xp-window-controls"><button class="xp-text-decrease" type="button" aria-label="Decrease Slots text size" title="Smaller text">−</button><button class="xp-text-increase" type="button" aria-label="Increase Slots text size" title="Larger text">+</button><button class="xp-minimize module-minimize-button" type="button" aria-label="Minimize Slots" title="Minimize to taskbar">_</button><button class="xp-maximize module-fullscreen-button" type="button" aria-label="Maximize Slots" title="Maximize Slots">□</button><button class="xp-close module-close-button" type="button" aria-label="Close Slots" title="Close Slots">×</button></span>
         </div>
         <div class="xp-app-body slots-body">
-          <div class="slots-headline"><span class="slots-hot-badge">● 9999% AURA</span><span class="slots-logo">BRAINROT <em>BONANZA</em><small>THE MOST UNHINGED SLOTS IN OHIO</small></span><span class="slots-hot-badge slots-live">✦ RIZZ REELS ✦</span></div>
+          <div class="slots-headline"><span class="slots-hot-badge">● 9999% AURA</span><span class="slots-logo">BRAINROT <em>BONANZA</em><small>GENERAL TSO'S IMPERIAL CASINO</small></span><span class="slots-hot-badge slots-live">✦ RIZZ REELS ✦</span></div>
           <div class="slots-ticker" aria-hidden="true"><span>🚽 SKIBIDI JACKPOT &nbsp; ✧ &nbsp; 🗿 SIGMA SPINS &nbsp; ✧ &nbsp; 🧠 +2 FREE SPINS ON 3 BRAINROTS &nbsp; ✧ &nbsp; 💎 WILD CARD &nbsp; ✧ &nbsp; NO REAL MONEY, ONLY DELUSION &nbsp; ✧ &nbsp;</span></div>
           <div class="slots-stats"><div><small>🪙 YOUR COINS</small><strong id="slots-balance">2,500</strong></div><div><small>🎯 BET / SPIN</small><strong id="slots-wager">50</strong></div><div><small>🎁 FREE SPINS</small><strong id="slots-free-spins">0</strong></div><div><small>✨ LAST WIN</small><strong id="slots-last-win">0</strong></div></div>
-          <div class="slots-cabinet"><div class="slots-cabinet-top"><span>✦ MEGA RIZZ MECHANICS ✦</span><span>5 REELS · 5 LINES</span></div><div id="slots-reels" class="slots-reels" aria-label="Five slot reels, three rows each"></div><span class="slots-payline-glow" aria-hidden="true"></span><div id="slots-banner" class="slots-banner" aria-hidden="true"></div><div class="slots-cabinet-bottom"><span>7</span><span>✦ FEEL THE AURA ✦</span><span>7</span></div></div>
+          <div class="slots-machine-stage">
+            <div class="slots-cabinet">
+              <div class="slots-marquee" aria-hidden="true">BIG WIN</div>
+              <div class="slots-cabinet-top"><span>✦ FORTUNE FAVORS THE BOLD ✦</span><span>5 REELS · 5 LINES</span></div>
+              <div id="slots-reels" class="slots-reels" aria-label="Five spinning slot reels, three rows each"></div>
+              <span class="slots-payline-glow" aria-hidden="true"></span>
+              <div id="slots-banner" class="slots-banner" aria-hidden="true"></div>
+              <div class="slots-cabinet-bottom"><span>7</span><span>✦ THE GENERAL APPROVES ✦</span><span>7</span></div>
+            </div>
+            <button id="slots-lever" class="slots-lever" type="button" aria-label="Pull slot-machine lever to spin" title="Pull to spin"><span class="slots-lever-arm" aria-hidden="true"><span class="slots-lever-knob"></span></span><span class="slots-lever-label">PULL</span></button>
+            <div id="slots-coin-shower" class="slots-coin-shower" aria-hidden="true"></div>
+          </div>
+          <div class="slots-oracle-invite"><img src="assets/slots/general-tso-idle.webp" alt="General Tso, a wise orange cat wearing red-and-gold general's armor" width="1122" height="1402" loading="lazy"><div><strong>GENERAL TSO</strong><span>The emperor of questionable slot advice</span><button id="slots-summon" type="button">🐈 SUMMON THE GENERAL</button></div></div>
           <p class="slots-message" id="slots-message" role="status" aria-live="polite">WELCOME TO THE BRAINROT DIMENSION. PICK A BET &amp; SEND IT.</p>
           <div class="slots-controls"><div class="slots-bets"><span>BET LEVEL</span><button class="slots-bet" data-bet="25" type="button">25</button><button class="slots-bet is-active" data-bet="50" type="button" aria-pressed="true">50</button><button class="slots-bet" data-bet="100" type="button">100</button><button class="slots-bet" data-bet="250" type="button">250</button></div><button id="slots-spin" class="slots-spin" type="button">⚡ SEND IT · SPIN ⚡</button><button id="slots-refill" class="slots-refill" type="button" hidden>🪙 REFILL FREE COINS</button></div>
           <div class="slots-options"><button id="slots-mute" type="button" aria-pressed="true">🔊 SOUND ON</button><label for="slots-volume">VOLUME <input id="slots-volume" type="range" min="0" max="100" value="60" step="5"><output id="slots-volume-label" for="slots-volume">60%</output></label><button id="slots-turbo" type="button" aria-pressed="false">⚡ TURBO OFF</button><button id="slots-paytable-toggle" type="button" aria-expanded="false" aria-controls="slots-paytable">? PAYTABLE</button></div>
