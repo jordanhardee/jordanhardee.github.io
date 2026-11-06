@@ -11,13 +11,15 @@ export const ORACLE_LINES = Object.freeze({
 
 export function selectOracleVoice(voices) {
   if (!Array.isArray(voices)) return null;
-  // Native Mandarin voices sometimes pronounce English with the requested accent.
-  // Availability and actual pronunciation are device dependent.
-  return voices.find(voice => /^zh[-_](CN|HK|TW)/i.test(voice.lang))
-    || voices.find(voice => /chinese|mandarin/i.test(voice.name))
-    || voices.find(voice => /^en/i.test(voice.lang) && /male|daniel|aaron|fred|arthur|rishi/i.test(voice.name))
-    || voices.find(voice => /^en/i.test(voice.lang))
-    || voices[0] || null;
+  // The API exposes no gender/texture field. Never pick the first Mandarin
+  // voice: it is often a bright, feminine voice. Prefer known male voices,
+  // with a Mandarin male first and a lower English narrator as the fallback.
+  const mandarin = voice => /^zh[-_](CN|HK|TW)/i.test(voice.lang) || /chinese|mandarin/i.test(voice.name);
+  const maleChinese = /\b(male|yushu|yunxi|yunfeng|yunhao|yunyang|yunze|yunlong|kangkang|zhiwei|liang|danny)\b/i;
+  const maleEnglish = /\b(male|daniel|aaron|fred|arthur|alex|david|guy|tom|thomas|george|james|oliver|mark|albert|ralph|bruce|rishi|christopher|lee)\b/i;
+  return voices.find(voice => mandarin(voice) && maleChinese.test(voice.name))
+    || voices.find(voice => /^en(?:[-_]|$)/i.test(voice.lang) && maleEnglish.test(voice.name))
+    || null; // Captions only beats announcing with an unrelated female voice.
 }
 
 export function createSlotsOracle({ canSpeak, getVolume }) {
@@ -88,22 +90,27 @@ export function createSlotsOracle({ canSpeak, getVolume }) {
     const fallbackMs = Math.max(2700, words.length * 62);
     timeout = window.setTimeout(finish, fallbackMs);
     if (!canSpeak() || !synth || typeof window.SpeechSynthesisUtterance !== 'function') return;
-    try {
-      const line = new window.SpeechSynthesisUtterance(words);
+    function speakWithMaleVoice() {
+      if (token !== showToken || !canSpeak()) return;
       const voice = selectOracleVoice(synth.getVoices());
-      if (voice) line.voice = voice;
-      line.lang = voice?.lang || 'en-US';
-      line.pitch = 0.58; // Low, aged-sounding narrator.
-      line.rate = 0.82;
-      line.volume = Math.min(1, Math.max(0, getVolume()));
-      line.onend = finish;
-      line.onerror = finish;
-      currentUtterance = line;
-      synth.speak(line);
-    } catch {
-      // Some mobile voice packs are not installed; captions remain available.
-      currentUtterance = null;
+      if (!voice) return; // Never fall back to the browser's usually feminine default.
+      try {
+        const line = new window.SpeechSynthesisUtterance(words);
+        line.voice = voice;
+        line.lang = voice.lang;
+        line.pitch = 0.4; // Low, gravelly general; actual texture depends on the voice pack.
+        line.rate = 0.76;
+        line.volume = Math.min(1, Math.max(0, getVolume()));
+        line.onend = finish;
+        line.onerror = finish;
+        currentUtterance = line;
+        synth.speak(line);
+      } catch {
+        currentUtterance = null;
+      }
     }
+    if (synth.getVoices().length) speakWithMaleVoice();
+    else synth.addEventListener?.('voiceschanged', speakWithMaleVoice, { once: true });
   }
 
   closeButton.addEventListener('click', hide);

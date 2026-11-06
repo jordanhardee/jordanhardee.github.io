@@ -83,11 +83,14 @@ test('XP integration exposes a Games entry, taskbar entry, module, controls and 
   assert.match(script, /createSlotsOracle/);
 });
 
-test('General Tso chooses a Chinese voice when available, with an English fallback', () => {
-  const english = { name: 'English voice', lang: 'en-US' };
-  const chinese = { name: 'Mandarin voice', lang: 'zh-CN' };
-  assert.equal(selectOracleVoice([english, chinese]), chinese);
-  assert.equal(selectOracleVoice([english]), english);
+test('General Tso prefers male Mandarin, then male English, never arbitrary female voices', () => {
+  const englishMale = { name: 'Daniel', lang: 'en-GB' };
+  const chineseFemale = { name: 'Ting-Ting', lang: 'zh-CN' };
+  const chineseMale = { name: 'Yushu', lang: 'zh-CN' };
+  assert.equal(selectOracleVoice([chineseFemale, englishMale, chineseMale]), chineseMale);
+  assert.equal(selectOracleVoice([chineseFemale, englishMale]), englishMale);
+  assert.equal(selectOracleVoice([chineseFemale]), null);
+  assert.equal(selectOracleVoice([{ name: 'Samantha', lang: 'en-US' }]), null);
   assert.equal(selectOracleVoice([]), null);
   assert.match(ORACLE_LINES.jackpot, /imaginary gold/i);
 });
