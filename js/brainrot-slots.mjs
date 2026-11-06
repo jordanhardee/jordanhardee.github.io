@@ -1,4 +1,5 @@
 import { SYMBOLS, LINES, makeBoard, drawSymbol, evaluateBoard } from './slots-core.mjs';
+import { createSlotsOracle } from './slots-oracle.mjs';
 
 const panel = document.querySelector('[data-window="brainrot-slots"]');
 const reelRack = document.getElementById('slots-reels');
@@ -18,6 +19,9 @@ const turboButton = document.getElementById('slots-turbo');
 const refillButton = document.getElementById('slots-refill');
 const paytableButton = document.getElementById('slots-paytable-toggle');
 const paytable = document.getElementById('slots-paytable');
+const lever = document.getElementById('slots-lever');
+const summonButton = document.getElementById('slots-summon');
+const coinShower = document.getElementById('slots-coin-shower');
 
 if (panel && reelRack && spinButton) {
   const symbols = new Map(SYMBOLS.map(symbol => [symbol.id, symbol]));
@@ -36,6 +40,28 @@ if (panel && reelRack && spinButton) {
   let focus = false;
   let kaliActive = false;
   const reels = [];
+  const oracle = createSlotsOracle({ canSpeak: () => !muted && volume > 0 && focus && !kaliActive, getVolume: () => volume });
+  let coinTimer = 0;
+
+  function showerCoins(amount) {
+    if (!coinShower || prefersReducedMotion?.matches) return;
+    window.clearTimeout(coinTimer);
+    coinShower.replaceChildren();
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < amount; i += 1) {
+      const coin = document.createElement('span');
+      coin.className = 'slots-coin';
+      coin.textContent = '★';
+      coin.style.setProperty('--x', `${Math.random() * 100}%`);
+      coin.style.setProperty('--drift', `${(Math.random() - .5) * 220}px`);
+      coin.style.setProperty('--spin', `${Math.random() * 1000 - 500}deg`);
+      coin.style.setProperty('--duration', `${1.5 + Math.random() * 1.4}s`);
+      coin.style.setProperty('--delay', `${Math.random() * 1.0}s`);
+      fragment.appendChild(coin);
+    }
+    coinShower.appendChild(fragment);
+    coinTimer = window.setTimeout(() => coinShower.replaceChildren(), 3900);
+  }
 
   function makeReel() {
     const reel = document.createElement('div');
@@ -80,6 +106,7 @@ if (panel && reelRack && spinButton) {
     spinCount.textContent = fmt(state.spins);
     const available = state.freeSpins > 0 || state.balance >= state.bet;
     spinButton.disabled = state.spinning || !available;
+    if (lever) lever.disabled = state.spinning || !available;
     spinButton.textContent = state.spinning ? '⚡ REELS GO BRRR…' : state.freeSpins ? '🎁 FREE SPIN!' : '⚡ SEND IT · SPIN ⚡';
     refillButton.hidden = state.spinning || available;
     betButtons.forEach(button => {
@@ -182,13 +209,19 @@ if (panel && reelRack && spinButton) {
     const jackpot = result.payout >= spinWager * 8;
     if (result.payout > 0) {
       message.textContent = `+${fmt(result.payout)} COINS! ${result.wins.length} paying line${result.wins.length === 1 ? '' : 's'}${result.freeSpins ? ' · +2 FREE SPINS!' : ''}`;
-      if (!silent) { sound(jackpot ? 'jackpot' : 'win'); flash(jackpot ? '🚨 MAXIMUM BRAINROT 🚨' : '✨ RIZZ WIN ✨', jackpot); }
+      if (!silent) {
+        sound(jackpot ? 'jackpot' : 'win');
+        flash(jackpot ? '🚨 MAXIMUM BRAINROT 🚨' : '✨ RIZZ WIN ✨', jackpot);
+        showerCoins(jackpot ? 100 : 38);
+        if (!oracle.visible && (jackpot || state.spins % 3 === 0)) oracle.announce(jackpot ? 'jackpot' : 'win', { automatic: true });
+      }
     } else if (result.freeSpins) {
       message.textContent = '🧠🧠🧠 BRAINROT BONUS! +2 FREE SPINS!';
       if (!silent) { sound('win'); flash('🧠 FREE SPINS 🧠', false); }
     } else {
       message.textContent = 'L + RATIO. Try another spin?';
       if (!silent) sound('miss');
+      if (!silent && !oracle.visible && state.spins % 4 === 0) oracle.announce('miss', { automatic: true });
     }
     if (state.balance < state.bet && state.balance >= 25 && !state.freeSpins) {
       state.bet = [250, 100, 50, 25].find(bet => bet <= state.balance) || 25;
@@ -198,6 +231,13 @@ if (panel && reelRack && spinButton) {
 
   function spin() {
     if (state.spinning || (state.freeSpins === 0 && state.balance < state.bet)) return;
+    if (lever) {
+      lever.classList.remove('is-pulled');
+      // Restart the full physical pull, even on rapid consecutive spins.
+      void lever.offsetWidth;
+      lever.classList.add('is-pulled');
+      window.setTimeout(() => lever.classList.remove('is-pulled'), 740);
+    }
     if (state.freeSpins) state.freeSpins -= 1;
     else state.balance -= state.bet;
     spinWager = state.bet;
@@ -212,6 +252,7 @@ if (panel && reelRack && spinButton) {
     window.clearTimeout(revealTimer);
     reels.forEach(reel => reel.classList.add('is-spinning'));
     sound('start');
+    if (state.spins === 1) oracle.announce('greeting', { automatic: true });
     update();
     const settled = Array(5).fill(false);
     const quick = state.turbo || prefersReducedMotion?.matches;
@@ -239,6 +280,9 @@ if (panel && reelRack && spinButton) {
     document.dispatchEvent(new CustomEvent(active ? 'xp:slots-playback-start' : 'xp:slots-playback-stop'));
     if (!active) {
       finishSpin(true);
+      oracle.hide();
+      window.clearTimeout(coinTimer);
+      coinShower?.replaceChildren();
       audioContext?.suspend?.().catch(() => {});
     }
   }
@@ -251,17 +295,21 @@ if (panel && reelRack && spinButton) {
     update();
   }));
   spinButton.addEventListener('click', spin);
+  lever?.addEventListener('click', spin);
+  summonButton?.addEventListener('click', () => oracle.announce('greeting'));
   refillButton.addEventListener('click', () => {
     if (state.spinning || state.balance >= state.bet || state.freeSpins) return;
     state.balance = 2500;
     message.textContent = 'FREE IMAGINARY COINS RESTOCKED. GO OFF, KING.';
     tone(880, 0.15, 'triangle', 0.12);
+    oracle.announce('refill');
     update();
   });
   muteButton.addEventListener('click', () => {
     muted = !muted;
     muteButton.textContent = muted ? '🔇 MUTED' : '🔊 SOUND ON';
     muteButton.setAttribute('aria-pressed', String(!muted));
+    if (muted) oracle.hide();
     if (!muted) tone(880, 0.12, 'sine', 0.12);
   });
   volumeSlider.addEventListener('input', () => {
@@ -290,6 +338,7 @@ if (panel && reelRack && spinButton) {
   }
   document.addEventListener('xp:kali-playback-start', () => {
     kaliActive = true;
+    oracle.hide();
     audioContext?.suspend?.().catch(() => {});
   });
   document.addEventListener('xp:kali-playback-stop', () => { kaliActive = false; });

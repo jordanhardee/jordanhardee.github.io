@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { SYMBOLS, LINES, drawSymbol, makeBoard, evaluateBoard } from '../js/slots-core.mjs';
+import { ORACLE_LINES, selectOracleVoice } from '../js/slots-oracle.mjs';
 
 const blank = () => Array.from({ length: 5 }, () => Array(3).fill('ohio'));
 
@@ -75,4 +76,18 @@ test('XP integration exposes a Games entry, taskbar entry, module, controls and 
   assert.match(music, /'slots'/);
   assert.match(script, /xp:slots-playback-start/);
   assert.match(script, /xp:slots-playback-stop/);
+  assert.match(html, /id="slots-lever"/);
+  assert.match(html, /id="slots-summon"/);
+  assert.match(html, /id="slots-coin-shower"/);
+  assert.match(script, /showerCoins/);
+  assert.match(script, /createSlotsOracle/);
+});
+
+test('General Tso chooses a Chinese voice when available, with an English fallback', () => {
+  const english = { name: 'English voice', lang: 'en-US' };
+  const chinese = { name: 'Mandarin voice', lang: 'zh-CN' };
+  assert.equal(selectOracleVoice([english, chinese]), chinese);
+  assert.equal(selectOracleVoice([english]), english);
+  assert.equal(selectOracleVoice([]), null);
+  assert.match(ORACLE_LINES.jackpot, /imaginary gold/i);
 });
