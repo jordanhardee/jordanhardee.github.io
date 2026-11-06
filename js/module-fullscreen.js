@@ -23,6 +23,7 @@
       'kali-terminal': 'Kali terminal',
       'contact': 'Contact',
       'blackjack': 'Blackjack',
+      'brainrot-slots': 'Brainrot Bonanza',
       'solitaire': 'Solitaire',
       'chess': 'Chess',
       'unit-converter': 'Unit Converter',

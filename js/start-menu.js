@@ -22,6 +22,7 @@
   let contactScriptRequested = false;
   const onDemandApps = {
     blackjack: new URL('./blackjack.mjs?v=20261105-casino', document.currentScript.src).href,
+    'brainrot-slots': new URL('./brainrot-slots.mjs?v=20261105-brainrot', document.currentScript.src).href,
     solitaire: new URL('./solitaire.mjs?v=20261105-pointer', document.currentScript.src).href,
     chess: new URL('./chess-game.mjs?v=20261105-coach', document.currentScript.src).href,
     'unit-converter': new URL('./unit-converter.mjs?v=20261030-catalog', document.currentScript.src).href,

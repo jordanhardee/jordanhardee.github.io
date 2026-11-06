@@ -2463,3 +2463,102 @@ body.solitaire-drag-active { cursor:grabbing !important; user-select:none; }
   .casino-marquee,.blackjack-body .playing-card,.blackjack-celebration.is-showing { animation:none; }
   .blackjack-celebration.is-showing { opacity:1; transform:translate(-50%,-50%); }
 }
+
+/* Brainrot Bonanza — an original, entirely imaginary five-reel casino machine. */
+.xp-slots-icon { background:linear-gradient(155deg,#fffa63,#f6327f 52%,#770cc6); color:#fffbd8; text-shadow:0 1px #80133d,0 0 5px #fff; font-weight:900; }
+.slots-panel { width:min(900px,calc(100vw - 30px)); height:min(800px,calc(100dvh - 65px)); }
+.xp-app-window .slots-body {
+  position:relative; overflow:auto; padding:clamp(9px,2.2vw,20px);
+  color:#fff; font:calc(13px * var(--xp-text-scale,1))/1.35 Tahoma,Arial,sans-serif;
+  background:radial-gradient(ellipse at 50% -10%,#802eff 0,#350e78 40%,#130d40 70%,#0c0a23 100%);
+  isolation:isolate;
+}
+.slots-body::before { content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(circle at 10% 45%,#f840c515,transparent 25%),radial-gradient(circle at 90% 60%,#0cfde31e,transparent 25%); z-index:-1; }
+.slots-headline { display:flex; justify-content:space-between; align-items:center; gap:10px; text-align:center; padding:4px 0 12px; }
+.slots-logo { display:block; color:#fff8a0; font:900 clamp(27px,5vw,50px)/.9 Impact,'Arial Black',sans-serif; letter-spacing:.025em; transform:skew(-4deg); text-shadow:0 3px #e11c91,0 6px #7719d0,0 0 18px #ff8de7,2px 9px 0 #12002d; }
+.slots-logo em { display:block; color:#70ffed; font-style:normal; text-shadow:0 3px #dc1c9f,0 6px #6f16e2,0 0 20px #51ffe6,2px 9px 0 #12002d; }
+.slots-logo small { display:block; margin-top:12px; transform:skew(4deg); color:#ffccff; font:bold clamp(9px,1.4vw,12px) Tahoma,sans-serif; letter-spacing:.16em; text-shadow:0 2px #39144d; }
+.slots-hot-badge { white-space:nowrap; padding:7px 8px; border:1px solid #87ffe3; border-radius:20px; background:#071b40a3; box-shadow:0 0 14px #07ffe86d; color:#86fff0; font:bold 10px Tahoma,sans-serif; }
+.slots-live { color:#ffed84; border-color:#ffdf67; box-shadow:0 0 14px #ffc04555; }
+.slots-ticker { overflow:hidden; padding:7px 0; margin:0 0 11px; border-top:2px solid #ff4ab5; border-bottom:2px solid #ff4ab5; background:#12043c; color:#fff595; font:bold 11px Tahoma,sans-serif; white-space:nowrap; box-shadow:0 0 12px #fb33bb70; }
+.slots-ticker span { display:inline-block; min-width:100%; animation:slots-scroll 24s linear infinite; }
+@keyframes slots-scroll { from { transform:translateX(100%); } to { transform:translateX(-100%); } }
+.slots-stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+.slots-stats > div { min-width:0; padding:10px 5px; border:2px solid #b85aff; border-radius:10px; text-align:center; background:linear-gradient(155deg,#251560,#0f154c); box-shadow:inset 0 2px #ffffff2a,0 0 11px #911dff7b; }
+.slots-stats small { display:block; font:bold 10px Tahoma,sans-serif; letter-spacing:.1em; color:#ffb7ea; }
+.slots-stats strong { display:block; margin-top:3px; font:bold clamp(19px,3vw,28px) Impact,'Arial Black',sans-serif; color:#ffe76c; text-shadow:0 2px #ae2564,0 0 10px #f8b425a1; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.slots-stats > div:nth-child(3) strong { color:#83ffe4; text-shadow:0 2px #266c97,0 0 12px #41f7e6; }
+.slots-cabinet { position:relative; padding:8px; border:5px solid #eea5ff; border-radius:21px; background:linear-gradient(155deg,#f1a6ff,#9e3ae2 18%,#2c136a 42%,#ac3bee 80%,#f5caff); box-shadow:inset 0 0 0 3px #ffde6e,0 4px 0 #59147b,0 9px 25px #000a,0 0 25px #e638e0a0; }
+.slots-cabinet-top,.slots-cabinet-bottom { display:flex; justify-content:space-between; align-items:center; gap:6px; padding:0 9px 7px; font:bold 10px Tahoma,sans-serif; letter-spacing:.1em; color:#fff9a9; text-shadow:0 1px 2px #381056; }
+.slots-cabinet-bottom { padding:6px 9px 0; color:#ccfff6; }
+.slots-cabinet-bottom > span:first-child,.slots-cabinet-bottom > span:last-child { font:bold italic 22px Georgia,serif; color:#fff1a1; text-shadow:2px 2px #ed267c; }
+.slots-reels { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(3px,1vw,9px); padding:8px; border:4px solid #320c65; border-radius:12px; background:#250c4e; box-shadow:inset 0 2px 10px #000b,0 0 0 2px #f7bfff; }
+.slots-reel { min-width:0; overflow:hidden; border:2px solid #e9d6ff; border-radius:9px; background:#d3bdf7; box-shadow:0 2px 5px #15004399,inset 0 0 6px #35097e; }
+.slots-cell { box-sizing:border-box; height:clamp(66px,9vw,96px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; overflow:hidden; background:linear-gradient(110deg,#fffafd,#e6dafa 48%,#f9f2ff); border-bottom:1px solid #a78acb; color:#5b2181; }
+.slots-cell:nth-child(2) { background:linear-gradient(110deg,#fff8c5,#ffe8ff 50%,#dffcff); }
+.slots-cell:last-child { border-bottom:0; }
+.slots-emoji { display:block; font:normal clamp(28px,5vw,48px)/1 'Apple Color Emoji','Segoe UI Emoji',sans-serif; filter:drop-shadow(1px 3px 2px #4510645e); white-space:nowrap; }
+.slots-cell-label { display:block; max-width:100%; padding:2px 3px; border-radius:4px; background:#5c16a7; color:#fff4a4; font:bold clamp(8px,1.25vw,10px)/1 Tahoma,sans-serif; text-shadow:0 1px #421055; white-space:nowrap; }
+.slots-cell[data-symbol="wild"] { background:radial-gradient(circle,#b3fff5,#c9a6ff 75%); }
+.slots-cell.is-winning { position:relative; background:radial-gradient(circle,#fff8a9,#ffb9dd); box-shadow:inset 0 0 0 4px #ffbc2b,0 0 13px #fff574; z-index:1; animation:slots-win-pulse .6s ease-in-out infinite alternate; }
+@keyframes slots-win-pulse { to { filter:brightness(1.18); } }
+.slots-reel.is-spinning .slots-cell { filter:blur(2px) saturate(1.5); }
+.slots-banner { position:absolute; z-index:3; pointer-events:none; top:50%; left:50%; width:max-content; max-width:90%; opacity:0; text-align:center; color:#fff6a3; font:900 clamp(25px,5vw,45px)/1.05 Impact,'Arial Black',sans-serif; letter-spacing:.05em; -webkit-text-stroke:1px #ad257e; text-shadow:0 3px #f116a2,0 5px #541595,0 0 15px #fff,0 0 30px #ff3ac5; transform:translate(-50%,-50%) scale(.4) rotate(-8deg); }
+.slots-banner.is-visible { animation:slots-pop 1.8s ease-out both; }
+.slots-banner.is-jackpot { color:#c2fff6; animation-duration:2.8s; }
+@keyframes slots-pop { 0% { opacity:0; transform:translate(-50%,-50%) scale(.4) rotate(-8deg); } 15%,75% { opacity:1; transform:translate(-50%,-50%) scale(1.12) rotate(3deg); } 100% { opacity:0; transform:translate(-50%,-75%) scale(1.3) rotate(-2deg); } }
+.slots-jackpot-active .slots-cabinet { animation:slots-jackpot 0.6s ease-in-out infinite alternate; }
+@keyframes slots-jackpot { to { box-shadow:0 0 36px #fff98e,0 0 70px #f041c9,inset 0 0 0 3px #ffde6e; } }
+.slots-message { box-sizing:border-box; min-height:37px; margin:13px 0 10px; padding:9px; border:2px solid #f8c169; border-radius:8px; background:linear-gradient(#160c4f,#100b30); color:#faff93; font:bold calc(12px * var(--xp-text-scale,1)) Tahoma,sans-serif; text-align:center; text-shadow:0 0 7px #ffde66; }
+.slots-controls { display:grid; grid-template-columns:1fr minmax(190px,1.08fr); align-items:stretch; gap:10px; }
+.slots-bets { display:flex; align-items:center; flex-wrap:wrap; justify-content:center; gap:7px; border:1px solid #ba7bff; border-radius:10px; padding:7px; background:#160c44; }
+.slots-bets > span { width:100%; color:#c9ecff; font:bold 10px Tahoma,sans-serif; letter-spacing:.13em; text-align:center; }
+.slots-bet { border:3px dashed #fff8d1; border-radius:50%; width:45px; height:45px; padding:0; color:#fff; background:radial-gradient(circle at 35% 25%,#ff9bbb,#fb2e8a 65%,#991469); box-shadow:inset 0 0 0 3px #fff5,0 3px #36094c; text-shadow:0 2px #5c123f; font:bold 12px Tahoma,sans-serif; cursor:pointer; }
+.slots-bet:nth-of-type(2) { background:radial-gradient(circle at 35% 25%,#90dfff,#3098ee 65%,#20518e); }
+.slots-bet:nth-of-type(3) { background:radial-gradient(circle at 35% 25%,#c2ffa9,#4ccb57 65%,#27722b); }
+.slots-bet:nth-of-type(4) { background:radial-gradient(circle at 35% 25%,#fff5a8,#e49b25 65%,#985214); }
+.slots-bet.is-active { transform:translateY(-3px); outline:3px solid #fff688; box-shadow:0 0 18px #ffee87; }
+.slots-bet:disabled { opacity:.4; cursor:default; }
+.slots-spin,.slots-refill { cursor:pointer; min-height:76px; padding:9px; border:3px solid #ffedab; border-radius:13px; background:linear-gradient(180deg,#fff998,#ffbd21 38%,#f85628 74%,#a90e69); color:#5f1054; box-shadow:inset 0 3px #fff9,0 5px #3f115e,0 0 20px #ff8a24a1; font:900 clamp(17px,2.8vw,25px) Impact,'Arial Black',sans-serif; letter-spacing:.04em; text-shadow:0 1px #fff3be; }
+.slots-spin:hover:not(:disabled) { filter:brightness(1.12); transform:translateY(-2px); }
+.slots-spin:active:not(:disabled) { transform:translateY(2px); box-shadow:inset 0 3px #fff9,0 1px #3f115e; }
+.slots-spin:disabled { opacity:.65; cursor:wait; }
+.slots-refill { grid-column:1/-1; min-height:43px; background:linear-gradient(#9fffe5,#26d7d5,#1878b8); color:#084a6f; font-size:18px; }
+.slots-refill[hidden],.slots-paytable[hidden] { display:none; }
+.slots-options { display:flex; flex-wrap:wrap; gap:7px; align-items:center; justify-content:center; margin-top:13px; color:#c9d8ff; font:bold 10px Tahoma,sans-serif; }
+.slots-options button { cursor:pointer; border:1px solid #8d72d2; border-radius:5px; padding:6px 9px; background:linear-gradient(#513a95,#221451); color:#f4e8ff; font:bold 11px Tahoma,sans-serif; }
+.slots-options button[aria-pressed="true"] { border-color:#57fff0; box-shadow:inset 0 0 6px #38edd75c; }
+.slots-options label { display:flex; align-items:center; gap:6px; padding:3px 5px; }
+.slots-options input { width:75px; accent-color:#ffcc52; cursor:pointer; }
+.slots-paytable { margin-top:12px; padding:12px; border:1px solid #ad92f8; border-radius:9px; background:#0e0a35d9; color:#e4ddff; font:11px/1.55 Tahoma,sans-serif; }
+.slots-paytable p { margin:0 0 10px; }
+.slots-paytable p:last-child { margin:10px 0 0; }
+.slots-paytable-grid { display:grid; grid-template-columns:2fr repeat(3,1fr); border:1px solid #805fbe; }
+.slots-paytable-grid span { padding:5px 8px; border-bottom:1px solid #573b91; }
+.slots-paytable-grid span:nth-child(-n+4) { background:#6530ad; color:#fff4a2; font-weight:bold; }
+.slots-paytable-grid span:nth-child(4n+1) { font-weight:bold; }
+.slots-footnote { display:flex; flex-wrap:wrap; justify-content:space-between; gap:5px; margin-top:12px; padding-top:8px; border-top:1px solid #9b6ccc; color:#c9b8e8; font:bold 9px Tahoma,sans-serif; letter-spacing:.08em; }
+.slots-panel button:focus-visible { outline:3px solid #4bffec; outline-offset:2px; }
+@media(max-width:600px) {
+  .slots-hot-badge { display:none; }
+  .slots-headline { justify-content:center; }
+  .slots-stats { gap:4px; }
+  .slots-stats > div { padding:8px 2px; border-width:1px; }
+  .slots-stats small { font-size:8px; letter-spacing:0; }
+  .slots-stats strong { font-size:18px; }
+  .slots-cabinet { padding:4px; border-width:3px; }
+  .slots-reels { gap:2px; padding:3px; border-width:2px; }
+  .slots-reel { border-width:1px; border-radius:5px; }
+  .slots-cell { height:70px; }
+  .slots-emoji { font-size:clamp(26px,7vw,37px); }
+  .slots-cell-label { font-size:8px; letter-spacing:-.04em; }
+  .slots-cabinet-top { font-size:8px; }
+  .slots-controls { grid-template-columns:1fr; }
+  .slots-spin { min-height:58px; }
+}
+@media(max-width:370px) { .slots-cell { height:60px; } .slots-emoji { font-size:25px; } .slots-cell-label { font-size:7px; padding:2px 1px; } }
+@media(prefers-reduced-motion:reduce) {
+  .slots-ticker span,.slots-cell.is-winning,.slots-jackpot-active .slots-cabinet { animation:none; }
+  .slots-banner.is-visible { animation:none; opacity:1; transform:translate(-50%,-50%); }
+  .slots-reel.is-spinning .slots-cell { filter:none; }
+}
