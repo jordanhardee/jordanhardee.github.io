@@ -5,8 +5,16 @@
   const modules = [...document.querySelectorAll('[data-window].intel-panel, [data-window].hn-panel, [data-window].apod-panel, [data-window].office-panel, [data-window].xp-app-window')];
   const taskButtons = new Map([...document.querySelectorAll('.xp-task-button')].map(button => [button.dataset.window, button]));
   const nostalgiaOnlyApps = new Set(['cmd-terminal', 'club-penguin', 'kali-terminal']);
+  const casinoApps = new Set(['blackjack', 'brainrot-slots']);
+  const casinoGate = document.getElementById('casino-gate');
+  const casinoGameName = document.getElementById('casino-gate-game');
+  const casinoCheckbox = document.getElementById('casino-gate-checkbox');
+  const casinoEnter = document.getElementById('casino-gate-enter');
+  const casinoCancel = document.getElementById('casino-gate-cancel');
   const clock = document.getElementById('xp-clock');
   let overlay = null;
+  let pendingCasinoModule = null;
+  let focusBeforeCasino = null;
 
   function moduleName(module) {
     const names = {
@@ -144,8 +152,7 @@
     }
   }
 
-  function openApp(module) {
-    if (nostalgiaOnlyApps.has(module.dataset.window) && !document.body.classList.contains('nostalgia-mode')) return;
+  function openUnlockedApp(module) {
     module.classList.remove('module-closed', 'module-minimized');
     const iframe = module.querySelector('iframe[data-src]');
     if (iframe && !iframe.getAttribute('src')) iframe.src = iframe.dataset.src;
@@ -153,6 +160,69 @@
     document.dispatchEvent(new CustomEvent('xp:window-opened', { detail: { window: module.dataset.window } }));
     document.dispatchEvent(new CustomEvent('xp:bring-to-front', { detail: { window: module.dataset.window } }));
   }
+
+  function dismissCasinoGate() {
+    if (!casinoGate) return;
+    casinoGate.hidden = true;
+    pendingCasinoModule = null;
+    if (casinoCheckbox) casinoCheckbox.checked = false;
+    if (casinoEnter) casinoEnter.disabled = true;
+    focusBeforeCasino?.focus?.();
+    focusBeforeCasino = null;
+  }
+
+  function requestCasinoAccess(module) {
+    // Fail closed if the acknowledgment UI is unavailable.
+    if (!casinoGate || !casinoCheckbox || !casinoEnter || !casinoCancel || !casinoGameName) return;
+    if (casinoGate.hidden) focusBeforeCasino = document.activeElement;
+    pendingCasinoModule = module;
+    casinoGameName.textContent = moduleName(module);
+    casinoCheckbox.checked = false;
+    casinoEnter.disabled = true;
+    casinoGate.hidden = false;
+    casinoCheckbox.focus();
+  }
+
+  function openApp(module) {
+    if (nostalgiaOnlyApps.has(module.dataset.window) && !document.body.classList.contains('nostalgia-mode')) return;
+    if (casinoApps.has(module.dataset.window) && module.classList.contains('module-closed')) {
+      requestCasinoAccess(module);
+      return;
+    }
+    openUnlockedApp(module);
+  }
+
+  casinoCheckbox?.addEventListener('change', () => {
+    casinoEnter.disabled = !casinoCheckbox.checked;
+  });
+  casinoCancel?.addEventListener('click', dismissCasinoGate);
+  casinoEnter?.addEventListener('click', () => {
+    if (!casinoCheckbox.checked || !pendingCasinoModule) return;
+    const module = pendingCasinoModule;
+    dismissCasinoGate();
+    openUnlockedApp(module);
+  });
+  casinoGate?.addEventListener('click', event => {
+    if (event.target === casinoGate) dismissCasinoGate();
+  });
+  casinoGate?.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      dismissCasinoGate();
+    } else if (event.key === 'Tab') {
+      const focusables = [casinoCheckbox, casinoCancel, casinoEnter].filter(item => !item.disabled);
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  });
 
   async function closeApp(module) {
     if (overlay === module) closeOverlay();

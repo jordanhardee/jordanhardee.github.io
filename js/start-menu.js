@@ -22,7 +22,7 @@
   let contactScriptRequested = false;
   const onDemandApps = {
     blackjack: new URL('./blackjack.mjs?v=20261105-casino', document.currentScript.src).href,
-    'brainrot-slots': new URL('./brainrot-slots.mjs?v=20261106-general-tso', document.currentScript.src).href,
+    'brainrot-slots': new URL('./brainrot-slots.mjs?v=20261106-male-general', document.currentScript.src).href,
     solitaire: new URL('./solitaire.mjs?v=20261105-pointer', document.currentScript.src).href,
     chess: new URL('./chess-game.mjs?v=20261105-coach', document.currentScript.src).href,
     'unit-converter': new URL('./unit-converter.mjs?v=20261030-catalog', document.currentScript.src).href,
@@ -150,15 +150,19 @@
         detail: { window: button.dataset.openWindow }
       }));
       if (button.dataset.openWindow === 'contact') loadContactOnDemand();
-      const app = button.dataset.openWindow;
-      if (onDemandApps[app] && !loadedApps.has(app)) {
-        loadedApps.add(app);
-        import(onDemandApps[app]).catch(error => {
-          loadedApps.delete(app);
-          console.error(`${app} could not start:`, error);
-        });
-      }
     });
+  });
+  // Import games only after the window manager actually opens them. Casino
+  // games must pass their acknowledgment gate before any game code is loaded.
+  document.addEventListener('xp:window-opened', event => {
+    const app = event.detail?.window;
+    if (onDemandApps[app] && !loadedApps.has(app)) {
+      loadedApps.add(app);
+      import(onDemandApps[app]).catch(error => {
+        loadedApps.delete(app);
+        console.error(`${app} could not start:`, error);
+      });
+    }
   });
   menu.querySelectorAll('a.xp-external-link').forEach(link => {
     link.addEventListener('click', () => showMenu(false));
