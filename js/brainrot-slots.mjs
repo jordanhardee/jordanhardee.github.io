@@ -1,5 +1,5 @@
 import { SYMBOLS, LINES, makeBoard, drawSymbol, evaluateBoard } from './slots-core.mjs';
-import { createSlotsOracle } from './slots-oracle.mjs?v=20261106-male-general';
+import { createSlotsOracle } from './slots-oracle.mjs?v=20261107-human-arena';
 
 const panel = document.querySelector('[data-window="brainrot-slots"]');
 const reelRack = document.getElementById('slots-reels');
