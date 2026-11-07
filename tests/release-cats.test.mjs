@@ -254,7 +254,7 @@ test('mobile still shows each main cat once and uses four taskbar jumpers', () =
 test('background music pauses for happy.exe and resumes only when enabled', () => {
   const handlers = new Map();
   const elements = {
-    'xp-music-toggle': { setAttribute() {}, addEventListener() {} },
+    'xp-music-toggle': { setAttribute() {}, addEventListener(type, handler) { this[type] = handler; } },
     'credits-music-toggle': { setAttribute() {}, addEventListener() {} },
     'credits-music-status': { textContent: '' },
   };
@@ -273,14 +273,19 @@ test('background music pauses for happy.exe and resumes only when enabled', () =
     localStorage: { getItem() { return null; }, setItem() {} },
     Element: class {},
   });
-  assert.equal(audio.playCount, 1);
+  assert.equal(audio.playCount, 0, 'no background autoplay on page load');
   handlers.get('xp:happy-playback-start')();
   assert.equal(audio.paused, true);
-  assert.match(elements['credits-music-status'].textContent, /Paused while a video plays/);
   handlers.get('xp:hack-playback-start')();
   handlers.get('xp:happy-playback-stop')();
   assert.equal(audio.paused, true, 'hack clip should keep music paused after happy.exe stops');
   handlers.get('xp:hack-playback-stop')();
+  assert.equal(audio.playCount, 0, 'other sounds cannot enable background music');
+  elements['xp-music-toggle'].click();
+  assert.equal(audio.playCount, 1, 'visitor can start music manually');
+  handlers.get('xp:happy-playback-start')();
+  assert.match(elements['credits-music-status'].textContent, /Paused while a video plays/);
+  handlers.get('xp:happy-playback-stop')();
   assert.equal(audio.playCount, 2);
   assert.equal(audio.paused, false);
 });

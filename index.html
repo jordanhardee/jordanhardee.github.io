@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261106-casino-gate">
+    <link rel="stylesheet" href="css/style.css?v=20261107-floppa-settings">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -724,11 +724,18 @@
         </div>
       </div>
       <div class="xp-menu-bottom">
-        <button class="xp-menu-item xp-nostalgia-toggle" id="xp-nostalgia-toggle" type="button" role="switch" aria-checked="false">
-          <span class="xp-app-icon xp-nostalgia-icon" aria-hidden="true">✦</span>
-          <span class="xp-menu-label"><strong>Nostalgia Mode</strong><small id="xp-nostalgia-description">Off · show vintage icons</small></span>
-          <span class="xp-nostalgia-track" aria-hidden="true"><span></span></span>
-        </button>
+        <div class="xp-menu-preferences">
+          <button class="xp-menu-item xp-nostalgia-toggle" id="xp-nostalgia-toggle" type="button" role="switch" aria-checked="false">
+            <span class="xp-app-icon xp-nostalgia-icon" aria-hidden="true">✦</span>
+            <span class="xp-menu-label"><strong>Nostalgia Mode</strong><small id="xp-nostalgia-description">Off · show vintage icons</small></span>
+            <span class="xp-nostalgia-track" aria-hidden="true"><span></span></span>
+          </button>
+          <button class="xp-menu-item xp-floppa-toggle" id="xp-floppa-toggle" type="button" role="switch" aria-checked="true" hidden>
+            <span class="xp-app-icon xp-floppa-icon" aria-hidden="true">🐈</span>
+            <span class="xp-menu-label"><strong>Floppa Friday</strong><small id="xp-floppa-description">On · roaming Floppa visible</small></span>
+            <span class="xp-nostalgia-track" aria-hidden="true"><span></span></span>
+          </button>
+        </div>
         <button class="xp-menu-dismiss" id="xp-menu-dismiss" type="button"><span aria-hidden="true">⏻</span> Close Menu</button>
       </div>
     </nav>
@@ -807,7 +814,7 @@
         <button class="xp-task-button module-task-hidden" type="button" data-window="happy-exe" aria-label="Restore happy.exe" aria-pressed="false"><span class="xp-task-icon xp-cats-icon" aria-hidden="true">▶</span><span class="xp-task-label">happy.exe</span></button>
         <button class="xp-task-button module-task-hidden" type="button" data-window="zoom-exe" aria-label="Restore Zoom.exe" aria-pressed="false"><span class="xp-task-icon xp-zoom-icon" aria-hidden="true">▣</span><span class="xp-task-label">Zoom.exe</span></button>
       </div>
-      <div class="xp-tray"><button class="xp-tray-music" id="xp-music-toggle" type="button" aria-label="Mute background music" aria-pressed="true" title="Mute music">♫</button><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
+      <div class="xp-tray"><button class="xp-tray-music" id="xp-music-toggle" type="button" aria-label="Play background music" aria-pressed="false" title="Play music">♪</button><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
     </footer>
     <script src="js/matrix-rain.js?v=20261029-japanese-rain"></script>
     <script src="js/aquarium-background.js?v=20261029-aquarium-background-name"></script>
@@ -823,9 +830,9 @@
     <script src="js/visitor-counter.js?v=20261104-visitor-counter"></script>
     <script src="js/nostalgia-apps.js?v=20261103-kali-sana"></script>
     <script src="js/release-cats.js?v=20261104-kali-audio-focus"></script>
-    <script src="js/floppa-friday.js?v=20261104-kali-audio-focus"></script>
+    <script src="js/floppa-friday.js?v=20261107-friday-toggle"></script>
     <script src="js/start-menu.js?v=20261106-casino-gate"></script>
-    <script src="js/music.js?v=20261105-brainrot-slots"></script>
+    <script src="js/music.js?v=20261107-opt-in"></script>
     <script src="js/kali-soundtrack.js?v=20261104-voodoo-people"></script>
   </body>
 </html>

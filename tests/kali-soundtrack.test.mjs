@@ -71,6 +71,8 @@ test('OpenSSH keeps Kali as a nostalgia-only Easter egg and offers an audio fall
 test('Kali audio takes priority and returns audio focus on minimize, restore and close', async () => {
   const { panel, audios, elements, emit } = page();
   const [sm64, voodoo] = audios;
+  assert.equal(sm64.playCount, 0, 'background music is opt-in');
+  elements.get('xp-music-toggle').listeners.click();
   assert.equal(sm64.playCount, 1);
   panel.classList.closed.delete('module-closed');
   emit('xp:window-opened');
@@ -97,6 +99,7 @@ test('Kali sound may be stopped and replayed, and releases focus when track ends
   const { panel, audios, elements, emit } = page();
   const [sm64, voodoo] = audios;
   const toggle = elements.get('kali-sound-toggle');
+  elements.get('xp-music-toggle').listeners.click();
   panel.classList.closed.delete('module-closed');
   emit('xp:window-opened');
   toggle.listeners.click();
@@ -114,6 +117,7 @@ test('Kali sound may be stopped and replayed, and releases focus when track ends
 test('a browser autoplay denial restores the original background sound and offers retry', async () => {
   const { panel, audios, elements, emit } = page();
   const [sm64, voodoo] = audios;
+  elements.get('xp-music-toggle').listeners.click();
   voodoo.play = () => Promise.reject(Object.assign(new Error('gesture required'), { name: 'NotAllowedError' }));
   panel.classList.closed.delete('module-closed');
   emit('xp:window-opened');

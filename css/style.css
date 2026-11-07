@@ -2029,6 +2029,7 @@ body.nostalgia-mode .desktop-site-title {
 /* A real stateful XP-style toggle in Start. */
 .xp-nostalgia-toggle { min-height: 62px; margin-bottom: 5px; border-bottom: 1px solid #c9d9ed; }
 .xp-nostalgia-icon { background: linear-gradient(135deg, #7950ca, #004e9b); color: #fdf49a; }
+.xp-floppa-icon { background: linear-gradient(135deg, #f6b341, #914018); color: #fff; text-shadow: none; font-size: 15px; }
 .xp-nostalgia-track {
   box-sizing: border-box;
   flex: 0 0 44px;
@@ -2041,8 +2042,8 @@ body.nostalgia-mode .desktop-site-title {
   transition: background .15s;
 }
 .xp-nostalgia-track span { display: block; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #0006; transition: transform .15s; }
-.xp-nostalgia-toggle[aria-checked="true"] .xp-nostalgia-track { background: #3fbd46; }
-.xp-nostalgia-toggle[aria-checked="true"] .xp-nostalgia-track span { transform: translateX(19px); }
+:is(.xp-nostalgia-toggle, .xp-floppa-toggle)[aria-checked="true"] .xp-nostalgia-track { background: #3fbd46; }
+:is(.xp-nostalgia-toggle, .xp-floppa-toggle)[aria-checked="true"] .xp-nostalgia-track span { transform: translateX(19px); }
 
 @media (max-width: 1000px) {
   .ios-retro-icons { right: 6px; width: 300px; }
@@ -2190,12 +2191,18 @@ body.nostalgia-mode .desktop-site-title {
   background: linear-gradient(#428eea, #1f6ed1 45%, #1055b9);
   color: #fff;
 }
-.xp-start-menu .xp-menu-bottom .xp-nostalgia-toggle {
+.xp-menu-preferences {
   display: flex;
   flex: 1 1 auto;
-  gap: 9px;
-  width: auto;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
   max-width: 285px;
+}
+.xp-start-menu .xp-menu-bottom :is(.xp-nostalgia-toggle, .xp-floppa-toggle) {
+  display: flex;
+  gap: 9px;
+  width: 100%;
   min-height: 44px;
   margin: 0;
   padding: 4px 7px;
@@ -2204,11 +2211,10 @@ body.nostalgia-mode .desktop-site-title {
   color: #fff;
   text-shadow: 1px 1px #14498e;
 }
-.xp-menu-bottom .xp-nostalgia-toggle small { color: #e2edff; }
-.xp-menu-bottom .xp-nostalgia-toggle:hover,
-.xp-menu-bottom .xp-nostalgia-toggle:focus-visible { background: #ffffff24; }
-.xp-menu-bottom .xp-nostalgia-toggle:hover small,
-.xp-menu-bottom .xp-nostalgia-toggle:focus-visible small { color: #fff; }
+.xp-start-menu .xp-menu-bottom .xp-floppa-toggle[hidden] { display: none; }
+.xp-menu-bottom :is(.xp-nostalgia-toggle, .xp-floppa-toggle) small { color: #e2edff; }
+.xp-menu-bottom :is(.xp-nostalgia-toggle, .xp-floppa-toggle):is(:hover, :focus-visible) { background: #ffffff24; }
+.xp-menu-bottom :is(.xp-nostalgia-toggle, .xp-floppa-toggle):is(:hover, :focus-visible) small { color: #fff; }
 .xp-menu-dismiss {
   flex: 0 0 auto;
   display: flex;
@@ -2246,12 +2252,12 @@ body.nostalgia-mode .desktop-site-title {
   .xp-all-programs { flex-basis: 45px; min-height: 45px; font-size: 13px; gap: 8px; }
   .xp-all-programs-arrow { font-size: 19px; }
   .xp-start-menu .xp-menu-bottom { min-height: 58px; padding: 5px 6px; gap: 2px; }
-  .xp-start-menu .xp-menu-bottom .xp-nostalgia-toggle { padding: 3px 5px; gap: 5px; }
-  .xp-menu-bottom .xp-nostalgia-toggle strong { font-size: 11px; }
-  .xp-menu-bottom .xp-nostalgia-toggle small { font-size: 9px; }
+  .xp-start-menu .xp-menu-bottom :is(.xp-nostalgia-toggle, .xp-floppa-toggle) { padding: 3px 5px; gap: 5px; }
+  .xp-menu-bottom :is(.xp-nostalgia-toggle, .xp-floppa-toggle) strong { font-size: 11px; }
+  .xp-menu-bottom :is(.xp-nostalgia-toggle, .xp-floppa-toggle) small { font-size: 9px; }
   .xp-menu-bottom .xp-nostalgia-track { flex-basis: 35px; height: 21px; }
   .xp-menu-bottom .xp-nostalgia-track span { width: 15px; height: 15px; }
-  .xp-menu-bottom .xp-nostalgia-toggle[aria-checked="true"] .xp-nostalgia-track span { transform: translateX(14px); }
+  .xp-menu-bottom :is(.xp-nostalgia-toggle, .xp-floppa-toggle)[aria-checked="true"] .xp-nostalgia-track span { transform: translateX(14px); }
   .xp-menu-dismiss { padding: 6px 7px; gap: 3px; font-size: 10px; }
   .xp-menu-dismiss span { font-size: 15px; }
 }

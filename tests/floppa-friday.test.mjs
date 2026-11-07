@@ -7,7 +7,7 @@ const script = readFileSync(new URL('../js/floppa-friday.js', import.meta.url), 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 
-function harness(day = 1) {
+function harness(day = 1, stored = {}) {
   const events = [];
   const rafs = new Map();
   const sources = [];
@@ -28,6 +28,9 @@ function harness(day = 1) {
   const shortcut = element();
   const trigger = element();
   trigger.hidden = true;
+  const fridayToggle = element();
+  fridayToggle.hidden = true;
+  const fridayDescription = element();
   const show = element();
   const close = element();
   const smiley = element();
@@ -48,6 +51,7 @@ function harness(day = 1) {
   const nodes = {
     'floppa-exe-shortcut':shortcut,
     'floppa-friday-trigger':trigger, 'floppa-friday-show':show,
+    'xp-floppa-toggle':fridayToggle, 'xp-floppa-description':fridayDescription,
     'floppa-friday-close':close, 'floppa-friday-particles':canvas,
     'floppa-friday-holy-moly':smiley, 'happy-video':video,
   };
@@ -85,8 +89,12 @@ function harness(day = 1) {
   const cancelAnimationFrame = id => rafs.delete(id);
   const fetch = async () => ({ok:true,arrayBuffer:async()=>new ArrayBuffer(8)});
   const Date = class {getDay() {return clock.day;}};
-  vm.runInNewContext(script,{document,window,Image,CustomEvent,requestAnimationFrame,cancelAnimationFrame,fetch,Date});
-  return {shortcut,trigger,show,close,smiley,video,lines,events,rafs,sources,bodyClasses,document,clock,timers};
+  const localStorage = {
+    getItem:key => stored[key] ?? null,
+    setItem:(key,value) => { stored[key] = value; },
+  };
+  vm.runInNewContext(script,{document,window,Image,CustomEvent,requestAnimationFrame,cancelAnimationFrame,fetch,Date,localStorage});
+  return {shortcut,trigger,fridayToggle,fridayDescription,show,close,smiley,video,lines,events,rafs,sources,bodyClasses,document,clock,timers,stored};
 }
 
 test('uses both supplied Floppa images and an authentic animated holy-moly GIF', () => {
@@ -155,6 +163,7 @@ test('a single mobile tap launches Floppa.exe even when click has no pointerType
 
 test('the shaky square roams on Fridays only and responds when the local date changes', () => {
   const page = harness(5);
+  assert.equal(page.fridayToggle.hidden,false);
   assert.equal(page.trigger.hidden,false);
   assert.match(page.trigger.style.transform,/translate3d/);
   assert.match(css, /floppa-frantic-shake \.085s/);
@@ -171,7 +180,29 @@ test('the shaky square roams on Fridays only and responds when the local date ch
   page.clock.day=6;
   page.timers[0]();
   assert.equal(page.trigger.hidden,true,'the roaming cat leaves when Friday ends');
+  assert.equal(page.fridayToggle.hidden,true,'the Friday switch also disappears on Saturday');
   page.clock.day=5;
   page.timers[0]();
   assert.equal(page.trigger.hidden,false,'the roaming cat arrives when Friday starts');
+  assert.equal(page.fridayToggle.hidden,false);
+});
+
+test('Friday Start switch hides and restores only the roaming cat, remembering the choice', () => {
+  assert.match(html, /id="xp-floppa-toggle"[^>]*role="switch"[^>]*hidden/);
+  const stored = {};
+  const page = harness(5, stored);
+  assert.equal(page.fridayToggle['aria-checked'],'true');
+  page.fridayToggle.handlers.click();
+  assert.equal(page.fridayToggle['aria-checked'],'false');
+  assert.match(page.fridayDescription.textContent,/hidden/);
+  assert.equal(page.trigger.hidden,true);
+  assert.equal(page.rafs.size,0,'hiding also cancels motion');
+  assert.equal(stored['jordanhardee-floppa-friday-roaming'],'off');
+  const revisited = harness(5, stored);
+  assert.equal(revisited.trigger.hidden,true,'Friday preference survives a reload');
+  revisited.fridayToggle.handlers.click();
+  assert.equal(revisited.trigger.hidden,false);
+  assert.equal(revisited.fridayToggle['aria-checked'],'true');
+  revisited.shortcut.handlers.dblclick();
+  assert.equal(revisited.show.hidden,false,'Floppa.exe still works independently');
 });

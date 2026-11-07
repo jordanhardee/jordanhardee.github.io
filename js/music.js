@@ -1,5 +1,5 @@
 // Background music is streamed from Internet Archive, not copied into this repo.
-// Browser autoplay rules apply: retry after a visitor's first interaction.
+// Music is opt-in on every visit; the tray or Credits button starts it.
 (function () {
   const track = 'https://archive.org/download/super-mario-64-soundtrack/Super%20Mario%2064%20%28Soundtrack%29/1-18%20File%20Select.mp3';
   const trayButton = document.getElementById('xp-music-toggle');
@@ -12,12 +12,9 @@
   audio.volume = 0.18;
   audio.preload = 'none';
 
-  const preference = 'jordanhardee-background-music-v1';
-  let enabled = true;
+  let enabled = false;
   const activeVideos = new Set();
   let failure = '';
-  try { enabled = localStorage.getItem(preference) !== 'off'; }
-  catch { /* Site still works in private browsing. */ }
 
   function refresh() {
     trayButton.textContent = enabled ? '♫' : '♪';
@@ -54,8 +51,6 @@
 
   function toggleMusic() {
     enabled = !enabled;
-    try { localStorage.setItem(preference, enabled ? 'on' : 'off'); }
-    catch { /* Preferences need not persist for the player to work. */ }
     if (enabled) tryPlay();
     else { audio.pause(); failure = ''; }
     refresh();
@@ -100,5 +95,4 @@
     refresh();
   });
   refresh();
-  if (enabled) tryPlay();
 })();

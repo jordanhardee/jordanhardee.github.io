@@ -2,6 +2,8 @@
 (function () {
   const shortcut = document.getElementById('floppa-exe-shortcut');
   const trigger = document.getElementById('floppa-friday-trigger');
+  const fridayToggle = document.getElementById('xp-floppa-toggle');
+  const fridayDescription = document.getElementById('xp-floppa-description');
   const show = document.getElementById('floppa-friday-show');
   const close = document.getElementById('floppa-friday-close');
   const canvas = document.getElementById('floppa-friday-particles');
@@ -32,6 +34,18 @@
   let particles = [];
   let generation = 0;
   let touchShortcut = false;
+  const roamingPreference = 'jordanhardee-floppa-friday-roaming';
+  let roamingEnabled = true;
+  try { roamingEnabled = localStorage.getItem(roamingPreference) !== 'off'; }
+  catch { /* Keep the roaming cat available when storage is blocked. */ }
+
+  function refreshFridayToggle() {
+    fridayToggle?.setAttribute('aria-checked', String(roamingEnabled));
+    if (fridayDescription) fridayDescription.textContent = roamingEnabled
+      ? 'On · roaming Floppa visible'
+      : 'Off · roaming Floppa hidden';
+  }
+  refreshFridayToggle();
 
   let audioContext = null;
   let audioBufferPromise = null;
@@ -227,8 +241,10 @@
   // A Friday is based on the visitor's calendar, not the server's timezone.
   // Recheck while the tab stays open so the cat arrives/leaves at midnight.
   function syncFriday() {
+    const isFriday = localFriday();
+    if (fridayToggle) fridayToggle.hidden = !isFriday;
     if (active) return;
-    if (localFriday()) {
+    if (isFriday && roamingEnabled) {
       if (!trigger.hidden) return;
       trigger.hidden = false;
       lastOrbit = 0;
@@ -241,6 +257,14 @@
       orbitFrame = 0;
     }
   }
+
+  fridayToggle?.addEventListener('click', () => {
+    roamingEnabled = !roamingEnabled;
+    try { localStorage.setItem(roamingPreference, roamingEnabled ? 'on' : 'off'); }
+    catch { /* This visit's choice still applies. */ }
+    refreshFridayToggle();
+    syncFriday();
+  });
 
   function launch() {
     if (active) return;
