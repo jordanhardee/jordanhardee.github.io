@@ -70,6 +70,70 @@ body {
   height: 100%;
 }
 
+/* Someone nailed the construction sign straight through the aquarium glass.
+   Keep this entirely decorative and behind the desktop windows. */
+.aquarium-construction {
+  position: absolute;
+  right: clamp(38px, 7vw, 140px);
+  bottom: calc(var(--xp-taskbar-height) + 14px);
+  z-index: 3;
+  width: clamp(195px, 23vw, 315px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.aquarium-construction-sign {
+  position: absolute;
+  top: 14%;
+  left: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(3px 7px 4px rgba(0, 14, 34, .52));
+}
+.aquarium-construction-cracks {
+  position: absolute;
+  top: -10%;
+  left: 14%;
+  z-index: 1;
+  width: 64%;
+  height: 60%;
+  overflow: visible;
+  filter: drop-shadow(0 0 2px rgba(212, 251, 255, .4));
+}
+.aquarium-construction-leak {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.aquarium-water-shadow, .aquarium-water-trickle, .aquarium-water-glint {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.aquarium-water-shadow { stroke: rgba(0, 29, 58, .7); stroke-width: 7; }
+.aquarium-water-trickle { stroke: rgba(90, 220, 254, .85); stroke-width: 3.5; stroke-dasharray: 14 7 24 5; animation: aquarium-leak-flow 1.8s linear infinite; }
+.aquarium-water-glint { stroke: rgba(236, 254, 255, .95); stroke-width: 1.25; stroke-dasharray: 4 17 11 24; animation: aquarium-leak-flow 1.2s linear infinite; }
+.aquarium-leak-drop { fill: #b9faff; filter: drop-shadow(0 0 3px #39caff); transform-box: fill-box; transform-origin: center; animation: aquarium-leak-drip 1.6s ease-in infinite; }
+.aquarium-leak-drop-two { animation-delay: -.8s; }
+@keyframes aquarium-leak-flow { to { stroke-dashoffset: -50; } }
+@keyframes aquarium-leak-drip {
+  0% { opacity: 0; transform: translateY(-18px) scale(.45); }
+  20% { opacity: .92; }
+  85% { opacity: .85; }
+  100% { opacity: 0; transform: translateY(27px) scale(.65); }
+}
+@media (max-width: 600px) {
+  .aquarium-construction { right: 14px; bottom: calc(var(--xp-taskbar-height) + 17px); width: clamp(150px, 39vw, 205px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aquarium-water-trickle, .aquarium-water-glint, .aquarium-leak-drop { animation: none; }
+}
+
 /* App tiles alone suggest a 2009 SpringBoard, without drawing an iPod. */
 .ios-retro-apps {
   position: relative;
