@@ -35,6 +35,8 @@ test('water is translucent with multiple continuous rivulets and moving droplets
   assert.match(html, /class="aquarium-water-rivulet aquarium-water-main"/);
   assert.match(html, /class="aquarium-water-rivulet aquarium-water-fork"/);
   assert.match(html, /class="aquarium-water-rivulet aquarium-water-thread"/);
-  assert.equal((html.match(/<animateMotion\b/g) || []).length, 3);
+  assert.equal((html.match(/class="aquarium-water-rivulet aquarium-water-runoff"/g) || []).length, 2);
+  assert.equal((html.match(/class="aquarium-water-sheen aquarium-water-sheen-alt"/g) || []).length, 2);
+  assert.equal((html.match(/<animateMotion\b/g) || []).length, 6);
   assert.doesNotMatch(css, /\.aquarium-water-main\s*\{[^}]*stroke-dasharray/s);
 });
