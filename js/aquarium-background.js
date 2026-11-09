@@ -7,8 +7,10 @@
 
   const plants = new Image();
   const sprites = new Image();
+  const catfishSprites = new Image();
   plants.src = 'assets/aquascape.webp';
   sprites.src = 'assets/fish-atlas-clean.webp';
+  catfishSprites.src = 'assets/catfish-atlas.webp';
 
   // Each cutout has its own crop, including whole noses, fins, and tails.
   const regions = [
@@ -33,6 +35,8 @@
   let previous = performance.now();
   let frame = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let catfishBlend = 0;
+  let catfishTarget = 0;
   const pointer = { active: false, x: 0, y: 0, speed: 0, lastAt: 0 };
 
   function resize() {
@@ -63,9 +67,8 @@
     }
 
     if (sprites.naturalWidth) {
-      const sx = sprites.naturalWidth / 1536;
-      const sy = sprites.naturalHeight / 1024;
       const nominalWidth = Math.max(80, Math.min(width * .135, height * .26, 210));
+      const showCatfish = catfishSprites.naturalWidth > 0 ? catfishBlend : 0;
       for (const f of fish) {
         const [cropX, cropY, cropW, cropH] = regions[f.sprite];
         const fishWidth = nominalWidth * f.size;
@@ -74,9 +77,20 @@
         context.translate(f.x * width, f.y * height + Math.sin(elapsed * 1.4 + f.phase) * 7);
         if (f.vx < 0) context.scale(-1, 1);
         context.scale(1 + Math.sin(elapsed * 6.5 + f.phase) * .016, 1);
-        context.globalAlpha = .92;
-        context.drawImage(sprites, cropX * sx, cropY * sy, cropW * sx, cropH * sy,
-          -fishWidth / 2, -fishHeight / 2, fishWidth, fishHeight);
+        if (showCatfish < 1) {
+          const sx = sprites.naturalWidth / 1536;
+          const sy = sprites.naturalHeight / 1024;
+          context.globalAlpha = .92 * (1 - showCatfish);
+          context.drawImage(sprites, cropX * sx, cropY * sy, cropW * sx, cropH * sy,
+            -fishWidth / 2, -fishHeight / 2, fishWidth, fishHeight);
+        }
+        if (showCatfish > 0) {
+          const sx = catfishSprites.naturalWidth / 1536;
+          const sy = catfishSprites.naturalHeight / 1024;
+          context.globalAlpha = .92 * showCatfish;
+          context.drawImage(catfishSprites, cropX * sx, cropY * sy, cropW * sx, cropH * sy,
+            -fishWidth / 2, -fishHeight / 2, fishWidth, fishHeight);
+        }
         context.restore();
       }
     }
@@ -103,6 +117,10 @@
     const dt = Math.min(.06, Math.max(0, (now - previous) / 1000));
     previous = now;
     elapsed += dt;
+    // The second atlas is drawn at the exact same coordinates, so the fish
+    // keep swimming uninterrupted while their faces gently transform.
+    const target = catfishSprites.naturalWidth ? catfishTarget : 0;
+    catfishBlend += Math.sign(target - catfishBlend) * Math.min(Math.abs(target - catfishBlend), dt / .65);
 
     for (const f of fish) {
       if (pointer.active) {
@@ -138,12 +156,21 @@
   }, { passive: true });
   window.addEventListener('pointerleave', () => { pointer.active = false; });
   window.addEventListener('resize', resize);
+  document.addEventListener('xp:cats-state', event => {
+    catfishTarget = event.detail?.released ? 1 : 0;
+    if (reducedMotion) catfishBlend = catfishSprites.naturalWidth ? catfishTarget : 0;
+    draw();
+  });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) cancelAnimationFrame(frame);
     else if (!reducedMotion) { previous = performance.now(); frame = requestAnimationFrame(tick); }
   });
   plants.onload = draw;
   sprites.onload = draw;
+  catfishSprites.onload = () => {
+    if (reducedMotion) catfishBlend = catfishTarget;
+    draw();
+  };
   resize();
   if (!reducedMotion) frame = requestAnimationFrame(tick);
 })();

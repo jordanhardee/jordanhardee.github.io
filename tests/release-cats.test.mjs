@@ -12,6 +12,7 @@ const fullscreenScript = readFileSync(new URL('../js/module-fullscreen.js', impo
 
 function makePage(width = 1200, webAudio = false) {
   const events = new Map();
+  const catfishStates = [];
   const sounds = [];
   const sources = [];
   class Audio {
@@ -106,9 +107,10 @@ function makePage(width = 1200, webAudio = false) {
   const window = { innerWidth: width };
   if (webAudio) window.AudioContext = AudioContext;
   const fetch = async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(4) });
+  document.addEventListener('xp:cats-state', event => catfishStates.push(event.detail.released));
   vm.runInNewContext(script, { document, window, CustomEvent, Audio, fetch });
   const dispatch = (name, app = 'release-cats') => document.dispatchEvent(new CustomEvent(name, { detail: { window: app } }));
-  return { swarm, runway, status, release, recall, panel, happyPanel, zoomPanel, video, hint, sounds, sources, dispatch };
+  return { swarm, runway, status, release, recall, panel, happyPanel, zoomPanel, video, hint, sounds, sources, catfishStates, dispatch };
 }
 
 test('Release the Cats also opens a draggable XP Zoom.exe window with the supplied nine-cat visual', () => {
@@ -158,6 +160,7 @@ test('five distinct large cats, repeated taskbar jumpers, and one huh sound per 
   assert.equal(page.video.getAttribute('src'), null);
   page.dispatch('xp:window-opened');
   assert.equal(page.swarm.children.length, 5);
+  assert.deepEqual(page.catfishStates, [true], 'fish switch to catfish when cats escape');
   assert.equal(page.runway.children.length, 6);
   assert.equal(page.swarm.hidden, false);
   assert.equal(page.video.playCount, 1);
@@ -171,11 +174,13 @@ test('five distinct large cats, repeated taskbar jumpers, and one huh sound per 
   assert.equal(page.sounds[0].playCount, 1);
   assert.equal(page.video.volume, 0.18, 'the huh sound temporarily ducks the video');
   page.release.listeners.click();
+  assert.deepEqual(page.catfishStates, [true], 'repeated release does not retrigger the transformation');
   assert.equal(page.swarm.children.length, 5);
   assert.equal(page.runway.children.length, 6);
   assert.equal(page.video.playCount, 2);
   assert.equal(page.sounds[0].playCount, 1, 'huh does not repeat until KITTY JAIL');
   page.recall.listeners.click();
+  assert.deepEqual(page.catfishStates, [true, false], 'KITTY JAIL restores ordinary fish');
   assert.equal(page.video.volume, 1, 'KITTY JAIL restores video volume');
   assert.equal(page.swarm.children.length, 0);
   assert.equal(page.runway.children.length, 0);

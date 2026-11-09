@@ -227,6 +227,7 @@
       runway.hidden = false;
       cats.forEach((_, index) => addCat(index));
       addJumpers();
+      document.dispatchEvent(new CustomEvent('xp:cats-state', { detail: { released: true } }));
     }
     openHappy();
     openZoom();
@@ -235,7 +236,9 @@
   }
 
   function recall() {
+    const wasReleased = released;
     released = false;
+    if (wasReleased) document.dispatchEvent(new CustomEvent('xp:cats-state', { detail: { released: false } }));
     swarm.hidden = true;
     runway.hidden = true;
     swarm.replaceChildren();
