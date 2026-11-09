@@ -61,7 +61,10 @@
         }
       }
       const result = context.resume();
-      result?.catch?.(() => { controls.dataset.sound = 'unavailable'; });
+      result?.catch?.(() => {
+        stopWaterSound();
+        controls.dataset.sound = 'unavailable';
+      });
       return true;
     } catch {
       controls.dataset.sound = 'unavailable';

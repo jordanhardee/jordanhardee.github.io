@@ -29,7 +29,7 @@ test('only the square tap target is interactive and the decoration respects redu
 
 const interaction = readFileSync(new URL('../js/aquarium-construction.js', import.meta.url), 'utf8');
 
-function harness({ noAudio = false, brokenAudio = false, reduced = false } = {}) {
+function harness({ noAudio = false, brokenAudio = false, blockedResume = false, reduced = false } = {}) {
   function element() {
     const listeners = new Map();
     return {
@@ -82,7 +82,10 @@ function harness({ noAudio = false, brokenAudio = false, reduced = false } = {})
     createOscillator() { return new AudioNode(); }
     createBufferSource() { const node = new AudioNode(); this.sources.push(node); return node; }
     createBuffer(channels, count) { return { getChannelData: () => new Float32Array(count) }; }
-    resume() { this.state = 'running'; return Promise.resolve(); }
+    resume() {
+      if (blockedResume) return Promise.reject(new Error('Playback blocked'));
+      this.state = 'running'; return Promise.resolve();
+    }
     suspend() { this.state = 'suspended'; return Promise.resolve(); }
   }
   if (!noAudio) window.AudioContext = AudioContext;
@@ -146,6 +149,16 @@ test('audio failure cannot block the three-stage glass break', () => {
     assert.equal(h.canvas.hidden, false);
     assert.match(h.status.textContent, /water rushes out/);
   }
+});
+
+test('rejected audio playback releases focus without interrupting the visual effect', async () => {
+  const h = harness({ blockedResume: true });
+  h.click(); h.click(); h.click();
+  await Promise.resolve();
+  assert.equal(h.glass.dataset.damage, '3');
+  assert.equal(h.canvas.hidden, false);
+  assert.equal(h.controls.dataset.sound, 'unavailable');
+  assert.equal(h.audioContexts[0].sources.filter(source => source.loop && !source.stopped).length, 0);
 });
 
 test('waterfall audio yields to other site audio and pauses while the page is hidden', () => {
