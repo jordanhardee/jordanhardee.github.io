@@ -19,5 +19,22 @@ test('the construction sign and nail damage belong to the aquarium background', 
 test('the decoration is noninteractive, responsive, and respects reduced motion', () => {
   assert.match(css, /\.aquarium-construction\s*\{[^}]*pointer-events:\s*none/s);
   assert.match(css, /@media\s*\(max-width:\s*600px\)\s*\{\s*\.aquarium-construction/s);
-  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*\.aquarium-water-trickle/s);
+  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*\.aquarium-water-sheen/s);
+  assert.match(css, /\.aquarium-leak-drop\s*\{\s*display:\s*none/s);
+});
+
+test('glass has branching hairline cracks rather than one duplicated starburst', () => {
+  assert.match(html, /id="aquarium-glass-primary"/);
+  assert.match(html, /id="aquarium-glass-branches"/);
+  assert.match(html, /class="aquarium-fracture-shadow"/);
+  assert.match(html, /class="aquarium-fracture-light"/);
+});
+
+test('water is translucent with multiple continuous rivulets and moving droplets', () => {
+  assert.match(html, /class="aquarium-wet-film"/);
+  assert.match(html, /class="aquarium-water-rivulet aquarium-water-main"/);
+  assert.match(html, /class="aquarium-water-rivulet aquarium-water-fork"/);
+  assert.match(html, /class="aquarium-water-rivulet aquarium-water-thread"/);
+  assert.equal((html.match(/<animateMotion\b/g) || []).length, 3);
+  assert.doesNotMatch(css, /\.aquarium-water-main\s*\{[^}]*stroke-dasharray/s);
 });

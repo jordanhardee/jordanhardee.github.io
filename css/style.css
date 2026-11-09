@@ -94,14 +94,26 @@ body {
 }
 .aquarium-construction-cracks {
   position: absolute;
-  top: -10%;
-  left: 14%;
+  inset: 0;
   z-index: 1;
-  width: 64%;
-  height: 60%;
+  width: 100%;
+  height: 100%;
   overflow: visible;
-  filter: drop-shadow(0 0 2px rgba(212, 251, 255, .4));
 }
+.aquarium-fracture-shadow {
+  stroke: rgba(2, 25, 46, .85);
+  stroke-width: 2.35;
+  fill: none;
+}
+.aquarium-fracture-light {
+  stroke: rgba(236, 252, 255, .91);
+  stroke-width: .82;
+  fill: none;
+  filter: drop-shadow(0 0 1px rgba(180, 240, 252, .35));
+}
+.aquarium-fracture-secondary { opacity: .75; stroke-width: .7; }
+.aquarium-fracture-shadow.aquarium-fracture-secondary { stroke-width: 1.45; }
+.aquarium-glass-chips { opacity: .45; }
 .aquarium-construction-leak {
   position: absolute;
   inset: 0;
@@ -110,28 +122,28 @@ body {
   height: 100%;
   overflow: visible;
 }
-.aquarium-water-shadow, .aquarium-water-trickle, .aquarium-water-glint {
+.aquarium-wet-film { fill: url(#aquarium-wet-film); opacity: .32; }
+.aquarium-water-wet-shadow { fill: none; stroke: rgba(3, 25, 42, .32); stroke-width: 7; stroke-linecap: round; }
+.aquarium-water-rivulet, .aquarium-water-edge, .aquarium-water-sheen {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.aquarium-water-shadow { stroke: rgba(0, 29, 58, .7); stroke-width: 7; }
-.aquarium-water-trickle { stroke: rgba(90, 220, 254, .85); stroke-width: 3.5; stroke-dasharray: 14 7 24 5; animation: aquarium-leak-flow 1.8s linear infinite; }
-.aquarium-water-glint { stroke: rgba(236, 254, 255, .95); stroke-width: 1.25; stroke-dasharray: 4 17 11 24; animation: aquarium-leak-flow 1.2s linear infinite; }
-.aquarium-leak-drop { fill: #b9faff; filter: drop-shadow(0 0 3px #39caff); transform-box: fill-box; transform-origin: center; animation: aquarium-leak-drip 1.6s ease-in infinite; }
-.aquarium-leak-drop-two { animation-delay: -.8s; }
-@keyframes aquarium-leak-flow { to { stroke-dashoffset: -50; } }
-@keyframes aquarium-leak-drip {
-  0% { opacity: 0; transform: translateY(-18px) scale(.45); }
-  20% { opacity: .92; }
-  85% { opacity: .85; }
-  100% { opacity: 0; transform: translateY(27px) scale(.65); }
-}
+.aquarium-water-rivulet { stroke: rgba(136, 211, 226, .38); stroke-width: 2.5; }
+.aquarium-water-fork { stroke: rgba(173, 229, 237, .32); stroke-width: 1.9; }
+.aquarium-water-thread { stroke: rgba(126, 206, 228, .25); stroke-width: 1.3; }
+.aquarium-water-branch { stroke: rgba(159, 230, 243, .22); stroke-width: 1.1; }
+.aquarium-water-edge { stroke: rgba(246, 254, 255, .52); stroke-width: .75; }
+.aquarium-water-edge-fork { stroke: rgba(243, 253, 255, .33); stroke-width: .6; }
+.aquarium-water-sheen { stroke: rgba(255, 255, 255, .7); stroke-width: .95; stroke-dasharray: 2 19 7 28 3 23; animation: aquarium-water-shimmer 6s linear infinite; }
+.aquarium-leak-drop { filter: drop-shadow(.5px .8px 1px rgba(3, 29, 49, .5)); }
+@keyframes aquarium-water-shimmer { to { stroke-dashoffset: -82; } }
 @media (max-width: 600px) {
   .aquarium-construction { right: 14px; bottom: calc(var(--xp-taskbar-height) + 17px); width: clamp(150px, 39vw, 205px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .aquarium-water-trickle, .aquarium-water-glint, .aquarium-leak-drop { animation: none; }
+  .aquarium-water-sheen { animation: none; }
+  .aquarium-leak-drop { display: none; }
 }
 
 /* App tiles alone suggest a 2009 SpringBoard, without drawing an iPod. */
