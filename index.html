@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261108-glass-runoff-v3">
+    <link rel="stylesheet" href="css/style.css?v=20261109-single-leak-v4">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -45,42 +45,22 @@
         </svg>
         <svg class="aquarium-construction-leak" viewBox="0 0 300 310" preserveAspectRatio="none" aria-hidden="true">
           <defs>
-            <linearGradient id="aquarium-wet-film" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#071d35" stop-opacity=".35"/><stop offset=".36" stop-color="#95def1" stop-opacity=".05"/><stop offset=".7" stop-color="#d9f8fd" stop-opacity=".22"/><stop offset="1" stop-color="#031a30" stop-opacity=".32"/></linearGradient>
-            <radialGradient id="aquarium-drop-glass" cx=".29" cy=".2" r=".8"><stop stop-color="#fff" stop-opacity=".94"/><stop offset=".35" stop-color="#c5eef6" stop-opacity=".6"/><stop offset=".8" stop-color="#4d9fbc" stop-opacity=".28"/><stop offset="1" stop-color="#073b53" stop-opacity=".45"/></radialGradient>
-            <filter id="aquarium-film-blur" x="-30%" y="-10%" width="160%" height="120%"><feGaussianBlur stdDeviation="2.4"/></filter>
-            <filter id="aquarium-water-refraction" x="-25%" y="-10%" width="150%" height="125%"><feTurbulence type="fractalNoise" baseFrequency=".022 .07" numOctaves="2" seed="7" result="ripples"/><feDisplacementMap in="SourceGraphic" in2="ripples" scale="2.1" xChannelSelector="R" yChannelSelector="G"/></filter>
+            <linearGradient id="aquarium-stream-glass" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#48b1d2" stop-opacity=".08"/>
+              <stop offset=".19" stop-color="#8bdaee" stop-opacity=".37"/>
+              <stop offset=".45" stop-color="#a8e7f4" stop-opacity=".17"/>
+              <stop offset=".74" stop-color="#d0f9ff" stop-opacity=".44"/>
+              <stop offset="1" stop-color="#5db9d7" stop-opacity=".13"/>
+            </linearGradient>
+            <filter id="aquarium-stream-softness" x="-120%" y="-3%" width="340%" height="106%"><feGaussianBlur stdDeviation="3"/></filter>
+            <filter id="aquarium-stream-refraction" x="-50%" y="-2%" width="200%" height="104%"><feTurbulence type="fractalNoise" baseFrequency=".035 .025" numOctaves="2" seed="7" result="ripples"/><feDisplacementMap in="SourceGraphic" in2="ripples" scale="1.6" xChannelSelector="R" yChannelSelector="G"/></filter>
           </defs>
-          <path class="aquarium-wet-film" d="M140 61 C128 88 131 111 137 133 S136 182 139 209 S144 242 145 262 L145 384 165 384 Q161 309 164 261 C159 231 158 218 154 197 S156 153 149 129 C142 103 151 81 146 61Z"/>
-          <path class="aquarium-wet-film aquarium-wet-film-secondary" d="M136 76 C131 108 124 139 122 170 S115 229 117 260 L109 382 125 382 Q126 331 132 285 C131 250 130 214 135 177 S139 110 141 79Z"/>
-          <path class="aquarium-wet-film aquarium-wet-film-secondary" d="M150 80 C157 115 164 154 171 190 S183 241 180 285 L182 382 195 382 Q191 325 194 283 C194 244 181 206 178 181 S156 107 152 78Z"/>
-          <g filter="url(#aquarium-film-blur)" class="aquarium-water-wet-shadow">
-            <path d="M140 63 C134 84 141 97 137 119 S145 163 140 192 S150 246 150 271 S153 293 153 315"/>
-            <path d="M145 66 C153 94 144 118 152 147 S148 194 157 224 S166 260 163 287 L166 319"/>
-            <path d="M140 70 C131 93 128 120 130 151 S124 203 131 231 S135 271 133 305"/>
-            <path d="M138 74 C132 111 122 145 123 174 S119 224 120 259 S115 315 117 385"/>
-            <path d="M148 78 C156 109 162 146 169 183 S182 232 183 277 S187 332 189 385"/>
-          </g>
-          <g filter="url(#aquarium-water-refraction)">
-            <path class="aquarium-water-rivulet aquarium-water-main" d="M141 64 C136 84 142 98 138 119 S146 164 141 192 S150 246 150 271 S155 293 153 385"/>
-            <path class="aquarium-water-rivulet aquarium-water-fork" d="M145 68 C151 94 144 118 151 146 S149 192 157 224 S166 259 163 287 L166 383"/>
-            <path class="aquarium-water-rivulet aquarium-water-thread" d="M140 70 C131 93 128 120 130 151 S124 203 131 231 S135 271 133 381"/>
-            <path class="aquarium-water-rivulet aquarium-water-branch" d="M142 130 C137 151 132 162 134 179 S132 197 128 208"/>
-            <path class="aquarium-water-rivulet aquarium-water-runoff" d="M138 74 C132 111 122 145 123 174 S119 224 120 259 S115 315 117 385"/>
-            <path class="aquarium-water-rivulet aquarium-water-runoff" d="M148 78 C156 109 162 146 169 183 S182 232 183 277 S187 332 189 385"/>
-          </g>
-          <path class="aquarium-water-edge" d="M143 70 C139 89 146 99 141 120 S149 163 144 192 S153 245 153 271 S158 294 156 381"/>
-          <path class="aquarium-water-edge aquarium-water-edge-fork" d="M147 79 C153 102 148 121 154 146 S152 190 159 223 S169 259 166 289"/>
-          <path class="aquarium-water-edge aquarium-water-edge-runoff" d="M136 82 C130 113 120 148 121 175 S116 226 118 261 S113 317 115 380"/>
-          <path class="aquarium-water-edge aquarium-water-edge-runoff" d="M151 89 C159 122 165 150 172 184 S185 231 186 279 S190 331 192 380"/>
-          <path class="aquarium-water-sheen" d="M142 76 C138 94 145 102 140 122 S148 165 143 192 S152 247 152 272 L156 380"/>
-          <path class="aquarium-water-sheen aquarium-water-sheen-alt" d="M137 92 C130 124 122 150 123 174 S119 222 120 259 S115 318 117 383"/>
-          <path class="aquarium-water-sheen aquarium-water-sheen-alt" d="M151 98 C160 129 166 156 171 184 S183 230 184 278 S188 329 189 382"/>
-          <g class="aquarium-leak-drop"><ellipse rx="2.4" ry="4.6" fill="url(#aquarium-drop-glass)"/><animateMotion dur="2.8s" begin="-1.7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".35 0 1 1" path="M142 69 C136 93 143 102 138 119 S146 164 141 192 S150 246 150 271 S155 293 153 390"/><animate attributeName="opacity" values="0;.8;.9;.8;0" keyTimes="0;.12;.63;.87;1" dur="2.8s" begin="-1.7s" repeatCount="indefinite"/></g>
-          <g class="aquarium-leak-drop"><ellipse rx="2.1" ry="3.8" fill="url(#aquarium-drop-glass)"/><animateMotion dur="3.5s" begin="-3.1s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".4 0 1 1" path="M147 84 C153 106 145 121 152 147 S149 194 157 224 S166 259 163 287 L167 391"/><animate attributeName="opacity" values="0;.7;.85;.7;0" keyTimes="0;.1;.58;.88;1" dur="3.5s" begin="-3.1s" repeatCount="indefinite"/></g>
-          <g class="aquarium-leak-drop"><ellipse rx="1.7" ry="3.3" fill="url(#aquarium-drop-glass)"/><animateMotion dur="3.9s" begin="-2.4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".4 0 1 1" path="M139 81 C131 101 128 126 130 151 S124 203 131 231 S135 271 133 391"/><animate attributeName="opacity" values="0;.6;.75;.65;0" keyTimes="0;.12;.63;.89;1" dur="3.9s" begin="-2.4s" repeatCount="indefinite"/></g>
-          <g class="aquarium-leak-drop"><ellipse rx="2.2" ry="4.3" fill="url(#aquarium-drop-glass)"/><animateMotion dur="3.2s" begin="-2.2s" repeatCount="indefinite" path="M138 79 C132 111 122 145 123 174 S119 224 120 259 S115 315 117 392"/><animate attributeName="opacity" values="0;.75;.85;.7;0" keyTimes="0;.1;.65;.88;1" dur="3.2s" begin="-2.2s" repeatCount="indefinite"/></g>
-          <g class="aquarium-leak-drop"><ellipse rx="2.4" ry="4.4" fill="url(#aquarium-drop-glass)"/><animateMotion dur="2.9s" begin="-.9s" repeatCount="indefinite" path="M148 78 C156 109 162 146 169 183 S182 232 183 277 S187 332 189 394"/><animate attributeName="opacity" values="0;.8;.9;.75;0" keyTimes="0;.1;.65;.88;1" dur="2.9s" begin="-.9s" repeatCount="indefinite"/></g>
-          <g class="aquarium-leak-drop"><ellipse rx="1.8" ry="3.2" fill="url(#aquarium-drop-glass)"/><animateMotion dur="3.3s" begin="-2.7s" repeatCount="indefinite" path="M141 70 C136 84 142 98 138 119 S146 164 141 192 S150 246 150 271 S155 293 153 394"/><animate attributeName="opacity" values="0;.65;.8;.7;0" keyTimes="0;.1;.65;.88;1" dur="3.3s" begin="-2.7s" repeatCount="indefinite"/></g>
+          <!-- One continuous sheet of water. Its path deliberately extends beyond the
+               SVG viewport so it disappears behind the taskbar at any screen size. -->
+          <path class="aquarium-water-stream-shadow" filter="url(#aquarium-stream-softness)" d="M141 60 C138 82 129 96 133 119 S143 159 139 183 S128 226 132 253 S149 290 141 318 S132 353 138 382 S154 418 144 446 S139 486 146 515 S157 553 145 585 S154 629 149 658 S151 720 147 790 L166 790 C167 729 174 692 164 658 S159 613 163 585 S166 548 159 515 S167 474 161 446 S155 404 151 382 S160 340 157 318 S145 276 149 253 S158 209 154 183 S149 141 148 119 S153 82 148 60Z"/>
+          <path class="aquarium-water-stream" filter="url(#aquarium-stream-refraction)" d="M141 60 C138 82 129 96 133 119 S143 159 139 183 S128 226 132 253 S149 290 141 318 S132 353 138 382 S154 418 144 446 S139 486 146 515 S157 553 145 585 S154 629 149 658 S151 720 147 790 L166 790 C167 729 174 692 164 658 S159 613 163 585 S166 548 159 515 S167 474 161 446 S155 404 151 382 S160 340 157 318 S145 276 149 253 S158 209 154 183 S149 141 148 119 S153 82 148 60Z"/>
+          <path class="aquarium-water-current" d="M145 76 C138 111 146 157 146 190 S134 234 141 267 S152 296 149 336 S142 374 147 407 S155 451 152 486 S155 535 152 565 S158 630 157 680 S162 745 158 790"/>
+          <path class="aquarium-water-current aquarium-water-current-soft" d="M146 95 C142 138 149 175 148 208 S139 255 144 290 S148 347 147 385 S158 432 155 470 S157 534 154 571 S162 642 161 694 S162 759 162 790"/>
         </svg>
         <img class="aquarium-construction-sign" src="assets/under-construction-sign.png" alt="" draggable="false">
       </div>

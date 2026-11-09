@@ -19,8 +19,7 @@ test('the construction sign and nail damage belong to the aquarium background', 
 test('the decoration is noninteractive, responsive, and respects reduced motion', () => {
   assert.match(css, /\.aquarium-construction\s*\{[^}]*pointer-events:\s*none/s);
   assert.match(css, /@media\s*\(max-width:\s*600px\)\s*\{\s*\.aquarium-construction/s);
-  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*\.aquarium-water-sheen/s);
-  assert.match(css, /\.aquarium-leak-drop\s*\{\s*display:\s*none/s);
+  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*\.aquarium-water-current\s*\{\s*animation:\s*none/s);
 });
 
 test('glass has branching hairline cracks rather than one duplicated starburst', () => {
@@ -30,13 +29,11 @@ test('glass has branching hairline cracks rather than one duplicated starburst',
   assert.match(html, /class="aquarium-fracture-light"/);
 });
 
-test('water is translucent with multiple continuous rivulets and moving droplets', () => {
-  assert.match(html, /class="aquarium-wet-film"/);
-  assert.match(html, /class="aquarium-water-rivulet aquarium-water-main"/);
-  assert.match(html, /class="aquarium-water-rivulet aquarium-water-fork"/);
-  assert.match(html, /class="aquarium-water-rivulet aquarium-water-thread"/);
-  assert.equal((html.match(/class="aquarium-water-rivulet aquarium-water-runoff"/g) || []).length, 2);
-  assert.equal((html.match(/class="aquarium-water-sheen aquarium-water-sheen-alt"/g) || []).length, 2);
-  assert.equal((html.match(/<animateMotion\b/g) || []).length, 6);
-  assert.doesNotMatch(css, /\.aquarium-water-main\s*\{[^}]*stroke-dasharray/s);
+test('water is one contiguous stream that flows behind the taskbar to the viewport bottom', () => {
+  assert.equal((html.match(/class="aquarium-water-stream"/g) || []).length, 1);
+  assert.match(html, /class="aquarium-water-stream"[^>]*d="[^"]*790/);
+  assert.match(html, /class="aquarium-water-current"/);
+  assert.doesNotMatch(html, /aquarium-water-rivulet|<animateMotion\b/);
+  assert.match(css, /\.aquarium-construction-leak\s*\{[^}]*overflow:\s*visible/s);
+  assert.match(css, /\.xp-taskbar\s*\{[^}]*z-index:\s*10000/s);
 });
