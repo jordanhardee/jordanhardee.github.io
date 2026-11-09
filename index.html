@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261109-single-leak-v4">
+    <link rel="stylesheet" href="css/style.css?v=20261109-aquarium-break">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -15,7 +15,7 @@
     </div>
     <div class="site-aquarium-background" aria-hidden="true">
       <canvas id="site-aquarium-canvas"></canvas>
-      <div class="aquarium-construction">
+      <div class="aquarium-construction" data-damage="0">
         <svg class="aquarium-construction-cracks" viewBox="0 0 300 310" aria-hidden="true">
           <defs>
             <!-- The nail enters the glass at its lower tip, behind the sign's hanger. -->
@@ -60,8 +60,13 @@
           <path class="aquarium-water-current" d="M145 76 C138 111 146 157 146 190 S134 234 141 267 S152 296 149 336 S142 374 147 407 S155 451 152 486 S155 535 152 565 S158 630 157 680 S162 745 158 790"/>
           <path class="aquarium-water-current aquarium-water-current-soft" d="M146 95 C142 138 149 175 148 208 S139 255 144 290 S148 347 147 385 S158 432 155 470 S157 534 154 571 S162 642 161 694 S162 759 162 790"/>
         </svg>
+        <canvas class="aquarium-burst-canvas" hidden aria-hidden="true"></canvas>
         <img class="aquarium-construction-sign" src="assets/under-construction-sign.png" alt="" draggable="false">
       </div>
+    </div>
+    <div class="aquarium-construction-controls" data-damage="0">
+      <button class="aquarium-glass-tap" type="button" aria-label="Tap the cracked aquarium glass" title="Tap the cracked glass"><span>Repair glass</span></button>
+      <span class="aquarium-glass-status" role="status" aria-live="polite"></span>
     </div>
     <div class="ios-retro-icons nostalgia-layer" aria-label="Classic iOS app icons">
         <div class="ios-retro-apps">
@@ -881,7 +886,8 @@
     <script src="js/release-cats.js?v=20261108-catfish"></script>
     <script src="js/floppa-friday.js?v=20261107-friday-toggle"></script>
     <script src="js/start-menu.js?v=20261107-arena-oracle"></script>
-    <script src="js/music.js?v=20261107-opt-in"></script>
+    <script src="js/music.js?v=20261109-aquarium-audio"></script>
     <script src="js/kali-soundtrack.js?v=20261104-voodoo-people"></script>
+    <script src="js/aquarium-construction.js?v=20261109-aquarium-break"></script>
   </body>
 </html>
