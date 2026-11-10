@@ -6,7 +6,7 @@
     <link rel="icon" href="/assets/img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jordan's personal website.">
-    <link rel="stylesheet" href="css/style.css?v=20261109-aquarium-break">
+    <link rel="stylesheet" href="css/style.css?v=20261110-aquarium-drain">
     <script type="text/javascript" src="js/sparklecursor.js"></script>
   </head>
   <body>
@@ -15,6 +15,17 @@
     </div>
     <div class="site-aquarium-background" aria-hidden="true">
       <canvas id="site-aquarium-canvas"></canvas>
+      <svg class="aquarium-fish-killer-sign" viewBox="0 0 180 125" hidden aria-hidden="true">
+        <defs><linearGradient id="aquarium-warning-wood" x2="0" y2="1"><stop stop-color="#a8753d"/><stop offset="1" stop-color="#624225"/></linearGradient></defs>
+        <path d="m82 54 16-1-3 71H80z" fill="#503d29" stroke="#30271e" stroke-width="2"/>
+        <g transform="rotate(-7 90 50)">
+          <path d="m8 18 161 4-3 65L9 82 4 66 9 49z" fill="url(#aquarium-warning-wood)" stroke="#49341f" stroke-width="3"/>
+          <path d="m15 31 144 4M13 70l145 5M26 21l-2 58m125-53-3 54" stroke="#e2b16b" stroke-opacity=".19" fill="none"/>
+          <circle cx="18" cy="30" r="2.4" fill="#382a21"/><circle cx="156" cy="72" r="2.4" fill="#382a21"/>
+          <text x="88" y="51" text-anchor="middle" fill="#f0dfb7" font-family="Georgia, serif" font-size="22" font-weight="bold" letter-spacing="1">FISH</text>
+          <text x="88" y="75" text-anchor="middle" fill="#f0dfb7" font-family="Georgia, serif" font-size="23" font-weight="bold" letter-spacing="1">KILLER</text>
+        </g>
+      </svg>
       <div class="aquarium-construction" data-damage="0">
         <svg class="aquarium-construction-cracks" viewBox="0 0 300 310" aria-hidden="true">
           <defs>
@@ -65,7 +76,8 @@
       </div>
     </div>
     <div class="aquarium-construction-controls" data-damage="0">
-      <button class="aquarium-glass-tap" type="button" aria-label="Tap the cracked aquarium glass" title="Tap the cracked glass"><span>Repair glass</span></button>
+      <button class="aquarium-glass-tap" type="button" aria-label="Tap the cracked aquarium glass" title="Tap the cracked glass"></button>
+      <button class="aquarium-glass-repair" type="button" hidden>Repair glass</button>
       <span class="aquarium-glass-status" role="status" aria-live="polite"></span>
     </div>
     <div class="ios-retro-icons nostalgia-layer" aria-label="Classic iOS app icons">
@@ -871,7 +883,7 @@
       <div class="xp-tray"><button class="xp-tray-music" id="xp-music-toggle" type="button" aria-label="Play background music" aria-pressed="false" title="Play music">♪</button><span class="xp-tray-led" aria-hidden="true"></span><time id="xp-clock" aria-label="Current time"></time></div>
     </footer>
     <script src="js/matrix-rain.js?v=20261029-japanese-rain"></script>
-    <script src="js/aquarium-background.js?v=20261108-catfish"></script>
+    <script src="js/aquarium-background.js?v=20261110-aquarium-drain"></script>
     <script src="js/threat-intel.js?v=20261029-security-news"></script>
     <script src="js/hacker-news.js?v=20261029-three-panels"></script>
     <script src="js/apod.js?v=20261029-apod-scroll"></script>
@@ -888,6 +900,6 @@
     <script src="js/start-menu.js?v=20261107-arena-oracle"></script>
     <script src="js/music.js?v=20261109-aquarium-audio"></script>
     <script src="js/kali-soundtrack.js?v=20261104-voodoo-people"></script>
-    <script src="js/aquarium-construction.js?v=20261109-aquarium-break-v2"></script>
+    <script src="js/aquarium-construction.js?v=20261110-aquarium-drain"></script>
   </body>
 </html>

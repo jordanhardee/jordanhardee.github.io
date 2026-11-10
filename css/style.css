@@ -117,12 +117,24 @@ body {
 .aquarium-construction-cracks { transform-origin: 49.032% 29.032%; }
 .aquarium-construction[data-damage="1"] .aquarium-construction-cracks { transform: scale(1.48); }
 .aquarium-construction[data-damage="2"] .aquarium-construction-cracks { transform: scale(2.08); }
-.aquarium-construction[data-damage="3"] .aquarium-construction-cracks { transform: scale(2.32); opacity: .75; }
-.aquarium-construction[data-damage="3"] .aquarium-construction-sign {
+.aquarium-construction:is([data-damage="3"], [data-damage="4"], [data-damage="5"]) .aquarium-construction-cracks { transform: scale(2.32); opacity: .75; }
+.aquarium-construction:is([data-damage="3"], [data-damage="4"], [data-damage="5"]) .aquarium-construction-sign {
   transform-origin: 49% 4%;
   animation: aquarium-sign-fall 1.1s cubic-bezier(.42, 0, 1, .55) forwards;
 }
-.aquarium-construction[data-damage="3"] .aquarium-construction-leak { visibility: hidden; }
+.aquarium-construction:is([data-damage="3"], [data-damage="4"], [data-damage="5"]) .aquarium-construction-leak { visibility: hidden; }
+.aquarium-construction:is([data-damage="4"], [data-damage="5"]) .aquarium-construction-cracks { transform: scale(2.9); }
+.aquarium-fish-killer-sign {
+  position: absolute;
+  left: 23%;
+  bottom: calc(var(--xp-taskbar-height) + 2px);
+  z-index: 3;
+  width: clamp(100px, 11vw, 155px);
+  height: auto;
+  filter: drop-shadow(2px 4px 2px #00182777);
+  pointer-events: none;
+}
+.aquarium-fish-killer-sign[hidden] { display: none; }
 .aquarium-burst-canvas {
   position: fixed;
   inset: 0;
@@ -160,14 +172,13 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 .aquarium-glass-tap:focus-visible { outline: 2px dashed #e4faff; outline-offset: 3px; }
-.aquarium-glass-tap span { display: none; }
-.aquarium-construction-controls[data-damage="3"] .aquarium-glass-tap span {
-  display: inline-block;
+.aquarium-glass-repair {
   position: absolute;
-  right: calc(100% + 8px);
-  top: 50%;
+  right: calc(78% + 8px);
+  top: 29%;
   transform: translateY(-50%);
   white-space: nowrap;
+  min-height: 32px;
   padding: 5px 8px;
   border: 1px solid #d1e5ee;
   border-radius: 3px;
@@ -177,7 +188,12 @@ body {
   text-shadow: 0 1px #001524;
   box-shadow: 0 2px 5px #00162766;
   animation: aquarium-repair-appear .2s 1.1s both;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
 }
+.aquarium-glass-repair[hidden] { display: none; }
+.aquarium-glass-repair:focus-visible { outline: 2px solid #effbff; outline-offset: 3px; }
 @keyframes aquarium-repair-appear { from { opacity: 0; } to { opacity: 1; } }
 .aquarium-glass-status {
   position: absolute;
@@ -226,7 +242,7 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .aquarium-water-current { animation: none; }
-  .aquarium-construction[data-damage="3"] .aquarium-construction-sign { animation: none; visibility: hidden; }
+  .aquarium-construction:is([data-damage="3"], [data-damage="4"], [data-damage="5"]) .aquarium-construction-sign { animation: none; visibility: hidden; }
 }
 
 /* App tiles alone suggest a 2009 SpringBoard, without drawing an iPod. */

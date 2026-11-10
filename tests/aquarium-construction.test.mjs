@@ -29,7 +29,7 @@ test('only the square tap target is interactive and the decoration respects redu
 
 const interaction = readFileSync(new URL('../js/aquarium-construction.js', import.meta.url), 'utf8');
 
-function harness({ noAudio = false, brokenAudio = false, blockedResume = false, reduced = false } = {}) {
+function harness({ noAudio = false, brokenAudio = false, blockedResume = false, reduced = false, withFish = false } = {}) {
   function element() {
     const listeners = new Map();
     return {
@@ -37,22 +37,36 @@ function harness({ noAudio = false, brokenAudio = false, blockedResume = false, 
       addEventListener(type, fn) { const list = listeners.get(type) || []; list.push(fn); listeners.set(type, list); },
       dispatchEvent(event) { for (const fn of listeners.get(event.type) || []) fn(event); },
       setAttribute(name, value) { this.attributes[name] = value; },
-      removeAttribute(name) { delete this.attributes[name]; },
+      removeAttribute(name) { delete this.attributes[name]; if (name === 'hidden') this.hidden = false; },
     };
   }
-  const glass = element(), controls = element(), tap = element(), status = element(), canvas = element(), sign = element();
+  const glass = element(), controls = element(), tap = element(), repair = element(), warningSign = element(), status = element(), canvas = element(), sign = element();
   canvas.hidden = true;
+  repair.hidden = warningSign.hidden = true;
   let bumps = 0, now = 0, next = 0;
   const timers = new Map(), frames = new Map(), audioContexts = [];
   const drawing = new Proxy({}, { get: (_, key) => key === 'createLinearGradient' ? () => ({ addColorStop() {} }) : () => {} });
   canvas.getContext = () => drawing;
+  const painted = [];
+  let translated = { x: 0, y: 0 };
+  const fishDrawing = new Proxy({}, { get: (_, key) => {
+    if (key === 'createLinearGradient') return () => ({ addColorStop() {} });
+    if (key === 'clearRect') return () => { painted.length = 0; };
+    if (key === 'translate') return (x, y) => { translated = { x, y }; };
+    if (key === 'drawImage') return (image, ...args) => {
+      if (image.src.includes('fish-atlas')) painted.push({ id: `${image.src}:${args[0]},${args[1]}`, ...translated });
+    };
+    return () => {};
+  } });
+  const fishCanvas = { dataset: {}, clientWidth: 1366, clientHeight: 900, getContext: () => fishDrawing };
   sign.animate = () => { bumps++; return { cancel() {} }; };
   glass.getBoundingClientRect = () => ({ left: 950, top: 500, width: 300, height: 300 });
   glass.querySelector = selector => ({ '.aquarium-burst-canvas': canvas, '.aquarium-construction-sign': sign })[selector];
-  controls.querySelector = selector => ({ '.aquarium-glass-tap': tap, '.aquarium-glass-status': status })[selector];
+  controls.querySelector = selector => ({ '.aquarium-glass-tap': tap, '.aquarium-glass-repair': repair, '.aquarium-glass-status': status })[selector];
   const document = element(), window = element(), motion = element();
   document.hidden = false;
-  document.querySelector = selector => ({ '.aquarium-construction': glass, '.aquarium-construction-controls': controls })[selector];
+  document.querySelector = selector => ({ '.aquarium-construction': glass, '.aquarium-construction-controls': controls, '.aquarium-fish-killer-sign': warningSign })[selector];
+  document.getElementById = id => id === 'site-aquarium-canvas' ? fishCanvas : null;
   motion.matches = reduced;
   window.matchMedia = () => motion;
   Object.assign(window, { innerWidth: 1366, innerHeight: 900, devicePixelRatio: 2 });
@@ -89,19 +103,23 @@ function harness({ noAudio = false, brokenAudio = false, blockedResume = false, 
     suspend() { this.state = 'suspended'; return Promise.resolve(); }
   }
   if (!noAudio) window.AudioContext = AudioContext;
-  vm.runInNewContext(interaction, {
+  const sandbox = vm.createContext({
     window, document, performance: { now: () => now },
-    CustomEvent: class { constructor(type) { this.type = type; } },
+    Image: class { naturalWidth = 1536; naturalHeight = 1024; src = ''; },
+    CustomEvent: class { constructor(type, options = {}) { this.type = type; this.detail = options.detail; } },
     setTimeout(fn, delay) { const id = ++next; timers.set(id, { fn, at: now + delay }); return id; },
     clearTimeout(id) { timers.delete(id); },
     requestAnimationFrame(fn) { const id = ++next; frames.set(id, fn); return id; },
     cancelAnimationFrame(id) { frames.delete(id); },
   });
+  if (withFish) vm.runInContext(readFileSync(new URL('../js/aquarium-background.js', import.meta.url), 'utf8'), sandbox);
+  vm.runInContext(interaction, sandbox);
   return {
-    glass, controls, tap, status, canvas, document, window, motion, audioContexts, frames,
+    glass, controls, tap, status, canvas, document, window, motion, audioContexts, frames, repairButton: repair, warningSign, fishCanvas, painted,
     get bumps() { return bumps; },
     click() { tap.dispatchEvent({ type: 'click' }); },
-    event(type) { document.dispatchEvent({ type }); },
+    repair() { repair.dispatchEvent({ type: 'click' }); },
+    event(type, detail) { document.dispatchEvent({ type, detail }); },
     advance(ms, paint = false) {
       now += ms;
       for (const [id, timer] of timers) if (timer.at <= now) { timers.delete(id); timer.fn(); }
@@ -110,7 +128,7 @@ function harness({ noAudio = false, brokenAudio = false, blockedResume = false, 
   };
 }
 
-test('three taps deepen, deepen, then break; repair stops the waterfall and allows replay', () => {
+test('three taps break the glass and the separate repair button stops the waterfall and allows replay', () => {
   const h = harness();
   assert.equal(h.audioContexts.length, 0, 'visiting the page must not start audio');
   h.click();
@@ -129,7 +147,7 @@ test('three taps deepen, deepen, then break; repair stops the waterfall and allo
   h.click();
   assert.equal(h.glass.dataset.damage, '3', 'an extra fast tap must not cancel the break');
   h.advance(1200, true);
-  h.click();
+  h.repair();
   assert.equal(h.glass.dataset.damage, '0');
   assert.equal(h.canvas.hidden, true);
   assert.ok(water.stopped);
@@ -138,6 +156,82 @@ test('three taps deepen, deepen, then break; repair stops the waterfall and allo
   h.click(); h.click(); h.click();
   assert.equal(h.glass.dataset.damage, '3');
   assert.equal(h.audioContexts[0].sources.filter(source => source.loop && !source.stopped).length, 1);
+});
+
+test('the fourth tap lowers the water to the crack, removes upper fish and accelerates the lower fish', () => {
+  const h = harness({ withFish: true });
+  h.click(); h.click(); h.click();
+  h.advance(1200, true);
+  h.click();
+  assert.equal(h.glass.dataset.damage, '4');
+  h.click();
+  assert.equal(h.glass.dataset.damage, '4', 'wait for the water to reach the crack before the final tap');
+  h.advance(3250, true);
+  h.advance(50, true);
+  assert.equal(h.fishCanvas.dataset.phase, 'lowering');
+  assert.ok(Number(h.fishCanvas.dataset.waterLevel) > 0);
+  assert.ok(Number(h.fishCanvas.dataset.fishRemaining) < 12);
+  h.advance(3500, true);
+  assert.equal(h.fishCanvas.dataset.phase, 'low');
+  assert.ok(Number(h.fishCanvas.dataset.fishRemaining) >= 3);
+  assert.ok(Number(h.fishCanvas.dataset.fishRemaining) < 12);
+  assert.equal(h.tap.attributes['aria-disabled'], undefined);
+  h.advance(50, true);
+  const before = new Map(h.painted.map(f => [f.id, f.x]));
+  h.advance(50, true);
+  const distances = h.painted.filter(f => before.has(f.id)).map(f => Math.abs(f.x - before.get(f.id)));
+  assert.ok(Math.max(...distances) > 6, 'the remaining fish really move faster, beyond just a status flag');
+});
+
+test('the final tap empties the tank; repair refills it and leaves the fish killer sign', () => {
+  const h = harness({ withFish: true });
+  h.click(); h.click(); h.click(); h.advance(1200, true);
+  h.click(); h.advance(7000, true);
+  h.click();
+  assert.equal(h.glass.dataset.damage, '5');
+  h.advance(5000, true);
+  assert.equal(h.controls.dataset.flow, 'dry');
+  assert.equal(h.fishCanvas.dataset.phase, 'dry');
+  assert.equal(h.fishCanvas.dataset.fishRemaining, '0');
+  assert.equal(h.fishCanvas.dataset.fishEscaped, '12');
+  assert.ok(Number(h.fishCanvas.dataset.waterLevel) >= 1);
+  assert.equal(h.controls.dataset.sound, 'off');
+  assert.equal(h.frames.size, 0, 'an empty tank does not keep animating or making water noise');
+  assert.equal(h.warningSign.hidden, true, 'the scenery sign appears after repair');
+  h.repair();
+  assert.equal(h.glass.dataset.damage, '0');
+  assert.equal(h.fishCanvas.dataset.fishRemaining, '12');
+  assert.equal(h.fishCanvas.dataset.phase, 'full');
+  assert.equal(h.warningSign.hidden, false);
+  h.click(); h.repair();
+  assert.equal(h.warningSign.hidden, false, 'later repairs keep the earned sign');
+});
+
+test('repair during draining cancels the sequence and cannot remove the restored fish later', () => {
+  const h = harness({ withFish: true });
+  h.click(); h.click(); h.click(); h.advance(1200, true);
+  h.click(); h.advance(1500, true);
+  h.repair(); h.advance(20000, true);
+  assert.equal(h.glass.dataset.damage, '0');
+  assert.equal(h.fishCanvas.dataset.phase, 'full');
+  assert.equal(h.fishCanvas.dataset.fishRemaining, '12');
+  assert.equal(h.warningSign.hidden, true);
+  assert.equal(h.controls.dataset.sound, 'off');
+});
+
+test('reduced motion can drain and refill catfish without continuous fish or waterfall animation', () => {
+  const h = harness({ withFish: true, reduced: true });
+  h.event('xp:cats-state', { released: true });
+  h.click(); h.click(); h.click(); h.advance(1200, true);
+  h.click(); h.advance(50, true);
+  assert.equal(h.fishCanvas.dataset.phase, 'low');
+  h.click(); h.advance(50, true);
+  assert.equal(h.fishCanvas.dataset.phase, 'dry');
+  assert.equal(h.frames.size, 0);
+  h.repair();
+  assert.equal(h.fishCanvas.dataset.fishRemaining, '12');
+  assert.equal(h.warningSign.hidden, false);
+  assert.ok(h.painted.every(f => f.id.includes('catfish-atlas')));
 });
 
 test('audio failure cannot block the three-stage glass break', () => {

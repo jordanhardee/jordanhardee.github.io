@@ -1,19 +1,28 @@
-// Three deliberate taps turn the small aquarium leak into a broken pane.
+// Five taps crack, break, burst, and finally empty the aquarium.
 // Audio is created in the tap gesture, so this also works on mobile Safari.
 (function () {
   const glass = document.querySelector('.aquarium-construction');
   const controls = document.querySelector('.aquarium-construction-controls');
   const tap = controls?.querySelector('.aquarium-glass-tap');
+  const repair = controls?.querySelector('.aquarium-glass-repair');
+  const warningSign = document.querySelector('.aquarium-fish-killer-sign');
   const status = controls?.querySelector('.aquarium-glass-status');
   const canvas = glass?.querySelector('.aquarium-burst-canvas');
   const sign = glass?.querySelector('.aquarium-construction-sign');
-  if (!glass || !tap || !canvas) return;
+  if (!glass || !tap || !canvas || !repair) return;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const competingAudio = new Set();
   let damage = 0;
   let brokenAt = 0;
   let resetTimer = 0;
+  let phaseTimer = 0;
+  let phaseAt = 0;
+  let phaseProgress = 0;
+  let phaseSettled = false;
+  let hasEmptied = false;
+  let burstAt = -10000;
+  let lastSoundAt = -1;
   let frame = 0;
   let lastFrame = 0;
   let bump;
@@ -118,7 +127,7 @@
   }
 
   function startWaterSound() {
-    if (damage !== 3 || waterSound || !unlockAudio()) return;
+    if (damage < 3 || (damage === 5 && phaseSettled) || waterSound || !unlockAudio()) return;
     try {
       const source = context.createBufferSource();
       source.buffer = noiseBuffer;
@@ -172,9 +181,83 @@
     drawing?.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
 
+  function tankState() {
+    const point = { x: anchor.x / width, y: anchor.y / height };
+    const progress = phaseProgress * phaseProgress * (3 - 2 * phaseProgress);
+    const level = damage === 4 ? point.y * progress
+      : damage === 5 ? point.y + (1.05 - point.y) * progress : 0;
+    const outlet = { x: point.x, y: damage === 5
+      ? Math.min(height - 22, Math.max(anchor.y, level * height - anchor.size * .075)) / height : point.y };
+    return { stage: damage, progress: phaseProgress, level, anchor: point, outlet };
+  }
+
+  function publishTank() {
+    const state = tankState();
+    controls.dataset.waterLevel = state.level.toFixed(4);
+    document.dispatchEvent(new CustomEvent('xp:aquarium-drain', { detail: state }));
+    return state;
+  }
+
+  function finishPhase() {
+    if (phaseSettled || damage < 4) return;
+    phaseProgress = 1;
+    phaseSettled = true;
+    clearTimeout(phaseTimer);
+    publishTank();
+    if (damage === 4) {
+      controls.dataset.flow = 'low';
+      tap.removeAttribute('aria-disabled');
+      tap.setAttribute('aria-label', 'Tap again to empty the aquarium');
+      tap.title = 'Tap again to empty the aquarium';
+      status.textContent = 'The water has fallen to the crack. The remaining fish are racing around below it. Tap again to empty the tank.';
+    } else {
+      hasEmptied = true;
+      controls.dataset.flow = 'dry';
+      tap.setAttribute('aria-label', 'Aquarium empty. Use Repair glass to refill it');
+      tap.setAttribute('aria-disabled', 'true');
+      stopWaterSound();
+      status.textContent = 'The aquarium is dry and every fish has been swept out. Repair glass will refill the tank.';
+    }
+  }
+
+  function explosionSound() {
+    if (!unlockAudio()) return;
+    const now = context.currentTime;
+    noise(1.2, .7, 350, now, 'lowpass');
+    noise(.85, .48, 1500, now + .025);
+    ring(72, .22, .65, now);
+  }
+
+  function escalate() {
+    damage++;
+    phaseAt = burstAt = performance.now();
+    phaseProgress = 0;
+    phaseSettled = false;
+    glass.dataset.damage = controls.dataset.damage = String(damage);
+    controls.dataset.flow = damage === 4 ? 'upper-drain' : 'lower-drain';
+    tap.setAttribute('aria-disabled', 'true');
+    tap.setAttribute('aria-label', damage === 4 ? 'Water draining to the crack' : 'Aquarium emptying');
+    status.textContent = damage === 4
+      ? 'A huge burst of water erupts. The waterline is falling and the upper fish are being pulled out.'
+      : 'The remaining water drains away and the last fish are pulled through the broken glass.';
+    try { explosionSound(); } catch { controls.dataset.sound = 'unavailable'; }
+    publishTank();
+    if (reducedMotion.matches) phaseProgress = 1;
+    else phaseTimer = setTimeout(() => {
+      finishPhase();
+      cancelAnimationFrame(frame);
+      frame = 0;
+      draw(performance.now());
+    }, damage === 4 ? 6500 : 4500);
+    cancelAnimationFrame(frame);
+    frame = 0;
+    startDrawing();
+    startWaterSound();
+  }
+
   function draw(now) {
     frame = 0;
-    if (damage !== 3 || document.hidden || !drawing) return;
+    if (damage < 3 || document.hidden || !drawing) return;
     if (now - lastFrame < 32 && !reducedMotion.matches) {
       frame = requestAnimationFrame(draw);
       return;
@@ -183,11 +266,35 @@
     const age = Math.max(0, (now - brokenAt) / 1000);
     const still = reducedMotion.matches;
     const time = still ? 2 : age;
-    const { x, y, size } = anchor;
-    const hole = Math.max(26, size * .15);
+    if (damage >= 4 && !phaseSettled) {
+      phaseProgress = still ? 1 : Math.min(1, (now - phaseAt) / (damage === 4 ? 6500 : 4500));
+      if (phaseProgress >= 1) finishPhase();
+    }
+    const state = damage >= 4 ? publishTank() : tankState();
+    const dry = damage === 5 && phaseSettled;
+    const x = anchor.x, y = state.outlet.y * height, size = anchor.size;
+    const blast = still ? 0 : Math.max(0, 1 - (now - burstAt) / 1800);
+    const hole = Math.max(26, size * .15) * (damage >= 4 ? 1.5 : 1);
     const bottom = still ? height + 60 : Math.min(height + 60, y + age * 1100);
     const depth = Math.max(1, height - y);
     drawing.clearRect(0, 0, width, height);
+
+    if (damage === 5) {
+      // The final hit tears the opening downwards, allowing the last water out.
+      drawing.beginPath();
+      drawing.moveTo(x - hole * .6, anchor.y);
+      for (let at = anchor.y + 18, i = 0; at < y; at += 25, i++) {
+        drawing.lineTo(x - hole * (.4 + i % 3 * .1), at);
+      }
+      drawing.lineTo(x - hole * .4, y);
+      drawing.lineTo(x + hole * .4, y);
+      drawing.lineTo(x + hole * .6, anchor.y);
+      drawing.closePath();
+      drawing.fillStyle = 'rgba(0, 28, 42, .35)';
+      drawing.fill();
+      drawing.strokeStyle = 'rgba(219, 252, 255, .65)';
+      drawing.stroke();
+    }
 
     // An angular missing piece of glass, with the water issuing from its edge.
     drawing.beginPath();
@@ -202,8 +309,19 @@
     drawing.lineWidth = 1.4;
     drawing.stroke();
 
+    if (dry) return;
+    if (waterSound && context.currentTime - lastSoundAt > .12) {
+      lastSoundAt = context.currentTime;
+      const gain = damage === 3 ? .7 : damage === 4 ? .95 : .95 * (1 - phaseProgress) + .02;
+      waterSound.envelope.gain.cancelScheduledValues(context.currentTime);
+      waterSound.envelope.gain.setValueAtTime(waterSound.envelope.gain.value, context.currentTime);
+      waterSound.envelope.gain.linearRampToValueAtTime(gain, context.currentTime + .18);
+      waterSound.lowpass.frequency.value = damage >= 4 ? 2750 : 1950;
+    }
+
     function center(at) { return x + Math.sin(time * 3.8 - at * .018) * Math.min(5, at * .06); }
-    function breadth(at) { return hole * (.57 + Math.min(1, at / depth) * 1.25) * (1 + Math.sin(at * .039 + time * 4) * .055); }
+    function breadth(at) { return hole * (.57 + Math.min(1, at / depth) * 1.25)
+      * (damage >= 4 ? 1.65 + blast * 1.2 : 1) * (1 + Math.sin(at * .039 + time * 4) * .055); }
     drawing.beginPath();
     for (let side = -1; side <= 1; side += 2) {
       const length = Math.max(1, bottom - y);
@@ -216,7 +334,7 @@
       }
     }
     drawing.closePath();
-    const curtain = drawing.createLinearGradient(x - hole * 2, 0, x + hole * 2, 0);
+    const curtain = drawing.createLinearGradient(x - hole * (damage >= 4 ? 4 : 2), 0, x + hole * (damage >= 4 ? 4 : 2), 0);
     [[0,'rgba(61, 159, 187, .08)'],[.21,'rgba(166, 235, 247, .55)'],[.43,'rgba(69, 162, 196, .5)'],[.62,'rgba(179, 237, 249, .64)'],[.84,'rgba(84, 175, 202, .4)'],[1,'rgba(211, 250, 255, .1)']].forEach(([at,color]) => curtain.addColorStop(at,color));
     drawing.fillStyle = curtain;
     drawing.fill();
@@ -224,7 +342,7 @@
     // Fast irregular highlights stay within the single continuous curtain.
     drawing.save();
     drawing.clip();
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < (damage >= 4 ? 65 : 30); i++) {
       const at = ((i * 79 + time * (460 + i % 4 * 75)) % (depth + 110)) - 50;
       const px = center(at) + Math.sin(i * 2.399) * breadth(at) * .85;
       drawing.beginPath();
@@ -237,14 +355,14 @@
     drawing.restore();
 
     // Spray at the opening and a splash where the falling sheet meets the floor.
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < (damage >= 4 ? 95 : 30); i++) {
       const flight = ((time * 1.35 + i * .137) % 1);
       const direction = i % 2 ? -1 : 1;
       const floorSpray = i >= 12;
       if (floorSpray && bottom < height) continue;
-      const px = x + direction * (floorSpray ? hole * .6 + flight * hole * 2.5 : flight * hole * 1.7);
+      const px = x + direction * (floorSpray ? hole * .6 + flight * hole * 2.5 : flight * hole * (1.7 + blast * 3.5));
       const py = floorSpray ? height - 8 - Math.sin(flight * Math.PI) * (20 + i % 5 * 8)
-        : y + flight * flight * 155 - flight * 38;
+        : y + flight * flight * (155 + blast * 170) - flight * (38 + blast * 130);
       drawing.beginPath();
       drawing.ellipse(px, py, .8 + i % 3 * .65, 1.6 + i % 4, direction * .35, 0, Math.PI * 2);
       drawing.fillStyle = `rgba(220, 251, 255, ${(1 - flight) * .65})`;
@@ -271,7 +389,7 @@
   }
 
   function startDrawing() {
-    if (frame || damage !== 3 || document.hidden || !drawing) return;
+    if (frame || damage < 3 || document.hidden || !drawing) return;
     lastFrame = 0;
     frame = requestAnimationFrame(draw);
   }
@@ -279,22 +397,30 @@
   function reset() {
     damage = 0;
     clearTimeout(resetTimer);
+    clearTimeout(phaseTimer);
     cancelAnimationFrame(frame);
     frame = 0;
     bump?.cancel();
     glass.dataset.damage = controls.dataset.damage = '0';
+    phaseProgress = 0;
+    phaseSettled = false;
+    controls.dataset.flow = 'full';
+    publishTank();
+    repair.hidden = true;
+    if (hasEmptied && warningSign) warningSign.removeAttribute('hidden');
     canvas.hidden = true;
     drawing?.clearRect(0, 0, width, height);
     tap.removeAttribute('aria-disabled');
     tap.setAttribute('aria-label', 'Tap the cracked aquarium glass');
     tap.title = 'Tap the cracked glass';
-    status.textContent = 'Aquarium glass repaired.';
+    status.textContent = hasEmptied ? 'Aquarium refilled and fish restored. A FISH KILLER sign now stands in the scenery.' : 'Aquarium glass repaired.';
     stopWaterSound();
   }
 
   tap.addEventListener('click', () => {
-    if (damage === 3) {
-      if (performance.now() - brokenAt >= 1100) reset();
+    if (damage >= 3) {
+      if (damage === 3 && performance.now() - brokenAt >= 1100) escalate();
+      else if (damage === 4 && phaseSettled) escalate();
       return;
     }
     damage++;
@@ -316,15 +442,18 @@
     resize();
     startDrawing();
     startWaterSound();
-    tap.setAttribute('aria-label', 'Repair aquarium glass');
+    repair.hidden = false;
+    controls.dataset.flow = 'waterfall';
+    tap.setAttribute('aria-label', 'Tap again for an explosive waterfall');
     tap.setAttribute('aria-disabled', 'true');
-    tap.title = 'Repair glass';
-    status.textContent = 'The glass breaks, the sign falls, and water rushes out. Tap Repair glass to reset.';
+    tap.title = 'Tap again for an explosive waterfall';
+    status.textContent = 'The glass breaks, the sign falls, and water rushes out. Tap the glass again for a bigger burst, or use Repair glass to reset.';
     resetTimer = setTimeout(() => tap.removeAttribute('aria-disabled'), 1100);
   });
+  repair.addEventListener('click', reset);
 
   window.addEventListener('resize', () => {
-    if (damage !== 3) return;
+    if (damage < 3) return;
     resize();
     if (reducedMotion.matches) draw(performance.now());
   });
@@ -339,7 +468,7 @@
       frame = 0;
       stopWaterSound();
       context?.suspend()?.catch?.(() => {});
-    } else if (damage === 3) {
+    } else if (damage >= 3) {
       startDrawing();
       startWaterSound();
     }
@@ -361,6 +490,6 @@
     context?.suspend()?.catch?.(() => {});
   });
   window.addEventListener('pageshow', () => {
-    if (damage === 3) { startDrawing(); startWaterSound(); }
+    if (damage >= 3) { startDrawing(); startWaterSound(); }
   });
 })();
