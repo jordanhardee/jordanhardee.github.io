@@ -56,6 +56,17 @@
     if (!p) return false;
     if (p >= 1) { f.removed = true; f.pose = null; return true; }
     if (!flight.start) flight.start = { x: f.x, y: f.y };
+    if (drain.stage === 5) {
+      // The whole front is open. Fish spill forward from their own positions
+      // and fall with the water instead of chasing a hole down the screen.
+      f.pose = {
+        x: flight.start.x + Math.sin(f.phase) * .07 * p,
+        y: flight.start.y + (1.22 - flight.start.y) * p * p,
+        rotation: Math.sin(f.phase) * p * 2.8,
+        scale: 1 + Math.sin(p * Math.PI) * .12, outflow: p > .12,
+      };
+      return true;
+    }
     const { x, y } = drain.outlet;
     if (p < .68) {
       const t = p / .68;

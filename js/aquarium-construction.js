@@ -35,6 +35,7 @@
   let width = 1;
   let height = 1;
   let anchor = { x: 0, y: 0, size: 80 };
+  let paneShards = [];
   const shards = Array.from({ length: 20 }, (_, i) => ({
     vx: Math.cos(i * 2.399) * (75 + i % 5 * 29),
     vy: -65 - i % 7 * 23,
@@ -179,6 +180,104 @@
     canvas.width = Math.round(width * ratio);
     canvas.height = Math.round(height * ratio);
     drawing?.setTransform(ratio, 0, 0, ratio, 0, 0);
+    if (damage === 5) fracturePane();
+  }
+
+  function fracturePane() {
+    // Shared vertices tile the entire front pane. The original opening stays
+    // put; only the actual pieces of glass travel away from their positions.
+    const angles = Array.from({ length: 22 }, (_, i) => i / 22 * Math.PI * 2);
+    for (const [x, y] of [[0, 0], [width, 0], [width, height], [0, height]]) {
+      angles.push((Math.atan2(y - anchor.y, x - anchor.x) + Math.PI * 2) % (Math.PI * 2));
+    }
+    angles.sort((a, b) => a - b);
+    const count = angles.length;
+    const rings = [[], [], [], []];
+    for (let i = 0; i < count; i++) {
+      const angle = angles[i];
+      const dx = Math.cos(angle), dy = Math.sin(angle);
+      const edge = Math.min(
+        dx > 0 ? (width - anchor.x) / dx : dx < 0 ? -anchor.x / dx : Infinity,
+        dy > 0 ? (height - anchor.y) / dy : dy < 0 ? -anchor.y / dy : Infinity,
+      );
+      const inner = Math.min(edge, Math.max(26, anchor.size * .15) * 1.5 * (.78 + i % 3 * .09));
+      [0, .24 + i % 3 * .025, .56 + i % 2 * .04, 1].forEach((fraction, ring) => {
+        const distance = inner + (edge - inner) * fraction;
+        rings[ring].push({ x: anchor.x + dx * distance, y: anchor.y + dy * distance });
+      });
+    }
+    paneShards = [];
+    for (let ring = 0; ring < 3; ring++) {
+      for (let i = 0; i < count; i++) {
+        const next = (i + 1) % count;
+        const points = [rings[ring][i], rings[ring + 1][i], rings[ring + 1][next], rings[ring][next]];
+        const x = points.reduce((sum, p) => sum + p.x, 0) / 4;
+        const y = points.reduce((sum, p) => sum + p.y, 0) / 4;
+        paneShards.push({ points, x, y, delay: ring * .045 + i % 3 * .012,
+          vx: (x - anchor.x) * .2, vy: -35 - i % 4 * 18,
+          spin: (i % 2 ? -1 : 1) * (.18 + i % 5 * .12) });
+      }
+    }
+  }
+
+  function drawPaneBreak(now) {
+    if (reducedMotion.matches) return;
+    const age = (now - phaseAt) / 1000;
+    paneShards.forEach(shard => {
+      const t = Math.max(0, age - shard.delay);
+      const opacity = Math.max(0, 1 - Math.max(0, t - .55) / 1.1);
+      if (!opacity) return;
+      drawing.save();
+      drawing.translate(shard.x + shard.vx * t, shard.y + shard.vy * t + height * .85 * t * t);
+      drawing.rotate(shard.spin * t);
+      drawing.beginPath();
+      shard.points.forEach((p, i) => {
+        if (!i) drawing.moveTo(p.x - shard.x, p.y - shard.y);
+        else drawing.lineTo(p.x - shard.x, p.y - shard.y);
+      });
+      drawing.closePath();
+      drawing.fillStyle = `rgba(188, 234, 246, ${opacity * .055})`;
+      drawing.strokeStyle = `rgba(218, 249, 255, ${opacity * .62})`;
+      drawing.lineWidth = .85;
+      drawing.fill();
+      drawing.stroke();
+      drawing.restore();
+    });
+  }
+
+  function drawFinalWater(state, time) {
+    if (state.progress >= 1) return;
+    // With the front pane gone, the lower pool spills across its whole width.
+    // This moving edge is the water surface, never a moving hole in the glass.
+    const top = Math.min(height, state.level * height);
+    const remaining = 1 - state.progress;
+    const sheet = drawing.createLinearGradient(0, top, 0, height);
+    sheet.addColorStop(0, `rgba(168, 235, 249, ${remaining * .32})`);
+    sheet.addColorStop(.22, `rgba(81, 180, 210, ${remaining * .27})`);
+    sheet.addColorStop(1, `rgba(195, 247, 255, ${remaining * .48})`);
+    drawing.beginPath();
+    for (let px = 0; px <= width + 20; px += 20) {
+      const py = top + Math.sin(px * .024 + time * 6) * 3 * remaining;
+      if (!px) drawing.moveTo(px, py); else drawing.lineTo(px, py);
+    }
+    drawing.lineTo(width, height + 30);
+    drawing.lineTo(0, height + 30);
+    drawing.closePath();
+    drawing.fillStyle = sheet;
+    drawing.fill();
+    drawing.save();
+    drawing.clip();
+    for (let i = 0; i < 55; i++) {
+      const px = (i + .5) / 55 * width + Math.sin(time * 3 + i) * 5;
+      const py = top + ((time * (250 + i % 4 * 80) + i * 59) % Math.max(1, height - top));
+      drawing.beginPath();
+      drawing.moveTo(px, py);
+      drawing.quadraticCurveTo(px + 4, py + 16, px + 1, py + 32 + i % 5 * 7);
+      drawing.lineWidth = 1 + i % 3 * .5;
+      drawing.strokeStyle = `rgba(229, 253, 255, ${remaining * .3})`;
+      drawing.stroke();
+    }
+    drawing.restore();
   }
 
   function tankState() {
@@ -186,8 +285,7 @@
     const progress = phaseProgress * phaseProgress * (3 - 2 * phaseProgress);
     const level = damage === 4 ? point.y * progress
       : damage === 5 ? point.y + (1.05 - point.y) * progress : 0;
-    const outlet = { x: point.x, y: damage === 5
-      ? Math.min(height - 22, Math.max(anchor.y, level * height - anchor.size * .075)) / height : point.y };
+    const outlet = { x: point.x, y: point.y };
     return { stage: damage, progress: phaseProgress, level, anchor: point, outlet };
   }
 
@@ -233,13 +331,14 @@
     phaseAt = burstAt = performance.now();
     phaseProgress = 0;
     phaseSettled = false;
+    if (damage === 5) fracturePane();
     glass.dataset.damage = controls.dataset.damage = String(damage);
     controls.dataset.flow = damage === 4 ? 'upper-drain' : 'lower-drain';
     tap.setAttribute('aria-disabled', 'true');
     tap.setAttribute('aria-label', damage === 4 ? 'Water draining to the crack' : 'Aquarium emptying');
     status.textContent = damage === 4
       ? 'A huge burst of water erupts. The waterline is falling and the upper fish are being pulled out.'
-      : 'The remaining water drains away and the last fish are pulled through the broken glass.';
+      : 'The entire front pane shatters. The remaining water and fish spill out across the open front.';
     try { explosionSound(); } catch { controls.dataset.sound = 'unavailable'; }
     publishTank();
     if (reducedMotion.matches) phaseProgress = 1;
@@ -272,31 +371,31 @@
     }
     const state = damage >= 4 ? publishTank() : tankState();
     const dry = damage === 5 && phaseSettled;
-    const x = anchor.x, y = state.outlet.y * height, size = anchor.size;
+    const x = anchor.x, y = anchor.y, size = anchor.size;
     const blast = still ? 0 : Math.max(0, 1 - (now - burstAt) / 1800);
     const hole = Math.max(26, size * .15) * (damage >= 4 ? 1.5 : 1);
     const bottom = still ? height + 60 : Math.min(height + 60, y + age * 1100);
     const depth = Math.max(1, height - y);
     drawing.clearRect(0, 0, width, height);
 
-    if (damage === 5) {
-      // The final hit tears the opening downwards, allowing the last water out.
-      drawing.beginPath();
-      drawing.moveTo(x - hole * .6, anchor.y);
-      for (let at = anchor.y + 18, i = 0; at < y; at += 25, i++) {
-        drawing.lineTo(x - hole * (.4 + i % 3 * .1), at);
-      }
-      drawing.lineTo(x - hole * .4, y);
-      drawing.lineTo(x + hole * .4, y);
-      drawing.lineTo(x + hole * .6, anchor.y);
-      drawing.closePath();
-      drawing.fillStyle = 'rgba(0, 28, 42, .35)';
-      drawing.fill();
-      drawing.strokeStyle = 'rgba(219, 252, 255, .65)';
-      drawing.stroke();
+    if (dry) return;
+    if (waterSound && context.currentTime - lastSoundAt > .12) {
+      lastSoundAt = context.currentTime;
+      const gain = damage === 3 ? .7 : damage === 4 ? .95 : .95 * (1 - phaseProgress) + .02;
+      waterSound.envelope.gain.cancelScheduledValues(context.currentTime);
+      waterSound.envelope.gain.setValueAtTime(waterSound.envelope.gain.value, context.currentTime);
+      waterSound.envelope.gain.linearRampToValueAtTime(gain, context.currentTime + .18);
+      waterSound.lowpass.frequency.value = damage >= 4 ? 2750 : 1950;
     }
 
-    // An angular missing piece of glass, with the water issuing from its edge.
+    if (damage === 5) {
+      drawFinalWater(state, time);
+      drawPaneBreak(now);
+      if (!still) frame = requestAnimationFrame(draw);
+      return;
+    }
+
+    // The small opening is fixed in the pane until the entire pane breaks.
     drawing.beginPath();
     [[-.85,-.45],[-.35,-.9],[.25,-.78],[.77,-.36],[.64,.2],[.88,.68],[.1,.82],[-.7,.5],[-.55,.06]].forEach(([a,b], i) => {
       if (!i) drawing.moveTo(x + a * hole, y + b * hole);
@@ -308,16 +407,6 @@
     drawing.strokeStyle = 'rgba(212, 251, 255, .9)';
     drawing.lineWidth = 1.4;
     drawing.stroke();
-
-    if (dry) return;
-    if (waterSound && context.currentTime - lastSoundAt > .12) {
-      lastSoundAt = context.currentTime;
-      const gain = damage === 3 ? .7 : damage === 4 ? .95 : .95 * (1 - phaseProgress) + .02;
-      waterSound.envelope.gain.cancelScheduledValues(context.currentTime);
-      waterSound.envelope.gain.setValueAtTime(waterSound.envelope.gain.value, context.currentTime);
-      waterSound.envelope.gain.linearRampToValueAtTime(gain, context.currentTime + .18);
-      waterSound.lowpass.frequency.value = damage >= 4 ? 2750 : 1950;
-    }
 
     function center(at) { return x + Math.sin(time * 3.8 - at * .018) * Math.min(5, at * .06); }
     function breadth(at) { return hole * (.57 + Math.min(1, at / depth) * 1.25)
@@ -404,6 +493,7 @@
     glass.dataset.damage = controls.dataset.damage = '0';
     phaseProgress = 0;
     phaseSettled = false;
+    paneShards = [];
     controls.dataset.flow = 'full';
     publishTank();
     repair.hidden = true;

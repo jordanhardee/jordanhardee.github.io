@@ -45,7 +45,14 @@ function harness({ noAudio = false, brokenAudio = false, blockedResume = false, 
   repair.hidden = warningSign.hidden = true;
   let bumps = 0, now = 0, next = 0;
   const timers = new Map(), frames = new Map(), audioContexts = [];
-  const drawing = new Proxy({}, { get: (_, key) => key === 'createLinearGradient' ? () => ({ addColorStop() {} }) : () => {} });
+  const glassPaint = [];
+  const drawing = new Proxy({}, { get: (target, key) => {
+    if (key === 'createLinearGradient') return () => ({ addColorStop() {} });
+    if (key === 'clearRect') return () => { glassPaint.length = 0; };
+    if (key === 'fill') return () => glassPaint.push({ fill: target.fillStyle });
+    if (key === 'translate') return (x, y) => glassPaint.push({ x, y });
+    return () => {};
+  } });
   canvas.getContext = () => drawing;
   const painted = [];
   let translated = { x: 0, y: 0 };
@@ -115,7 +122,7 @@ function harness({ noAudio = false, brokenAudio = false, blockedResume = false, 
   if (withFish) vm.runInContext(readFileSync(new URL('../js/aquarium-background.js', import.meta.url), 'utf8'), sandbox);
   vm.runInContext(interaction, sandbox);
   return {
-    glass, controls, tap, status, canvas, document, window, motion, audioContexts, frames, repairButton: repair, warningSign, fishCanvas, painted,
+    glass, controls, tap, status, canvas, document, window, motion, audioContexts, frames, repairButton: repair, warningSign, fishCanvas, painted, glassPaint,
     get bumps() { return bumps; },
     click() { tap.dispatchEvent({ type: 'click' }); },
     repair() { repair.dispatchEvent({ type: 'click' }); },
@@ -205,6 +212,43 @@ test('the final tap empties the tank; repair refills it and leaves the fish kill
   assert.equal(h.warningSign.hidden, false);
   h.click(); h.repair();
   assert.equal(h.warningSign.hidden, false, 'later repairs keep the earned sign');
+});
+
+test('the final break keeps the outlet anchored and releases glass across the whole pane', () => {
+  const h = harness();
+  const states = [];
+  h.document.addEventListener('xp:aquarium-drain', event => states.push(event.detail));
+  h.click(); h.click(); h.click(); h.advance(1200, true);
+  h.click(); h.advance(7000, true);
+  const opening = states.at(-1).outlet;
+  assert.ok(h.glassPaint.some(p => p.fill === 'rgba(0, 23, 42, .73)'), 'the initial local hole is visible');
+  h.click(); h.advance(50, true);
+  const fragments = h.glassPaint.filter(p => p.x !== undefined);
+  assert.ok(fragments.some(p => p.x < 400), 'the far side of the pane also breaks');
+  assert.ok(fragments.some(p => p.y < 300), 'the upper pane also breaks');
+  assert.ok(!h.glassPaint.some(p => p.fill === 'rgba(0, 23, 42, .73)'), 'a total break leaves no floating dark hole');
+  h.advance(2200, true);
+  assert.equal(h.glassPaint.filter(p => p.x !== undefined).length, 0, 'detached glass leaves the scene');
+  h.advance(2500, true);
+  for (const state of states.filter(state => state.stage === 5)) {
+    assert.equal(state.outlet.x, opening.x);
+    assert.equal(state.outlet.y, opening.y, 'lowering the water must never lower the hole');
+  }
+  assert.equal(h.glassPaint.length, 0, 'the dry tank has no remaining hole or falling glass');
+});
+
+test('the remaining fish spill from their own positions when the whole front pane opens', () => {
+  const h = harness({ withFish: true });
+  h.click(); h.click(); h.click(); h.advance(1200, true);
+  h.click(); h.advance(7000, true); h.advance(50, true);
+  const before = new Map(h.painted.map(f => [f.id, f]));
+  h.click(); h.advance(1700, true); h.advance(50, true);
+  const escaping = h.painted.filter(f => before.has(f.id));
+  assert.ok(escaping.length >= 3);
+  for (const f of escaping) {
+    assert.ok(Math.abs(f.x - before.get(f.id).x) < 100, 'fish do not converge on the old opening');
+    assert.ok(f.y > before.get(f.id).y, 'fish fall outward with the lower pool');
+  }
 });
 
 test('repair during draining cancels the sequence and cannot remove the restored fish later', () => {
