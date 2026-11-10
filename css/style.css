@@ -126,6 +126,8 @@ body {
 .aquarium-construction[data-damage="4"] .aquarium-construction-cracks { transform: scale(2.9); }
 /* Once the complete front pane breaks, its cracks leave with the shards. */
 .aquarium-construction[data-damage="5"] .aquarium-construction-cracks { visibility: hidden; }
+/* The old fractured pane is gone while a completely new sheet is installed. */
+.aquarium-construction[data-repair] .aquarium-construction-cracks { visibility: hidden; }
 .aquarium-fish-killer-sign {
   position: absolute;
   left: 23%;

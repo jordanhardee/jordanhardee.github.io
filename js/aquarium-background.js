@@ -27,7 +27,7 @@
     [.40, .28, .016, 5, .76], [.73, .81, -.012, 3, .71],
   ].map(([x, y, vx, sprite, size], index) => ({
     x, y, vx, vy: 0, sprite, size, phase: index * 1.72,
-    initial: { x, y, vx }, removed: false, flight: null, pose: null,
+    initial: { x, y, vx }, removed: false, flight: null, restock: null, pose: null,
   }));
 
   let width = 1;
@@ -89,19 +89,43 @@
     return true;
   }
 
+  function updateRestock(f) {
+    if (!f.restock) return false;
+    const p = Math.max(0, Math.min(1, (drain.progress - f.restock.delay) / f.restock.duration));
+    if (!p) return true;
+    f.removed = false;
+    if (p >= 1) {
+      Object.assign(f, f.initial, { vy: 0, pose: null, restock: null });
+      return true;
+    }
+    // Fish arrive from above the new pane, gently pitching as they enter the
+    // refilled water. Nothing appears at its old position until it lands.
+    const descent = 1 - Math.pow(1 - p, 2);
+    f.pose = {
+      x: f.initial.x + Math.sin(f.phase) * .045 * (1 - p),
+      y: -.17 + (f.initial.y + .17) * descent,
+      rotation: Math.sin(f.phase) * (1 - p) * .32,
+      scale: .9 + p * .1,
+      outflow: false,
+    };
+    return true;
+  }
+
   function publishStats() {
     const remaining = fish.filter(f => !f.removed && !f.pose?.outflow).length;
     stats.fishRemaining = String(remaining);
     stats.fishEscaped = String(fish.length - remaining);
     stats.waterLevel = drain.level.toFixed(4);
-    stats.swimSpeed = drain.stage === 5 && drain.progress >= 1 ? '0' : drain.stage >= 4 ? '12' : '1';
-    stats.phase = drain.stage === 5 ? drain.progress >= 1 ? 'dry' : 'emptying'
+    stats.swimSpeed = drain.stage === 5 && drain.progress >= 1 ? '0' : [4, 5].includes(drain.stage) ? '12' : '1';
+    stats.phase = drain.stage === 7 ? 'restocking'
+      : drain.stage === 6 ? drain.repair === 'pane' ? 'installing' : 'refilling'
+      : drain.stage === 5 ? drain.progress >= 1 ? 'dry' : 'emptying'
       : drain.stage === 4 ? drain.progress >= 1 ? 'low' : 'lowering' : 'full';
   }
 
   document.addEventListener('xp:aquarium-drain', event => {
     const state = event.detail;
-    if (!state || ![0, 3, 4, 5].includes(state.stage)) return;
+    if (!state || ![0, 3, 4, 5, 6, 7].includes(state.stage)) return;
     const changed = state.stage !== drain.stage;
     const wasSettled = drain.progress >= 1;
     drain = {
@@ -109,10 +133,25 @@
       progress: reducedMotion && state.stage >= 4 ? 1 : Math.max(0, Math.min(1, state.progress || 0)),
       level: Math.max(0, Math.min(1.05, state.level || 0)),
       anchor: state.anchor || drain.anchor, outlet: state.outlet || state.anchor || drain.outlet,
+      repair: state.repair || '',
     };
-    if (state.stage < 4) {
-      for (const f of fish) Object.assign(f, f.initial, { vy: 0, removed: false, flight: null, pose: null });
-    } else if (changed) {
+    if (state.stage === 0 || state.stage === 3) {
+      for (const f of fish) Object.assign(f, f.initial, { vy: 0, removed: false, flight: null, restock: null, pose: null });
+    } else if (state.stage === 6 && changed) {
+      // Lock in which fish actually escaped when repair begins. Survivors stay
+      // in the pool while the pane descends and the water rises around them.
+      for (const f of fish) {
+        if (f.flight || f.pose?.outflow) f.removed = true;
+        f.flight = null;
+        f.pose = null;
+      }
+    } else if (state.stage === 7 && changed) {
+      const missing = fish.filter(f => f.removed);
+      missing.forEach((f, i) => {
+        f.restock = { delay: i / Math.max(1, missing.length) * .83, duration: .2 };
+        Object.assign(f, f.initial, { removed: true, pose: null, flight: null });
+      });
+    } else if (changed && [4, 5].includes(state.stage)) {
       const survivors = fish.filter(f => !f.removed).sort((a, b) => b.y - a.y);
       // Leave at least three fish in the lower pool, including on short phone layouts.
       const lower = new Set(survivors.filter((f, i) => i < 3 || f.y >= drain.anchor.y - .012));
@@ -125,7 +164,10 @@
         };
       });
     }
-    for (const f of fish) updateSuction(f);
+    for (const f of fish) {
+      if (state.stage === 7) updateRestock(f);
+      else if ([4, 5].includes(state.stage)) updateSuction(f);
+    }
     publishStats();
     if (reducedMotion || drain.stage === 0 || (drain.progress >= 1 && !wasSettled)) draw();
     startLoop();
@@ -167,6 +209,13 @@
       context.fillStyle = air;
       context.fillRect(0, 0, width, Math.min(height, surface));
       if (surface < height) {
+        if (drain.stage === 6) {
+          const freshWater = context.createLinearGradient(0, surface, 0, height);
+          freshWater.addColorStop(0, 'rgba(71, 180, 213, .19)');
+          freshWater.addColorStop(1, 'rgba(20, 115, 180, .11)');
+          context.fillStyle = freshWater;
+          context.fillRect(0, surface, width, height - surface);
+        }
         context.beginPath();
         for (let x = 0; x <= width + 20; x += 20) {
           const y = surface + Math.sin(x * .017 + elapsed * 4) * 3 + Math.sin(x * .035 - elapsed * 3) * 1.5;
@@ -249,7 +298,7 @@
     catfishBlend += Math.sign(target - catfishBlend) * Math.min(Math.abs(target - catfishBlend), dt / .65);
 
     for (const f of fish) {
-      if (f.removed || updateSuction(f)) continue;
+      if (f.removed || (drain.stage === 7 && updateRestock(f)) || updateSuction(f)) continue;
       if (pointer.active) {
         const dx = pointer.x - f.x;
         const dy = pointer.y - f.y;
@@ -262,7 +311,7 @@
       }
       f.vx = Math.max(-.035, Math.min(.035, f.vx));
       f.vy *= Math.max(0, 1 - dt * 1.4);
-      const panic = drain.stage >= 4 ? 12 : 1;
+      const panic = [4, 5].includes(drain.stage) ? 12 : 1;
       f.x += f.vx * dt * panic;
       f.y += f.vy * dt * panic;
       if (panic > 1) f.y += Math.sin(elapsed * 13 + f.phase) * dt * .075;
@@ -270,8 +319,9 @@
       if (f.x < edge || f.x > 1 - edge) f.vx = -f.vx;
       f.x = Math.max(edge, Math.min(1 - edge, f.x));
       const floor = .91;
-      const waterTop = drain.stage >= 4 ? Math.min(floor - .025, drain.level + .045) : .09;
-      f.y = Math.max(waterTop, Math.min(drain.stage >= 4 ? floor : .87, f.y));
+      const lowWater = [4, 5, 6].includes(drain.stage);
+      const waterTop = lowWater ? Math.min(floor - .025, drain.level + .045) : .09;
+      f.y = Math.max(waterTop, Math.min(lowWater ? floor : .87, f.y));
     }
     draw();
     if (!reducedMotion && !document.hidden && !(drain.stage === 5 && drain.progress >= 1)) frame = requestAnimationFrame(tick);

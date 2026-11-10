@@ -36,6 +36,13 @@
   let height = 1;
   let anchor = { x: 0, y: 0, size: 80 };
   let paneShards = [];
+  let repairAt = 0;
+  let repairPauseAt = 0;
+  let repairPhase = '';
+  let repairStartLevel = 0;
+  const repairPaneMs = 2200;
+  const repairFillMs = 5000;
+  const repairFishMs = 3800;
   const shards = Array.from({ length: 20 }, (_, i) => ({
     vx: Math.cos(i * 2.399) * (75 + i % 5 * 29),
     vy: -65 - i % 7 * 23,
@@ -128,7 +135,7 @@
   }
 
   function startWaterSound() {
-    if (damage < 3 || (damage === 5 && phaseSettled) || waterSound || !unlockAudio()) return;
+    if (repairPhase || damage < 3 || (damage === 5 && phaseSettled) || waterSound || !unlockAudio()) return;
     try {
       const source = context.createBufferSource();
       source.buffer = noiseBuffer;
@@ -296,6 +303,116 @@
     return state;
   }
 
+  function publishRepair(stage, progress, level) {
+    const point = { x: anchor.x / width, y: anchor.y / height };
+    controls.dataset.waterLevel = level.toFixed(4);
+    document.dispatchEvent(new CustomEvent('xp:aquarium-drain', {
+      detail: { stage, progress, level, anchor: point, outlet: point, repair: repairPhase },
+    }));
+  }
+
+  function drawRepairPane(progress, installing) {
+    // An intact, full-height sheet moves down as one piece. The moving line is
+    // its bottom edge, not the original hole or a detached patch of glass.
+    const bottom = height * progress;
+    const top = bottom - height;
+    drawing.fillStyle = 'rgba(180, 235, 248, .045)';
+    drawing.fillRect(0, top, width, height);
+    drawing.strokeStyle = 'rgba(215, 251, 255, .38)';
+    drawing.lineWidth = 3;
+    drawing.strokeRect(2, top + 2, width - 4, height - 4);
+    const glint = drawing.createLinearGradient(0, 0, width, 0);
+    glint.addColorStop(0, 'rgba(229, 254, 255, .17)');
+    glint.addColorStop(.03, 'rgba(194, 238, 255, .015)');
+    glint.addColorStop(.75, 'rgba(215, 251, 255, .018)');
+    glint.addColorStop(.77, 'rgba(225, 254, 255, .10)');
+    glint.addColorStop(1, 'rgba(225, 254, 255, .01)');
+    drawing.fillStyle = glint;
+    drawing.fillRect(0, top, width, height);
+    if (installing) {
+      drawing.fillStyle = 'rgba(231, 254, 255, .65)';
+      drawing.fillRect(0, bottom - 3, width, 3);
+      drawing.fillStyle = 'rgba(0, 59, 89, .3)';
+      drawing.fillRect(0, bottom, width, 3);
+    }
+  }
+
+  function drawRefillStream(now, level) {
+    if (level <= .008) return;
+    const surface = level * height;
+    const x = width * .63;
+    const wobble = Math.sin(now * .008) * 3;
+    const stream = drawing.createLinearGradient(x - 10, 0, x + 10, 0);
+    stream.addColorStop(0, 'rgba(105, 195, 227, .04)');
+    stream.addColorStop(.3, 'rgba(195, 248, 255, .4)');
+    stream.addColorStop(.65, 'rgba(109, 198, 227, .23)');
+    stream.addColorStop(1, 'rgba(223, 253, 255, .07)');
+    drawing.beginPath();
+    drawing.moveTo(x - 8, -8);
+    drawing.bezierCurveTo(x - 9 + wobble, surface * .4, x - 7 - wobble, surface * .7, x - 12, surface);
+    drawing.lineTo(x + 12, surface);
+    drawing.bezierCurveTo(x + 8 + wobble, surface * .65, x + 9 - wobble, surface * .3, x + 8, -8);
+    drawing.closePath();
+    drawing.fillStyle = stream;
+    drawing.fill();
+    drawing.beginPath();
+    drawing.ellipse(x, surface, 18 + Math.sin(now * .009) * 4, 4, 0, 0, Math.PI * 2);
+    drawing.strokeStyle = 'rgba(218, 251, 255, .62)';
+    drawing.lineWidth = 2;
+    drawing.stroke();
+  }
+
+  function drawRepair(now) {
+    const age = Math.max(0, now - repairAt);
+    if (age >= repairPaneMs + repairFillMs + repairFishMs) {
+      reset();
+      return;
+    }
+    const nextPhase = age < repairPaneMs ? 'pane'
+      : age < repairPaneMs + repairFillMs ? 'refill' : 'fish';
+    if (nextPhase !== repairPhase) {
+      repairPhase = nextPhase;
+      controls.dataset.repair = nextPhase;
+      status.textContent = nextPhase === 'refill' ? 'The replacement glass is installed. Water is filling the aquarium from the bottom.'
+        : 'The water is back. The missing fish are being lowered into the aquarium one by one.';
+    }
+    const paneProgress = Math.min(1, age / repairPaneMs);
+    const fillProgress = Math.max(0, Math.min(1, (age - repairPaneMs) / repairFillMs));
+    const fishProgress = Math.max(0, Math.min(1, (age - repairPaneMs - repairFillMs) / repairFishMs));
+    const level = repairStartLevel * (1 - fillProgress * fillProgress * (3 - 2 * fillProgress));
+    publishRepair(nextPhase === 'fish' ? 7 : 6, nextPhase === 'fish' ? fishProgress : fillProgress, level);
+    drawing.clearRect(0, 0, width, height);
+    drawRepairPane(paneProgress, nextPhase === 'pane');
+    if (nextPhase === 'refill') drawRefillStream(now, level);
+    if (!reducedMotion.matches) frame = requestAnimationFrame(draw);
+  }
+
+  function beginRepair() {
+    if (repairPhase) return;
+    // Preserve the real waterline and escaped-fish state; don't reset them.
+    repairStartLevel = damage === 5 && phaseSettled ? 1 : tankState().level;
+    clearTimeout(resetTimer);
+    clearTimeout(phaseTimer);
+    cancelAnimationFrame(frame);
+    frame = 0;
+    bump?.cancel();
+    stopWaterSound();
+    if (reducedMotion.matches) { reset(); return; }
+    repairAt = performance.now();
+    repairPauseAt = 0;
+    repairPhase = 'pane';
+    glass.dataset.repair = 'pane';
+    controls.dataset.repair = 'pane';
+    controls.dataset.flow = 'repair';
+    repair.disabled = true;
+    repair.textContent = 'Repairing…';
+    tap.disabled = true;
+    tap.setAttribute('aria-disabled', 'true');
+    status.textContent = 'A new, intact glass pane is sliding down into the aquarium.';
+    publishRepair(6, 0, repairStartLevel);
+    startDrawing();
+  }
+
   function finishPhase() {
     if (phaseSettled || damage < 4) return;
     phaseProgress = 1;
@@ -362,6 +479,7 @@
       return;
     }
     lastFrame = now;
+    if (repairPhase) { drawRepair(now); return; }
     const age = Math.max(0, (now - brokenAt) / 1000);
     const still = reducedMotion.matches;
     const time = still ? 2 : age;
@@ -485,6 +603,13 @@
 
   function reset() {
     damage = 0;
+    repairPhase = '';
+    repairPauseAt = 0;
+    delete glass.dataset.repair;
+    repair.disabled = false;
+    tap.disabled = false;
+    repair.textContent = 'Repair glass';
+    delete controls.dataset.repair;
     clearTimeout(resetTimer);
     clearTimeout(phaseTimer);
     cancelAnimationFrame(frame);
@@ -508,6 +633,7 @@
   }
 
   tap.addEventListener('click', () => {
+    if (repairPhase) return;
     if (damage >= 3) {
       if (damage === 3 && performance.now() - brokenAt >= 1100) escalate();
       else if (damage === 4 && phaseSettled) escalate();
@@ -540,7 +666,7 @@
     status.textContent = 'The glass breaks, the sign falls, and water rushes out. Tap the glass again for a bigger burst, or use Repair glass to reset.';
     resetTimer = setTimeout(() => tap.removeAttribute('aria-disabled'), 1100);
   });
-  repair.addEventListener('click', reset);
+  repair.addEventListener('click', beginRepair);
 
   window.addEventListener('resize', () => {
     if (damage < 3) return;
@@ -550,15 +676,18 @@
   reducedMotion.addEventListener?.('change', () => {
     cancelAnimationFrame(frame);
     frame = 0;
+    if (repairPhase && reducedMotion.matches) { reset(); return; }
     startDrawing();
   });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
+      if (repairPhase && !repairPauseAt) repairPauseAt = performance.now();
       cancelAnimationFrame(frame);
       frame = 0;
       stopWaterSound();
       context?.suspend()?.catch?.(() => {});
     } else if (damage >= 3) {
+      if (repairPauseAt) { repairAt += performance.now() - repairPauseAt; repairPauseAt = 0; }
       startDrawing();
       startWaterSound();
     }
@@ -574,12 +703,14 @@
     });
   }
   window.addEventListener('pagehide', () => {
+    if (repairPhase && !repairPauseAt) repairPauseAt = performance.now();
     cancelAnimationFrame(frame);
     frame = 0;
     stopWaterSound();
     context?.suspend()?.catch?.(() => {});
   });
   window.addEventListener('pageshow', () => {
+    if (repairPauseAt) { repairAt += performance.now() - repairPauseAt; repairPauseAt = 0; }
     if (damage >= 3) { startDrawing(); startWaterSound(); }
   });
 })();

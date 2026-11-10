@@ -11,7 +11,7 @@ test('the alternate atlas is a real, lightweight transparent WebP with all nine 
   assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
   assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
   assert.ok(statSync(new URL('../assets/catfish-atlas.webp', import.meta.url)).size < 1_000_000);
-  assert.match(html, /js\/aquarium-background\.js\?v=20261110-aquarium-drain/);
+  assert.match(html, /js\/aquarium-background\.js\?v=20261110-animated-glass-repair/);
   assert.match(html, /js\/release-cats\.js\?v=20261108-catfish/);
 });
 

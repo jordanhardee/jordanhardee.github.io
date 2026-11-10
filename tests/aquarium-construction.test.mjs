@@ -155,6 +155,14 @@ test('three taps break the glass and the separate repair button stops the waterf
   assert.equal(h.glass.dataset.damage, '3', 'an extra fast tap must not cancel the break');
   h.advance(1200, true);
   h.repair();
+  assert.equal(h.controls.dataset.repair, 'pane');
+  assert.equal(h.glass.dataset.damage, '3', 'damage does not reset before the replacement pane is installed');
+  assert.equal(h.frames.size, 1);
+  h.click();
+  assert.equal(h.glass.dataset.damage, '3', 'extra taps cannot break the replacement glass mid-installation');
+  h.advance(2500, true);
+  assert.equal(h.controls.dataset.repair, 'refill');
+  h.advance(9000, true);
   assert.equal(h.glass.dataset.damage, '0');
   assert.equal(h.canvas.hidden, true);
   assert.ok(water.stopped);
@@ -206,11 +214,33 @@ test('the final tap empties the tank; repair refills it and leaves the fish kill
   assert.equal(h.frames.size, 0, 'an empty tank does not keep animating or making water noise');
   assert.equal(h.warningSign.hidden, true, 'the scenery sign appears after repair');
   h.repair();
+  assert.equal(h.controls.dataset.repair, 'pane');
+  assert.equal(h.fishCanvas.dataset.phase, 'installing');
+  assert.equal(h.fishCanvas.dataset.fishRemaining, '0', 'fish must not teleport back while glass slides in');
+  h.advance(1300, true);
+  assert.equal(h.fishCanvas.dataset.phase, 'installing');
+  h.advance(1700, true);
+  assert.equal(h.controls.dataset.repair, 'refill');
+  assert.equal(h.fishCanvas.dataset.phase, 'refilling');
+  const firstLevel = Number(h.fishCanvas.dataset.waterLevel);
+  assert.ok(firstLevel > 0 && firstLevel < 1);
+  assert.equal(h.fishCanvas.dataset.fishRemaining, '0');
+  h.advance(2200, true);
+  assert.ok(Number(h.fishCanvas.dataset.waterLevel) < firstLevel, 'water rises from the bottom toward the top');
+  assert.equal(h.fishCanvas.dataset.fishRemaining, '0');
+  h.advance(2100, true);
+  assert.equal(h.controls.dataset.repair, 'fish');
+  assert.equal(h.fishCanvas.dataset.phase, 'restocking');
+  h.advance(1800, true);
+  assert.ok(Number(h.fishCanvas.dataset.fishRemaining) > 0 && Number(h.fishCanvas.dataset.fishRemaining) < 12,
+    'fish return at staggered times, not all in a single frame');
+  assert.equal(h.warningSign.hidden, true, 'the FISH KILLER sign waits until restoration is complete');
+  h.advance(2500, true);
   assert.equal(h.glass.dataset.damage, '0');
   assert.equal(h.fishCanvas.dataset.fishRemaining, '12');
   assert.equal(h.fishCanvas.dataset.phase, 'full');
   assert.equal(h.warningSign.hidden, false);
-  h.click(); h.repair();
+  h.click(); h.repair(); h.advance(12000, true);
   assert.equal(h.warningSign.hidden, false, 'later repairs keep the earned sign');
 });
 
@@ -261,6 +291,26 @@ test('repair during draining cancels the sequence and cannot remove the restored
   assert.equal(h.fishCanvas.dataset.fishRemaining, '12');
   assert.equal(h.warningSign.hidden, true);
   assert.equal(h.controls.dataset.sound, 'off');
+});
+
+test('repair pauses while the tab is hidden and resumes without skipping the fish drop', () => {
+  const h = harness({ withFish: true });
+  h.click(); h.click(); h.click(); h.advance(1200, true);
+  h.click(); h.advance(7000, true); h.click(); h.advance(5000, true);
+  h.repair(); h.advance(900, true);
+  h.document.hidden = true;
+  h.event('visibilitychange');
+  h.advance(30000, true);
+  assert.equal(h.glass.dataset.damage, '5');
+  h.document.hidden = false;
+  h.event('visibilitychange');
+  h.advance(1300, true);
+  assert.equal(h.controls.dataset.repair, 'refill');
+  h.advance(5100, true);
+  assert.equal(h.controls.dataset.repair, 'fish');
+  h.advance(3900, true);
+  assert.equal(h.fishCanvas.dataset.phase, 'full');
+  assert.equal(h.fishCanvas.dataset.fishRemaining, '12');
 });
 
 test('reduced motion can drain and refill catfish without continuous fish or waterfall animation', () => {
