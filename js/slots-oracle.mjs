@@ -1,6 +1,5 @@
-// General Tso uses excerpts of a real Polish boxing announcer recording, CC0.
-// The English overlays are intentionally absurd parody subtitles, not translations.
-// Audio is self-hosted. No speech synthesis, microphones, analytics or voice services.
+// General Tso's entrance uses an original, locally synthesized metallic gong.
+// No announcer recordings, speech synthesis, external audio or autoplay on page load.
 export const ORACLE_LINES = Object.freeze({
   greeting: 'BREAKING: THE IMPERIAL CAT HAS ARRIVED! ALL REELS WILL NOW TREMBLE!',
   spinning: 'ATTENTION! THE WHEELS OF DESTINY ARE MOVING! THIS IS NOT A DRILL!',
@@ -10,9 +9,82 @@ export const ORACLE_LINES = Object.freeze({
   refill: 'BY IMPERIAL DECREE! THE TREASURY IS RESTORED WITH FAKE COINS!',
 });
 
-export const ORACLE_CLIPS = Object.freeze(Object.fromEntries(
-  Object.keys(ORACLE_LINES).map(kind => [kind, `assets/slots/announcer-${kind}.mp3`])
-));
+export const GONG_DURATION = 4.1;
+
+export function createGongSound(getVolume) {
+  let context = null;
+  let currentOutput = null;
+
+  function stop() {
+    if (!currentOutput || !context) return;
+    const now = context.currentTime;
+    currentOutput.gain.cancelScheduledValues(now);
+    currentOutput.gain.setValueAtTime(Math.max(0.0001, currentOutput.gain.value), now);
+    currentOutput.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+    currentOutput = null;
+  }
+
+  function ring() {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return false;
+    try {
+      if (!context) context = new AudioContext();
+      if (context.state === 'suspended') context.resume().catch(() => {});
+      stop();
+
+      const start = context.currentTime + 0.01;
+      const output = context.createGain();
+      const loudness = Math.max(0.0001, Math.min(1, getVolume()) * 0.34);
+      output.gain.setValueAtTime(loudness, start);
+      output.connect(context.destination);
+      currentOutput = output;
+
+      // Inharmonic partials make the clang bloom into a beating metal resonance.
+      const partials = [
+        [116, 0.74, 3.8], [167, 0.42, 3.5], [231, 0.32, 3.1],
+        [318, 0.20, 2.6], [481, 0.15, 2.0], [727, 0.09, 1.4],
+        [932, 0.05, 0.9],
+      ];
+      for (const [frequency, level, decay] of partials) {
+        const oscillator = context.createOscillator();
+        const envelope = context.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(frequency * 1.014, start);
+        oscillator.frequency.exponentialRampToValueAtTime(frequency, start + decay);
+        envelope.gain.setValueAtTime(0.0001, start);
+        envelope.gain.exponentialRampToValueAtTime(level, start + 0.025);
+        envelope.gain.exponentialRampToValueAtTime(0.0001, start + decay);
+        oscillator.connect(envelope).connect(output);
+        oscillator.start(start);
+        oscillator.stop(start + decay + 0.02);
+      }
+
+      // A short burst of filtered noise gives the strike its percussive edge.
+      const strikeLength = Math.ceil(context.sampleRate * 0.13);
+      const buffer = context.createBuffer(1, strikeLength, context.sampleRate);
+      const samples = buffer.getChannelData(0);
+      for (let i = 0; i < samples.length; i += 1) samples[i] = Math.random() * 2 - 1;
+      const strike = context.createBufferSource();
+      const filter = context.createBiquadFilter();
+      const strikeGain = context.createGain();
+      strike.buffer = buffer;
+      filter.type = 'bandpass';
+      filter.frequency.value = 1000;
+      filter.Q.value = 0.55;
+      strikeGain.gain.setValueAtTime(0.65, start);
+      strikeGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.13);
+      strike.connect(filter).connect(strikeGain).connect(output);
+      strike.start(start);
+      strike.stop(start + 0.13);
+      return true;
+    } catch {
+      stop();
+      return false;
+    }
+  }
+
+  return { ring, stop };
+}
 
 export function createSlotsOracle({ canSpeak, getVolume }) {
   const overlay = document.createElement('div');
@@ -21,44 +93,33 @@ export function createSlotsOracle({ canSpeak, getVolume }) {
   overlay.hidden = true;
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
-  overlay.setAttribute('aria-label', 'General Tso emergency broadcast');
+  overlay.setAttribute('aria-label', 'General Tso gong entrance');
   overlay.innerHTML = `
     <div class="slots-oracle-title">IMPERIAL BREAKING NEWS</div>
     <button class="slots-oracle-close" type="button" aria-label="Dismiss General Tso">×</button>
     <div class="slots-oracle-figure" aria-hidden="true">
       <img src="assets/slots/general-tso-idle.webp" alt="" width="1122" height="1402">
-      <img class="slots-oracle-mouth-open" src="assets/slots/general-tso-talk.webp" alt="" width="1122" height="1402">
     </div>
     <div class="slots-oracle-caption-panel">
       <div class="slots-oracle-caption" aria-live="polite"></div>
-      <button class="slots-oracle-replay" type="button" hidden>▶ PLAY THE DECREE</button>
-      <p class="slots-oracle-subtitle-note">PARODY SUBTITLES · NOT A TRANSLATION</p>
+      <button class="slots-oracle-replay" type="button" hidden>▶ RING THE GONG</button>
+      <p class="slots-oracle-subtitle-note">ONE GONG · ZERO ANNOUNCERS</p>
     </div>`;
   document.body.appendChild(overlay);
 
-  const figure = overlay.querySelector('.slots-oracle-figure');
   const closeButton = overlay.querySelector('.slots-oracle-close');
   const caption = overlay.querySelector('.slots-oracle-caption');
   const replayButton = overlay.querySelector('.slots-oracle-replay');
-  let currentAudio = null;
+  const gong = createGongSound(getVolume);
   let timeout = 0;
   let previousFocus = null;
   let showToken = 0;
-
-  function clearVoice() {
-    if (!currentAudio) return;
-    currentAudio.pause();
-    currentAudio.onended = null;
-    currentAudio.onerror = null;
-    currentAudio = null;
-  }
 
   function hide() {
     ++showToken;
     window.clearTimeout(timeout);
     timeout = 0;
-    clearVoice();
-    figure.classList.remove('is-speaking');
+    gong.stop();
     replayButton.hidden = true;
     overlay.hidden = true;
     if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
@@ -66,63 +127,28 @@ export function createSlotsOracle({ canSpeak, getVolume }) {
   }
 
   function announce(kind = 'greeting', { automatic = false } = {}) {
-    const words = ORACLE_LINES[kind] || ORACLE_LINES.greeting;
     const token = ++showToken;
     window.clearTimeout(timeout);
-    clearVoice();
-    caption.textContent = words;
+    gong.stop();
+    caption.textContent = ORACLE_LINES[kind] || ORACLE_LINES.greeting;
     overlay.hidden = false;
     overlay.classList.toggle('is-jackpot', kind === 'jackpot');
     replayButton.hidden = true;
-    figure.classList.remove('is-speaking');
     if (!automatic) {
       previousFocus = document.activeElement;
       closeButton.focus({ preventScroll: true });
     }
 
-    function finish() {
-      if (token !== showToken) return;
-      window.clearTimeout(timeout);
-      figure.classList.remove('is-speaking');
-      timeout = window.setTimeout(hide, automatic ? 850 : 1700);
-    }
+    // Show the entire gong decay. Muted visitors still see the General and text.
+    timeout = window.setTimeout(hide, GONG_DURATION * 1000 + (automatic ? 900 : 2600));
+    if (!canSpeak()) return;
 
-    // Muted visitors still get readable captions. Nothing starts on page load.
-    timeout = window.setTimeout(finish, automatic ? 7000 : 11000);
-    if (!canSpeak() || typeof Audio !== 'function') return;
-
-    function playRecording() {
+    function playGong() {
       if (token !== showToken || !canSpeak()) return;
-      clearVoice();
-      const recording = new Audio(ORACLE_CLIPS[kind] || ORACLE_CLIPS.greeting);
-      recording.preload = 'none';
-      recording.volume = Math.min(1, Math.max(0, getVolume()));
-      recording.playbackRate = 1.08;
-      recording.onended = finish;
-      recording.onerror = () => {
-        if (token !== showToken) return;
-        figure.classList.remove('is-speaking');
-        replayButton.hidden = false;
-      };
-      currentAudio = recording;
-      try {
-        const attempt = recording.play();
-        attempt?.then?.(() => {
-          if (token === showToken) {
-            figure.classList.add('is-speaking');
-            replayButton.hidden = true;
-          }
-        }).catch?.(() => {
-          if (token !== showToken) return;
-          figure.classList.remove('is-speaking');
-          replayButton.hidden = false;
-        });
-      } catch {
-        replayButton.hidden = false;
-      }
+      replayButton.hidden = gong.ring();
     }
-    replayButton.onclick = playRecording;
-    playRecording();
+    replayButton.onclick = playGong;
+    playGong();
   }
 
   closeButton.addEventListener('click', hide);
