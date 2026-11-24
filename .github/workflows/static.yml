@@ -15,6 +15,7 @@ on:
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -103,6 +104,25 @@ jobs:
           # Upload entire repository; give each retry its own artifact.
           name: github-pages-attempt-${{ github.run_attempt }}
           path: '.'
+      # Upload success can precede visibility in the REST API used by deploy-pages.
+      - name: Wait for Pages artifact metadata
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_NAME: github-pages-attempt-${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 24); do
+            if response=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" -f name="$ARTIFACT_NAME" --method GET) &&
+              jq -e --arg name "$ARTIFACT_NAME" 'any(.artifacts[]?; .name == $name and .expired == false)' <<< "$response" >/dev/null; then
+              echo "Pages artifact is visible to the REST API."
+              exit 0
+            fi
+            echo "Waiting for Pages artifact metadata (attempt $attempt/24)"
+            sleep 5
+          done
+          echo "::error::Pages artifact metadata did not become visible after two minutes."
+          exit 1
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
